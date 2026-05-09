@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Build / deps (não usamos, mas previne sujeira futura)
+node_modules/
+dist/
+.cache/
+.next/
+
+# Local dev
+*.log
+.env
+.env.local
+
+# Server local de preview
+.serve/

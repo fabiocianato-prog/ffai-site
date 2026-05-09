@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FF.AI — Inteligência Artificial para Clínicas</title>
+  <meta name="description" content="Implantação chave-na-mão de redes de agentes de IA para clínicas médicas e odontológicas. Em 90 dias, sua clínica opera com IA conectada ao CRM, ao prontuário e com KPIs em tempo real." />
+  <meta name="theme-color" content="#1C2A3F" />
+
+  <link rel="icon" type="image/svg+xml" href="assets/ffai-favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/ffai-icon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FF.AI — IA para Clínicas Premium" />
+  <meta property="og:description" content="Em 90 dias, sua clínica opera com IA conectada ao CRM e prontuário, com KPIs em tempo real e compliance CFM/LGPD." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ffai.ia.br/" />
+  <meta property="og:image" content="https://ffai.ia.br/assets/ffai-icon.svg" />
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #1C2A3F;
+      --ink-2: #2C3E5C;
+      --green: #0D7F62;
+      --green-dim: #0a6650;
+      --off: #FAFAF7;
+      --steel: #4A5568;
+      --line: #E2E8F0;
+      --soft: #F4F5F2;
+      --max-width: 1120px;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --transition: 200ms ease;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--off);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    a:hover {
+      color: var(--green-dim);
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    /* ---------- Navbar ---------- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(8px);
+      -webkit-backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition);
+    }
+
+    .nav.scrolled {
+      border-bottom-color: var(--line);
+    }
+
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav__logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav__logo span.dot {
+      color: var(--green);
+    }
+
+    .nav__logo:hover {
+      color: var(--ink);
+    }
+
+    .nav__links {
+      display: none;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav__links a {
+      color: var(--ink);
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    @media (min-width: 760px) {
+      .nav__links {
+        display: flex;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: transform var(--transition), background var(--transition), color var(--transition);
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn--primary {
+      background: var(--green);
+      color: var(--off);
+    }
+
+    .btn--primary:hover {
+      background: var(--green-dim);
+      color: var(--off);
+      transform: translateY(-1px);
+    }
+
+    .btn--ghost {
+      color: var(--ink);
+      border-color: var(--line);
+      background: transparent;
+    }
+
+    .btn--ghost:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    .btn--lg {
+      padding: 16px 28px;
+      font-size: 16px;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      padding: 80px 0 96px;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(13, 127, 98, 0.07), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(28, 42, 63, 0.06), transparent 50%),
+        var(--off);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* dot-grid técnico de fundo */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(28, 42, 63, 0.10) 1px, transparent 1.5px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    .hero__container {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (min-width: 960px) {
+      .hero__container {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        gap: 56px;
+      }
+    }
+
+    .hero__visual {
+      position: relative;
+      display: none;
+      width: 100%;
+      max-width: 520px;
+      margin-left: auto;
+    }
+
+    @media (min-width: 960px) {
+      .hero__visual {
+        display: block;
+      }
+    }
+
+    .hero__visual svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 12px 32px rgba(28, 42, 63, 0.10));
+    }
+
+    .hero__visual .node-anim {
+      transform-origin: center;
+      animation: nodepulse 3s ease-in-out infinite;
+    }
+
+    .hero__visual .node-anim.delay-1 { animation-delay: 0.6s; }
+    .hero__visual .node-anim.delay-2 { animation-delay: 1.2s; }
+    .hero__visual .node-anim.delay-3 { animation-delay: 1.8s; }
+    .hero__visual .node-anim.delay-4 { animation-delay: 2.4s; }
+
+    @keyframes nodepulse {
+      0%, 100% { opacity: 0.55; }
+      50%      { opacity: 1; }
+    }
+
+    .hero__pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(13, 127, 98, 0.08);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .hero__pill::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 5.5vw, 56px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin: 0 0 20px;
+      font-weight: 700;
+      color: var(--ink);
+      max-width: 16ch;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--green);
+    }
+
+    .hero__sub {
+      font-size: clamp(17px, 2vw, 21px);
+      color: var(--steel);
+      max-width: 56ch;
+      margin: 0 0 36px;
+    }
+
+    .hero__ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .hero__meta {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-top: 56px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .hero__meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero__meta-item strong {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 28px;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .hero__meta-item span {
+      font-size: 13px;
+      color: var(--steel);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ---------- Sections ---------- */
+    section {
+      padding: 88px 0;
+    }
+
+    section + section {
+      border-top: 1px solid var(--line);
+    }
+
+    .section__eyebrow {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+
+    .section__title {
+      font-size: clamp(28px, 3.6vw, 40px);
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      margin: 0 0 16px;
+      font-weight: 700;
+      max-width: 22ch;
+    }
+
+    .section__lead {
+      font-size: 18px;
+      color: var(--steel);
+      max-width: 60ch;
+      margin: 0 0 56px;
+    }
+
+    /* ---------- Problema ---------- */
+    .pain {
+      background: linear-gradient(180deg, var(--off) 0%, var(--soft) 100%);
+    }
+
+    .pain__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 720px) {
+      .pain__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .pain__card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--off);
+    }
+
+    .pain__num {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+
+    .pain__card h3 {
+      font-size: 19px;
+      line-height: 1.3;
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+
+    .pain__card p {
+      color: var(--steel);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    /* ---------- Solução / Pillars ---------- */
+    .pillars__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 760px) {
+      .pillars__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .pillar {
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--off);
+      transition: border-color var(--transition), transform var(--transition);
+    }
+
+    .pillar:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    .pillar__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(13, 127, 98, 0.1);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .pillar h3 {
+      font-size: 21px;
+      line-height: 1.25;
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+
+    .pillar p {
+      color: var(--steel);
+      margin: 0;
+      font-size: 15px;
+    }
+
+    /* ---------- Pacotes ---------- */
+    .packs {
+      background: var(--ink);
+      color: var(--off);
+    }
+
+    .packs .section__eyebrow {
+      color: rgba(13, 127, 98, 0.9);
+    }
+
+    .packs .section__title {
+      color: var(--off);
+    }
+
+    .packs .section__lead {
+      color: rgba(250, 250, 247, 0.7);
+    }
+
+    .packs__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 880px) {
+      .packs__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .pack {
+      padding: 36px 28px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pack--featured {
+      border-color: var(--green);
+      background: rgba(13, 127, 98, 0.08);
+    }
+
+    .pack__name {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      color: var(--green);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .pack h3 {
+      font-size: 24px;
+      line-height: 1.2;
+      margin: 0 0 8px;
+      color: var(--off);
+      font-weight: 700;
+    }
+
+    .pack__time {
+      font-size: 14px;
+      color: rgba(250, 250, 247, 0.6);
+      margin-bottom: 24px;
+    }
+
+    .pack ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 28px;
+      flex: 1;
+    }
+
+    .pack li {
+      position: relative;
+      padding: 8px 0 8px 24px;
+      font-size: 14px;
+      color: rgba(250, 250, 247, 0.85);
+      line-height: 1.45;
+    }
+
+    .pack li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      width: 14px;
+      height: 1px;
+      background: var(--green);
+    }
+
+    .pack__tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--green);
+      color: var(--off);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      align-self: flex-start;
+    }
+
+    /* ---------- Case-Vivo ---------- */
+    .case {
+      background: var(--soft);
+    }
+
+    .case__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    @media (min-width: 880px) {
+      .case__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+      }
+    }
+
+    .case__quote {
+      font-size: 22px;
+      line-height: 1.4;
+      color: var(--ink);
+      font-weight: 500;
+      margin: 0 0 28px;
+      position: relative;
+      padding-left: 24px;
+      border-left: 3px solid var(--green);
+    }
+
+    .case__author {
+      font-size: 15px;
+      color: var(--steel);
+    }
+
+    .case__author strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .case__metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      padding: 28px;
+      background: var(--off);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .metric {
+      padding: 4px 0;
+    }
+
+    .metric strong {
+      display: block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 32px;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .metric span {
+      font-size: 13px;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .case__stack {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .case__stack-label {
+      font-size: 12px;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+
+    .case__stack-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .stack-pill {
+      padding: 4px 10px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--ink);
+    }
+
+    /* ---------- Sobre ---------- */
+    .about__inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    @media (min-width: 880px) {
+      .about__inner {
+        grid-template-columns: minmax(280px, 360px) 1fr;
+        gap: 64px;
+      }
+    }
+
+    .about__photo {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: relative;
+      background: var(--soft);
+      box-shadow: 0 12px 32px rgba(28, 42, 63, 0.08);
+    }
+
+    .about__photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+
+    .about__photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(28, 42, 63, 0.30) 100%);
+      pointer-events: none;
+    }
+
+    .about__photo-caption {
+      position: absolute;
+      left: 16px;
+      bottom: 14px;
+      z-index: 1;
+      color: var(--off);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.92;
+    }
+
+    .about__lead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0 0 24px;
+    }
+
+    .about__lead em {
+      color: var(--green);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .about__creds {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .cred {
+      padding: 6px 14px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--ink);
+    }
+
+    /* ---------- CTA Final ---------- */
+    .cta-final {
+      background: var(--ink);
+      color: var(--off);
+      text-align: center;
+    }
+
+    .cta-final h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.15;
+      margin: 0 0 16px;
+      color: var(--off);
+      max-width: 22ch;
+      margin-left: auto;
+      margin-right: auto;
+      letter-spacing: -0.015em;
+    }
+
+    .cta-final p {
+      color: rgba(250, 250, 247, 0.75);
+      font-size: 18px;
+      margin: 0 0 36px;
+      max-width: 50ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      background: var(--ink);
+      color: rgba(250, 250, 247, 0.7);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 40px 0;
+      font-size: 14px;
+    }
+
+    .footer__inner {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    @media (min-width: 720px) {
+      .footer__inner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .footer__logo img {
+      height: 22px;
+    }
+
+    .footer__meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    @media (min-width: 720px) {
+      .footer__meta {
+        text-align: right;
+      }
+    }
+
+    .footer a {
+      color: var(--off);
+    }
+
+    /* ---------- Whatsapp Float ---------- */
+    .wa-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #25d366;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      z-index: 60;
+      transition: transform var(--transition);
+    }
+
+    .wa-float:hover {
+      transform: scale(1.06);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#top" class="nav__logo" aria-label="FF.AI"><span>FF</span><span class="dot">.</span><span>AI</span></a>
+      <nav class="nav__links">
+        <a href="#solucao">O que fazemos</a>
+        <a href="#pacotes">Como contratar</a>
+        <a href="#case">Case</a>
+        <a href="#contato" class="btn btn--ghost">Falar com a gente</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="top">
+    <div class="container hero__container">
+      <div class="hero__content">
+        <span class="hero__pill">Operação de IA para clínicas premium</span>
+        <h1>Sua clínica operando com <em>uma rede de agentes de IA</em> em 90 dias.</h1>
+        <p class="hero__sub">
+          Implantação chave-na-mão de IA conectada ao seu CRM, ao prontuário e aos canais de atendimento — com KPIs em tempo real e governança CFM/LGPD documentada. Não é chatbot. É operação.
+        </p>
+        <div class="hero__ctas">
+          <a href="#contato" class="btn btn--primary btn--lg">Agendar diagnóstico</a>
+          <a href="#solucao" class="btn btn--ghost btn--lg">Como funciona</a>
+        </div>
+
+        <div class="hero__meta">
+          <div class="hero__meta-item">
+            <strong>90 dias</strong>
+            <span>do diagnóstico à operação</span>
+          </div>
+          <div class="hero__meta-item">
+            <strong>10 pilares</strong>
+            <span>de auditoria estruturada</span>
+          </div>
+          <div class="hero__meta-item">
+            <strong>1 case-vivo</strong>
+            <span>operando em produção</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== HERO VISUAL — REDE DE AGENTES ========== -->
+      <div class="hero__visual" aria-hidden="true">
+        <svg viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="orbGreen" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"  stop-color="#0D7F62" stop-opacity="1"/>
+              <stop offset="60%" stop-color="#0D7F62" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#0D7F62" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="orbInk" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"  stop-color="#1C2A3F" stop-opacity="1"/>
+              <stop offset="60%" stop-color="#1C2A3F" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#1C2A3F" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"  stop-color="#1C2A3F" stop-opacity="0.0"/>
+              <stop offset="50%" stop-color="#1C2A3F" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#0D7F62" stop-opacity="0.9"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Grid de fundo do bloco -->
+          <g opacity="0.18">
+            <line x1="0"   y1="80"  x2="520" y2="80"  stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="0"   y1="180" x2="520" y2="180" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="0"   y1="280" x2="520" y2="280" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="0"   y1="380" x2="520" y2="380" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="100" y1="0"   x2="100" y2="480" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="260" y1="0"   x2="260" y2="480" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="420" y1="0"   x2="420" y2="480" stroke="#1C2A3F" stroke-width="0.5"/>
+          </g>
+
+          <!-- Linhas conectando o nó central ao satélites -->
+          <g stroke-width="1.5" fill="none" opacity="0.85">
+            <path d="M260,240 L100,80"  stroke="url(#lineGrad)"/>
+            <path d="M260,240 L420,80"  stroke="url(#lineGrad)"/>
+            <path d="M260,240 L100,400" stroke="url(#lineGrad)"/>
+            <path d="M260,240 L420,400" stroke="url(#lineGrad)"/>
+            <path d="M260,240 L260,40"  stroke="url(#lineGrad)"/>
+            <path d="M260,240 L260,440" stroke="url(#lineGrad)"/>
+          </g>
+
+          <!-- Nó central — clínica/CRM -->
+          <g>
+            <circle cx="260" cy="240" r="74" fill="url(#orbInk)"/>
+            <circle cx="260" cy="240" r="44" fill="#1C2A3F"/>
+            <circle cx="260" cy="240" r="44" fill="none" stroke="#0D7F62" stroke-width="1.5" opacity="0.5"/>
+            <text x="260" y="234" text-anchor="middle" fill="#FAFAF7" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" letter-spacing="1">CLÍNICA</text>
+            <text x="260" y="252" text-anchor="middle" fill="#0D7F62" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" letter-spacing="2">CRM · iCLINIC</text>
+          </g>
+
+          <!-- Satélite 1 — SDR (cima esquerda) -->
+          <g class="node-anim">
+            <circle cx="100" cy="80" r="42" fill="url(#orbGreen)"/>
+            <circle cx="100" cy="80" r="26" fill="#FAFAF7" stroke="#0D7F62" stroke-width="1.5"/>
+            <text x="100" y="76" text-anchor="middle" fill="#1C2A3F" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">SDR</text>
+            <text x="100" y="90" text-anchor="middle" fill="#4A5568" font-family="Inter, sans-serif" font-size="8">triagem</text>
+          </g>
+
+          <!-- Satélite 2 — Confirmador (cima direita) -->
+          <g class="node-anim delay-1">
+            <circle cx="420" cy="80" r="42" fill="url(#orbGreen)"/>
+            <circle cx="420" cy="80" r="26" fill="#FAFAF7" stroke="#0D7F62" stroke-width="1.5"/>
+            <text x="420" y="76" text-anchor="middle" fill="#1C2A3F" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">CONFIRM</text>
+            <text x="420" y="90" text-anchor="middle" fill="#4A5568" font-family="Inter, sans-serif" font-size="8">agenda</text>
+          </g>
+
+          <!-- Satélite 3 — Reativação (baixo esquerda) -->
+          <g class="node-anim delay-2">
+            <circle cx="100" cy="400" r="42" fill="url(#orbGreen)"/>
+            <circle cx="100" cy="400" r="26" fill="#FAFAF7" stroke="#0D7F62" stroke-width="1.5"/>
+            <text x="100" y="396" text-anchor="middle" fill="#1C2A3F" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">REATIV</text>
+            <text x="100" y="410" text-anchor="middle" fill="#4A5568" font-family="Inter, sans-serif" font-size="8">paciente antigo</text>
+          </g>
+
+          <!-- Satélite 4 — NPS (baixo direita) -->
+          <g class="node-anim delay-3">
+            <circle cx="420" cy="400" r="42" fill="url(#orbGreen)"/>
+            <circle cx="420" cy="400" r="26" fill="#FAFAF7" stroke="#0D7F62" stroke-width="1.5"/>
+            <text x="420" y="396" text-anchor="middle" fill="#1C2A3F" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">NPS</text>
+            <text x="420" y="410" text-anchor="middle" fill="#4A5568" font-family="Inter, sans-serif" font-size="8">pós-venda</text>
+          </g>
+
+          <!-- Mini-nós periféricos (canais) -->
+          <g class="node-anim delay-4" opacity="0.85">
+            <circle cx="260" cy="40" r="14" fill="#1C2A3F"/>
+            <text x="260" y="44" text-anchor="middle" fill="#FAFAF7" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700">WPP</text>
+          </g>
+          <g class="node-anim delay-4" opacity="0.85">
+            <circle cx="260" cy="440" r="14" fill="#1C2A3F"/>
+            <text x="260" y="444" text-anchor="middle" fill="#FAFAF7" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700">IG</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PROBLEMA ========== -->
+  <section class="pain" id="problema">
+    <div class="container">
+      <div class="section__eyebrow">O que travamos hoje</div>
+      <h2 class="section__title">Sua clínica gira em torno do seu tempo. E está custando caro.</h2>
+      <p class="section__lead">
+        Três sinais que toda clínica de elite enfrenta antes da automação chegar de verdade.
+      </p>
+
+      <div class="pain__grid">
+        <div class="pain__card">
+          <div class="pain__num">01</div>
+          <h3>Atendimento manual e inconsistente</h3>
+          <p>86% das clínicas usam WhatsApp pra confirmação, mas de forma improvisada. Pacientes ignorados, conversas perdidas, secretária sobrecarregada.</p>
+        </div>
+        <div class="pain__card">
+          <div class="pain__num">02</div>
+          <h3>No-show alto, agenda ociosa</h3>
+          <p>34% das clínicas brasileiras têm taxa de não-comparecimento acima de 11%. Cada falta é faturamento que não volta — e tempo do médico desperdiçado.</p>
+        </div>
+        <div class="pain__card">
+          <div class="pain__num">03</div>
+          <h3>Sem dados, sem decisão</h3>
+          <p>CRM virgem, KPIs invisíveis, conversão não-mensurada. Marketing gasta sem saber o que retorna; comercial fecha sem saber por quê.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SOLUÇÃO ========== -->
+  <section class="solucao" id="solucao">
+    <div class="container">
+      <div class="section__eyebrow">A solução FF.AI</div>
+      <h2 class="section__title">Quatro frentes que blindam sua operação clínica.</h2>
+      <p class="section__lead">
+        Não é um chatbot solto na ponta. É uma rede de agentes orquestrados, integrados ao seu CRM e ao seu prontuário, com supervisão humana e compliance documentado.
+      </p>
+
+      <div class="pillars__grid">
+        <div class="pillar">
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M14 14L17 17M10 10L7 7"/></svg>
+          </div>
+          <h3>Rede multi-agente</h3>
+          <p>Um agente SDR triando leads, um agente Confirmador blindando a agenda, um agente de Reativação trazendo paciente antigo de volta, um agente de NPS fechando o ciclo. Cada um com escopo claro, KB própria e handoff humano supervisionado.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 3v18"/></svg>
+          </div>
+          <h3>CRM + prontuário integrados</h3>
+          <p>Kommo (ou seu CRM atual) conectado ao iClinic, Doctoralia ou Feegow via Make.com. Lead, histórico de paciente e agenda numa única visão.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+          </div>
+          <h3>KPIs em tempo real</h3>
+          <p>Dashboard de funil custom (Looker Studio ou Metabase) com taxa de qualificação, conversão por etapa, no-show, ticket médio e SLA da equipe.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/></svg>
+          </div>
+          <h3>Compliance CFM + LGPD</h3>
+          <p>Documento de governança com mapa de risco por intenção, política de supervisão humana, registro de consentimento e trilha auditável — pronto pra Resolução CFM 2.454/2026.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PACOTES ========== -->
+  <section class="packs" id="pacotes">
+    <div class="container">
+      <div class="section__eyebrow">Como contratar</div>
+      <h2 class="section__title">Três níveis de profundidade. Você escolhe onde entra.</h2>
+      <p class="section__lead">
+        Diagnóstico de entrada, implantação completa ou sustentação contínua. Sem mensalidade fixa de SaaS, sem chatbot pronto. Só operação consultiva.
+      </p>
+
+      <div class="packs__grid">
+        <article class="pack">
+          <div class="pack__name">Pacote 1</div>
+          <h3>Diagnóstico Express</h3>
+          <div class="pack__time">1–2 semanas</div>
+          <ul>
+            <li>Auditoria de 10 pilares (score + grade A–F)</li>
+            <li>Action plan priorizado (Critical / High / Medium / Low)</li>
+            <li>Quick wins de menos de 15 minutos cada</li>
+            <li>Apresentação executiva com decisor</li>
+          </ul>
+          <a href="#contato" class="btn btn--ghost" style="border-color: rgba(255,255,255,0.2); color: var(--off);">Quero o diagnóstico</a>
+        </article>
+
+        <article class="pack pack--featured">
+          <span class="pack__tag">Mais procurado</span>
+          <div class="pack__name">Pacote 2</div>
+          <h3>Implantação Completa</h3>
+          <div class="pack__time">8–12 semanas</div>
+          <ul>
+            <li>Tudo do Diagnóstico</li>
+            <li>2 agentes em produção (SDR + Confirmador) com KB médica-aware</li>
+            <li>Roadmap de 6 meses para os agentes seguintes (Reativação, NPS, Pós-venda)</li>
+            <li>Integrações Kommo ↔ GPT Maker ↔ iClinic ↔ Make</li>
+            <li>Sistema de alertas SLA (Make + Z-API)</li>
+            <li>Documentação CFM 2.454/2026</li>
+          </ul>
+          <a href="#contato" class="btn btn--primary">Falar com o time</a>
+        </article>
+
+        <article class="pack">
+          <div class="pack__name">Pacote 3</div>
+          <h3>Sustentação Premium</h3>
+          <div class="pack__time">Mensal contínuo</div>
+          <ul>
+            <li>Acompanhamento de KPIs do funil</li>
+            <li>Ajuste de prompt + KB dos agentes</li>
+            <li>Adição de novos agentes (1 a cada trimestre)</li>
+            <li>Compliance reviews trimestrais</li>
+            <li>Disponibilidade direta com o time técnico</li>
+          </ul>
+          <a href="#contato" class="btn btn--ghost" style="border-color: rgba(255,255,255,0.2); color: var(--off);">Manter operação</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CASE-VIVO ========== -->
+  <section class="case" id="case">
+    <div class="container">
+      <div class="section__eyebrow">Case-vivo</div>
+      <h2 class="section__title">Antes de vender pra outras clínicas, fizemos na nossa.</h2>
+      <p class="section__lead">
+        A operação FF.AI roda em produção dentro da clínica do Dr. Fábio Faleiro, em Goiânia e São Paulo. Toda decisão de produto passa primeiro pelo nosso próprio funil real, com pacientes reais.
+      </p>
+
+      <div class="case__grid">
+        <div>
+          <p class="case__quote">
+            "Não vendemos teoria. Vendemos o que já está rodando há meses na nossa clínica — e documentado em mais de 30 entregáveis versionados. Isso é replicável; chute, não."
+          </p>
+          <div class="case__author">
+            <strong>Dr. Fábio Faleiro Vieira</strong>
+            Cirurgião Robótico Digestivo · CEO &amp; founder FF.AI<br />
+            CRM-GO 15014 / RQE 16301 · CRM-SP 236248 / RQE 121835-1
+          </div>
+        </div>
+
+        <div>
+          <div class="case__metrics">
+            <div class="metric">
+              <strong>2</strong>
+              <span>agentes IA em produção</span>
+            </div>
+            <div class="metric">
+              <strong>4</strong>
+              <span>pipelines comerciais</span>
+            </div>
+            <div class="metric">
+              <strong>11</strong>
+              <span>etapas auditadas</span>
+            </div>
+            <div class="metric">
+              <strong>30+</strong>
+              <span>entregáveis versionados</span>
+            </div>
+          </div>
+
+          <div class="case__stack">
+            <div class="case__stack-label">Stack já validada em produção</div>
+            <div class="case__stack-list">
+              <span class="stack-pill">GPT Maker</span>
+              <span class="stack-pill">Kommo</span>
+              <span class="stack-pill">Z-API</span>
+              <span class="stack-pill">Make.com</span>
+              <span class="stack-pill">iClinic</span>
+              <span class="stack-pill">Looker Studio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SOBRE ========== -->
+  <section class="about" id="sobre">
+    <div class="container">
+      <div class="about__inner">
+        <figure class="about__photo">
+          <img src="assets/dr-fabio.jpg" alt="Dr. Fábio Faleiro Vieira — CEO e founder FF.AI" loading="lazy" />
+          <figcaption class="about__photo-caption">Dr. Fábio Faleiro · CEO</figcaption>
+        </figure>
+
+        <div>
+          <div class="section__eyebrow">Quem está por trás</div>
+          <h2 class="section__title">Cirurgião que constrói. Engenheiro de operação que opera.</h2>
+          <p class="about__lead">
+            A FF.AI é dirigida por <em>Dr. Fábio Faleiro Vieira</em> — cirurgião robótico digestivo com prática ativa em SP (Albert Einstein, Vila Nova Star) e GO (MaterDei). Membro SBCBM, SOBRACIL, CBCD e IFSO.
+          </p>
+          <p class="about__lead">
+            Não somos consultoria que vende método importado. Somos médicos e operadores que <em>aplicam o método na própria casa primeiro</em>, e só vendem o que já mostrou ROI mensurável dentro de uma clínica viva.
+          </p>
+          <div class="about__creds">
+            <span class="cred">SBCBM</span>
+            <span class="cred">SOBRACIL</span>
+            <span class="cred">CBCD</span>
+            <span class="cred">IFSO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA FINAL ========== -->
+  <section class="cta-final" id="contato">
+    <div class="container">
+      <h2>Pronto pra parar de improvisar?</h2>
+      <p>
+        Conversa exploratória de 30 minutos com o time FF.AI. Saímos com um pré-diagnóstico do que daria pra ganhar nos próximos 90 dias na sua clínica.
+      </p>
+      <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20do%20site%20FF.AI%20e%20quero%20agendar%20uma%20conversa%20sobre%20IA%20para%20cl%C3%ADnicas." class="btn btn--primary btn--lg" target="_blank" rel="noopener">
+        Agendar pelo WhatsApp →
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__logo">
+        <img src="assets/ffai-wordmark-dark.svg" alt="FF.AI" />
+      </div>
+      <div class="footer__meta">
+        <div>FF.AI · IA para Clínicas Premium</div>
+        <div>contato@ffai.ia.br</div>
+        <div>© 2026 — Todos os direitos reservados</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== WHATSAPP FLOAT ========== -->
+  <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20do%20site%20FF.AI." class="wa-float" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+    // Scroll shadow no nav
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 8) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>
