@@ -210,6 +210,32 @@
       opacity: 0.5;
     }
 
+    /* Foto do Dr. Fábio ao fundo da coluna do hero */
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      background: url("../assets/dr-fabio-hero.jpg") no-repeat;
+      background-size: cover;
+      background-position: 50% 12%;
+      opacity: 0.10;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @media (min-width: 960px) {
+      .hero::after {
+        width: 48%;
+        background-position: 58% 14%;
+        opacity: 0.20;
+        -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 90%);
+        mask-image: linear-gradient(to right, #000 50%, transparent 90%);
+      }
+    }
+
     .hero__container {
       position: relative;
       z-index: 1;
