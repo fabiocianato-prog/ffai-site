@@ -843,6 +843,24 @@
       color: var(--off);
     }
 
+    .footer__links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .footer__links a {
+      color: rgba(250, 250, 247, 0.7);
+      font-size: 13px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .footer__links a:hover {
+      color: var(--off);
+    }
+
     /* ---------- Whatsapp Float ---------- */
     .wa-float {
       position: fixed;
@@ -1259,6 +1277,11 @@
         <div>FF.AI · IA para Clínicas Premium</div>
         <div>contato@ffai.ia.br</div>
         <div>© 2026 — Todos os direitos reservados</div>
+        <div class="footer__links">
+          <a href="/termos">Termos de Uso</a>
+          <a href="/privacidade">Política de Privacidade</a>
+          <a href="/diagnostico-termos">Termos do Diagnóstico</a>
+        </div>
       </div>
     </div>
   </footer>
