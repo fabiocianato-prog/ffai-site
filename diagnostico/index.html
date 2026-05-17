@@ -546,35 +546,37 @@
     .hero__form .field label { color: var(--off); }
     .hero__form .field .help { color: rgba(250, 250, 247, 0.55); }
 
+    /* Inputs e selects: papel claro sobre o cartão escuro (mesmo modelo dos radio cards) */
     .hero__form .field input[type="text"],
     .hero__form .field input[type="tel"],
     .hero__form .field select {
-      background-color: rgba(255, 255, 255, 0.06);
-      color: var(--off);
-      border-color: rgba(255, 255, 255, 0.14);
+      background-color: var(--off);
+      color: var(--ink);
+      border-color: transparent;
     }
 
     .hero__form .field input[type="text"]::placeholder,
     .hero__form .field input[type="tel"]::placeholder {
-      color: rgba(250, 250, 247, 0.40);
+      color: rgba(28, 42, 63, 0.40);
     }
 
     .hero__form .field input:focus,
     .hero__form .field select:focus {
-      background-color: rgba(255, 255, 255, 0.10);
+      background-color: #fff;
       border-color: var(--green);
       box-shadow: 0 0 0 3px rgba(13, 127, 98, 0.30);
     }
 
+    /* Select arrow stroke escuro pra ficar visível sobre o fundo claro */
     .hero__form .field select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23FAFAF7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234A5568' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 14px center;
     }
 
     .hero__form .field select option {
-      background-color: var(--ink);
-      color: var(--off);
+      background-color: var(--off);
+      color: var(--ink);
     }
 
     /* Radio cards: papel claro sobre o cartão escuro
@@ -617,17 +619,17 @@
       text-underline-offset: 2px;
     }
 
-    /* iti (intl-tel-input) — flag selector dark-compat */
+    /* iti (intl-tel-input) — flag selector papel-claro */
     .hero__form .iti__country-list {
-      background: var(--ink);
-      color: var(--off);
-      border-color: rgba(255, 255, 255, 0.14);
+      background-color: var(--off);
+      color: var(--ink);
+      border-color: var(--line);
     }
     .hero__form .iti__country.iti__highlight {
-      background: rgba(13, 127, 98, 0.20);
+      background-color: rgba(13, 127, 98, 0.10);
     }
     .hero__form .iti__dial-code {
-      color: rgba(250, 250, 247, 0.65);
+      color: var(--steel);
     }
 
     /* ---------- Checkbox de aceite dos Termos do Diagnóstico ---------- */
