@@ -532,6 +532,156 @@
       font-weight: 700;
     }
 
+    /* ---------- Dark form override (mais contraste sobre o hero) ---------- */
+    .hero__form {
+      background: var(--ink);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 24px 60px rgba(28, 42, 63, 0.35);
+      color: var(--off);
+    }
+
+    .hero__form-title { color: var(--off); }
+    .hero__form-sub { color: rgba(250, 250, 247, 0.65); }
+
+    .hero__form .field label { color: var(--off); }
+    .hero__form .field .help { color: rgba(250, 250, 247, 0.55); }
+
+    .hero__form .field input[type="text"],
+    .hero__form .field input[type="tel"],
+    .hero__form .field select {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--off);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+
+    .hero__form .field input[type="text"]::placeholder,
+    .hero__form .field input[type="tel"]::placeholder {
+      color: rgba(250, 250, 247, 0.40);
+    }
+
+    .hero__form .field input:focus,
+    .hero__form .field select:focus {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(13, 127, 98, 0.30);
+    }
+
+    .hero__form .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23FAFAF7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    }
+
+    .hero__form .field select option {
+      background: var(--ink);
+      color: var(--off);
+    }
+
+    .hero__form .opt {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--off);
+      border-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .hero__form .opt:hover {
+      border-color: var(--green);
+      background: rgba(13, 127, 98, 0.10);
+    }
+
+    .hero__form .opt:has(input:checked) {
+      border-color: var(--green);
+      background: rgba(13, 127, 98, 0.18);
+    }
+
+    .hero__form .opt__dot {
+      border-color: rgba(255, 255, 255, 0.30);
+    }
+
+    .hero__form .form-legal {
+      color: rgba(250, 250, 247, 0.55);
+    }
+
+    .hero__form .form-legal a {
+      color: var(--off);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* iti (intl-tel-input) — flag selector dark-compat */
+    .hero__form .iti__country-list {
+      background: var(--ink);
+      color: var(--off);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+    .hero__form .iti__country.iti__highlight {
+      background: rgba(13, 127, 98, 0.20);
+    }
+    .hero__form .iti__dial-code {
+      color: rgba(250, 250, 247, 0.65);
+    }
+
+    /* ---------- Checkbox de aceite dos Termos do Diagnóstico ---------- */
+    .field--consent {
+      margin-bottom: 16px;
+      margin-top: 6px;
+    }
+
+    .consent {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: rgba(250, 250, 247, 0.85);
+      line-height: 1.45;
+    }
+
+    .consent input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .consent__box {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      margin-top: 1px;
+      border-radius: 4px;
+      border: 1.5px solid rgba(255, 255, 255, 0.30);
+      background: rgba(255, 255, 255, 0.06);
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .consent:hover .consent__box {
+      border-color: var(--green);
+    }
+
+    .consent input:focus-visible ~ .consent__box {
+      box-shadow: 0 0 0 3px rgba(13, 127, 98, 0.30);
+    }
+
+    .consent input:checked ~ .consent__box {
+      border-color: var(--green);
+      background: var(--green);
+    }
+
+    .consent input:checked ~ .consent__box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .consent__text a {
+      color: var(--off);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .consent__text a:hover { color: var(--green); }
+
     /* ---------- BLOCO 2 — O que você recebe ---------- */
     .receive__grid {
       display: grid;
@@ -956,9 +1106,19 @@
               </select>
             </div>
 
+            <div class="field field--consent">
+              <label class="consent">
+                <input type="checkbox" id="aceite_termos" name="aceite_termos" required />
+                <span class="consent__box"></span>
+                <span class="consent__text">
+                  Li e aceito os <a href="/diagnostico-termos" target="_blank" rel="noopener">Termos do Diagnóstico</a> e a <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.
+                </span>
+              </label>
+            </div>
+
             <button type="submit" class="btn btn--primary btn--lg" id="submit-btn">Quero meu diagnóstico →</button>
             <div class="form-error" id="form-error">Algo travou aqui do meu lado. Tenta de novo ou me chama no <a href="https://wa.me/5511930896237">WhatsApp +55 11 93089-6237</a>.</div>
-            <p class="form-legal">Ao enviar, você concorda com nossa <a href="https://ffai.ia.br/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>. Seus dados são usados só pra preparar e entregar seu diagnóstico.</p>
+            <p class="form-legal">Seus dados são usados só pra preparar e entregar seu diagnóstico.</p>
           </form>
 
           <div class="form-success" id="form-success">
@@ -1261,6 +1421,8 @@
           gargalo: gargalo,
           gargalo_outro: gargaloOutro.value.trim(),
           disponibilidade: form.disponibilidade.value,
+          aceite_termos: form.aceite_termos.checked,
+          aceite_termos_at: new Date().toISOString(),
           utm_source: getUTM('utm_source') || 'direto',
           utm_medium: getUTM('utm_medium'),
           utm_campaign: getUTM('utm_campaign'),
