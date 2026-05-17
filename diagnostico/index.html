@@ -577,25 +577,26 @@
       color: var(--off);
     }
 
-    /* Radio cards: papel claro sobre o cartão escuro */
-    .hero__form .opt {
+    /* Radio cards: papel claro sobre o cartão escuro
+       Especificidade alta (.field label.opt) pra vencer .hero__form .field label */
+    .hero__form .field label.opt {
       background-color: var(--off);
       color: var(--ink);
       border-color: transparent;
     }
 
-    .hero__form .opt:hover {
+    .hero__form .field label.opt:hover {
       border-color: var(--green);
       background-color: #fff;
     }
 
-    .hero__form .opt:has(input:checked) {
+    .hero__form .field label.opt:has(input:checked) {
       border-color: var(--green);
       background-color: #fff;
       box-shadow: 0 0 0 1px var(--green);
     }
 
-    .hero__form .opt strong { color: var(--ink); }
+    .hero__form .field label.opt strong { color: var(--ink); }
 
     .hero__form .opt__dot {
       border-color: rgba(28, 42, 63, 0.25);
