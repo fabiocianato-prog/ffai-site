@@ -549,7 +549,7 @@
     .hero__form .field input[type="text"],
     .hero__form .field input[type="tel"],
     .hero__form .field select {
-      background: rgba(255, 255, 255, 0.06);
+      background-color: rgba(255, 255, 255, 0.06);
       color: var(--off);
       border-color: rgba(255, 255, 255, 0.14);
     }
@@ -561,38 +561,49 @@
 
     .hero__form .field input:focus,
     .hero__form .field select:focus {
-      background: rgba(255, 255, 255, 0.10);
+      background-color: rgba(255, 255, 255, 0.10);
       border-color: var(--green);
       box-shadow: 0 0 0 3px rgba(13, 127, 98, 0.30);
     }
 
     .hero__form .field select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23FAFAF7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
     }
 
     .hero__form .field select option {
-      background: var(--ink);
+      background-color: var(--ink);
       color: var(--off);
     }
 
+    /* Radio cards: papel claro sobre o cartão escuro */
     .hero__form .opt {
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--off);
-      border-color: rgba(255, 255, 255, 0.10);
+      background-color: var(--off);
+      color: var(--ink);
+      border-color: transparent;
     }
 
     .hero__form .opt:hover {
       border-color: var(--green);
-      background: rgba(13, 127, 98, 0.10);
+      background-color: #fff;
     }
 
     .hero__form .opt:has(input:checked) {
       border-color: var(--green);
-      background: rgba(13, 127, 98, 0.18);
+      background-color: #fff;
+      box-shadow: 0 0 0 1px var(--green);
     }
 
+    .hero__form .opt strong { color: var(--ink); }
+
     .hero__form .opt__dot {
-      border-color: rgba(255, 255, 255, 0.30);
+      border-color: rgba(28, 42, 63, 0.25);
+    }
+
+    .hero__form .opt input:checked ~ .opt__dot {
+      border-color: var(--green);
+      background: radial-gradient(circle, var(--green) 0 5px, transparent 6px);
     }
 
     .hero__form .form-legal {
@@ -1040,18 +1051,18 @@
             </div>
 
             <div class="field">
-              <label for="nome">Como você se chama?</label>
+              <label for="nome">👋 Como você se chama?</label>
               <input type="text" id="nome" name="nome" placeholder="Dr. Fábio Faleiro" autocomplete="name" required />
             </div>
 
             <div class="field">
-              <label for="whatsapp">Seu WhatsApp</label>
+              <label for="whatsapp">📱 Seu WhatsApp</label>
               <input type="tel" id="whatsapp" name="whatsapp" placeholder="(11) 99999-9999" autocomplete="tel" required />
               <div class="help">É o único canal de retorno. Não vou vender, prometo.</div>
             </div>
 
             <div class="field">
-              <label for="especialidade">Sua especialidade</label>
+              <label for="especialidade">🩺 Sua especialidade</label>
               <select id="especialidade" name="especialidade" required>
                 <option value="" disabled selected>Selecione…</option>
                 <option>Cardiologia</option>
@@ -1074,7 +1085,7 @@
             </div>
 
             <div class="field">
-              <label>Quantos médicos atendem na sua clínica (incluindo você)?</label>
+              <label>👥 Quantos médicos atendem na sua clínica (incluindo você)?</label>
               <div class="opt-group">
                 <label class="opt"><input type="radio" name="tamanho_clinica" value="Só eu" required /><span class="opt__dot"></span><span><strong>Só eu</strong> — atendimento individual</span></label>
                 <label class="opt"><input type="radio" name="tamanho_clinica" value="2 a 3 médicos" /><span class="opt__dot"></span><span><strong>2 a 3 médicos</strong> — estrutura enxuta</span></label>
@@ -1084,7 +1095,7 @@
             </div>
 
             <div class="field">
-              <label>Hoje, qual é o gargalo MAIS caro na sua operação?</label>
+              <label>💸 Hoje, qual é o gargalo MAIS caro na sua operação?</label>
               <div class="opt-group">
                 <label class="opt"><input type="radio" name="gargalo" value="No-show alto" required /><span class="opt__dot"></span><span>📉 <strong>No-show alto</strong> — paciente marca mas não comparece</span></label>
                 <label class="opt"><input type="radio" name="gargalo" value="Lead perdido fora do horário comercial" /><span class="opt__dot"></span><span>🌙 <strong>Lead perdido fora do horário</strong> — secretária só responde 9h-18h</span></label>
@@ -1097,7 +1108,7 @@
             </div>
 
             <div class="field">
-              <label for="disponibilidade">Quando faz sentido eu te chamar?</label>
+              <label for="disponibilidade">📅 Quando faz sentido eu te chamar?</label>
               <select id="disponibilidade" name="disponibilidade">
                 <option value="Esta semana ainda">Esta semana ainda</option>
                 <option value="Próxima semana">Próxima semana</option>
