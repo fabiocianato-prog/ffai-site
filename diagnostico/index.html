@@ -1469,7 +1469,12 @@
             var primeiro = partes[0] || payload.nome.split(' ')[0];
             document.getElementById('success-title').textContent = 'Recebi tudo, ' + primeiro + '!';
             document.getElementById('diag-form').style.display = 'none';
-            document.getElementById('form-success').style.display = 'block';
+            var successEl = document.getElementById('form-success');
+            successEl.style.display = 'block';
+            // Scroll suave pro topo do cartão pra usuário ver a confirmação imediatamente
+            // (antes ficava no terço inferior onde estava o botão submit — perda de conversão)
+            var cardEl = document.querySelector('.hero__form') || successEl;
+            cardEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
           })
           .catch(function () {
             btn.disabled = false;
