@@ -602,11 +602,13 @@
 
     .hero__form .field label.opt:has(input:checked) {
       border-color: var(--green);
-      background-color: #fff;
-      box-shadow: 0 0 0 1px var(--green);
+      background-color: rgba(13, 127, 98, 0.10);
+      box-shadow: 0 0 0 2px var(--green), 0 6px 16px rgba(13, 127, 98, 0.18);
     }
 
     .hero__form .field label.opt strong { color: var(--ink); }
+
+    .hero__form .field label.opt:has(input:checked) strong { color: var(--green); }
 
     .hero__form .opt__dot {
       border-color: rgba(28, 42, 63, 0.25);
@@ -1070,7 +1072,7 @@
 
             <div class="field">
               <label for="whatsapp">📱 Seu WhatsApp</label>
-              <input type="tel" id="whatsapp" name="whatsapp" placeholder="(11) 99999-9999" autocomplete="tel" required />
+              <input type="tel" id="whatsapp" name="whatsapp" placeholder="(11) 99999-9999" autocomplete="tel" inputmode="numeric" maxlength="15" required />
               <div class="help">É o único canal de retorno. Não vou vender, prometo.</div>
             </div>
 
@@ -1397,6 +1399,18 @@
         preferredCountries: ['br', 'us', 'pt'],
         separateDialCode: true,
         utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/js/utils.js'
+      });
+
+      // Máscara BR (XX) XXXXX-XXXX — só dígitos, máx 11. Outros DDIs ficam livres.
+      phoneInput.addEventListener('input', function (e) {
+        if (iti.getSelectedCountryData().iso2 !== 'br') return;
+        var v = e.target.value.replace(/\D/g, '').substring(0, 11);
+        var out = '';
+        if (v.length === 0) out = '';
+        else if (v.length <= 2) out = '(' + v;
+        else if (v.length <= 7) out = '(' + v.substring(0, 2) + ') ' + v.substring(2);
+        else out = '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7, 11);
+        e.target.value = out;
       });
 
       // gargalo "Outro" → mostra campo de texto
