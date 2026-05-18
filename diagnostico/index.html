@@ -638,7 +638,8 @@
       margin-top: 6px;
     }
 
-    .consent {
+    /* Specificity 0,2,0 pra vencer `.field label { display: block }` (0,1,1) — vide bug 2026-05-17 */
+    .field--consent .consent {
       position: relative;
       display: flex;
       align-items: flex-start;
@@ -647,6 +648,7 @@
       font-size: 13px;
       color: rgba(250, 250, 247, 0.85);
       line-height: 1.45;
+      margin-bottom: 0;
     }
 
     .consent input {
