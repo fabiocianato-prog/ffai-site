@@ -602,13 +602,19 @@
 
     .hero__form .field label.opt:has(input:checked) {
       border-color: var(--green);
-      background-color: rgba(13, 127, 98, 0.10);
-      box-shadow: 0 0 0 2px var(--green), 0 6px 16px rgba(13, 127, 98, 0.18);
+      background-color: var(--green);
+      color: #fff;
+      box-shadow: 0 0 0 2px var(--green), 0 8px 20px rgba(13, 127, 98, 0.30);
     }
 
     .hero__form .field label.opt strong { color: var(--ink); }
 
-    .hero__form .field label.opt:has(input:checked) strong { color: var(--green); }
+    .hero__form .field label.opt:has(input:checked) strong { color: #fff; }
+
+    .hero__form .field label.opt:has(input:checked) .opt__dot {
+      border-color: #fff;
+      background: radial-gradient(circle, #fff 0 5px, transparent 6px);
+    }
 
     .hero__form .opt__dot {
       border-color: rgba(28, 42, 63, 0.25);
