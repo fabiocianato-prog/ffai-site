@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recebi tudo — FF.AI</title>
+  <meta name="description" content="Confirmação de envio do diagnóstico de IA-readiness FF.AI." />
+  <meta name="theme-color" content="#1C2A3F" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/ffai-favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/ffai-icon.svg" />
+  <link rel="canonical" href="https://ffai.ia.br/obrigado/" />
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #1C2A3F;
+      --ink-2: #2C3E5C;
+      --green: #0D7F62;
+      --green-dim: #0a6650;
+      --off: #FAFAF7;
+      --steel: #4A5568;
+      --line: #E2E8F0;
+      --soft: #F4F5F2;
+      --max-width: 1120px;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --transition: 200ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--off);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: var(--green); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--green-dim); }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---------- Navbar ---------- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(8px);
+      -webkit-backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav__logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav__logo span.dot { color: var(--green); }
+    .nav__back { color: var(--steel); font-weight: 500; font-size: 14px; }
+    .nav__back:hover { color: var(--ink); }
+
+    /* ---------- Main ---------- */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 0;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(13, 127, 98, 0.07), transparent 55%),
+        radial-gradient(circle at 85% 100%, rgba(28, 42, 63, 0.06), transparent 50%),
+        var(--off);
+    }
+
+    .card {
+      background: var(--ink);
+      color: var(--off);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 24px 60px rgba(28, 42, 63, 0.35);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .card__eyebrow {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .card__icon {
+      width: 72px;
+      height: 72px;
+      margin: 8px auto 18px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      line-height: 1;
+    }
+
+    .card h1 {
+      font-size: clamp(24px, 3.2vw, 30px);
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      margin: 0 0 12px;
+      font-weight: 700;
+      color: var(--off);
+    }
+
+    .card__lead {
+      font-size: 16px;
+      color: rgba(250, 250, 247, 0.75);
+      margin: 0 0 24px;
+    }
+
+    .steps {
+      text-align: left;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .steps li {
+      position: relative;
+      padding: 14px 0 14px 28px;
+      font-size: 14px;
+      color: var(--off);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .steps li:last-child { border-bottom: 0; }
+
+    .steps li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .card__cta {
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 14px;
+      color: rgba(250, 250, 247, 0.65);
+    }
+
+    .card__cta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--off);
+      font-weight: 600;
+      border-bottom: 1px solid rgba(250, 250, 247, 0.3);
+      padding-bottom: 2px;
+    }
+    .card__cta a:hover { border-bottom-color: var(--off); color: var(--off); }
+
+    /* ---------- Footer ---------- */
+    footer {
+      padding: 24px 0;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--steel);
+      text-align: center;
+    }
+    footer a { color: var(--steel); }
+    footer a:hover { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a href="/" class="nav__logo">FF<span class="dot">.</span>AI</a>
+      <a href="/" class="nav__back">← Voltar ao site</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="card">
+      <div class="card__eyebrow">Diagnóstico de IA-readiness</div>
+      <div class="card__icon" aria-hidden="true">✓</div>
+      <h1 id="success-title">Recebi tudo!</h1>
+      <p class="card__lead">Já tô preparando seu diagnóstico de IA-readiness.</p>
+
+      <ul class="steps">
+        <li><strong>Em até 2 min</strong> — você recebe uma mensagem no WhatsApp confirmando.</li>
+        <li><strong>Em até 48h</strong> — eu te chamo pra agendar uma call de 30 min.</li>
+        <li><strong>Em até 7 dias</strong> — diagnóstico completo: score 0–100, action plan e devolutiva por vídeo.</li>
+      </ul>
+
+      <div class="card__cta">
+        Quer adiantar?
+        <a href="https://wa.me/5511930896237">Me chama no WhatsApp →</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      © FF.AI · <a href="/privacidade">Privacidade</a> · <a href="/diagnostico-termos">Termos do Diagnóstico</a>
+    </div>
+  </footer>
+
+  <script>
+    // Personalização do nome via query string (?nome=Primeiro)
+    (function () {
+      var nome = new URLSearchParams(window.location.search).get('nome');
+      if (nome) {
+        var clean = nome.replace(/[^\p{L}\s\-']/gu, '').trim().slice(0, 40);
+        if (clean) {
+          document.getElementById('success-title').textContent = 'Recebi tudo, ' + clean + '!';
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
