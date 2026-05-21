@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FF.AI Atendimento — uma rede de agentes de IA na sua clínica</title>
+  <meta name="description" content="FF.AI Atendimento: rede de agentes de IA que recebe, qualifica, agenda e reativa pacientes, conectada ao seu CRM e prontuário. Implantação em 4 semanas, governança CFM 2.454 incorporada." />
+  <meta name="theme-color" content="#1C2A3F" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/ffai-favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/ffai-icon.svg" />
+
+  <meta property="og:title" content="FF.AI Atendimento — uma rede de agentes de IA na sua clínica" />
+  <meta property="og:description" content="O paciente nunca mais fica sem resposta. Atendimento, triagem, agendamento e reativação automatizados — em 4 semanas." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ffai.ia.br/atendimento" />
+  <meta property="og:image" content="https://ffai.ia.br/assets/ffai-icon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #1C2A3F;
+      --ink-2: #2C3E5C;
+      --green: #0D7F62;
+      --green-dim: #0a6650;
+      --green-soft: rgba(13, 127, 98, 0.08);
+      --off: #FAFAF7;
+      --warm: #F1EDE4;
+      --steel: #4A5568;
+      --line: #E2E8F0;
+      --line-warm: #E4DECF;
+      --soft: #F4F5F2;
+      --max-width: 1120px;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --transition: 200ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--off);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: var(--green); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--green-dim); }
+    img, svg { display: block; max-width: 100%; }
+
+    .container { width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-weight: 700; letter-spacing: -0.01em; }
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 700ms cubic-bezier(0.22,1,0.36,1), transform 700ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .js .reveal.is-visible { opacity: 1; transform: none; }
+    .js .reveal.d1 { transition-delay: 90ms; }
+    .js .reveal.d2 { transition-delay: 180ms; }
+    .js .reveal.d3 { transition-delay: 270ms; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+    }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(8px);
+      -webkit-backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition);
+    }
+    .nav.scrolled { border-bottom-color: var(--line); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+    .nav__logo {
+      display: inline-flex; align-items: center; gap: 1px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--ink);
+    }
+    .nav__logo .dot { color: var(--green); }
+    .nav__logo:hover { color: var(--ink); }
+    .nav__links { display: none; gap: 26px; align-items: center; margin-left: auto; }
+    .nav__links a { color: var(--ink); font-weight: 500; font-size: 15px; }
+    .nav__links a:hover { color: var(--green); }
+    @media (min-width: 820px) { .nav__links { display: flex; } }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 999px;
+      font-weight: 600; font-size: 15px;
+      transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+      border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+    }
+    .btn--primary { background: var(--green); color: var(--off); }
+    .btn--primary:hover { background: var(--green-dim); color: var(--off); transform: translateY(-1px); }
+    .btn--ghost { color: var(--ink); border-color: var(--line); background: transparent; }
+    .btn--ghost:hover { border-color: var(--ink); color: var(--ink); }
+    .btn--light { color: var(--off); border-color: rgba(255,255,255,0.25); background: transparent; }
+    .btn--light:hover { border-color: var(--off); color: var(--off); }
+    .btn--lg { padding: 16px 28px; font-size: 16px; }
+    .btn--sm { padding: 9px 16px; font-size: 14px; }
+
+    /* Breadcrumb */
+    .crumb {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: "JetBrains Mono", monospace; font-size: 12.5px; font-weight: 500;
+      color: var(--steel); margin-bottom: 22px;
+    }
+    .crumb a { color: var(--steel); }
+    .crumb a:hover { color: var(--green); }
+    .crumb span { color: var(--ink); font-weight: 700; }
+
+    /* Hero */
+    .hero {
+      padding: 56px 0 84px;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(13,127,98,0.07), transparent 52%),
+        radial-gradient(circle at 88% 92%, rgba(28,42,63,0.06), transparent 50%),
+        var(--off);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(28,42,63,0.10) 1px, transparent 1.5px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 78% 70% at 60% 38%, black 28%, transparent 74%);
+      -webkit-mask-image: radial-gradient(ellipse 78% 70% at 60% 38%, black 28%, transparent 74%);
+      pointer-events: none; opacity: 0.5;
+    }
+    .hero__container {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr; gap: 44px; align-items: center;
+    }
+    @media (min-width: 960px) {
+      .hero__container { grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 56px; }
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: var(--green-soft); color: var(--green);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 4.8vw, 50px);
+      line-height: 1.12; letter-spacing: -0.022em;
+      margin: 0 0 20px; font-weight: 700; color: var(--ink); max-width: 17ch;
+    }
+    .hero h1 em { font-style: normal; color: var(--green); }
+    .hero__sub { font-size: clamp(16.5px,2vw,20px); color: var(--steel); max-width: 52ch; margin: 0 0 30px; }
+    .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .hero__meta {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line);
+    }
+    .hero__meta-item { display: flex; flex-direction: column; }
+    .hero__meta-item strong { font-family: "JetBrains Mono", monospace; font-size: 26px; color: var(--ink); line-height: 1; }
+    .hero__meta-item span { font-size: 12.5px; color: var(--steel); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    .hero__visual { position: relative; width: 100%; max-width: 500px; margin: 0 auto; }
+    .hero__visual svg { width: 100%; height: auto; filter: drop-shadow(0 12px 32px rgba(28,42,63,0.10)); }
+    .node-anim { transform-origin: center; animation: nodepulse 3s ease-in-out infinite; }
+    .node-anim.delay-1 { animation-delay: 0.6s; }
+    .node-anim.delay-2 { animation-delay: 1.2s; }
+    .node-anim.delay-3 { animation-delay: 1.8s; }
+    .node-anim.delay-4 { animation-delay: 2.4s; }
+    @keyframes nodepulse { 0%,100%{opacity:0.55;} 50%{opacity:1;} }
+
+    /* Sections */
+    section { padding: 84px 0; }
+    section[id] { scroll-margin-top: 80px; }
+    section + section { border-top: 1px solid var(--line); }
+    .eyebrow {
+      display: inline-block; font-family: "JetBrains Mono", monospace;
+      font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 14px;
+    }
+    .s-title {
+      font-size: clamp(27px,3.5vw,39px); line-height: 1.16; letter-spacing: -0.018em;
+      margin: 0 0 16px; font-weight: 700; max-width: 20ch;
+    }
+    .s-lead { font-size: 18px; color: var(--steel); max-width: 58ch; margin: 0; }
+    .s-head { margin-bottom: 52px; }
+
+    /* Ferida — a dependência da secretária */
+    .pain { background: linear-gradient(180deg, var(--off) 0%, var(--soft) 100%); }
+    .pain__grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    @media (min-width: 620px) { .pain__grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 980px) { .pain__grid { grid-template-columns: repeat(3, 1fr); } }
+    .pain__card {
+      padding: 28px 26px; border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--off); transition: border-color var(--transition), transform var(--transition);
+    }
+    .pain__card:hover { border-color: var(--green); transform: translateY(-3px); }
+    .pain__illu {
+      width: 62px; height: 62px; margin-bottom: 18px;
+      border-radius: 16px; background: var(--green-soft); color: var(--green);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pain__card h3 { font-size: 18px; line-height: 1.32; margin: 0 0 9px; font-weight: 600; }
+    .pain__card p { color: var(--steel); font-size: 14.5px; line-height: 1.58; margin: 0; }
+    .turn {
+      margin-top: 22px; display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center;
+      padding: 30px; border: 1px solid var(--green); border-radius: var(--radius);
+      background: var(--green-soft);
+    }
+    @media (min-width: 760px) { .turn { grid-template-columns: 60px 1fr; gap: 24px; padding: 32px 38px; } }
+    .turn__icon {
+      width: 60px; height: 60px; border-radius: 16px; background: var(--green); color: var(--off);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .turn p { margin: 0; font-size: clamp(16px, 1.9vw, 18.5px); line-height: 1.52; color: var(--ink); }
+    .turn p strong { color: var(--green-dim); font-weight: 700; }
+
+    /* Pillars */
+    .pillars__grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    @media (min-width: 760px) { .pillars__grid { grid-template-columns: repeat(2, 1fr); } }
+    .pillar {
+      padding: 32px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--off);
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .pillar:hover { border-color: var(--green); transform: translateY(-2px); }
+    .pillar__icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--green-soft); color: var(--green);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+    }
+    .pillar h3 { font-size: 21px; line-height: 1.25; margin: 0 0 10px; font-weight: 600; }
+    .pillar p { color: var(--steel); margin: 0; font-size: 15px; }
+
+    /* Como funciona — passos */
+    .steps { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 760px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1000px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+    .step {
+      padding: 26px 24px; border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--off); position: relative;
+    }
+    .step__n {
+      font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 700;
+      color: var(--off); background: var(--green);
+      width: 28px; height: 28px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .step h3 { font-size: 17px; line-height: 1.3; margin: 0 0 8px; font-weight: 600; }
+    .step p { font-size: 14px; color: var(--steel); margin: 0; }
+
+    /* Packs */
+    .packs { background: var(--ink); color: var(--off); }
+    .packs .eyebrow { color: #3FCF8E; }
+    .packs .s-title { color: var(--off); }
+    .packs .s-lead { color: rgba(250,250,247,0.7); }
+    .packs__grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 880px) { .packs__grid { grid-template-columns: repeat(3, 1fr); } }
+    .pack {
+      padding: 34px 28px; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius); background: rgba(255,255,255,0.03);
+      display: flex; flex-direction: column;
+    }
+    .pack--featured { border-color: var(--green); background: rgba(13,127,98,0.1); }
+    .pack__name {
+      font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: #3FCF8E;
+      letter-spacing: 0.06em; margin-bottom: 12px; text-transform: uppercase;
+    }
+    .pack h3 { font-size: 23px; line-height: 1.2; margin: 0 0 8px; color: var(--off); font-weight: 700; }
+    .pack__time { font-size: 13.5px; color: rgba(250,250,247,0.6); margin-bottom: 22px; }
+    .pack ul { list-style: none; padding: 0; margin: 0 0 26px; flex: 1; }
+    .pack li {
+      position: relative; padding: 8px 0 8px 24px; font-size: 14px;
+      color: rgba(250,250,247,0.85); line-height: 1.45;
+    }
+    .pack li::before { content: ""; position: absolute; left: 0; top: 14px; width: 14px; height: 1.5px; background: var(--green); }
+    .pack li strong { color: var(--off); }
+    .pack__tag {
+      display: inline-block; padding: 4px 10px; background: var(--green); color: var(--off);
+      font-size: 11px; font-weight: 700; border-radius: 4px; letter-spacing: 0.05em;
+      text-transform: uppercase; margin-bottom: 16px; align-self: flex-start;
+    }
+
+    /* Faixa prova */
+    .proof { background: var(--soft); }
+    .proof__grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 720px) { .proof__grid { grid-template-columns: repeat(4, 1fr); } }
+    .proof__metric { text-align: left; }
+    .proof__metric strong {
+      display: block; font-family: "JetBrains Mono", monospace; font-size: 34px;
+      color: var(--green); line-height: 1; margin-bottom: 8px;
+    }
+    .proof__metric span { font-size: 13px; color: var(--steel); }
+    .proof__note {
+      margin-top: 30px; font-size: 14.5px; color: var(--steel);
+      padding-top: 22px; border-top: 1px solid var(--line);
+    }
+
+    /* CTA final */
+    .cta-final { background: var(--ink); color: var(--off); text-align: center; }
+    .cta-final .eyebrow { color: #3FCF8E; }
+    .cta-final h2 {
+      font-size: clamp(27px,4vw,42px); line-height: 1.16; margin: 0 auto 16px;
+      color: var(--off); max-width: 20ch; letter-spacing: -0.018em;
+    }
+    .cta-final p { color: rgba(250,250,247,0.74); font-size: 17.5px; margin: 0 auto 32px; max-width: 52ch; }
+    .cta-final__ctas { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+    /* Footer */
+    .footer {
+      background: var(--ink); color: rgba(250,250,247,0.7);
+      border-top: 1px solid rgba(255,255,255,0.08); padding: 38px 0; font-size: 14px;
+    }
+    .footer__inner { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+    @media (min-width: 720px) { .footer__inner { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .footer__logo img { height: 22px; }
+    .footer__meta { display: flex; flex-direction: column; gap: 4px; }
+    @media (min-width: 720px) { .footer__meta { text-align: right; } }
+    .footer a { color: var(--off); }
+    .footer__links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
+    .footer__links a { color: rgba(250,250,247,0.7); font-size: 12.5px; text-decoration: underline; text-underline-offset: 3px; }
+    .footer__links a:hover { color: var(--off); }
+
+    /* WhatsApp float */
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
+      border-radius: 50%; background: #25d366; color: white;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 60; transition: transform var(--transition);
+    }
+    .wa-float:hover { transform: scale(1.06); color: white; }
+  </style>
+
+  <!-- Google tag (gtag.js) — FF.AI Google Ads AW-18172890851 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18172890851');
+  </script>
+  <!-- /Google tag -->
+
+  <!-- Meta Pixel — FF.AI -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1724483235588497');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1724483235588497&ev=PageView&noscript=1"/></noscript>
+  <!-- /Meta Pixel -->
+</head>
+<body>
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- NAVBAR -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="/" class="nav__logo" aria-label="FF.AI — página inicial"><span>FF</span><span class="dot">.</span><span>AI</span></a>
+      <nav class="nav__links">
+        <a href="/#solucoes">O ecossistema</a>
+        <a href="/conteudo">FF.AI Presença</a>
+        <a href="#pacotes">Como contratar</a>
+      </nav>
+      <a href="/diagnostico" class="btn btn--primary btn--sm">Diagnóstico gratuito</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="container hero__container">
+      <div class="hero__content">
+        <div class="crumb reveal"><a href="/">FF.AI</a> · <span>Atendimento</span></div>
+        <span class="pill reveal">Produto 01 do ecossistema</span>
+        <h1 class="reveal d1">O paciente nunca mais fica <em>sem resposta</em>.</h1>
+        <p class="hero__sub reveal d2">
+          O FF.AI Atendimento é uma rede de agentes de inteligência artificial que recebe, qualifica, agenda e reativa pacientes — conectada ao seu CRM e ao prontuário, 24 horas por dia. Não é um chatbot solto na ponta: é a sua operação comercial inteira, automatizada e supervisionada.
+        </p>
+        <div class="hero__ctas reveal d2">
+          <a href="/diagnostico" class="btn btn--primary btn--lg">Agendar diagnóstico gratuito</a>
+          <a href="#como" class="btn btn--ghost btn--lg">Como funciona</a>
+        </div>
+        <div class="hero__meta reveal d3">
+          <div class="hero__meta-item"><strong>4 semanas</strong><span>do kickoff ao go-live</span></div>
+          <div class="hero__meta-item"><strong>24/7</strong><span>sem fila, sem horário</span></div>
+          <div class="hero__meta-item"><strong>CFM 2.454</strong><span>governança incorporada</span></div>
+        </div>
+      </div>
+
+      <div class="hero__visual reveal d2" aria-hidden="true">
+        <svg viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="orbGreen" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#0D7F62" stop-opacity="1"/>
+              <stop offset="60%" stop-color="#0D7F62" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#0D7F62" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="orbInk" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#1C2A3F" stop-opacity="1"/>
+              <stop offset="60%" stop-color="#1C2A3F" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#1C2A3F" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#1C2A3F" stop-opacity="0.0"/>
+              <stop offset="50%" stop-color="#1C2A3F" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#0D7F62" stop-opacity="0.9"/>
+            </linearGradient>
+          </defs>
+          <g opacity="0.18">
+            <line x1="0" y1="80" x2="520" y2="80" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="0" y1="180" x2="520" y2="180" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="0" y1="280" x2="520" y2="280" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="0" y1="380" x2="520" y2="380" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="100" y1="0" x2="100" y2="480" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="260" y1="0" x2="260" y2="480" stroke="#1C2A3F" stroke-width="0.5"/>
+            <line x1="420" y1="0" x2="420" y2="480" stroke="#1C2A3F" stroke-width="0.5"/>
+          </g>
+          <g stroke-width="1.5" fill="none" opacity="0.85">
+            <path d="M260,240 L100,80" stroke="url(#lineGrad)"/>
+            <path d="M260,240 L420,80" stroke="url(#lineGrad)"/>
+            <path d="M260,240 L100,400" stroke="url(#lineGrad)"/>
+            <path d="M260,240 L420,400" stroke="url(#lineGrad)"/>
+            <path d="M260,240 L260,40" stroke="url(#lineGrad)"/>
+            <path d="M260,240 L260,440" stroke="url(#lineGrad)"/>
+          </g>
+          <g>
+            <circle cx="260" cy="240" r="74" fill="url(#orbInk)"/>
+            <circle cx="260" cy="240" r="44" fill="#1C2A3F"/>
+            <circle cx="260" cy="240" r="44" fill="none" stroke="#0D7F62" stroke-width="1.5" opacity="0.5"/>
+            <text x="260" y="234" text-anchor="middle" fill="#FAFAF7" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" letter-spacing="1">CLÍNICA</text>
+            <text x="260" y="252" text-anchor="middle" fill="#0D7F62" font-family="JetBrains Mono, monospace" font-size="9" font-weight="700" letter-spacing="2">CRM · PRONTUÁRIO</text>
+          </g>
+          <g class="node-anim">
+            <circle cx="100" cy="80" r="42" fill="url(#orbGreen)"/>
+            <circle cx="100" cy="80" r="26" fill="#FAFAF7" stroke="#0D7F62" stroke-width="1.5"/>
+            <text x="100" y="76" text-anchor="middle" fill="#1C2A3F" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">SDR</text>
+            <text x="100" y="90" text-anchor="middle" fill="#4A5568" font-family="Inter, sans-serif" font-size="8">triagem</text>
+          </g>
+          <g class="node-anim delay-1">
+            <circle cx="420" cy="80" r="42" fill="url(#orbGreen)"/>
+            <circle cx="420" cy="80" r="26" fill="#FAFAF7" stroke="#0D7F62" stroke-width="1.5"/>
+            <text x="420" y="76" text-anchor="middle" fill="#1C2A3F" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">CONFIRM</text>
+            <text x="420" y="90" text-anchor="middle" fill="#4A5568" font-family="Inter, sans-serif" font-size="8">agenda</text>
+          </g>
+          <g class="node-anim delay-2">
+            <circle cx="100" cy="400" r="42" fill="url(#orbGreen)"/>
+            <circle cx="100" cy="400" r="26" fill="#FAFAF7" stroke="#0D7F62" stroke-width="1.5"/>
+            <text x="100" y="396" text-anchor="middle" fill="#1C2A3F" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">REATIV</text>
+            <text x="100" y="410" text-anchor="middle" fill="#4A5568" font-family="Inter, sans-serif" font-size="8">paciente antigo</text>
+          </g>
+          <g class="node-anim delay-3">
+            <circle cx="420" cy="400" r="42" fill="url(#orbGreen)"/>
+            <circle cx="420" cy="400" r="26" fill="#FAFAF7" stroke="#0D7F62" stroke-width="1.5"/>
+            <text x="420" y="396" text-anchor="middle" fill="#1C2A3F" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700">NPS</text>
+            <text x="420" y="410" text-anchor="middle" fill="#4A5568" font-family="Inter, sans-serif" font-size="8">pós-venda</text>
+          </g>
+          <g class="node-anim delay-4" opacity="0.85">
+            <circle cx="260" cy="40" r="14" fill="#1C2A3F"/>
+            <text x="260" y="44" text-anchor="middle" fill="#FAFAF7" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700">WPP</text>
+          </g>
+          <g class="node-anim delay-4" opacity="0.85">
+            <circle cx="260" cy="440" r="14" fill="#1C2A3F"/>
+            <text x="260" y="444" text-anchor="middle" fill="#FAFAF7" font-family="JetBrains Mono, monospace" font-size="8" font-weight="700">IG</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA — a dependência da secretária -->
+  <section class="pain" id="problema">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">A ferida real do atendimento</span>
+        <h2 class="s-title reveal">A sua clínica inteira está pendurada em uma pessoa só.</h2>
+        <p class="s-lead reveal d1">
+          Pergunte a qualquer médico qual é o ponto mais frágil da operação. A resposta quase sempre tem nome, crachá e CLT. Não é incompetência dela — é um modelo de atendimento que não aguenta mais.
+        </p>
+      </div>
+
+      <div class="pain__grid">
+        <article class="pain__card reveal">
+          <div class="pain__illu" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h14M5 22h14"/><path d="M7 2v3.4a2 2 0 00.6 1.5L12 11l4.4-4.1a2 2 0 00.6-1.5V2"/><path d="M7 22v-3.4a2 2 0 01.6-1.5L12 13l4.4 4.1a2 2 0 01.6 1.5V22"/></svg>
+          </div>
+          <h3>O lead esfria enquanto espera</h3>
+          <p>Mensagem às 14h, resposta às 17h. Nesse intervalo o paciente já escreveu pra outras três clínicas — e marcou na que respondeu primeiro. Velocidade não é luxo: é a consulta.</p>
+        </article>
+
+        <article class="pain__card reveal d1">
+          <div class="pain__illu" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+          </div>
+          <h3>A recepção fecha às 18h. A decisão do paciente, não.</h3>
+          <p>Boa parte das buscas por médico acontece à noite, no fim de semana, no feriado — exatamente quando a secretária não está. Quem decide agora e fica sem resposta, não volta.</p>
+        </article>
+
+        <article class="pain__card reveal d2">
+          <div class="pain__illu" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/></svg>
+          </div>
+          <h3>Custa quase o dobro do salário</h3>
+          <p>O contracheque é só a ponta. Some INSS, FGTS, 13º, férias, vale, rescisão. O custo real de uma secretária é um fixo pesado — e que só cresce quando você precisa contratar mais uma.</p>
+        </article>
+
+        <article class="pain__card reveal">
+          <div class="pain__illu" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0115.5-6.2"/><path d="M19 2.5v4h-4"/><path d="M21 12a9 9 0 01-15.5 6.2"/><path d="M5 21.5v-4h4"/></svg>
+          </div>
+          <h3>Cada troca é recomeçar do zero</h3>
+          <p>Toda secretária leva meses pra dominar convênios, rotina e o seu jeito de trabalhar. Quando ela sai, esse tempo vira fumaça — e você treina tudo de novo. O turnover na recepção é alto.</p>
+        </article>
+
+        <article class="pain__card reveal d1">
+          <div class="pain__illu" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="3" r="1.4"/><path d="M12 4.4V21M6 21h12M4 7.5h16"/><path d="M4 7.5L1.7 12.6a2.6 2.6 0 005 0L4 7.5z"/><path d="M20 7.5l-2.3 5.1a2.6 2.6 0 005 0L20 7.5z"/></svg>
+          </div>
+          <h3>Todo vínculo CLT é um risco aberto</h3>
+          <p>Horas extras, acordos, processos. Cada contratação carrega um passivo trabalhista que mora na sua folha — e que consome a sua cabeça no lugar do paciente.</p>
+        </article>
+
+        <article class="pain__card reveal d2">
+          <div class="pain__illu" aria-hidden="true">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 4l9 6.5"/><path d="M12 6.2V20"/><path d="M5 20h14"/></svg>
+          </div>
+          <h3>Quando ela sai, tudo desmorona</h3>
+          <p>O conhecimento do atendimento mora na cabeça de uma pessoa. Férias, atestado, demissão — e a operação inteira balança junto. Você não tem uma clínica: você tem uma dependência.</p>
+        </article>
+      </div>
+
+      <div class="turn reveal">
+        <div class="turn__icon" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5L4.5 6v6c0 4.8 3.3 8.8 7.5 9.8 4.2-1 7.5-5 7.5-9.8V6L12 2.5z"/><path d="M9 12l2 2 4-4.5"/></svg>
+        </div>
+        <p>
+          É por isso que o FF.AI Atendimento assume a linha de frente. Um agente de IA responde em segundos, 24 horas por dia, todos os dias — sem férias, sem rescisão, sem passivo. E o conhecimento não mora mais na cabeça de ninguém: fica num sistema documentado e versionado. <strong>Sua equipe humana para de apagar incêndio — e a sua clínica para de depender de uma pessoa só.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="como" id="como">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">Como funciona</span>
+        <h2 class="s-title reveal">Quatro frentes que blindam a sua operação clínica.</h2>
+        <p class="s-lead reveal d1">
+          Não é um agente solto. É uma rede de agentes orquestrados, integrados ao seu CRM e ao prontuário, com supervisão humana e governança documentada.
+        </p>
+      </div>
+      <div class="pillars__grid">
+        <div class="pillar reveal">
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M14 14L17 17M10 10L7 7"/></svg>
+          </div>
+          <h3>Rede multi-agente</h3>
+          <p>Um agente de triagem qualificando leads, um agente confirmador blindando a agenda, um agente de reativação trazendo paciente antigo de volta, um agente de NPS fechando o ciclo. Cada um com escopo claro e handoff humano supervisionado.</p>
+        </div>
+        <div class="pillar reveal d1">
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 3v18"/></svg>
+          </div>
+          <h3>Stack FF.AI, pronta para escalar</h3>
+          <p>Anthropic + n8n + Kommo (stack mandatória, provada em produção) conectada ao seu prontuário — iClinic, Doctoralia, Feegow ou similar. Lead, histórico e agenda em uma única visão.</p>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+          </div>
+          <h3>KPIs em tempo real</h3>
+          <p>Dashboard de funil com taxa de qualificação, conversão por etapa, no-show, ticket médio e SLA da equipe. Você passa a decidir com número, não com sensação.</p>
+        </div>
+        <div class="pillar reveal d1">
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/></svg>
+          </div>
+          <h3>Governança CFM 2.454 + LGPD</h3>
+          <p>Documento de governança com mapa de risco por intenção, política de supervisão humana, registro de consentimento e trilha auditável — alinhado à Resolução CFM 2.454/2026.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTREGA -->
+  <section class="entrega" id="entrega">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">A implantação</span>
+        <h2 class="s-title reveal">Quatro semanas. Do kickoff ao go-live.</h2>
+        <p class="s-lead reveal d1">Escopo fixo, presencial em SP e GO nos marcos principais. Você acompanha por uma call semanal de status.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step__n">1</div>
+          <h3>Diagnóstico e desenho</h3>
+          <p>Auditoria do funil, mapa de agentes e desenho da operação sob medida para a sua clínica.</p>
+        </div>
+        <div class="step reveal d1">
+          <div class="step__n">2</div>
+          <h3>Construção</h3>
+          <p>Agentes, integrações com CRM e prontuário, base de conhecimento médica curada e defesa em camadas.</p>
+        </div>
+        <div class="step reveal d2">
+          <div class="step__n">3</div>
+          <h3>Testes e governança</h3>
+          <p>Validação ponta a ponta em conversas reais e fechamento do documento de governança CFM 2.454.</p>
+        </div>
+        <div class="step reveal d3">
+          <div class="step__n">4</div>
+          <h3>Go-live e hand-off</h3>
+          <p>Operação no ar, treinamento da equipe e pacote operacional entregue. A clínica assume; a engenharia fica conosco.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACOTES -->
+  <section class="packs" id="pacotes">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">Como contratar</span>
+        <h2 class="s-title reveal">Comece pelo diagnóstico. Avance no seu tempo.</h2>
+        <p class="s-lead reveal d1">Diagnóstico de entrada gratuito, implantação completa e manutenção opcional. Operação consultiva — sem chatbot pronto de prateleira.</p>
+      </div>
+      <div class="packs__grid">
+        <article class="pack reveal">
+          <div class="pack__name">Etapa 1</div>
+          <h3>Diagnóstico FF.AI</h3>
+          <div class="pack__time">7 dias · gratuito</div>
+          <ul>
+            <li>Auditoria do funil e dos pilares de governança CFM 2.454</li>
+            <li>Plano de ação com itens priorizados</li>
+            <li>Devolutiva em vídeo</li>
+            <li>Call de diagnóstico com Dr. Fábio Faleiro</li>
+          </ul>
+          <a href="/diagnostico" class="btn btn--light">Solicitar diagnóstico</a>
+        </article>
+        <article class="pack pack--featured reveal d1">
+          <span class="pack__tag">Clínicas Fundadoras · 5 vagas/mês</span>
+          <div class="pack__name">Etapa 2</div>
+          <h3>Implantação</h3>
+          <div class="pack__time">4 semanas · híbrido SP + GO</div>
+          <ul>
+            <li>Tudo do Diagnóstico</li>
+            <li>Rede de agentes em produção, com base de conhecimento médica curada</li>
+            <li>Stack mandatória: Anthropic + n8n + Kommo</li>
+            <li>Integração com prontuário (iClinic, Doctoralia, Feegow ou similar)</li>
+            <li>Defesa em camadas e dashboard de KPIs</li>
+            <li>Documentação de governança CFM 2.454/2026</li>
+            <li>Hand-off: pacote operacional + treinamento</li>
+            <li><strong>Fundadoras:</strong> 6 meses de Manutenção · acesso vitalício a novas skills · 1 módulo customizado</li>
+          </ul>
+          <a href="/diagnostico" class="btn btn--primary">Falar com o Dr. Fábio</a>
+        </article>
+        <article class="pack reveal d2">
+          <div class="pack__name">Etapa 3</div>
+          <h3>Manutenção</h3>
+          <div class="pack__time">Opcional · lock-in 3 meses</div>
+          <ul>
+            <li>Monitoramento ativo + alertas em tempo real</li>
+            <li>Ciclos mensais de ajuste de prompt e evolução</li>
+            <li>Acesso a novas skills lançadas pela FF.AI</li>
+            <li>Review estratégico recorrente</li>
+            <li>Canal de suporte assíncrono</li>
+          </ul>
+          <a href="/diagnostico" class="btn btn--light">Manter a operação</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROVA -->
+  <section class="proof" id="prova">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">Case-vivo</span>
+        <h2 class="s-title reveal">Rodando em produção na nossa própria clínica.</h2>
+        <p class="s-lead reveal d1">O FF.AI Atendimento opera na clínica do Dr. Fábio, em Goiânia e São Paulo. Cada decisão de produto passa primeiro pelo nosso funil real, com pacientes reais.</p>
+      </div>
+      <div class="proof__grid">
+        <div class="proof__metric reveal"><strong>2</strong><span>agentes de IA em produção</span></div>
+        <div class="proof__metric reveal d1"><strong>4</strong><span>pipelines comerciais</span></div>
+        <div class="proof__metric reveal d2"><strong>11</strong><span>etapas de funil auditadas</span></div>
+        <div class="proof__metric reveal d3"><strong>30+</strong><span>entregáveis versionados</span></div>
+      </div>
+      <p class="proof__note reveal">
+        Não vendemos teoria. Levamos para outras clínicas só o que já mostrou resultado dentro de uma operação viva — documentado e versionado.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final" id="contato">
+    <div class="container">
+      <span class="eyebrow reveal">O primeiro passo</span>
+      <h2 class="reveal">Comece pelo diagnóstico. Ele é gratuito.</h2>
+      <p class="reveal d1">
+        30 minutos com o Dr. Fábio Faleiro. Você sai sabendo exatamente onde a sua clínica está perdendo paciente — e o que a implantação resolveria nas primeiras 4 semanas.
+      </p>
+      <div class="cta-final__ctas reveal d1">
+        <a href="/diagnostico" class="btn btn--primary btn--lg">Agendar diagnóstico gratuito</a>
+        <a href="/conteudo" class="btn btn--light btn--lg">Conhecer o FF.AI Presença</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__logo">
+        <img src="/assets/ffai-wordmark-dark.svg" alt="FF.AI" />
+      </div>
+      <div class="footer__meta">
+        <div>FF.AI · o ecossistema de IA da sua clínica</div>
+        <div>contato@ffai.ia.br</div>
+        <div>© 2026 — Todos os direitos reservados</div>
+        <div class="footer__links">
+          <a href="/termos">Termos de Uso</a>
+          <a href="/privacidade">Política de Privacidade</a>
+          <a href="/diagnostico-termos">Termos do Diagnóstico</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20do%20site%20FF.AI%20e%20quero%20saber%20sobre%20o%20FF.AI%20Atendimento." class="wa-float" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 8) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealEls = document.querySelectorAll('.reveal');
+    if (reduce || !('IntersectionObserver' in window)) {
+      revealEls.forEach(el => el.classList.add('is-visible'));
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(el => io.observe(el));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FF.AI Presença — conteúdo de Instagram 100% por IA para médicos</title>
+  <meta name="description" content="FF.AI Presença: a IA produz o conteúdo do seu Instagram com o seu clone digital — avatar e voz idênticos aos seus. Você só aprova. Produção 100% IA, aprovação 100% humana, compliance CFM incorporado." />
+  <meta name="theme-color" content="#1C2A3F" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/ffai-favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/ffai-icon.svg" />
+
+  <meta property="og:title" content="FF.AI Presença — conteúdo de Instagram 100% por IA para médicos" />
+  <meta property="og:description" content="Seu clone digital produz o conteúdo do mês inteiro. Você revisa pelo celular e aprova. Produção 100% IA, aprovação 100% sua." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ffai.ia.br/conteudo" />
+  <meta property="og:image" content="https://ffai.ia.br/assets/ffai-icon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #1C2A3F;
+      --ink-2: #2C3E5C;
+      --green: #0D7F62;
+      --green-dim: #0a6650;
+      --green-soft: rgba(13, 127, 98, 0.08);
+      --off: #FAFAF7;
+      --warm: #F1EDE4;
+      --steel: #4A5568;
+      --line: #E2E8F0;
+      --line-warm: #E4DECF;
+      --soft: #F4F5F2;
+      --max-width: 1120px;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --transition: 200ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--off);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: var(--green); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--green-dim); }
+    img, svg { display: block; max-width: 100%; }
+
+    .container { width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-weight: 700; letter-spacing: -0.01em; }
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 700ms cubic-bezier(0.22,1,0.36,1), transform 700ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .js .reveal.is-visible { opacity: 1; transform: none; }
+    .js .reveal.d1 { transition-delay: 90ms; }
+    .js .reveal.d2 { transition-delay: 180ms; }
+    .js .reveal.d3 { transition-delay: 270ms; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+    }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(8px);
+      -webkit-backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition);
+    }
+    .nav.scrolled { border-bottom-color: var(--line); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+    .nav__logo {
+      display: inline-flex; align-items: center; gap: 1px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--ink);
+    }
+    .nav__logo .dot { color: var(--green); }
+    .nav__logo:hover { color: var(--ink); }
+    .nav__links { display: none; gap: 26px; align-items: center; margin-left: auto; }
+    .nav__links a { color: var(--ink); font-weight: 500; font-size: 15px; }
+    .nav__links a:hover { color: var(--green); }
+    @media (min-width: 820px) { .nav__links { display: flex; } }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 999px;
+      font-weight: 600; font-size: 15px;
+      transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+      border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+    }
+    .btn--primary { background: var(--green); color: var(--off); }
+    .btn--primary:hover { background: var(--green-dim); color: var(--off); transform: translateY(-1px); }
+    .btn--ghost { color: var(--ink); border-color: var(--line); background: transparent; }
+    .btn--ghost:hover { border-color: var(--ink); color: var(--ink); }
+    .btn--light { color: var(--off); border-color: rgba(255,255,255,0.25); background: transparent; }
+    .btn--light:hover { border-color: var(--off); color: var(--off); }
+    .btn--lg { padding: 16px 28px; font-size: 16px; }
+    .btn--sm { padding: 9px 16px; font-size: 14px; }
+
+    .crumb {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: "JetBrains Mono", monospace; font-size: 12.5px; font-weight: 500;
+      color: var(--steel); margin-bottom: 22px;
+    }
+    .crumb a { color: var(--steel); }
+    .crumb a:hover { color: var(--green); }
+    .crumb span { color: var(--ink); font-weight: 700; }
+
+    /* Hero */
+    .hero {
+      padding: 56px 0 84px;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(13,127,98,0.07), transparent 52%),
+        radial-gradient(circle at 88% 92%, rgba(28,42,63,0.06), transparent 50%),
+        var(--off);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(28,42,63,0.10) 1px, transparent 1.5px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 78% 70% at 60% 38%, black 28%, transparent 74%);
+      -webkit-mask-image: radial-gradient(ellipse 78% 70% at 60% 38%, black 28%, transparent 74%);
+      pointer-events: none; opacity: 0.5;
+    }
+    .hero__container {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr; gap: 44px; align-items: center;
+    }
+    @media (min-width: 960px) {
+      .hero__container { grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 56px; }
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px;
+      background: var(--green-soft); color: var(--green);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 4.8vw, 50px);
+      line-height: 1.12; letter-spacing: -0.022em;
+      margin: 0 0 20px; font-weight: 700; color: var(--ink); max-width: 18ch;
+    }
+    .hero h1 em { font-style: normal; color: var(--green); }
+    .hero__sub { font-size: clamp(16.5px,2vw,20px); color: var(--steel); max-width: 52ch; margin: 0 0 30px; }
+    .hero__sub strong { color: var(--ink); }
+    .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .hero__meta {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line);
+    }
+    .hero__meta-item { display: flex; flex-direction: column; }
+    .hero__meta-item strong { font-family: "JetBrains Mono", monospace; font-size: 26px; color: var(--ink); line-height: 1; }
+    .hero__meta-item span { font-size: 12.5px; color: var(--steel); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* Hero visual — vídeo do avatar */
+    .hero__visual { position: relative; width: 100%; margin: 0 auto; }
+    .hero__video {
+      position: relative; width: 100%; max-width: 322px; margin: 0 auto;
+      border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--line); background: var(--ink);
+      box-shadow: 0 24px 54px -20px rgba(28, 42, 63, 0.42);
+    }
+    .hero__video video {
+      display: block; width: 100%; aspect-ratio: 9 / 16; background: var(--ink);
+    }
+    .hero__video-badge {
+      position: absolute; top: 12px; right: 12px; z-index: 2;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 11px; background: rgba(28, 42, 63, 0.92); color: var(--off);
+      border-radius: 999px; font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; pointer-events: none;
+    }
+    .hero__video-badge::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%; background: #3FCF8E;
+    }
+    .hero__video-cap {
+      margin: 14px auto 0; max-width: 322px; text-align: center;
+      font-family: "JetBrains Mono", monospace; font-size: 11px; line-height: 1.5; color: var(--steel);
+    }
+
+    /* Sections */
+    section { padding: 84px 0; }
+    section[id] { scroll-margin-top: 80px; }
+    section + section { border-top: 1px solid var(--line); }
+    .eyebrow {
+      display: inline-block; font-family: "JetBrains Mono", monospace;
+      font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 14px;
+    }
+    .s-title {
+      font-size: clamp(27px,3.5vw,39px); line-height: 1.16; letter-spacing: -0.018em;
+      margin: 0 0 16px; font-weight: 700; max-width: 22ch;
+    }
+    .s-lead { font-size: 18px; color: var(--steel); max-width: 58ch; margin: 0; }
+    .s-head { margin-bottom: 52px; }
+
+    /* Promessa */
+    .promise { background: var(--ink); color: var(--off); text-align: center; }
+    .promise .eyebrow { color: #3FCF8E; }
+    .promise__big {
+      font-size: clamp(28px, 4.4vw, 46px);
+      line-height: 1.18; letter-spacing: -0.02em; font-weight: 700;
+      margin: 0 auto 22px; max-width: 17ch; color: var(--off);
+    }
+    .promise__big em { font-style: normal; color: #3FCF8E; }
+    .promise__split {
+      display: grid; grid-template-columns: 1fr; gap: 16px;
+      max-width: 720px; margin: 38px auto 0;
+    }
+    @media (min-width: 640px) { .promise__split { grid-template-columns: 1fr 1fr; } }
+    .promise__cell {
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius); padding: 26px 24px; text-align: left;
+      background: rgba(255,255,255,0.03);
+    }
+    .promise__cell .mono {
+      font-size: 12px; color: #3FCF8E; letter-spacing: 0.06em; text-transform: uppercase;
+      display: block; margin-bottom: 10px;
+    }
+    .promise__cell strong { display: block; font-size: 20px; color: var(--off); margin-bottom: 6px; font-weight: 700; }
+    .promise__cell p { margin: 0; font-size: 14.5px; color: rgba(250,250,247,0.74); }
+
+    /* Dor (warm) */
+    .dor { background: var(--warm); }
+    .dor + section, section + .dor { border-top: 1px solid var(--line-warm); }
+    .dor .s-lead { color: #6b6354; }
+    .dor__quote {
+      font-size: clamp(20px,2.7vw,27px); line-height: 1.42; font-weight: 600;
+      letter-spacing: -0.015em; color: var(--ink); margin: 0; max-width: 28ch;
+      padding-left: 22px; border-left: 3px solid var(--green);
+    }
+    .dor__quote em { font-style: normal; color: var(--green); }
+
+    /* Once block */
+    .once__grid { display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center; }
+    @media (min-width: 880px) { .once__grid { grid-template-columns: 1fr 1fr; gap: 56px; } }
+    .once__cards { display: grid; gap: 16px; }
+    .once__card {
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--off); padding: 24px 26px;
+      display: flex; gap: 18px; align-items: flex-start;
+    }
+    .once__icon {
+      width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+      background: var(--green-soft); color: var(--green);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .once__card h3 { margin: 0 0 4px; font-size: 17px; font-weight: 600; }
+    .once__card .mono { font-size: 12px; color: var(--green); display: block; margin-bottom: 8px; letter-spacing: 0.04em; }
+    .once__card p { margin: 0; font-size: 14px; color: var(--steel); }
+
+    /* Steps */
+    .steps { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 640px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1000px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+    .step {
+      padding: 26px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--off);
+    }
+    .step__n {
+      font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 700;
+      color: var(--off); background: var(--green);
+      width: 28px; height: 28px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .step h3 { font-size: 17px; line-height: 1.3; margin: 0 0 8px; font-weight: 600; }
+    .step p { font-size: 14px; color: var(--steel); margin: 0; }
+    .step--human { border-color: rgba(13,127,98,0.45); background: var(--green-soft); }
+
+    /* Entregáveis */
+    .deliv__grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 640px) { .deliv__grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 940px) { .deliv__grid { grid-template-columns: repeat(3, 1fr); } }
+    .deliv {
+      padding: 24px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--off);
+    }
+    .deliv__check {
+      width: 26px; height: 26px; border-radius: 7px; margin-bottom: 14px;
+      background: var(--green); color: var(--off);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .deliv h3 { font-size: 16.5px; margin: 0 0 6px; font-weight: 600; }
+    .deliv p { font-size: 13.5px; color: var(--steel); margin: 0; }
+
+    /* Compliance */
+    .compliance { background: var(--soft); }
+    .compliance__inner {
+      display: grid; grid-template-columns: 1fr; gap: 36px; align-items: start;
+    }
+    @media (min-width: 880px) { .compliance__inner { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 60px; } }
+    .compliance__list { list-style: none; padding: 0; margin: 0; }
+    .compliance__list li {
+      position: relative; padding: 14px 0 14px 34px;
+      font-size: 15.5px; color: var(--ink); border-bottom: 1px solid var(--line);
+    }
+    .compliance__list li:last-child { border-bottom: none; }
+    .compliance__list li::before {
+      content: ""; position: absolute; left: 0; top: 16px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--green-soft);
+      box-shadow: inset 0 0 0 1.5px var(--green);
+    }
+    .compliance__list li::after {
+      content: ""; position: absolute; left: 6px; top: 21px;
+      width: 6px; height: 3.5px;
+      border-left: 1.6px solid var(--green); border-bottom: 1.6px solid var(--green);
+      transform: rotate(-45deg);
+    }
+
+    /* Packs */
+    .packs { background: var(--ink); color: var(--off); }
+    .packs .eyebrow { color: #3FCF8E; }
+    .packs .s-title { color: var(--off); }
+    .packs .s-lead { color: rgba(250,250,247,0.7); }
+    .packs__grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 720px) { .packs__grid { grid-template-columns: repeat(2, 1fr); } }
+    .pack {
+      padding: 34px 30px; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius); background: rgba(255,255,255,0.03);
+      display: flex; flex-direction: column;
+    }
+    .pack--featured { border-color: var(--green); background: rgba(13,127,98,0.1); }
+    .pack__name {
+      font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: #3FCF8E;
+      letter-spacing: 0.06em; margin-bottom: 12px; text-transform: uppercase;
+    }
+    .pack h3 { font-size: 23px; line-height: 1.2; margin: 0 0 8px; color: var(--off); font-weight: 700; }
+    .pack__for { font-size: 13.5px; color: rgba(250,250,247,0.6); margin-bottom: 22px; }
+    .pack ul { list-style: none; padding: 0; margin: 0 0 26px; flex: 1; }
+    .pack li {
+      position: relative; padding: 8px 0 8px 24px; font-size: 14px;
+      color: rgba(250,250,247,0.85); line-height: 1.45;
+    }
+    .pack li::before { content: ""; position: absolute; left: 0; top: 14px; width: 14px; height: 1.5px; background: var(--green); }
+    .pack__note {
+      margin-top: 26px; text-align: center; font-size: 13.5px; color: rgba(250,250,247,0.6);
+    }
+    .pack__note a { color: #3FCF8E; }
+
+    /* CTA final */
+    .cta-final { background: var(--ink); color: var(--off); text-align: center; }
+    .cta-final .eyebrow { color: #3FCF8E; }
+    .cta-final h2 {
+      font-size: clamp(27px,4vw,42px); line-height: 1.16; margin: 0 auto 16px;
+      color: var(--off); max-width: 20ch; letter-spacing: -0.018em;
+    }
+    .cta-final p { color: rgba(250,250,247,0.74); font-size: 17.5px; margin: 0 auto 32px; max-width: 52ch; }
+    .cta-final__ctas { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+    /* Footer */
+    .footer {
+      background: var(--ink); color: rgba(250,250,247,0.7);
+      border-top: 1px solid rgba(255,255,255,0.08); padding: 38px 0; font-size: 14px;
+    }
+    .footer__inner { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+    @media (min-width: 720px) { .footer__inner { flex-direction: row; justify-content: space-between; align-items: center; } }
+    .footer__logo img { height: 22px; }
+    .footer__meta { display: flex; flex-direction: column; gap: 4px; }
+    @media (min-width: 720px) { .footer__meta { text-align: right; } }
+    .footer a { color: var(--off); }
+    .footer__links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
+    .footer__links a { color: rgba(250,250,247,0.7); font-size: 12.5px; text-decoration: underline; text-underline-offset: 3px; }
+    .footer__links a:hover { color: var(--off); }
+
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
+      border-radius: 50%; background: #25d366; color: white;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 60; transition: transform var(--transition);
+    }
+    .wa-float:hover { transform: scale(1.06); color: white; }
+  </style>
+
+  <!-- Google tag (gtag.js) — FF.AI Google Ads AW-18172890851 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18172890851');
+  </script>
+  <!-- /Google tag -->
+
+  <!-- Meta Pixel — FF.AI -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1724483235588497');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1724483235588497&ev=PageView&noscript=1"/></noscript>
+  <!-- /Meta Pixel -->
+</head>
+<body>
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- NAVBAR -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="/" class="nav__logo" aria-label="FF.AI — página inicial"><span>FF</span><span class="dot">.</span><span>AI</span></a>
+      <nav class="nav__links">
+        <a href="/#solucoes">O ecossistema</a>
+        <a href="/atendimento">FF.AI Atendimento</a>
+        <a href="#planos">Planos</a>
+      </nav>
+      <a href="/diagnostico" class="btn btn--primary btn--sm">Diagnóstico gratuito</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="container hero__container">
+      <div class="hero__content">
+        <div class="crumb reveal"><a href="/">FF.AI</a> · <span>Presença</span></div>
+        <span class="pill reveal">Produto 02 do ecossistema</span>
+        <h1 class="reveal d1">Sua autoridade no Instagram, no <em>piloto automático</em>.</h1>
+        <p class="hero__sub reveal d2">
+          Você sabe que precisa estar no Instagram. Você só não tem tempo — nem vontade — de virar produtor de conteúdo. O FF.AI Presença cria o seu clone digital e produz o conteúdo do mês inteiro no seu lugar. <strong>Você revisa pelo celular e aprova. Mais nada.</strong>
+        </p>
+        <div class="hero__ctas reveal d2">
+          <a href="/diagnostico" class="btn btn--primary btn--lg">Agendar diagnóstico gratuito</a>
+          <a href="#como" class="btn btn--ghost btn--lg">Como funciona</a>
+        </div>
+        <div class="hero__meta reveal d3">
+          <div class="hero__meta-item"><strong>0 min</strong><span>do seu tempo gravando</span></div>
+          <div class="hero__meta-item"><strong>30 dias</strong><span>até o 1º lote no ar</span></div>
+          <div class="hero__meta-item"><strong>100%</strong><span>aprovação humana</span></div>
+        </div>
+      </div>
+
+      <div class="hero__visual reveal d2">
+        <figure class="hero__video">
+          <span class="hero__video-badge">100% IA</span>
+          <video controls playsinline preload="metadata" poster="/assets/ffai-presenca-poster.jpg">
+            <source src="/assets/ffai-presenca-video.mp4" type="video/mp4" />
+            Seu navegador não reproduz este vídeo.
+            <a href="/assets/ffai-presenca-video.mp4">Abra o arquivo aqui.</a>
+          </video>
+        </figure>
+        <p class="hero__video-cap">Vídeo gerado por IA — imagem e voz clonadas do Dr. Fábio.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOR -->
+  <section class="dor" id="dor">
+    <div class="container">
+      <span class="eyebrow reveal">Por que isso existe</span>
+      <p class="dor__quote reveal d1">
+        "O colega com metade da sua técnica tem o triplo dos seus seguidores — e a agenda cheia por causa disso. Não é talento. É <em>constância</em>. E constância é a única coisa que um médico ocupado não consegue manter sozinho."
+      </p>
+    </div>
+  </section>
+
+  <!-- PROMESSA -->
+  <section class="promise" id="promessa">
+    <div class="container">
+      <span class="eyebrow reveal">A promessa</span>
+      <p class="promise__big reveal d1">Produção <em>100% por IA</em>. Aprovação <em>100% sua</em>.</p>
+      <p class="s-lead reveal d1" style="color: rgba(250,250,247,0.74); margin: 0 auto; max-width: 56ch;">
+        A inteligência artificial faz o trabalho pesado — pauta, roteiro, avatar, narração, edição. A decisão final é sempre do médico. Nada é publicado sem o seu aval.
+      </p>
+      <div class="promise__split">
+        <div class="promise__cell reveal d1">
+          <span class="mono">A IA faz</span>
+          <strong>Toda a produção</strong>
+          <p>Pensa a pauta do mês, escreve o roteiro na sua voz, gera o avatar e a narração, edita o vídeo e prepara legenda e arte.</p>
+        </div>
+        <div class="promise__cell reveal d2">
+          <span class="mono">Você faz</span>
+          <strong>Só a aprovação</strong>
+          <p>Recebe o lote pronto, revisa pelo celular, ajusta o que quiser e aprova. Minutos por semana — não horas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA — clonagem -->
+  <section class="once" id="como">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">Como funciona · parte 1</span>
+        <h2 class="s-title reveal">Uma única gravação. Depois, nunca mais.</h2>
+        <p class="s-lead reveal d1">
+          Para criar o seu clone digital, precisamos de você uma vez só. A partir desse material, geramos um avatar e uma voz idênticos aos seus — e eles passam a trabalhar sem você.
+        </p>
+      </div>
+      <div class="once__grid">
+        <div class="once__cards">
+          <div class="once__card reveal">
+            <div class="once__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+            </div>
+            <div>
+              <span class="mono">Etapa única · áudio</span>
+              <h3>2 horas de voz, em alta qualidade</h3>
+              <p>Uma sessão de gravação de voz — de preferência em estúdio ou com microfone bom. É o que dá à IA a sua entonação real.</p>
+            </div>
+          </div>
+          <div class="once__card reveal d1">
+            <div class="once__icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            </div>
+            <div>
+              <span class="mono">Etapa única · vídeo</span>
+              <h3>1 hora de vídeo, para o avatar</h3>
+              <p>Uma gravação de vídeo sua, a partir da qual construímos o avatar digital. Feito isso, você não precisa mais aparecer na frente da câmera.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal d1">
+          <h3 style="font-size:21px; margin:0 0 12px; letter-spacing:-0.01em;">Seu clone digital, pronto para trabalhar.</h3>
+          <p style="color:var(--steel); margin:0 0 16px; font-size:15.5px;">
+            Avatar e voz são criados com a mesma stack que já roda no Instagram da própria FF.AI — HeyGen, ElevenLabs e edição automatizada. Tecnologia validada na prática, antes de chegar até você.
+          </p>
+          <p style="color:var(--steel); margin:0; font-size:15.5px;">
+            A partir daí, o seu clone grava quantos vídeos forem necessários, no seu rosto e na sua voz, sem nunca te tirar do centro cirúrgico.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA — ciclo mensal -->
+  <section class="cycle" id="ciclo">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">Como funciona · parte 2</span>
+        <h2 class="s-title reveal">Depois, todo mês roda sozinho.</h2>
+        <p class="s-lead reveal d1">Um ciclo de produção orquestrado por agentes de IA. Você entra só no passo da aprovação.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step__n">1</div>
+          <h3>Pauta estratégica</h3>
+          <p>Um agente monta o calendário do mês a partir dos seus pilares de conteúdo e do que mais engajou.</p>
+        </div>
+        <div class="step reveal d1">
+          <div class="step__n">2</div>
+          <h3>Produção 100% IA</h3>
+          <p>Roteiro escrito na sua voz, avatar e narração gerados, vídeo editado, arte e legenda prontas.</p>
+        </div>
+        <div class="step reveal d2">
+          <div class="step__n">3</div>
+          <h3>Filtro de compliance</h3>
+          <p>Cada peça passa por uma checagem de publicidade médica antes de chegar até você.</p>
+        </div>
+        <div class="step step--human reveal d3">
+          <div class="step__n">4</div>
+          <h3>Você aprova · publica · mede</h3>
+          <p>Revisa o lote pelo celular e aprova. A publicação é agendada e você recebe o relatório do mês.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTREGÁVEIS -->
+  <section class="deliv" id="entregaveis">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">O que você recebe</span>
+        <h2 class="s-title reveal">Todo mês, um Instagram que não para.</h2>
+        <p class="s-lead reveal d1">Conteúdo pronto, consistente e com a sua cara — entregue como um lote para a sua aprovação.</p>
+      </div>
+      <div class="deliv__grid">
+        <div class="deliv reveal">
+          <div class="deliv__check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Pacote mensal de peças</h3>
+          <p>Um volume fixo de posts e Reels por mês, definido pelo seu plano.</p>
+        </div>
+        <div class="deliv reveal d1">
+          <div class="deliv__check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Reels com o seu avatar</h3>
+          <p>Vídeos no seu rosto e na sua voz, editados automaticamente — sem você gravar.</p>
+        </div>
+        <div class="deliv reveal d2">
+          <div class="deliv__check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Carrossel e post estático</h3>
+          <p>Arte aplicada na sua identidade visual, com copy, legenda e hashtags.</p>
+        </div>
+        <div class="deliv reveal">
+          <div class="deliv__check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Calendário editorial</h3>
+          <p>Pilares de conteúdo e cadência de publicação pensados de forma estratégica.</p>
+        </div>
+        <div class="deliv reveal d1">
+          <div class="deliv__check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Painel de aprovação</h3>
+          <p>Você revisa, comenta e aprova o lote inteiro pelo celular, em minutos.</p>
+        </div>
+        <div class="deliv reveal d2">
+          <div class="deliv__check" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Relatório de performance</h3>
+          <p>Alcance, crescimento e engajamento — o que funcionou retroalimenta a pauta seguinte.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPLIANCE -->
+  <section class="compliance" id="compliance">
+    <div class="container">
+      <div class="compliance__inner">
+        <div class="reveal">
+          <span class="eyebrow">Responsabilidade e CFM</span>
+          <h2 class="s-title">Publicidade médica tem regras. O fluxo já nasce dentro delas.</h2>
+          <p class="s-lead">
+            O conteúdo publicado é de responsabilidade do médico. Por isso o FF.AI Presença foi desenhado para que a IA nunca publique nada sozinha — e para que cada peça já chegue até você dentro das normas.
+          </p>
+        </div>
+        <ul class="compliance__list reveal d1">
+          <li>Filtro automático de publicidade médica em cada peça, antes da sua revisão.</li>
+          <li>Aprovação humana obrigatória: nada vai ao ar sem o aval do médico.</li>
+          <li>Sem promessa de resultado, sensacionalismo ou antes-e-depois indevido.</li>
+          <li>Uso de IA declarado de forma transparente — posiciona você como médico inovador, não esconde.</li>
+          <li>Alinhado ao espírito da Resolução CFM 2.454/2026 sobre governança de IA.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section class="packs" id="planos">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">Planos</span>
+        <h2 class="s-title reveal">Dois planos. Um para o médico, um para a clínica.</h2>
+        <p class="s-lead reveal d1">Setup do clone digital + mensalidade de produção. O valor exato sai do diagnóstico, conforme volume e número de médicos.</p>
+      </div>
+      <div class="packs__grid">
+        <article class="pack reveal">
+          <div class="pack__name">FF.AI Presença · Solo</div>
+          <h3>Para o médico</h3>
+          <div class="pack__for">O profissional que é a própria marca.</div>
+          <ul>
+            <li>Clone digital de um médico (avatar + voz)</li>
+            <li>Pacote mensal de conteúdo para um perfil</li>
+            <li>Calendário editorial e pilares de conteúdo</li>
+            <li>Painel de aprovação pelo celular</li>
+            <li>Relatório mensal de performance</li>
+          </ul>
+          <a href="/diagnostico" class="btn btn--light">Começar pelo diagnóstico</a>
+        </article>
+        <article class="pack pack--featured reveal d1">
+          <div class="pack__name">FF.AI Presença · Clínica</div>
+          <h3>Para a clínica</h3>
+          <div class="pack__for">Vários médicos e o perfil institucional.</div>
+          <ul>
+            <li>Clones digitais de múltiplos médicos</li>
+            <li>Conteúdo para os perfis dos especialistas + conta da clínica</li>
+            <li>Volume mensal ampliado</li>
+            <li>Conteúdo que aponta direto para o WhatsApp da clínica</li>
+            <li>Calendário, painel de aprovação e relatório consolidado</li>
+          </ul>
+          <a href="/diagnostico" class="btn btn--primary">Começar pelo diagnóstico</a>
+        </article>
+      </div>
+      <p class="pack__note reveal">
+        Já pensa em conteúdo <em>e</em> atendimento? O <a href="/#solucoes">FF.AI 360</a> reúne os dois produtos em um só funil.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final" id="contato">
+    <div class="container">
+      <span class="eyebrow reveal">O primeiro passo</span>
+      <h2 class="reveal">Em 30 dias, seu Instagram volta a se mexer.</h2>
+      <p class="reveal d1">
+        30 minutos com o Dr. Fábio Faleiro. A gente avalia o seu caso, define o plano certo e, a partir da gravação inicial, o primeiro lote de conteúdo vai ao ar em até 30 dias.
+      </p>
+      <div class="cta-final__ctas reveal d1">
+        <a href="/diagnostico" class="btn btn--primary btn--lg">Agendar diagnóstico gratuito</a>
+        <a href="/atendimento" class="btn btn--light btn--lg">Conhecer o FF.AI Atendimento</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__logo">
+        <img src="/assets/ffai-wordmark-dark.svg" alt="FF.AI" />
+      </div>
+      <div class="footer__meta">
+        <div>FF.AI · o ecossistema de IA da sua clínica</div>
+        <div>contato@ffai.ia.br</div>
+        <div>© 2026 — Todos os direitos reservados</div>
+        <div class="footer__links">
+          <a href="/termos">Termos de Uso</a>
+          <a href="/privacidade">Política de Privacidade</a>
+          <a href="/diagnostico-termos">Termos do Diagnóstico</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20do%20site%20FF.AI%20e%20quero%20saber%20sobre%20o%20FF.AI%20Presen%C3%A7a." class="wa-float" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 8) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealEls = document.querySelectorAll('.reveal');
+    if (reduce || !('IntersectionObserver' in window)) {
+      revealEls.forEach(el => el.classList.add('is-visible'));
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(el => io.observe(el));
+    }
+  </script>
+</body>
+</html>
