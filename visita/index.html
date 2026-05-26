@@ -373,6 +373,48 @@
   .reassure .rc h5 { font-size: 0.92rem; font-weight: 700; }
   .reassure .rc p { font-size: 0.84rem; color: var(--text-secondary); margin-top: 4px; }
 
+  /* Proof video — avatar clonado do Dr. Fábio */
+  .proof-tag {
+    margin-top: 36px;
+    text-align: center;
+    font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--sand);
+  }
+  .proof-title {
+    text-align: center;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 800; letter-spacing: -0.015em;
+    margin-top: 6px; margin-bottom: 8px;
+    max-width: 32ch; margin-left: auto; margin-right: auto;
+  }
+  .proof-sub {
+    text-align: center;
+    color: var(--text-secondary); margin-bottom: 22px;
+    max-width: 60ch; margin-left: auto; margin-right: auto;
+    font-size: 0.96rem;
+  }
+  .proof-video {
+    position: relative; width: 100%; max-width: 322px; margin: 0 auto;
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--border-strong); background: var(--text-primary);
+    box-shadow: 0 24px 54px -20px rgba(28, 42, 63, 0.42);
+  }
+  .proof-video video {
+    display: block; width: 100%; aspect-ratio: 9 / 16; background: var(--text-primary);
+  }
+  .proof-badge {
+    position: absolute; top: 12px; right: 12px; z-index: 2;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 11px; background: rgba(28, 42, 63, 0.92); color: #faf9f4;
+    border-radius: 999px; font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; pointer-events: none;
+  }
+  .proof-badge::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%; background: #3FCF8E;
+  }
+  .proof-cap {
+    margin: 14px auto 0; max-width: 322px; text-align: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.5; color: var(--text-muted);
+  }
+
   /* Chat compare */
   .chat-compare-tag {
     margin-top: 36px;
@@ -706,6 +748,19 @@
       <p>"Conteúdo médico não é vaidade — é o filtro silencioso por onde o paciente premium decide. Hoje ele abre o Instagram <b>antes do Google</b>. Quem não está lá, simplesmente não existe na decisão. <b>Mas o problema nunca foi falta de talento do médico — é que produzir é um trabalho de outra pessoa.</b> Gravar, escrever roteiro, editar, postar — a hora do cirurgião vale demais pra ser gasta em iluminação de vídeo. A pergunta certa não é 'como eu vou produzir mais?' — é 'como o conteúdo sai com a minha cara, sem eu ter que produzir?'."</p>
       <div class="sig">Dr. Fábio Faleiro · publica há +2 anos no Instagram da própria clínica, conteúdo produzido por IA</div>
     </div>
+
+    <div class="proof-tag">A pergunta que todo médico faz</div>
+    <h3 class="proof-title">"Mas avatar de IA não fica artificial?" Vê com seus próprios olhos:</h3>
+    <p class="proof-sub">O Dr. Fábio Faleiro <b>não gravou este vídeo</b>. A imagem e a voz são clonadas por IA. Quem o conhece pessoalmente não distingue. <b>O conteúdo do Instagram dele há +2 anos é produzido assim.</b></p>
+
+    <figure class="proof-video">
+      <span class="proof-badge">100% IA</span>
+      <video controls playsinline preload="metadata" poster="/assets/ffai-presenca-poster.jpg">
+        <source src="/assets/ffai-presenca-video.mp4" type="video/mp4" />
+        Seu navegador não suporta vídeo. <a href="/assets/ffai-presenca-video.mp4" style="color:var(--cyan-bright);">Abra o arquivo aqui.</a>
+      </video>
+    </figure>
+    <p class="proof-cap">Vídeo gerado por IA — imagem e voz clonadas do Dr. Fábio.<br/>Veja mais exemplos em <a href="https://ffai.ia.br/conteudo" target="_blank" rel="noopener" style="color:var(--cyan-bright);font-family:inherit;">ffai.ia.br/conteudo</a>.</p>
 
     <div class="pain-nav">
       <button class="nav-btn" onclick="showTab(1)">← Pergunta 1</button>
