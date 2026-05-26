@@ -432,6 +432,75 @@
   .meeting-note .b { font-size: 0.93rem; color: var(--text-secondary); }
   .meeting-note .b b { color: var(--text-primary); }
 
+  /* Chat compare */
+  .chat-compare-tag {
+    margin-top: 36px;
+    text-align: center;
+    font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--sand);
+  }
+  .chat-compare-title {
+    text-align: center;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 800; letter-spacing: -0.015em;
+    margin-top: 6px; margin-bottom: 8px;
+    max-width: 32ch; margin-left: auto; margin-right: auto;
+  }
+  .chat-compare-sub {
+    text-align: center;
+    color: var(--text-secondary); margin-bottom: 22px;
+    max-width: 56ch; margin-left: auto; margin-right: auto;
+    font-size: 0.96rem;
+  }
+  .chat-compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+  }
+  .chat-side {
+    border-radius: 14px; padding: 18px;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+  }
+  .chat-side.bad { background: rgba(192,71,58,0.03); border-color: rgba(192,71,58,0.22); }
+  .chat-side.good { background: rgba(13,127,98,0.04); border-color: rgba(13,127,98,0.30); }
+  .ch-head {
+    display: flex; align-items: center; gap: 12px;
+    padding-bottom: 14px; margin-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ch-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .chat-side.bad .ch-avatar { background: rgba(192,71,58,0.14); }
+  .chat-side.good .ch-avatar { background: rgba(13,127,98,0.14); }
+  .ch-name { font-size: 0.94rem; font-weight: 700; color: var(--text-primary); }
+  .ch-tag { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
+  .ch-msg {
+    font-size: 0.86rem; padding: 9px 13px; border-radius: 14px;
+    margin-bottom: 8px; line-height: 1.42; max-width: 92%;
+  }
+  .ch-msg.user {
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    color: var(--text-secondary); border-bottom-left-radius: 4px;
+    align-self: flex-start;
+  }
+  .ch-msg.bot {
+    border-bottom-right-radius: 4px; margin-left: auto;
+    align-self: flex-end;
+  }
+  .chat-side.bad .ch-msg.bot { background: rgba(192,71,58,0.08); border: 1px solid rgba(192,71,58,0.22); color: var(--text-primary); }
+  .chat-side.good .ch-msg.bot { background: rgba(13,127,98,0.08); border: 1px solid rgba(13,127,98,0.28); color: var(--text-primary); }
+  .ch-verdict {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 0.84rem; font-weight: 600; text-align: left;
+  }
+  .ch-verdict .vl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 800; display: block; margin-bottom: 4px; }
+  .chat-side.bad .ch-verdict { color: var(--danger); }
+  .chat-side.good .ch-verdict { color: var(--success); }
+  @media (max-width: 720px) {
+    .chat-compare { grid-template-columns: 1fr; }
+  }
+
   .closing-cta {
     margin-top: 30px; text-align: center;
     background: linear-gradient(160deg, rgba(var(--cyan-rgb),0.10), rgba(var(--sand-rgb),0.06));
@@ -537,7 +606,7 @@
         <ul class="now-list">
           <li><span class="ic pain">!</span><span class="txt">A <b>secretária é o gargalo</b>: lead que chega à noite ou no fim de semana só vê resposta na segunda — e até lá esfriou.</span></li>
           <li><span class="ic pain">!</span><span class="txt"><b>Custo trabalhista crescente</b> (CLT, 13º, férias, rescisão) — e o risco de processo. Um único processo trabalhista pode passar de R$ 70 mil.</span></li>
-          <li><span class="ic pain">!</span><span class="txt">O <b>Instagram parado</b>: você sabe que precisa postar, mas não tem tempo (nem disposição) pra gravar, escrever, editar.</span></li>
+          <li><span class="ic pain">!</span><span class="txt">O <b>Instagram parado</b>: você sabe que precisa, mas <b>gravar, escrever roteiro, editar</b> é trabalho de outra pessoa — não do cirurgião que opera 3x por semana. A hora do médico vale demais pra iluminação de vídeo.</span></li>
           <li><span class="ic pain">!</span><span class="txt">Sem dashboard, sem KPI, sem rastreio de origem: você <b>investe em marketing sem saber o retorno</b>.</span></li>
         </ul>
       </div>
@@ -559,6 +628,55 @@
 
     <div class="quote-strip">
       <p class="q">"Um time de agentes de IA que atende, qualifica e agenda os seus pacientes — e um clone digital seu que cuida da sua presença no Instagram. <b>Você aprova, a IA executa.</b>"</p>
+    </div>
+
+    <div class="chat-compare-tag">A diferença que muda tudo</div>
+    <h3 class="chat-compare-title">"Mas chatbot eu já vi — não funciona." Concordo. Olha por quê:</h3>
+    <p class="chat-compare-sub">Mesma pergunta de paciente, dois cenários: chatbot SaaS genérico (R$ 400/mês, scripts prontos, zero contexto) versus FF.AI, treinada na voz e no protocolo da clínica.</p>
+
+    <div class="chat-compare">
+      <div class="chat-side bad">
+        <div class="ch-head">
+          <span class="ch-avatar">🤖</span>
+          <div>
+            <div class="ch-name">Chatbot SaaS genérico</div>
+            <div class="ch-tag">R$ 400/mês · script pronto · zero contexto</div>
+          </div>
+        </div>
+        <div class="ch-msg user">Olá, gostaria de saber sobre a cirurgia de diástase robótica</div>
+        <div class="ch-msg bot">Olá! Sou o assistente virtual. Para sua segurança, agendamentos são feitos pelo nosso atendimento humano em horário comercial. Posso te ajudar com mais alguma coisa? 😊</div>
+        <div class="ch-msg user">Só queria entender se diástase tem cura sem cirurgia</div>
+        <div class="ch-msg bot">Para questões médicas específicas, recomendamos agendar uma avaliação com um de nossos especialistas. Posso te direcionar ao atendimento?</div>
+        <div class="ch-msg user">[paciente não responde — foi pro Google procurar outro]</div>
+        <div class="ch-verdict">
+          <span class="vl">Resultado</span>
+          Robô. Genérico. Empurra pra "agendar" sem entender nada. Lead some sem deixar rastro.
+        </div>
+      </div>
+
+      <div class="chat-side good">
+        <div class="ch-head">
+          <span class="ch-avatar">💬</span>
+          <div>
+            <div class="ch-name">FF.AI — IA humanizada</div>
+            <div class="ch-tag">Treinada na voz e no protocolo da clínica</div>
+          </div>
+        </div>
+        <div class="ch-msg user">Olá, gostaria de saber sobre a cirurgia de diástase robótica</div>
+        <div class="ch-msg bot">Oi, que bom que veio. Sou a Stella, do time do Dr. Fábio Faleiro. Antes de te falar da cirurgia, posso entender 2 coisas pra te orientar com clareza? <b>(1)</b> Você fez cesárea há quanto tempo? <b>(2)</b> Hoje sente abdômen protuberante mesmo perto do seu peso ideal?</div>
+        <div class="ch-msg user">Cesárea há 4 anos. Abdômen abaulado mesmo magra.</div>
+        <div class="ch-msg bot">Faz sentido investigar diástase mesmo. O Dr. Fábio atende em São Paulo (Albert Einstein) e Goiânia (MaterDei). A primeira conversa é avaliação clínica — sem cobrança. Tenho horário quarta às 14h presencial em GO, ou online qualquer dia. Qual encaixa pra você?</div>
+        <div class="ch-msg user">Quarta GO funciona!</div>
+        <div class="ch-verdict">
+          <span class="vl">Resultado</span>
+          Humana. Específica. Conhece protocolo. Conduz com cuidado clínico. Paciente agenda em 4 mensagens.
+        </div>
+      </div>
+    </div>
+
+    <div class="knot" style="margin-top:24px;">
+      <h4>Por que isso importa pra você</h4>
+      <p>O diferencial da FF.AI <b>não é "ter IA"</b> — quase todo concorrente já tem ou vai ter. É a IA <b>treinada na sua voz, no seu protocolo clínico, no seu jeito de conduzir paciente</b>. É a diferença entre 30 dias de implantação com diagnóstico, KB e governança CFM — e clicar num SaaS que sai com a cara de qualquer outra clínica do Brasil.</p>
     </div>
   </section>
 

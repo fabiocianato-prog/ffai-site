@@ -373,6 +373,75 @@
   .reassure .rc h5 { font-size: 0.92rem; font-weight: 700; }
   .reassure .rc p { font-size: 0.84rem; color: var(--text-secondary); margin-top: 4px; }
 
+  /* Chat compare */
+  .chat-compare-tag {
+    margin-top: 36px;
+    text-align: center;
+    font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--sand);
+  }
+  .chat-compare-title {
+    text-align: center;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 800; letter-spacing: -0.015em;
+    margin-top: 6px; margin-bottom: 8px;
+    max-width: 32ch; margin-left: auto; margin-right: auto;
+  }
+  .chat-compare-sub {
+    text-align: center;
+    color: var(--text-secondary); margin-bottom: 22px;
+    max-width: 56ch; margin-left: auto; margin-right: auto;
+    font-size: 0.96rem;
+  }
+  .chat-compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+  }
+  .chat-side {
+    border-radius: 14px; padding: 18px;
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+  }
+  .chat-side.bad { background: rgba(192,71,58,0.03); border-color: rgba(192,71,58,0.22); }
+  .chat-side.good { background: rgba(13,127,98,0.04); border-color: rgba(13,127,98,0.30); }
+  .ch-head {
+    display: flex; align-items: center; gap: 12px;
+    padding-bottom: 14px; margin-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ch-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .chat-side.bad .ch-avatar { background: rgba(192,71,58,0.14); }
+  .chat-side.good .ch-avatar { background: rgba(13,127,98,0.14); }
+  .ch-name { font-size: 0.94rem; font-weight: 700; color: var(--text-primary); }
+  .ch-tag { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
+  .ch-msg {
+    font-size: 0.86rem; padding: 9px 13px; border-radius: 14px;
+    margin-bottom: 8px; max-width: 90%; line-height: 1.42;
+  }
+  .ch-msg.user {
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    color: var(--text-secondary); border-bottom-left-radius: 4px;
+    align-self: flex-start;
+  }
+  .ch-msg.bot {
+    border-bottom-right-radius: 4px; margin-left: auto;
+    align-self: flex-end; max-width: 92%;
+  }
+  .chat-side.bad .ch-msg.bot { background: rgba(192,71,58,0.08); border: 1px solid rgba(192,71,58,0.22); color: var(--text-primary); }
+  .chat-side.good .ch-msg.bot { background: rgba(13,127,98,0.08); border: 1px solid rgba(13,127,98,0.28); color: var(--text-primary); }
+  .ch-verdict {
+    margin-top: auto; padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 0.84rem; font-weight: 600; text-align: left;
+  }
+  .ch-verdict .vl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 800; display: block; margin-bottom: 4px; }
+  .chat-side.bad .ch-verdict { color: var(--danger); }
+  .chat-side.good .ch-verdict { color: var(--success); }
+  @media (max-width: 720px) {
+    .chat-compare { grid-template-columns: 1fr; }
+  }
+
   .closing-cta {
     margin-top: 30px; text-align: center;
     background: linear-gradient(160deg, rgba(var(--cyan-rgb),0.10), rgba(var(--sand-rgb),0.06));
@@ -543,6 +612,50 @@
       <div class="sig">Dr. Fábio Faleiro · cirurgião digestivo robótico (SP / GO)</div>
     </div>
 
+    <div class="chat-compare-tag">Mas atenção</div>
+    <h3 class="chat-compare-title">Nem toda IA resolve isso. Olha a diferença, no atendimento real:</h3>
+    <p class="chat-compare-sub">Mesma pergunta de paciente, em dois cenários: chatbot SaaS genérico (R$ 400/mês, scripts prontos) versus FF.AI, treinada na voz e no protocolo da clínica.</p>
+
+    <div class="chat-compare">
+      <div class="chat-side bad">
+        <div class="ch-head">
+          <span class="ch-avatar">🤖</span>
+          <div>
+            <div class="ch-name">Chatbot SaaS genérico</div>
+            <div class="ch-tag">R$ 400/mês · script pronto · zero contexto</div>
+          </div>
+        </div>
+        <div class="ch-msg user">Olá, gostaria de saber sobre a cirurgia de diástase robótica</div>
+        <div class="ch-msg bot">Olá! Sou o assistente virtual. Para sua segurança, agendamentos são feitos pelo nosso atendimento humano em horário comercial. Posso te ajudar com mais alguma coisa? 😊</div>
+        <div class="ch-msg user">Só queria entender se diástase tem cura sem cirurgia</div>
+        <div class="ch-msg bot">Para questões médicas específicas, recomendamos agendar uma avaliação com um de nossos especialistas. Posso te direcionar ao atendimento?</div>
+        <div class="ch-msg user">[paciente não responde — foi pro Google procurar outro]</div>
+        <div class="ch-verdict">
+          <span class="vl">Resultado</span>
+          Robô. Genérico. Empurra pra "agendar" sem entender nada. Lead some sem deixar rastro.
+        </div>
+      </div>
+
+      <div class="chat-side good">
+        <div class="ch-head">
+          <span class="ch-avatar">💬</span>
+          <div>
+            <div class="ch-name">FF.AI — IA humanizada</div>
+            <div class="ch-tag">Treinada na voz e no protocolo da clínica</div>
+          </div>
+        </div>
+        <div class="ch-msg user">Olá, gostaria de saber sobre a cirurgia de diástase robótica</div>
+        <div class="ch-msg bot">Oi, que bom que veio. Sou a Stella, do time do Dr. Fábio Faleiro. Antes de te falar da cirurgia, posso entender 2 coisas pra te orientar com clareza? <b>(1)</b> Você fez cesárea há quanto tempo? <b>(2)</b> Hoje sente abdômen protuberante mesmo perto do seu peso ideal?</div>
+        <div class="ch-msg user">Cesárea há 4 anos. Abdômen abaulado mesmo magra.</div>
+        <div class="ch-msg bot">Faz sentido investigar diástase mesmo. O Dr. Fábio atende em São Paulo (Albert Einstein) e Goiânia (MaterDei). A primeira conversa é avaliação clínica — sem cobrança. Tenho horário quarta às 14h presencial em GO, ou online qualquer dia. Qual encaixa pra você?</div>
+        <div class="ch-msg user">Quarta GO funciona!</div>
+        <div class="ch-verdict">
+          <span class="vl">Resultado</span>
+          Humana. Específica. Conhece protocolo. Conduz com cuidado clínico. Paciente agenda em 4 mensagens.
+        </div>
+      </div>
+    </div>
+
     <div class="pain-nav">
       <button class="nav-btn" onclick="showTab(0)">← Voltar pras 4 perguntas</button>
       <button class="nav-btn" onclick="showTab(2)">Pergunta 2: a presença digital →</button>
@@ -562,36 +675,36 @@
     </div>
 
     <ul class="sig-list">
-      <li><span class="ic pain">!</span><span class="txt"><b>O último post foi há mais de 2 semanas.</b> O penúltimo, há 1 mês. Você sabe que precisa, mas não tem tempo (nem disposição) pra gravar.</span></li>
-      <li><span class="ic pain">!</span><span class="txt">Toda vez que tenta retomar, <b>cria 2 posts</b>, sente que está "fazendo de novo", e some por mais 3 semanas. Ciclo conhecido.</span></li>
-      <li><span class="ic pain">!</span><span class="txt">Já contratou agência ou social media — <b>o conteúdo saiu sem a sua cara</b>, genérico, e você não se reconheceu. Cancelou.</span></li>
-      <li><span class="ic pain">!</span><span class="txt">O paciente que pesquisa o seu nome <b>vê um perfil desatualizado</b> e fica com a impressão de "será que está atendendo ainda?".</span></li>
+      <li><span class="ic pain">!</span><span class="txt"><b>O último post foi há mais de 2 semanas.</b> O penúltimo, há 1 mês. Você sabe que precisa, mas <b>gravar, escrever, editar</b> é um trabalho inteiro — e quem tem tempo de cirurgião pra isso?</span></li>
+      <li><span class="ic pain">!</span><span class="txt">Toda vez que tenta retomar, <b>grava 2-3 vídeos no celular numa terça-feira corrida</b>, posta, sente que ficou ruim, e some por mais 3 semanas. Ciclo conhecido.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">Já contratou agência ou social media — pagou R$ 4-8k/mês, <b>o conteúdo saiu sem a sua cara</b>, genérico, e você não se reconheceu. Cancelou.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">A real: <b>produzir conteúdo médico de qualidade exige roteiro, gravação, iluminação, edição, legenda, agendamento</b>. É trabalho de uma pessoa de tempo integral — não do cirurgião que opera 3x na semana.</span></li>
     </ul>
 
     <div class="section-head" style="margin-top:30px;">
       <span class="tag">O custo</span>
-      <h2>O que a invisibilidade digital custa hoje</h2>
+      <h2>O que produzir (ou não produzir) custa hoje</h2>
     </div>
 
     <div class="cost-grid">
       <div class="cost">
+        <div class="ck">Tempo do médico</div>
+        <div class="cv">Produzir 4-8 posts/mês custa <b>10-15h do seu tempo</b>. Pra cirurgião cuja hora vale R$ 1.500+, é <b>R$ 15-22 mil/mês</b> de custo de oportunidade.</div>
+      </div>
+      <div class="cost">
         <div class="ck">Autoridade evaporando</div>
-        <div class="cv"><b>Médico que não publica é convidado.</b> Quem publica regularmente é referência. O paciente premium escolhe a referência.</div>
+        <div class="cv"><b>Médico que não publica é convidado.</b> Quem publica regularmente vira referência. O paciente premium escolhe a referência.</div>
       </div>
       <div class="cost">
-        <div class="ck">CPL inflado</div>
-        <div class="cv">Quem não tem orgânico paga <b>mais caro no anúncio</b> — porque depende 100% de mídia paga pra existir digitalmente.</div>
-      </div>
-      <div class="cost">
-        <div class="ck">Agência ou social media</div>
-        <div class="cv">Agência boa: <b>R$ 4k a R$ 8k/mês</b>, e mesmo assim o conteúdo dificilmente sai com a sua voz e o seu posicionamento.</div>
+        <div class="ck">Agência sem sua voz</div>
+        <div class="cv">Agência boa: <b>R$ 4-8k/mês</b>, e ainda assim o conteúdo sai genérico — porque ninguém clona a sua autoridade só assistindo a 1 call por mês.</div>
       </div>
     </div>
 
     <div class="insight">
       <h4>O insight</h4>
-      <p>"Conteúdo médico não é vaidade — é o filtro silencioso por onde o paciente premium decide. Hoje ele abre o Instagram <b>antes do Google</b>. Quem não está lá, simplesmente não existe na decisão. E o problema não é falta de talento do médico: é que <b>gravar, escrever, editar e publicar</b> é um trabalho de outra pessoa, não do cirurgião."</p>
-      <div class="sig">Dr. Fábio Faleiro</div>
+      <p>"Conteúdo médico não é vaidade — é o filtro silencioso por onde o paciente premium decide. Hoje ele abre o Instagram <b>antes do Google</b>. Quem não está lá, simplesmente não existe na decisão. <b>Mas o problema nunca foi falta de talento do médico — é que produzir é um trabalho de outra pessoa.</b> Gravar, escrever roteiro, editar, postar — a hora do cirurgião vale demais pra ser gasta em iluminação de vídeo. A pergunta certa não é 'como eu vou produzir mais?' — é 'como o conteúdo sai com a minha cara, sem eu ter que produzir?'."</p>
+      <div class="sig">Dr. Fábio Faleiro · publica há +2 anos no Instagram da própria clínica, conteúdo produzido por IA</div>
     </div>
 
     <div class="pain-nav">
