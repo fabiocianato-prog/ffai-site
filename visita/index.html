@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  VISITA HIORRANA · Diagnóstico de Dores FF.AI — 1ª etapa do processo
+  ============================================================================
+  Peça MASTER para a visita presencial da Hiorrana em clínicas premium.
+
+  OBJETIVO ÚNICO: criar tensão sobre 4 dores universais → agendar a call de
+  30 min com Dr. Fábio + Hiorrana (a 2ª etapa do funil).
+
+  O QUE ELA NÃO FAZ:
+  - Não apresenta produto (Atendimento/Presença/360).
+  - Não fala preço.
+  - Não mostra solução técnica.
+  - Não pede assinatura, contrato ou compromisso.
+
+  USO:
+  - Abrir em tablet ou notebook durante a visita.
+  - OU mandar o link pelo WhatsApp depois da visita pro médico "ruminar".
+  - Última aba = CTA pra agendar a call de 30 min.
+
+  Identidade visual FF.AI calibrada — NÃO alterar o <style>.
+  ============================================================================
+-->
+<html lang="pt-BR" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<script>document.documentElement.classList.replace('no-js','js');</script>
+<title>FF.AI · 4 perguntas antes de qualquer solução</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-primary: #faf9f4;
+    --bg-elevated: #f4f5f2;
+    --bg-surface: #ffffff;
+    --bg-hover: #f1ede4;
+    --border: rgba(28,42,63,0.10);
+    --border-strong: rgba(28,42,63,0.20);
+
+    --text-primary: #1c2a3f;
+    --text-secondary: #3a4a63;
+    --text-muted: #5f6b7d;
+
+    --cyan: #0d7f62;
+    --cyan-bright: #0a6650;
+    --cyan-rgb: 13,127,98;
+    --sand: #8a7649;
+    --sand-rgb: 138,118,73;
+
+    --success: #0d7f62;
+    --warning: #c08a2e;
+    --danger: #c0473a;
+
+    --maxw: 1080px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(var(--cyan-rgb),0.22); }
+  a { color: inherit; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,249,244,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: var(--maxw); margin: 0 auto;
+    padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-mark {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--cyan), #0a5f49);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 14px; color: #faf9f4;
+  }
+  .logo-text { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+  .logo-text .in { color: var(--cyan); }
+  .logo-text .sub { display: block; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10px; color: var(--text-muted); letter-spacing: .14em; }
+  .topbar-cta {
+    font-size: 13px; font-weight: 600; padding: 9px 16px;
+    border-radius: 100px; background: var(--cyan); color: #faf9f4;
+    text-decoration: none; white-space: nowrap;
+    transition: filter .2s ease, transform .2s ease;
+  }
+  .topbar-cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+  .hero {
+    max-width: var(--maxw); margin: 0 auto;
+    padding: 56px 28px 36px;
+    position: relative;
+  }
+  .hero::before {
+    content: ""; position: absolute; top: -40px; left: 50%;
+    width: 720px; height: 420px; transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(var(--cyan-rgb),0.10), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .hero > * { position: relative; z-index: 1; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--cyan-bright);
+    background: rgba(var(--cyan-rgb),0.09);
+    border: 1px solid rgba(var(--cyan-rgb),0.22);
+    padding: 6px 13px; border-radius: 100px; margin-bottom: 22px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+  .hero h1 {
+    font-size: clamp(1.9rem, 4.4vw, 3rem);
+    font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;
+    max-width: 22ch;
+  }
+  .hero h1 .hl { color: var(--cyan-bright); }
+  .hero .lead {
+    margin-top: 22px; font-size: 1.1rem; color: var(--text-secondary);
+    max-width: 62ch;
+  }
+  .hero .calm {
+    margin-top: 14px; font-size: 0.95rem; color: var(--text-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .tabs-wrap { max-width: var(--maxw); margin: 36px auto 0; padding: 0 28px; }
+  .tabs {
+    display: flex; gap: 4px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    appearance: none; background: none; border: none; cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    color: var(--text-muted); padding: 13px 16px;
+    border-bottom: 2px solid transparent; transition: color .2s ease;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .tab:hover { color: var(--text-secondary); }
+  .tab.active { color: var(--text-primary); border-bottom-color: var(--cyan); }
+  .tab .num {
+    font-size: 11px; width: 19px; height: 19px; border-radius: 50%;
+    background: var(--bg-hover); color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center; font-weight: 700;
+  }
+  .tab.active .num { background: var(--cyan); color: #faf9f4; }
+
+  .panel-area { max-width: var(--maxw); margin: 0 auto; padding: 40px 28px 80px; }
+  .panel { display: block; animation: fade .35s ease; }
+  .js .panel { display: none; }
+  .js .panel.active { display: block; }
+  .no-js .tabs-wrap { display: none; }
+  .no-js .panel + .panel { margin-top: 36px; padding-top: 36px; border-top: 1px solid var(--border); }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-head { margin-bottom: 26px; }
+  .section-head .tag {
+    font-size: 12px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--sand);
+  }
+  .section-head h2 {
+    font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.015em;
+    margin-top: 6px; max-width: 24ch;
+  }
+  .section-head p { margin-top: 12px; color: var(--text-secondary); max-width: 64ch; font-size: 1.02rem; }
+
+  .card {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px;
+  }
+  .card.glow { box-shadow: 0 0 0 1px rgba(var(--cyan-rgb),0.18), 0 18px 50px -30px rgba(var(--cyan-rgb),0.55); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+  /* Overview — 4 perguntas */
+  .qcard {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px;
+    position: relative; overflow: hidden;
+    transition: border-color .2s ease, transform .2s ease;
+    cursor: pointer; text-align: left;
+    appearance: none; font-family: inherit; width: 100%;
+  }
+  .qcard:hover { border-color: var(--cyan); transform: translateY(-3px); }
+  .qcard::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: linear-gradient(180deg, var(--cyan), #0a5f49);
+  }
+  .qcard .qnum {
+    font-size: 11px; font-weight: 800; letter-spacing: .08em; color: var(--cyan-bright);
+    background: rgba(var(--cyan-rgb),0.10); padding: 4px 10px; border-radius: 6px;
+    display: inline-block; text-transform: uppercase;
+  }
+  .qcard .qtitle {
+    font-size: 1.1rem; font-weight: 800; margin-top: 12px; line-height: 1.25;
+    color: var(--text-primary);
+  }
+  .qcard .qsub {
+    margin-top: 10px; font-size: 0.92rem; color: var(--text-secondary);
+  }
+  .qcard .qarrow {
+    margin-top: 16px; font-size: 0.84rem; font-weight: 600; color: var(--cyan-bright);
+  }
+
+  /* Pain anatomy */
+  .pain-anchor {
+    background: linear-gradient(160deg, rgba(192,71,58,0.06), rgba(var(--sand-rgb),0.04));
+    border: 1px solid rgba(192,71,58,0.18);
+    border-radius: 14px; padding: 26px 24px; margin-bottom: 22px;
+  }
+  .pain-anchor .pa-tag { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--danger); }
+  .pain-anchor h3 { font-size: 1.45rem; font-weight: 800; line-height: 1.25; margin-top: 8px; max-width: 26ch; }
+  .pain-anchor h3 em { color: var(--danger); font-style: normal; }
+
+  .sig-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+  .sig-list li { display: flex; gap: 12px; align-items: flex-start; }
+  .ic {
+    flex: 0 0 26px; width: 26px; height: 26px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
+    margin-top: 1px;
+  }
+  .ic.pain { background: rgba(192,71,58,0.12); color: var(--danger); }
+  .ic.win { background: rgba(13,127,98,0.12); color: var(--success); }
+  .ic.note { background: rgba(var(--sand-rgb),0.16); color: var(--sand); }
+  .sig-list li .txt { font-size: 0.97rem; color: var(--text-secondary); }
+  .sig-list li .txt b { color: var(--text-primary); font-weight: 600; }
+
+  .cost-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 18px; }
+  .cost {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .cost .ck { font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+  .cost .cv { margin-top: 6px; font-size: 0.98rem; font-weight: 700; color: var(--text-primary); line-height: 1.3; }
+  .cost .cv b { color: var(--danger); }
+
+  .insight {
+    margin-top: 22px; border-left: 3px solid var(--cyan);
+    background: rgba(var(--cyan-rgb),0.05);
+    padding: 18px 22px; border-radius: 0 12px 12px 0;
+  }
+  .insight h4 { font-size: 0.85rem; color: var(--cyan-bright); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; font-weight: 800; }
+  .insight p { color: var(--text-secondary); font-size: 1rem; font-style: italic; }
+  .insight p b { color: var(--text-primary); font-style: normal; }
+  .insight .sig {
+    margin-top: 14px; font-size: 0.84rem; color: var(--text-muted); font-style: normal;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .insight .sig::before { content: "—"; }
+
+  .pain-nav {
+    margin-top: 36px; display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap;
+  }
+  .nav-btn {
+    appearance: none; background: transparent; border: 1px solid var(--border-strong);
+    color: var(--text-secondary); font-family: inherit; font-size: 0.88rem; font-weight: 600;
+    padding: 10px 16px; border-radius: 8px; cursor: pointer;
+    transition: all .2s ease;
+  }
+  .nav-btn:hover { border-color: var(--cyan); color: var(--cyan-bright); }
+
+  /* CFM */
+  .cfm-headline {
+    text-align: center; padding: 36px 24px;
+    background: linear-gradient(160deg, rgba(var(--cyan-rgb),0.08), rgba(var(--sand-rgb),0.05));
+    border: 1px solid rgba(var(--cyan-rgb),0.22);
+    border-radius: 16px; margin-bottom: 24px;
+  }
+  .cfm-headline .cfm-eyebrow {
+    font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--cyan-bright);
+  }
+  .cfm-headline .cfm-big {
+    font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em;
+    margin-top: 12px; line-height: 1.1;
+  }
+  .cfm-headline .cfm-big em { color: var(--danger); font-style: normal; }
+  .cfm-headline .cfm-sub {
+    margin-top: 14px; font-size: 1rem; color: var(--text-secondary); max-width: 56ch; margin-left: auto; margin-right: auto;
+  }
+
+  .cfm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+  .cfm-bullet {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px;
+  }
+  .cfm-bullet h4 { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+  .cfm-bullet p { font-size: 0.92rem; color: var(--text-secondary); }
+  .cfm-bullet p b { color: var(--text-primary); }
+
+  /* Caso vivo */
+  .case-hero {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px; margin-bottom: 18px;
+  }
+  .case-hero .ch-tag { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--sand); }
+  .case-hero h3 { font-size: 1.3rem; font-weight: 800; margin-top: 6px; }
+  .case-hero p { font-size: 0.98rem; color: var(--text-secondary); margin-top: 10px; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+  .stat {
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px; text-align: center;
+  }
+  .stat .sn { font-size: 1.6rem; font-weight: 800; color: var(--cyan-bright); letter-spacing: -0.02em; line-height: 1.1; }
+  .stat .sl { font-size: 0.78rem; color: var(--text-muted); margin-top: 6px; line-height: 1.3; }
+
+  .quote-block {
+    margin-top: 22px;
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px;
+  }
+  .quote-block .qmark { font-size: 2rem; color: var(--cyan); line-height: 1; font-family: 'JetBrains Mono', monospace; }
+  .quote-block p { font-size: 1.02rem; color: var(--text-secondary); font-style: italic; margin-top: 6px; }
+  .quote-block p b { color: var(--text-primary); font-style: normal; }
+  .quote-block .signature { margin-top: 12px; font-size: 0.86rem; color: var(--text-muted); }
+  .quote-block .signature b { color: var(--text-primary); }
+
+  /* Next conversation */
+  .next-hero {
+    text-align: center; padding: 30px 24px;
+    background: linear-gradient(160deg, rgba(var(--cyan-rgb),0.10), rgba(var(--sand-rgb),0.06));
+    border: 1px solid rgba(var(--cyan-rgb),0.22);
+    border-radius: 16px;
+  }
+  .next-hero h3 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.015em; }
+  .next-hero p { font-size: 1rem; color: var(--text-secondary); margin-top: 12px; max-width: 56ch; margin-left: auto; margin-right: auto; }
+  .next-hero p b { color: var(--text-primary); }
+
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 24px; }
+  .step { display: flex; gap: 18px; position: relative; padding-bottom: 26px; }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: ""; position: absolute; left: 17px; top: 38px; bottom: -4px;
+    width: 2px; background: var(--border-strong);
+  }
+  .step:last-child::before { display: none; }
+  .step-num {
+    flex: 0 0 36px; width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg-surface); border: 2px solid var(--cyan);
+    color: var(--cyan-bright); font-weight: 800; font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center; z-index: 1;
+  }
+  .step-body h4 { font-size: 1.02rem; font-weight: 700; }
+  .step-body p { font-size: 0.92rem; color: var(--text-secondary); margin-top: 3px; }
+
+  .reassure {
+    margin-top: 22px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+  }
+  .reassure .rc {
+    background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+  }
+  .reassure .rc .em {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: rgba(var(--cyan-rgb),0.12); color: var(--cyan-bright);
+    display: flex; align-items: center; justify-content: center; font-size: 16px; margin-bottom: 8px;
+  }
+  .reassure .rc h5 { font-size: 0.92rem; font-weight: 700; }
+  .reassure .rc p { font-size: 0.84rem; color: var(--text-secondary); margin-top: 4px; }
+
+  .closing-cta {
+    margin-top: 30px; text-align: center;
+    background: linear-gradient(160deg, rgba(var(--cyan-rgb),0.10), rgba(var(--sand-rgb),0.06));
+    border: 1px solid rgba(var(--cyan-rgb),0.22);
+    border-radius: 16px; padding: 36px 24px;
+  }
+  .closing-cta h3 { font-size: 1.4rem; font-weight: 800; }
+  .closing-cta p { color: var(--text-secondary); margin-top: 8px; max-width: 56ch; margin-left: auto; margin-right: auto; }
+  .closing-cta p b { color: var(--text-primary); }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 9px;
+    margin-top: 20px; font-size: 1rem; font-weight: 700;
+    background: var(--cyan); color: #faf9f4; text-decoration: none;
+    padding: 14px 28px; border-radius: 100px;
+    transition: filter .2s ease, transform .2s ease;
+  }
+  .btn-primary:hover { filter: brightness(1.08); transform: translateY(-2px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 9px;
+    margin-top: 12px; font-size: 0.92rem; font-weight: 600;
+    color: var(--cyan-bright); text-decoration: none;
+    padding: 10px 18px; border-radius: 100px;
+    border: 1px solid var(--border-strong);
+    transition: all .2s ease;
+  }
+  .btn-secondary:hover { border-color: var(--cyan); }
+  .cta-sub { margin-top: 12px; font-size: 0.83rem; color: var(--text-muted); }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    max-width: var(--maxw); margin: 0 auto; padding: 28px;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-size: 0.82rem; color: var(--text-muted);
+  }
+  .footer .partner { color: var(--text-secondary); }
+
+  @media (max-width: 860px) {
+    .grid-2, .grid-4, .cost-grid, .cfm-grid, .stats-grid, .reassure { grid-template-columns: 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .hero { padding-top: 40px; }
+    .topbar-cta { display: none; }
+  }
+  @media (max-width: 480px) {
+    .grid-2, .cost-grid, .cfm-grid, .reassure { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .topbar-inner, .hero, .tabs-wrap, .panel-area { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">
+      <div class="logo-mark">FF</div>
+      <div class="logo-text">
+        FF<span class="in">.AI</span>
+        <span class="sub">INTELIGÊNCIA ARTIFICIAL PARA CLÍNICAS</span>
+      </div>
+    </div>
+    <a class="topbar-cta" href="#agendar" onclick="showTab(5)">Quero a conversa de 30 min →</a>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="eyebrow"><span class="dot"></span> Diagnóstico FF.AI · 4 perguntas antes de qualquer solução</span>
+  <h1>Antes de falar de IA, há <span class="hl">4 perguntas</span> que toda clínica premium precisa responder.</h1>
+  <p class="lead">A gente preparou este material pra usar com você nos próximos 15 minutos da nossa conversa. Não é pitch de produto, não é proposta. É um diagnóstico curto. <b style="color:var(--text-primary);">Se as 4 perguntas doerem, vale uma segunda conversa, mais técnica, com o Dr. Fábio Faleiro.</b></p>
+  <p class="calm">🕐 Leitura: 8 minutos. Sem compromisso, sem cadastro.</p>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="showTab(0)"><span class="num">○</span> As 4 perguntas</button>
+    <button class="tab" onclick="showTab(1)"><span class="num">1</span> A secretária</button>
+    <button class="tab" onclick="showTab(2)"><span class="num">2</span> A presença</button>
+    <button class="tab" onclick="showTab(3)"><span class="num">3</span> Os dados</button>
+    <button class="tab" onclick="showTab(4)"><span class="num">4</span> A CFM 2.454</button>
+    <button class="tab" onclick="showTab(5)"><span class="num">→</span> A próxima conversa</button>
+  </div>
+</div>
+
+<div class="panel-area">
+
+  <!-- ===== PANEL 0 — OVERVIEW DAS 4 PERGUNTAS ===== -->
+  <section class="panel active" id="p0">
+    <div class="section-head">
+      <span class="tag">O ponto de partida</span>
+      <h2>Toda clínica premium que cresce tropeça nas mesmas 4 perguntas.</h2>
+      <p>Independentemente da especialidade — cirurgia, estética, odontologia, ortopedia — clínicas que faturam a partir de R$ 200 mil/mês tropeçam neste mesmo conjunto. Não é coincidência: é o ponto da curva em que cresceu o suficiente pra a operação manual começar a vazar, mas não o suficiente pra você ter uma equipe estruturada.</p>
+    </div>
+
+    <div class="grid-2">
+      <button class="qcard" onclick="showTab(1)">
+        <span class="qnum">Pergunta 1</span>
+        <div class="qtitle">Quem responde o paciente às 22h de uma sexta — e quanto custa quando ninguém responde?</div>
+        <p class="qsub">A dependência da secretária, o lead que esfria, e os R$ 70 mil de um único processo trabalhista.</p>
+        <div class="qarrow">Abrir a pergunta 1 →</div>
+      </button>
+      <button class="qcard" onclick="showTab(2)">
+        <span class="qnum">Pergunta 2</span>
+        <div class="qtitle">Quando alguém pesquisa seu nome no Instagram hoje, o que aparece nos últimos 30 dias?</div>
+        <p class="qsub">A invisibilidade digital, a autoridade que evapora, e o paciente que escolhe o concorrente que aparece mais.</p>
+        <div class="qarrow">Abrir a pergunta 2 →</div>
+      </button>
+      <button class="qcard" onclick="showTab(3)">
+        <span class="qnum">Pergunta 3</span>
+        <div class="qtitle">Quantos leads entraram mês passado — e quantos viraram consulta?</div>
+        <p class="qsub">A decisão sem dado, o marketing sem rastro de retorno, e o sentimento crônico de "estou investindo, mas não sei se compensa".</p>
+        <div class="qarrow">Abrir a pergunta 3 →</div>
+      </button>
+      <button class="qcard" onclick="showTab(4)">
+        <span class="qnum">Pergunta 4</span>
+        <div class="qtitle">Em agosto a Resolução CFM 2.454/2026 entra em vigor. A clínica está pronta?</div>
+        <p class="qsub">A nova regulamentação sobre IA em medicina, os 180 dias pra adequar, e o porquê isso vira diferencial competitivo agora.</p>
+        <div class="qarrow">Abrir a pergunta 4 →</div>
+      </button>
+    </div>
+
+    <div class="card glow" style="margin-top:24px;">
+      <h3 style="font-size:1.05rem;margin-bottom:10px;">Como usar este material</h3>
+      <p style="color:var(--text-secondary);font-size:0.95rem;">Cada pergunta é uma aba. Cada aba tem 3 partes: <b style="color:var(--text-primary);">os sinais</b> (como você reconhece a dor), <b style="color:var(--text-primary);">o custo</b> (o que isso geralmente significa em receita / risco) e <b style="color:var(--text-primary);">o insight</b> (a leitura do Dr. Fábio sobre o ponto). Se 2 das 4 ressoarem com você, faz sentido a próxima conversa — a aba 6 explica como ela funciona.</p>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 1 — A SECRETÁRIA ===== -->
+  <section class="panel" id="p1">
+    <div class="pain-anchor">
+      <span class="pa-tag">Pergunta 1</span>
+      <h3>Quem responde o paciente às 22h de uma sexta — <em>e quanto custa quando ninguém responde?</em></h3>
+    </div>
+
+    <div class="section-head">
+      <span class="tag">Os sinais</span>
+      <h2>Você reconhece estes 4 padrões?</h2>
+    </div>
+
+    <ul class="sig-list">
+      <li><span class="ic pain">!</span><span class="txt"><b>Lead que chega fora de horário comercial</b> só vê resposta na segunda-feira. Até lá, ele pesquisou o concorrente, ou esqueceu, ou desistiu.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">A sua secretária <b>responde, mas não vende</b>. Quando o paciente pergunta valor, ela manda tabela e finge que esqueceu de chamar de volta.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">Quando ela tira férias, fica doente ou pede demissão, <b>o atendimento desmorona</b> por semanas até o substituto chegar no mesmo ponto.</span></li>
+      <li><span class="ic pain">!</span><span class="txt"><b>Você mesmo responde mensagem no fim do dia</b>, exausto, depois de operar — porque "ninguém faz como eu". E isso virou um trabalho extra de 1-2 horas todo dia.</span></li>
+    </ul>
+
+    <div class="section-head" style="margin-top:30px;">
+      <span class="tag">O custo</span>
+      <h2>O que essa dependência custa, em números honestos</h2>
+    </div>
+
+    <div class="cost-grid">
+      <div class="cost">
+        <div class="ck">Salário + encargos</div>
+        <div class="cv">Secretária CLT com encargos completos: <b>R$ 3,5k a R$ 5k/mês</b> — sem 13º, férias, vale e FGTS contabilizados.</div>
+      </div>
+      <div class="cost">
+        <div class="ck">Risco trabalhista</div>
+        <div class="cv">Um único processo trabalhista paga em média <b>R$ 30k a R$ 70k</b>. O Dr. Fábio pagou R$ 70 mil. Em um.</div>
+      </div>
+      <div class="cost">
+        <div class="ck">Leads perdidos</div>
+        <div class="cv">Lead que espera mais de 1h por resposta converte <b>até 60% menos</b>. Fora do horário comercial, esse é o cenário padrão.</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <h4>O insight</h4>
+      <p>"A secretária não é o problema — ela faz o que humano faz: dorme, adoece, sai de férias, vai embora. O problema é a operação <b>depender exclusivamente</b> dela. Toda clínica que cresce e mantém esse desenho está, na prática, transferindo o teto do crescimento pro RH."</p>
+      <div class="sig">Dr. Fábio Faleiro · cirurgião digestivo robótico (SP / GO)</div>
+    </div>
+
+    <div class="pain-nav">
+      <button class="nav-btn" onclick="showTab(0)">← Voltar pras 4 perguntas</button>
+      <button class="nav-btn" onclick="showTab(2)">Pergunta 2: a presença digital →</button>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 2 — A PRESENÇA ===== -->
+  <section class="panel" id="p2">
+    <div class="pain-anchor">
+      <span class="pa-tag">Pergunta 2</span>
+      <h3>Quando alguém pesquisa o seu nome no Instagram hoje, <em>o que aparece nos últimos 30 dias?</em></h3>
+    </div>
+
+    <div class="section-head">
+      <span class="tag">Os sinais</span>
+      <h2>Você reconhece estes 4 padrões?</h2>
+    </div>
+
+    <ul class="sig-list">
+      <li><span class="ic pain">!</span><span class="txt"><b>O último post foi há mais de 2 semanas.</b> O penúltimo, há 1 mês. Você sabe que precisa, mas não tem tempo (nem disposição) pra gravar.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">Toda vez que tenta retomar, <b>cria 2 posts</b>, sente que está "fazendo de novo", e some por mais 3 semanas. Ciclo conhecido.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">Já contratou agência ou social media — <b>o conteúdo saiu sem a sua cara</b>, genérico, e você não se reconheceu. Cancelou.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">O paciente que pesquisa o seu nome <b>vê um perfil desatualizado</b> e fica com a impressão de "será que está atendendo ainda?".</span></li>
+    </ul>
+
+    <div class="section-head" style="margin-top:30px;">
+      <span class="tag">O custo</span>
+      <h2>O que a invisibilidade digital custa hoje</h2>
+    </div>
+
+    <div class="cost-grid">
+      <div class="cost">
+        <div class="ck">Autoridade evaporando</div>
+        <div class="cv"><b>Médico que não publica é convidado.</b> Quem publica regularmente é referência. O paciente premium escolhe a referência.</div>
+      </div>
+      <div class="cost">
+        <div class="ck">CPL inflado</div>
+        <div class="cv">Quem não tem orgânico paga <b>mais caro no anúncio</b> — porque depende 100% de mídia paga pra existir digitalmente.</div>
+      </div>
+      <div class="cost">
+        <div class="ck">Agência ou social media</div>
+        <div class="cv">Agência boa: <b>R$ 4k a R$ 8k/mês</b>, e mesmo assim o conteúdo dificilmente sai com a sua voz e o seu posicionamento.</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <h4>O insight</h4>
+      <p>"Conteúdo médico não é vaidade — é o filtro silencioso por onde o paciente premium decide. Hoje ele abre o Instagram <b>antes do Google</b>. Quem não está lá, simplesmente não existe na decisão. E o problema não é falta de talento do médico: é que <b>gravar, escrever, editar e publicar</b> é um trabalho de outra pessoa, não do cirurgião."</p>
+      <div class="sig">Dr. Fábio Faleiro</div>
+    </div>
+
+    <div class="pain-nav">
+      <button class="nav-btn" onclick="showTab(1)">← Pergunta 1</button>
+      <button class="nav-btn" onclick="showTab(3)">Pergunta 3: os dados →</button>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 3 — OS DADOS ===== -->
+  <section class="panel" id="p3">
+    <div class="pain-anchor">
+      <span class="pa-tag">Pergunta 3</span>
+      <h3>Quantos leads entraram no mês passado — <em>e quantos viraram consulta?</em></h3>
+    </div>
+
+    <div class="section-head">
+      <span class="tag">Os sinais</span>
+      <h2>Você reconhece estes 4 padrões?</h2>
+    </div>
+
+    <ul class="sig-list">
+      <li><span class="ic pain">!</span><span class="txt"><b>Você não sabe responder a pergunta acima</b> sem chutar. Tem ideia, mas não tem o número.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">Investe em marketing — Meta, Google, indicação — mas <b>não consegue dizer qual canal traz paciente que de fato fecha</b>. Decide por sensação.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">A "planilha do controle" é um caderno na cabeça da secretária, ou um Excel que <b>ninguém abre faz 6 meses</b>.</span></li>
+      <li><span class="ic pain">!</span><span class="txt">Quando precisa de número pra decidir — investir mais em ads? contratar? — usa intuição. <b>Decisão de R$ 5-10 mil/mês baseada em achismo.</b></span></li>
+    </ul>
+
+    <div class="section-head" style="margin-top:30px;">
+      <span class="tag">O custo</span>
+      <h2>O que decidir sem dado custa</h2>
+    </div>
+
+    <div class="cost-grid">
+      <div class="cost">
+        <div class="ck">Marketing no fundo do poço</div>
+        <div class="cv"><b>30 a 50% do budget</b> de marketing de clínica sem CRM vai pra canal que não converte. Sem saber, ninguém corta.</div>
+      </div>
+      <div class="cost">
+        <div class="ck">Vazamento invisível</div>
+        <div class="cv">Lead esquecido sem follow-up. Lead respondido fora do tempo. <b>Sem dashboard, ninguém vê.</b></div>
+      </div>
+      <div class="cost">
+        <div class="ck">Custo de oportunidade</div>
+        <div class="cv">Decisões grandes — abrir unidade, contratar — feitas no "achômetro". Não dá pra escalar o que não se mede.</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <h4>O insight</h4>
+      <p>"Toda clínica que cresce de R$ 200 mil pra R$ 500 mil/mês passa pelo mesmo gargalo: <b>parar de operar pela cabeça do dono e começar a operar por painel</b>. Não tem como atravessar essa curva sem CRM estruturado e KPI ao vivo. É virada de jogo, não enfeite."</p>
+      <div class="sig">Dr. Fábio Faleiro</div>
+    </div>
+
+    <div class="pain-nav">
+      <button class="nav-btn" onclick="showTab(2)">← Pergunta 2</button>
+      <button class="nav-btn" onclick="showTab(4)">Pergunta 4: CFM 2.454 →</button>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 4 — CFM 2.454 ===== -->
+  <section class="panel" id="p4">
+    <div class="pain-anchor">
+      <span class="pa-tag">Pergunta 4 — a única com prazo regulatório</span>
+      <h3>Em agosto, a Resolução CFM 2.454/2026 entra em vigor. <em>A clínica está pronta?</em></h3>
+    </div>
+
+    <div class="cfm-headline">
+      <div class="cfm-eyebrow">Resolução CFM 2.454/2026</div>
+      <div class="cfm-big">Toda clínica que usa IA tem<br/><em>180 dias</em> pra se adequar.</div>
+      <p class="cfm-sub">Mesmo que você ainda NÃO use IA, qualquer ferramenta que sua secretária usa hoje (autoresposta WhatsApp, agendamento automático, assistente de CRM) já entra no escopo. Não é "se" — é "quando".</p>
+    </div>
+
+    <div class="section-head">
+      <span class="tag">O que muda na prática</span>
+      <h2>4 obrigações que a partir de agosto deixam de ser opcionais</h2>
+    </div>
+
+    <div class="cfm-grid">
+      <div class="cfm-bullet">
+        <h4>Governança documentada</h4>
+        <p>Todo uso de IA precisa de <b>mapa de risco</b>, política escrita e auditoria. Quem não tem o documento, está fora de conformidade — mesmo que a IA não faça nada perigoso.</p>
+      </div>
+      <div class="cfm-bullet">
+        <h4>Supervisão humana obrigatória</h4>
+        <p>IA não pode <b>decidir conduta clínica</b>. Ela pode triagem, agendamento, lembrete, qualificação. Diagnóstico e conduta são do médico. Transparência ao paciente também é exigida.</p>
+      </div>
+      <div class="cfm-bullet">
+        <h4>Trilha de auditoria</h4>
+        <p>Todas as interações da IA com pacientes precisam ser <b>rastreáveis</b>. Isso elimina chatbots prontos de mercado, que não geram log auditável.</p>
+      </div>
+      <div class="cfm-bullet">
+        <h4>Consentimento e LGPD</h4>
+        <p>O paciente precisa saber que <b>está falando com IA</b> (transparência) e consentir o uso dos dados. DPA com fornecedores de IA vira obrigatório.</p>
+      </div>
+    </div>
+
+    <div class="insight">
+      <h4>O insight</h4>
+      <p>"A CFM 2.454 não é uma ameaça — é uma <b>janela competitiva</b>. As clínicas que se adequarem antes de agosto saem na frente. As que deixarem pra última hora vão pagar caro: ou param a IA que tinham, ou correm atrás. Quem implanta IA agora com governança incluída chega na vigência adequado — sem retrabalho."</p>
+      <div class="sig">Dr. Fábio Faleiro · contribuiu com whitepaper técnico sobre CFM 2.454</div>
+    </div>
+
+    <div class="pain-nav">
+      <button class="nav-btn" onclick="showTab(3)">← Pergunta 3</button>
+      <button class="nav-btn" onclick="showTab(5)">A próxima conversa →</button>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 5 — A PRÓXIMA CONVERSA ===== -->
+  <section class="panel" id="p5">
+    <div class="section-head" id="agendar">
+      <span class="tag">A próxima conversa</span>
+      <h2>Se 2 das 4 perguntas doeram, a próxima etapa é uma conversa de 30 minutos.</h2>
+      <p>Não é apresentação comercial. Não é venda. É uma conversa técnica com o <b>Dr. Fábio Faleiro</b>, cirurgião que opera com IA na própria clínica há mais de 2 anos — e com a Hiorrana, que já te conhece.</p>
+    </div>
+
+    <div class="next-hero">
+      <h3>30 minutos. Sem pitch. Sem compromisso.</h3>
+      <p>Você traz as suas 4 perguntas (e as outras que apareceram). A gente devolve um <b>diagnóstico inicial</b> sobre como a sua clínica está em cada uma e, se fizer sentido, mostra o que poderia ser feito.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Você confirma a próxima conversa</h4>
+          <p>Hoje mesmo, no fim da visita, ou depois via WhatsApp. A Hiorrana agenda direto no Google Calendar do Dr. Fábio.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Preparação leve (3 perguntas)</h4>
+          <p>A gente manda 3 perguntas pra você responder antes da call — leva 5 min. É pra a conversa ser específica sobre o caso de vocês, não genérica.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>A conversa — 30 min, online</h4>
+          <p>Google Meet. Dr. Fábio + Hiorrana + você (e sócio/cônjuge se preferir). A gente devolve a leitura técnica e responde tudo. Se fizer sentido seguir, a gente combina a etapa seguinte. Se não, você sai com a leitura mesmo assim.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reassure">
+      <div class="rc">
+        <div class="em">🚫</div>
+        <h5>Sem pitch comercial</h5>
+        <p>A call é técnica. Se for pra vender, não é a próxima — é a 3ª, e só se você pedir.</p>
+      </div>
+      <div class="rc">
+        <div class="em">⏱️</div>
+        <h5>30 min cravados</h5>
+        <p>Calendário do Dr. Fábio é cirúrgico. A call começa e termina no horário.</p>
+      </div>
+      <div class="rc">
+        <div class="em">📋</div>
+        <h5>Você sai com algo</h5>
+        <p>Mesmo que diga "não faz sentido", sai com leitura técnica das 4 perguntas — útil de qualquer jeito.</p>
+      </div>
+    </div>
+
+    <div class="closing-cta">
+      <h3>Como agendar agora</h3>
+      <p>Fale com a <b>Hiorrana</b> — ela já está com o seu contexto e tem acesso à agenda do Dr. Fábio. <b>Horários disponíveis essa semana e a próxima.</b></p>
+      <a class="btn-primary" id="waBtn" href="https://wa.me/5562996363641?text=Ol%C3%A1%2C%20vi%20o%20material%20da%20FF.AI%20com%20as%204%20perguntas%20e%20gostaria%20de%20agendar%20a%20conversa%20de%2030%20minutos%20com%20o%20Dr.%20F%C3%A1bio." target="_blank" rel="noopener">
+        Agendar a conversa de 30 min →
+      </a>
+      <br/>
+      <a class="btn-secondary" href="#" onclick="showTab(0); return false;">Voltar pras 4 perguntas</a>
+      <p class="cta-sub">Você será direcionado para o WhatsApp do time FF.AI.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div>
+    <div class="partner">FF.AI · Inteligência Artificial para clínicas &nbsp;|&nbsp; Dr. Fábio Faleiro</div>
+    <div style="margin-top:4px;">Material da visita — sem cadastro, sem compromisso.</div>
+  </div>
+  <div style="text-align:right;">
+    <div>Versão master · 22/05/2026</div>
+    <div style="margin-top:4px;">"Você aprova, a IA executa."</div>
+  </div>
+</footer>
+
+<script>
+  function showTab(i) {
+    document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', idx === i));
+    document.querySelectorAll('.panel').forEach((p, idx) => p.classList.toggle('active', idx === i));
+    window.scrollTo({ top: document.querySelector('.tabs-wrap').offsetTop - 70, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
