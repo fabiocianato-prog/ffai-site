@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<!--
+  Proposta Comercial — FF.AI 360
+  Dr. Lucas Colman · Psiquiatria · Goiânia
+  Emitida em 27/05/2026 · Validade: 30 dias (até 26/06/2026)
+-->
+<html lang="pt-BR" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+<meta name="referrer" content="no-referrer" />
+<script>document.documentElement.classList.replace('no-js','js');</script>
+<title>Proposta — FF.AI 360 · Dr. Lucas Colman</title>
+<link rel="icon" type="image/svg+xml" href="/assets/ffai-favicon.svg" />
+<link rel="apple-touch-icon" href="/assets/ffai-icon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    /* Tema FF.AI — claro, off-white quente, acento verde */
+    --bg-primary: #faf9f4;
+    --bg-elevated: #f4f5f2;
+    --bg-surface: #ffffff;
+    --bg-hover: #f1ede4;
+    --border: rgba(28,42,63,0.10);
+    --border-strong: rgba(28,42,63,0.20);
+
+    --text-primary: #1c2a3f;
+    --text-secondary: #3a4a63;
+    --text-muted: #5f6b7d;
+
+    /* "cyan" = acento principal (verde FF.AI) — nomes mantidos p/ paridade com o modelo SCRUB IN */
+    --cyan: #0d7f62;
+    --cyan-bright: #0a6650;
+    --cyan-rgb: 13,127,98;
+    --sand: #8a7649;
+    --sand-rgb: 138,118,73;
+
+    --success: #0d7f62;
+    --warning: #c08a2e;
+    --danger: #c0473a;
+
+    --maxw: 1080px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(var(--cyan-rgb),0.22); }
+
+  a { color: inherit; }
+
+  /* ===== Top bar ===== */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,249,244,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: var(--maxw); margin: 0 auto;
+    padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-mark {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--cyan), #0a5f49);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 14px; color: #faf9f4;
+  }
+  .logo-text { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+  .logo-text .in { color: var(--cyan); }
+  .logo-text .sub { display: block; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 10px; color: var(--text-muted); letter-spacing: .14em; }
+  .topbar-cta {
+    font-size: 13px; font-weight: 600; padding: 9px 16px;
+    border-radius: 100px; background: var(--cyan); color: #faf9f4;
+    text-decoration: none; white-space: nowrap;
+    transition: filter .2s ease, transform .2s ease;
+  }
+  .topbar-cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+  /* ===== Hero ===== */
+  .hero {
+    max-width: var(--maxw); margin: 0 auto;
+    padding: 64px 28px 40px;
+    position: relative;
+  }
+  .hero::before {
+    content: ""; position: absolute; top: -40px; left: 50%;
+    width: 720px; height: 420px; transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(var(--cyan-rgb),0.10), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .hero > * { position: relative; z-index: 1; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--cyan-bright);
+    background: rgba(var(--cyan-rgb),0.09);
+    border: 1px solid rgba(var(--cyan-rgb),0.22);
+    padding: 6px 13px; border-radius: 100px; margin-bottom: 22px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+  .hero h1 {
+    font-size: clamp(2rem, 4.6vw, 3.15rem);
+    font-weight: 800; line-height: 1.12; letter-spacing: -0.02em;
+    max-width: 18ch;
+  }
+  .hero h1 .hl { color: var(--cyan-bright); }
+  .hero .lead {
+    margin-top: 20px; font-size: 1.12rem; color: var(--text-secondary);
+    max-width: 56ch;
+  }
+  .hero .calm {
+    margin-top: 14px; font-size: 0.95rem; color: var(--text-muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .factgrid {
+    margin-top: 36px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .fact {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 16px;
+  }
+  .fact .k { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
+  .fact .v { margin-top: 6px; font-size: 1.05rem; font-weight: 700; }
+  .fact .v.cyan { color: var(--cyan-bright); }
+
+  /* ===== Tabs ===== */
+  .tabs-wrap { max-width: var(--maxw); margin: 44px auto 0; padding: 0 28px; }
+  .tabs {
+    display: flex; gap: 4px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    appearance: none; background: none; border: none; cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    color: var(--text-muted); padding: 13px 16px;
+    border-bottom: 2px solid transparent; transition: color .2s ease;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .tab:hover { color: var(--text-secondary); }
+  .tab.active { color: var(--text-primary); border-bottom-color: var(--cyan); }
+  .tab .num {
+    font-size: 11px; width: 19px; height: 19px; border-radius: 50%;
+    background: var(--bg-hover); color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center; font-weight: 700;
+  }
+  .tab.active .num { background: var(--cyan); color: #faf9f4; }
+
+  /* ===== Panels ===== */
+  .panel-area { max-width: var(--maxw); margin: 0 auto; padding: 40px 28px 80px; }
+  .panel { display: block; animation: fade .35s ease; }
+  .js .panel { display: none; }
+  .js .panel.active { display: block; }
+  .no-js .tabs-wrap { display: none; }
+  .no-js .panel + .panel { margin-top: 36px; padding-top: 36px; border-top: 1px solid var(--border); }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-head { margin-bottom: 26px; }
+  .section-head .tag {
+    font-size: 12px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--sand);
+  }
+  .section-head h2 {
+    font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.015em;
+    margin-top: 6px;
+  }
+  .section-head p { margin-top: 10px; color: var(--text-secondary); max-width: 64ch; }
+
+  .card {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px;
+  }
+  .card.glow { box-shadow: 0 0 0 1px rgba(var(--cyan-rgb),0.18), 0 18px 50px -30px rgba(var(--cyan-rgb),0.55); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+  /* diagnostico */
+  .now-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .now-list li { display: flex; gap: 12px; align-items: flex-start; }
+  .ic {
+    flex: 0 0 26px; width: 26px; height: 26px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
+    margin-top: 1px;
+  }
+  .ic.pain { background: rgba(192,71,58,0.12); color: var(--danger); }
+  .ic.win { background: rgba(13,127,98,0.12); color: var(--success); }
+  .now-list li .txt { font-size: 0.97rem; color: var(--text-secondary); }
+  .now-list li .txt b { color: var(--text-primary); font-weight: 600; }
+
+  .knot {
+    margin-top: 22px; border-left: 3px solid var(--sand);
+    background: rgba(var(--sand-rgb),0.07);
+    padding: 18px 20px; border-radius: 0 12px 12px 0;
+  }
+  .knot h4 { font-size: 0.95rem; color: var(--sand); margin-bottom: 6px; }
+  .knot p { color: var(--text-secondary); font-size: 1rem; }
+  .knot p b { color: var(--text-primary); }
+
+  /* phases */
+  .phase {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px; margin-bottom: 14px;
+    position: relative; overflow: hidden;
+  }
+  .phase::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: linear-gradient(180deg, var(--cyan), #0a5f49);
+  }
+  .phase-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .phase-num {
+    font-size: 12px; font-weight: 800; letter-spacing: .05em;
+    color: var(--cyan-bright); background: rgba(var(--cyan-rgb),0.12);
+    padding: 4px 10px; border-radius: 6px;
+  }
+  .phase-top h3 { font-size: 1.15rem; font-weight: 700; }
+  .phase-months { font-size: 0.82rem; color: var(--text-muted); }
+  .phase-obj { margin-top: 10px; color: var(--text-secondary); font-size: 0.97rem; }
+  .phase-obj b { color: var(--text-primary); }
+  .phase-res { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: 0.8rem; padding: 5px 11px; border-radius: 100px;
+    background: var(--bg-hover); color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+  .chip::before { content: "✓ "; color: var(--success); font-weight: 700; }
+
+  .onboarding-note {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: rgba(var(--sand-rgb),0.08); border: 1px dashed rgba(var(--sand-rgb),0.35);
+    padding: 14px 16px; border-radius: 10px; margin-bottom: 18px;
+  }
+  .onboarding-note .b { font-size: 0.93rem; color: var(--text-secondary); }
+  .onboarding-note .b b { color: var(--sand); }
+
+  /* calculator */
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .calc-inputs { display: flex; flex-direction: column; gap: 20px; justify-content: center; }
+  .field label { display: block; font-size: 0.86rem; font-weight: 600; margin-bottom: 8px; }
+  .field label .hint { color: var(--text-muted); font-weight: 400; }
+  .field input[type="number"] {
+    width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-strong);
+    color: var(--text-primary); font-family: inherit; font-size: 1rem; font-weight: 600;
+    padding: 11px 13px; border-radius: 9px;
+  }
+  .field input[type="number"]:focus { outline: none; border-color: var(--cyan); }
+  .slider-row { display: flex; align-items: center; gap: 14px; }
+  .slider-row input[type="range"] { flex: 1; accent-color: var(--cyan); height: 4px; }
+  .slider-val {
+    font-size: 1.05rem; font-weight: 800; color: var(--cyan-bright);
+    min-width: 140px; text-align: right;
+  }
+  .calc-out {
+    background: linear-gradient(160deg, var(--bg-surface), var(--bg-elevated));
+    border: 1px solid var(--border-strong); border-radius: 14px; padding: 22px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .out-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .out-row .lab { font-size: 0.88rem; color: var(--text-secondary); }
+  .out-row .num { font-size: 1.05rem; font-weight: 700; }
+  .out-hr { border: none; border-top: 1px solid var(--border); margin: 2px 0; }
+  .out-hero { text-align: left; }
+  .out-hero .lab { font-size: 0.8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+  .out-hero .big {
+    font-size: 2.3rem; font-weight: 800; letter-spacing: -0.02em;
+    color: var(--success); line-height: 1.1; margin-top: 4px;
+  }
+  .out-hero .big.neg { color: var(--danger); }
+  .mult-badge {
+    align-self: flex-start; font-size: 0.82rem; font-weight: 700;
+    background: rgba(13,127,98,0.12); color: var(--success);
+    padding: 5px 12px; border-radius: 100px;
+  }
+  .bar-cmp { margin-top: 4px; }
+  .bar-cmp .bl { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px; }
+  .bar-track { height: 10px; background: var(--bg-hover); border-radius: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; transition: width .4s ease; }
+  .bar-fill.rev { background: linear-gradient(90deg, var(--cyan), #14a07d); }
+  .bar-fill.inv { background: var(--sand); }
+  .punch {
+    margin-top: 18px; background: rgba(var(--cyan-rgb),0.07);
+    border: 1px solid rgba(var(--cyan-rgb),0.22); border-radius: 12px;
+    padding: 16px 18px; font-size: 0.98rem; color: var(--text-secondary);
+  }
+  .punch b { color: var(--cyan-bright); }
+  .calc-disclaim { margin-top: 14px; font-size: 0.82rem; color: var(--text-muted); }
+
+  /* includes */
+  .inc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .inc {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .inc:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .inc .hd { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .inc .em {
+    width: 30px; height: 30px; border-radius: 8px; flex: 0 0 30px;
+    background: rgba(var(--cyan-rgb),0.12); color: var(--cyan-bright);
+    display: flex; align-items: center; justify-content: center; font-size: 15px;
+  }
+  .inc .hd h4 { font-size: 0.98rem; font-weight: 700; }
+  .inc p { font-size: 0.88rem; color: var(--text-secondary); }
+  .inc p b { color: var(--text-primary); }
+
+  /* investment */
+  .anchor-box { text-align: center; padding: 30px 22px; }
+  .anchor-label { font-size: 0.84rem; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
+  .anchor-strike {
+    font-size: 1.6rem; font-weight: 700; color: var(--text-muted);
+    text-decoration: line-through; text-decoration-color: var(--danger);
+    margin-top: 6px;
+  }
+  .anchor-arrow { color: var(--text-muted); font-size: 1.2rem; margin: 8px 0; }
+  .anchor-price { font-size: 3rem; font-weight: 800; letter-spacing: -0.02em; color: var(--cyan-bright); line-height: 1; }
+  .anchor-price small { font-size: 1rem; font-weight: 600; color: var(--text-secondary); }
+  .anchor-note { margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary); max-width: 60ch; margin-left: auto; margin-right: auto; }
+  .anchor-note b { color: var(--text-primary); }
+
+  .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  .pay-grid.three { grid-template-columns: repeat(3, 1fr); }
+  .pay {
+    background: var(--bg-surface); border: 1px solid var(--border-strong);
+    border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .pay .pt { font-size: 0.8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+  .pay .pv { font-size: 1.7rem; font-weight: 800; margin-top: 6px; }
+  .pay .pv .u { font-size: 0.9rem; color: var(--text-secondary); font-weight: 600; }
+  .pay .pd { font-size: 0.84rem; color: var(--text-secondary); margin-top: 6px; }
+  .pay-total {
+    margin-top: 14px; text-align: center; font-size: 0.95rem; color: var(--text-secondary);
+  }
+  .pay-total b { color: var(--cyan-bright); font-weight: 800; }
+  .pay-methods { margin-top: 10px; font-size: 0.84rem; color: var(--text-muted); text-align: center; }
+
+  .terms {
+    margin-top: 20px; background: var(--bg-elevated);
+    border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+  }
+  .terms h4 { font-size: 0.95rem; margin-bottom: 12px; color: var(--text-primary); }
+  .terms p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px; }
+  .terms p:last-child { margin-bottom: 0; }
+  .terms p b { color: var(--text-primary); }
+
+  /* steps */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step { display: flex; gap: 18px; position: relative; padding-bottom: 26px; }
+  .step:last-child { padding-bottom: 0; }
+  .step::before {
+    content: ""; position: absolute; left: 17px; top: 38px; bottom: -4px;
+    width: 2px; background: var(--border-strong);
+  }
+  .step:last-child::before { display: none; }
+  .step-num {
+    flex: 0 0 36px; width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg-surface); border: 2px solid var(--cyan);
+    color: var(--cyan-bright); font-weight: 800; font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center; z-index: 1;
+  }
+  .step-body h4 { font-size: 1.02rem; font-weight: 700; }
+  .step-body p { font-size: 0.92rem; color: var(--text-secondary); margin-top: 3px; }
+
+  .meeting-note {
+    margin-top: 22px; display: flex; gap: 12px; align-items: flex-start;
+    background: rgba(var(--cyan-rgb),0.07); border: 1px solid rgba(var(--cyan-rgb),0.22);
+    border-radius: 12px; padding: 16px 18px;
+  }
+  .meeting-note .cal {
+    flex: 0 0 30px; width: 30px; height: 30px; border-radius: 8px;
+    background: rgba(var(--cyan-rgb),0.13); color: var(--cyan-bright);
+    display: flex; align-items: center; justify-content: center; font-size: 15px;
+  }
+  .meeting-note .b { font-size: 0.93rem; color: var(--text-secondary); }
+  .meeting-note .b b { color: var(--text-primary); }
+
+  .closing-cta {
+    margin-top: 30px; text-align: center;
+    background: linear-gradient(160deg, rgba(var(--cyan-rgb),0.10), rgba(var(--sand-rgb),0.06));
+    border: 1px solid rgba(var(--cyan-rgb),0.22);
+    border-radius: 16px; padding: 36px 24px;
+  }
+  .closing-cta h3 { font-size: 1.4rem; font-weight: 800; }
+  .closing-cta p { color: var(--text-secondary); margin-top: 8px; max-width: 52ch; margin-left: auto; margin-right: auto; }
+  .closing-cta p b { color: var(--text-primary); }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 9px;
+    margin-top: 20px; font-size: 1rem; font-weight: 700;
+    background: var(--cyan); color: #faf9f4; text-decoration: none;
+    padding: 14px 28px; border-radius: 100px;
+    transition: filter .2s ease, transform .2s ease;
+  }
+  .btn-primary:hover { filter: brightness(1.08); transform: translateY(-2px); }
+  .cta-sub { margin-top: 12px; font-size: 0.83rem; color: var(--text-muted); }
+
+  /* footer */
+  .footer {
+    border-top: 1px solid var(--border);
+    max-width: var(--maxw); margin: 0 auto; padding: 28px;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-size: 0.82rem; color: var(--text-muted);
+  }
+  .footer .partner { color: var(--text-secondary); }
+
+  .quote-strip {
+    max-width: var(--maxw); margin: 8px auto 0; padding: 0 28px;
+  }
+  .quote-strip .q {
+    border-top: 1px solid var(--border);
+    padding-top: 26px; font-size: 1.05rem; color: var(--text-secondary);
+    font-style: italic;
+  }
+  .quote-strip .q b { color: var(--text-primary); font-style: normal; }
+
+  @media (max-width: 860px) {
+    .factgrid { grid-template-columns: 1fr 1fr; }
+    .grid-2, .calc-grid, .inc-grid, .pay-grid, .pay-grid.three { grid-template-columns: 1fr; }
+    .hero { padding-top: 44px; }
+    .topbar-cta { display: none; }
+  }
+  @media (max-width: 480px) {
+    .factgrid { grid-template-columns: 1fr; }
+    .topbar-inner, .hero, .tabs-wrap, .panel-area { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== FIXO (FF.AI) -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">
+      <div class="logo-mark">FF</div>
+      <div class="logo-text">
+        FF<span class="in">.AI</span>
+        <span class="sub">INTELIGÊNCIA ARTIFICIAL PARA CLÍNICAS</span>
+      </div>
+    </div>
+    <a class="topbar-cta" href="#contato" onclick="showTab(5)">Quero implantar →</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <span class="eyebrow"><span class="dot"></span> Proposta FF.AI 360 · Personalizada · Confidencial</span>
+  <h1>Dr. Lucas, posicionamento de psiquiatria premium se constrói em <span class="hl">dois lugares ao mesmo tempo</span>.</h1>
+  <p class="lead">Uma proposta desenhada para o seu momento específico: consultório em fase de abertura, reposicionamento de ticket em curso e zero presença digital. O FF.AI 360 ataca os dois lados — a <b>autoridade</b> que faz o paciente vir, e o <b>atendimento</b> que não solta nenhum lead.</p>
+  <p class="calm">🕐 Esta proposta foi feita para ser analisada com calma. Explore cada aba no seu tempo.</p>
+
+  <div class="factgrid">
+    <div class="fact"><div class="k">Médico</div><div class="v">Dr. Lucas Colman</div></div>
+    <div class="fact"><div class="k">Especialidade</div><div class="v">Psiquiatria · Goiânia</div></div>
+    <div class="fact"><div class="k">Ticket atual → alvo</div><div class="v">R$ 400 → R$ 800</div></div>
+    <div class="fact"><div class="k">Meta de consultas</div><div class="v cyan">~ 80 / mês</div></div>
+  </div>
+</section>
+
+<!-- ===== TABS ===== FIXO (FF.AI) -->
+<div class="tabs-wrap">
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="showTab(0)"><span class="num">1</span> Diagnóstico</button>
+    <button class="tab" onclick="showTab(1)"><span class="num">2</span> A Implantação</button>
+    <button class="tab" onclick="showTab(2)"><span class="num">3</span> A Matemática do ROI</button>
+    <button class="tab" onclick="showTab(3)"><span class="num">4</span> O que está incluído</button>
+    <button class="tab" onclick="showTab(4)"><span class="num">5</span> Investimento</button>
+    <button class="tab" onclick="showTab(5)"><span class="num">6</span> Próximos passos</button>
+  </div>
+</div>
+
+<div class="panel-area">
+
+  <!-- ===== PANEL 0 — DIAGNÓSTICO ===== -->
+  <section class="panel active" id="p0">
+    <div class="section-head">
+      <span class="tag">O ponto de partida</span>
+      <h2>Onde o atendimento está hoje — e o que isso está custando</h2>
+      <p>Tudo abaixo veio do nosso diagnóstico. Não é genérico: é o cenário da sua clínica.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="font-size:1.05rem;margin-bottom:16px;color:var(--danger);">Hoje</h3>
+        <ul class="now-list">
+          <li><span class="ic pain">!</span><span class="txt">Consultório em fase de abertura, fluxo de pacientes <b>pequeno</b> e dependente da estrutura do seu pai.</span></li>
+          <li><span class="ic pain">!</span><span class="txt">Instagram <b>inativo</b>. Num mercado saturado de psiquiatras nas redes, você está invisível para quem deveria te procurar.</span></li>
+          <li><span class="ic pain">!</span><span class="txt">Consulta a <b>R$ 400</b> num mercado em que psiquiatria de excelência cobra R$ 2.000 a R$ 2.500 — o preço baixo gera <b>desconfiança</b>, não atração.</span></li>
+          <li><span class="ic pain">!</span><span class="txt">Estrutura interna (secretária, atendimento, processo de vendas) ainda não pronta. Cada lead novo é um <b>"balde furado"</b> esperando pra acontecer.</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-size:1.05rem;margin-bottom:16px;color:var(--success);">Onde você pode chegar</h3>
+        <ul class="now-list">
+          <li><span class="ic win">✓</span><span class="txt">Volume previsível caminhando para <b>80 consultas/mês</b>, com agendamento automatizado pela IA, sem depender do telefone.</span></li>
+          <li><span class="ic win">✓</span><span class="txt">Autoridade visível: <b>2 conteúdos por semana</b> com seu avatar — sem você gravar reels todo dia.</span></li>
+          <li><span class="ic win">✓</span><span class="txt">Ticket de <b>R$ 800</b> sustentado pela percepção de valor que a presença digital constrói. Preço como sinal de qualidade, não de barreira.</span></li>
+          <li><span class="ic win">✓</span><span class="txt">Atendimento <b>24/7</b> que não solta nenhum lead — IA na linha de frente, secretária e você só nas conversas que importam.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="knot">
+      <h4>O nó — em uma frase</h4>
+      <p>O nó está em <b>dois lados ao mesmo tempo</b>: o mercado ainda não te conhece, e a clínica ainda não está pronta para o paciente que aparece. O FF.AI 360 atua nos dois — <b>Presença</b> constrói autoridade que faz o paciente te procurar; <b>Atendimento</b> garante que cada um deles vire conversa qualificada.</p>
+    </div>
+
+    <div class="quote-strip">
+      <p class="q">"Preço é percepção de valor — e percepção de valor se constrói com posicionamento. <b>Você não cobra R$ 800 porque vale R$ 800. Você cobra R$ 800, e por isso o mercado entende que vale</b>."</p>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 1 — A IMPLANTAÇÃO ===== FIXO (FF.AI) -->
+  <section class="panel" id="p1">
+    <div class="section-head">
+      <span class="tag">A implantação 360</span>
+      <h2>~4 semanas — Atendimento e Presença, em paralelo</h2>
+      <p>O FF.AI 360 não é um software que você compra e configura sozinho: é uma <b>implantação acompanhada</b> que monta dois sistemas em paralelo — o time de agentes de IA que atende a clínica, e o avatar digital que produz seu conteúdo. Em cerca de 4 semanas, do kickoff ao go-live dos dois lados.</p>
+    </div>
+
+    <div class="onboarding-note">
+      <span class="ic" style="background:rgba(var(--sand-rgb),0.16);color:var(--sand);">0</span>
+      <div class="b"><b>Kickoff.</b> Reunião de alinhamento: acessos, responsáveis, mapa do fluxo de atendimento atual da clínica e definição da agenda da gravação de 2h (áudio + vídeo) que dá origem ao seu avatar.</div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-top">
+        <span class="phase-num">SEMANA 1</span>
+        <h3>Diagnóstico, Linha Editorial e Desenho</h3>
+        <span class="phase-months">· Semana 1</span>
+      </div>
+      <p class="phase-obj"><b>Objetivo:</b> mapear o fluxo de atendimento, desenhar como os agentes de IA vão qualificar pacientes de psiquiatria, e construir junto com você a <b>linha editorial</b> que vai sustentar 2 conteúdos por semana para reposicionar o seu ticket.</p>
+      <div class="phase-res">
+        <span class="chip">Fluxo de atendimento mapeado</span>
+        <span class="chip">Escopo dos agentes definido</span>
+        <span class="chip">Linha editorial aprovada</span>
+        <span class="chip">Roteiro da gravação pronto</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-top">
+        <span class="phase-num">SEMANA 2</span>
+        <h3>Construção dos Agentes e Gravação do Avatar</h3>
+        <span class="phase-months">· Semana 2</span>
+      </div>
+      <p class="phase-obj"><b>Objetivo:</b> construir e treinar os agentes de IA com seu tom de voz e a abordagem clínica de psiquiatria; em paralelo, você grava as <b>2 horas de conteúdo</b> (áudio + vídeo com qualidade) que vão alimentar a clonagem do seu avatar digital.</p>
+      <div class="phase-res">
+        <span class="chip">Agentes construídos</span>
+        <span class="chip">Base de conhecimento da clínica</span>
+        <span class="chip">2h de gravação coletadas</span>
+        <span class="chip">Clonagem do avatar iniciada</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-top">
+        <span class="phase-num">SEMANA 3</span>
+        <h3>Integração, Testes e Primeiros Roteiros</h3>
+        <span class="phase-months">· Semana 3</span>
+      </div>
+      <p class="phase-obj"><b>Objetivo:</b> conectar os agentes ao WhatsApp, CRM e agenda; testar ponta a ponta com cenários de psiquiatria; e produzir os <b>primeiros roteiros e conteúdos</b> com seu avatar, validados por você antes de publicar.</p>
+      <div class="phase-res">
+        <span class="chip">Integrações conectadas</span>
+        <span class="chip">Avatar finalizado</span>
+        <span class="chip">Primeiros 4 roteiros aprovados</span>
+        <span class="chip">Visita presencial à clínica · treinamento da secretária</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-top">
+        <span class="phase-num">SEMANA 4</span>
+        <h3>Go-live · Atendimento e Conteúdo no Ar</h3>
+        <span class="phase-months">· Semana 4</span>
+      </div>
+      <p class="phase-obj"><b>Objetivo:</b> colocar os agentes em produção atendendo seus pacientes 24/7, publicar os primeiros conteúdos do avatar, treinar a equipe e iniciar a operação assistida — incluindo os <b>2 meses de acompanhamento comercial</b> com o diretor comercial.</p>
+      <div class="phase-res">
+        <span class="chip">Go-live dos agentes</span>
+        <span class="chip">Primeiros conteúdos no ar</span>
+        <span class="chip">Equipe treinada</span>
+        <span class="chip">Acompanhamento comercial iniciado</span>
+      </div>
+    </div>
+
+    <div class="card glow" style="margin-top:18px;">
+      <h3 style="font-size:1.05rem;margin-bottom:10px;">Depois do go-live — operação assistida</h3>
+      <p style="color:var(--text-secondary);">A implantação termina, mas o FF.AI 360 continua evoluindo. Na <b style="color:var(--text-primary);">operação assistida mensal</b>, acompanhamos os atendimentos da IA, ajustamos os agentes, produzimos os <b>2 conteúdos semanais</b> com avatar e copywriting, e evoluímos a estratégia conforme você cresce. Auditoria de conformidade <b>CFM 2.454</b> incluída — exigência obrigatória a partir de agosto.</p>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 2 — ROI ===== -->
+  <section class="panel" id="p2">
+    <div class="section-head">
+      <span class="tag">A pergunta certa</span>
+      <h2>"Será que se paga?" — vamos fazer a conta juntos</h2>
+      <p>É justo perguntar pelo retorno. Vamos ser concretos. Abaixo, uma calculadora viva: <b>ajuste os números para a sua realidade</b> e veja o retorno só de <b>uma</b> alavanca — a que você mesmo identificou na conversa: cobrar o que a sua consulta vale.</p>
+    </div>
+
+    <div class="card">
+      <div class="calc-grid">
+        <div class="calc-inputs">
+          <div class="field">
+            <label>Consultas por mês <span class="hint">(estimativa sua)</span></label>
+            <input type="number" id="qtd" value="30" min="0" step="1" oninput="calc()" />
+          </div>
+          <div class="field">
+            <label>Preço atual da consulta <span class="hint">(hoje)</span></label>
+            <input type="number" id="precoAtual" value="400" min="0" step="50" oninput="calc()" />
+          </div>
+          <div class="field">
+            <label>Preço-alvo após reposicionamento <span class="hint">(arraste)</span></label>
+            <div class="slider-row">
+              <input type="range" id="precoNovo" value="800" min="400" max="2500" step="50" oninput="calc()" />
+              <span class="slider-val" id="precoNovoVal">R$ 800</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-out">
+          <div class="out-hero">
+            <div class="lab">Resultado líquido no 1º ano</div>
+            <div class="big" id="liquido">+ R$ 53.700</div>
+          </div>
+          <span class="mult-badge" id="multiplo">1,6× o investimento</span>
+          <hr class="out-hr" />
+          <div class="out-row"><span class="lab">Receita adicional / mês</span><span class="num" id="recMes">R$ 12.000</span></div>
+          <div class="out-row"><span class="lab">Receita adicional / ano</span><span class="num" id="recAno" style="color:var(--cyan-bright);">R$ 144.000</span></div>
+          <div class="out-row"><span class="lab">Investimento no 1º ano</span><span class="num" id="invAno">R$ 90.300</span></div>
+          <hr class="out-hr" />
+          <div class="bar-cmp">
+            <div class="bl">Receita adicional gerada</div>
+            <div class="bar-track"><div class="bar-fill rev" id="barRev" style="width:100%"></div></div>
+          </div>
+          <div class="bar-cmp">
+            <div class="bl">Investimento (implantação + 12 mensalidades)</div>
+            <div class="bar-track"><div class="bar-fill inv" id="barInv" style="width:63%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="punch" id="punch">
+        Com apenas <b>19 consultas por mês</b> cobradas no novo valor, o FF.AI 360 inteiro se paga no 1º ano. Cada consulta além disso é receita nova.
+      </div>
+
+      <p class="calc-disclaim">⚠️ Esta calculadora considera <b>apenas a alavanca de preço</b> (reprecificação das consultas que você já faz). Ela não inclui as outras alavancas que o 360 ativa: o <b>volume</b> de novas consultas que a presença digital gera, a <b>captura de leads</b> que hoje se perdem por atendimento lento, nem a <b>recorrência</b> de pacientes que voltam. O número real tende a ser maior.</p>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px;">
+      <div class="card">
+        <h4 style="color:var(--cyan-bright);margin-bottom:8px;">Por que R$ 400 é pouco para psiquiatria</h4>
+        <p style="font-size:0.92rem;color:var(--text-secondary);">A complexidade clínica e a responsabilidade da psiquiatria justificam um ticket entre <b>R$ 2.000 e R$ 2.500</b> no mercado premium. R$ 400 não é "acessível" — é um sinal de mercado que diz "não tenho certeza de que vale". Reposicionar exige <b>presença</b> que sustente o preço: é exatamente o que a Presença do FF.AI entrega.</p>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--cyan-bright);margin-bottom:8px;">Ticket antes do volume</h4>
+        <p style="font-size:0.92rem;color:var(--text-secondary);">A ordem certa não é "mais pacientes a R$ 400". É <b>aumentar o ticket primeiro</b> — porque 10 consultas a R$ 800 (R$ 8 mil/mês) trabalham menos e rendem o dobro de 10 a R$ 400. O FF.AI 360 trabalha exatamente nessa ordem: percepção de valor primeiro, escala depois.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 3 — O QUE INCLUI ===== -->
+  <section class="panel" id="p3">
+    <div class="section-head">
+      <span class="tag">A entrega</span>
+      <h2>O que está incluído no FF.AI 360</h2>
+      <p>Dois sistemas implantados em paralelo: o <b>Atendimento</b> de IA que cuida dos seus pacientes, e a <b>Presença</b> digital que constrói sua autoridade. Mais os bônus que vamos incluir nesta proposta.</p>
+    </div>
+
+    <h3 style="font-size:0.95rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;">Atendimento</h3>
+    <div class="inc-grid">
+      <div class="inc">
+        <div class="hd"><span class="em">🤖</span><h4>Agentes de Atendimento 24/7</h4></div>
+        <p>Agentes de IA que respondem, qualificam e agendam pacientes — 24 horas por dia, 7 dias por semana, com a abordagem clínica adequada a psiquiatria.</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">🔌</span><h4>Integrações</h4></div>
+        <p>Conexão dos agentes com WhatsApp, CRM e agenda da clínica — tudo trabalhando junto.</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">🧠</span><h4>Base de Conhecimento</h4></div>
+        <p>Os agentes treinados com os seus serviços, condutas e o <b>tom de voz</b> que você usa com seus pacientes.</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">📊</span><h4>Painel de Acompanhamento</h4></div>
+        <p>Métricas de atendimento, leads e conversão em um painel — para decisões baseadas em números.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:0.95rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin:24px 0 12px;">Presença</h3>
+    <div class="inc-grid">
+      <div class="inc">
+        <div class="hd"><span class="em">🎬</span><h4>Avatar Digital · Clone</h4></div>
+        <p>Sua imagem e voz clonadas com qualidade profissional, a partir das <b>2 horas de gravação</b> que você produz no início. O avatar grava por você quando você não pode gravar.</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">📝</span><h4>Linha Editorial e Roteiros</h4></div>
+        <p>Estratégia de conteúdo desenhada para psiquiatria de excelência e reposicionamento de ticket. Roteiros apresentados para sua aprovação antes de produzir.</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">📹</span><h4>2 Conteúdos por Semana</h4></div>
+        <p>Produção de <b>2 reels semanais</b> com seu avatar — copywriting, edição e entrega prontos para publicar. Sem você precisar gravar reels todo dia.</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">🪧</span><h4>Posicionamento Premium</h4></div>
+        <p>Conteúdo desenhado para o público certo — quem reconhece e paga por psiquiatria de alto valor.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:0.95rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin:24px 0 12px;">Comum aos dois</h3>
+    <div class="inc-grid">
+      <div class="inc">
+        <div class="hd"><span class="em">🎓</span><h4>Treinamento da Equipe</h4></div>
+        <p>A sua secretária preparada para operar junto com a IA — quando a IA resolve, quando passa pra ela e quando passa pra você.</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">🛟</span><h4>Operação Assistida</h4></div>
+        <p>Acompanhamento contínuo, ajustes da IA e produção de conteúdo evoluindo ao longo dos meses (na mensalidade).</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">🔒</span><h4>CFM 2.454 + LGPD</h4></div>
+        <p>Conformidade com a auditoria do <b>Conselho Federal de Medicina</b> obrigatória a partir de agosto, e tratamento de dados conforme LGPD.</p>
+      </div>
+      <div class="inc">
+        <div class="hd"><span class="em">🧰</span><h4>Tudo documentado</h4></div>
+        <p>Fluxos, configurações, base de conhecimento e linha editorial registrados — a operação é sua.</p>
+      </div>
+    </div>
+
+    <div class="card glow" style="margin-top:22px;">
+      <h3 style="font-size:1.05rem;margin-bottom:12px;">🎁 Bônus exclusivos para esta proposta</h3>
+      <div class="phase-res" style="margin-top:0;">
+        <span class="chip">CRM da clínica (incluso)</span>
+        <span class="chip">Visita presencial em Goiânia · treinamento da secretária</span>
+        <span class="chip">2 meses de acompanhamento comercial · mentorias com o diretor comercial</span>
+      </div>
+      <p style="color:var(--text-secondary);margin-top:14px;font-size:0.92rem;">A visita à clínica e os 2 meses de acompanhamento comercial são <b>cortesia</b> — fora do escopo do projeto principal — porque acreditamos que <b>estrutura interna vem antes de escalar marketing</b>. Não adianta encher um balde furado.</p>
+    </div>
+
+    <div class="card glow" style="margin-top:18px;">
+      <h3 style="font-size:1.02rem;margin-bottom:10px;">O que muda no seu dia a dia</h3>
+      <div class="phase-res" style="margin-top:0;">
+        <span class="chip">Atendimento 24/7 que não solta paciente</span>
+        <span class="chip">2 conteúdos por semana sem você gravar</span>
+        <span class="chip">Autoridade construída em poucos meses</span>
+        <span class="chip">Ticket sustentado pela percepção de valor</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 4 — INVESTIMENTO ===== -->
+  <section class="panel" id="p4">
+    <div class="section-head">
+      <span class="tag">O investimento</span>
+      <h2>Quanto custa — e como funciona o custo gradual</h2>
+      <p>Transparência total. O FF.AI 360 tem dois componentes: a implantação (uma vez) e a operação assistida (mensal). Para o seu momento, desenhei um <b>custo gradual</b> — a mensalidade começa menor e cresce conforme você cresce.</p>
+    </div>
+
+    <div class="card anchor-box">
+      <div class="anchor-label">O custo de manter R$ 400 num mercado de R$ 2.000+</div>
+      <div class="anchor-strike">~ R$ 144 mil / ano em receita não capturada</div>
+      <div class="anchor-arrow">↓</div>
+      <div class="anchor-price">R$ 90.300<small> · investimento total no 1º ano (escalonado)</small></div>
+      <p class="anchor-note">A reprecificação de 30 consultas/mês de R$ 400 para R$ 800 gera <b>R$ 144 mil/ano em receita adicional</b>. O investimento total no 1º ano do FF.AI 360 é <b>R$ 90.300</b>, parcelado para começar leve e acompanhar o seu crescimento.</p>
+    </div>
+
+    <div class="pay-grid">
+      <div class="pay">
+        <div class="pt">Implantação · parcelada</div>
+        <div class="pv">3x R$ 6.500</div>
+        <div class="pd">Total <b>R$ 19.500</b>. Construção dos agentes, clonagem do avatar, integração e go-live em ~4 semanas.</div>
+      </div>
+      <div class="pay">
+        <div class="pt">Operação Assistida · gradual</div>
+        <div class="pv">R$ 3.000<span class="u"> → R$ 8.800/mês</span></div>
+        <div class="pd">Mensalidade <b>escalonada</b> em 3 faixas ao longo dos 12 meses (ver detalhe abaixo).</div>
+      </div>
+    </div>
+    <p class="pay-total">Investimento total no 1º ano: <b>R$ 90.300</b> — equivalente ao valor cheio de tabela, redistribuído ao longo dos meses.</p>
+    <p class="pay-methods">Formas de pagamento aceitas: <b>Pix</b> ou <b>cartão</b>.</p>
+
+    <div class="terms" style="background:rgba(var(--cyan-rgb),0.06);border:1px solid rgba(var(--cyan-rgb),0.22);">
+      <h4 style="color:var(--cyan-bright);">Detalhe do custo gradual da operação assistida</h4>
+      <div class="pay-grid three" style="margin-top:6px;">
+        <div class="pay" style="background:transparent;">
+          <div class="pt">Meses 1 a 4</div>
+          <div class="pv" style="font-size:1.4rem;">R$ 3.000<span class="u"> / mês</span></div>
+          <div class="pd">Fase inicial · estruturação. Total da faixa: <b>R$ 12.000</b>.</div>
+        </div>
+        <div class="pay" style="background:transparent;">
+          <div class="pt">Meses 5 a 8</div>
+          <div class="pv" style="font-size:1.4rem;">R$ 5.900<span class="u"> / mês</span></div>
+          <div class="pd">Operação plena · IA + conteúdo a pleno. Total da faixa: <b>R$ 23.600</b>.</div>
+        </div>
+        <div class="pay" style="background:transparent;">
+          <div class="pt">Meses 9 a 12</div>
+          <div class="pv" style="font-size:1.4rem;">R$ 8.800<span class="u"> / mês</span></div>
+          <div class="pd">Fase de escala · resultados consolidados. Total da faixa: <b>R$ 35.200</b>.</div>
+        </div>
+      </div>
+      <p style="margin-top:14px;color:var(--text-secondary);font-size:0.9rem;">Total das mensalidades: <b style="color:var(--cyan-bright);">R$ 70.800</b> · somado à implantação (R$ 19.500), fecha em <b style="color:var(--cyan-bright);">R$ 90.300</b> no 1º ano.</p>
+    </div>
+
+    <div class="terms">
+      <h4>Sobre garantia — com honestidade</h4>
+      <p>O FF.AI 360 <b>não promete um número de pacientes ou um faturamento garantido</b>: o resultado depende também do volume de leads, da operação da clínica e da disciplina de execução. O que comprometemos é a <b>entrega</b>: agentes construídos, integrados, testados e acompanhados; avatar clonado; 2 conteúdos semanais produzidos e publicados; visita presencial; e 2 meses de acompanhamento comercial.</p>
+      <p>Como em qualquer contratação de serviço, você tem o <b>direito de arrependimento de 7 dias</b> previsto no Código de Defesa do Consumidor.</p>
+      <p>Os dados dos pacientes são tratados em conformidade com a <b>LGPD</b>, e a operação atende à <b>Resolução CFM 2.454</b> (auditoria obrigatória a partir de agosto).</p>
+      <h4 style="margin-top:14px;">Validade da proposta</h4>
+      <p>Esta proposta é válida por <b>30 dias corridos</b> a partir da emissão — até <b>26/06/2026</b>.</p>
+    </div>
+  </section>
+
+  <!-- ===== PANEL 5 — PRÓXIMOS PASSOS ===== -->
+  <section class="panel" id="p5">
+    <div class="section-head" id="contato">
+      <span class="tag">A decisão</span>
+      <h2>Como começamos</h2>
+      <p>Quatro passos simples entre este "sim" e os agentes de IA atendendo na sua clínica.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Você confirma o aceite</h4>
+          <p>Um "vamos" é o suficiente para reservarmos a sua vaga e o início da implantação.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Contrato e pagamento da implantação</h4>
+          <p>Assinatura do contrato de prestação de serviço e definição da forma de pagamento (Pix ou cartão).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Kickoff</h4>
+          <p>Reunião de alinhamento: acessos, responsáveis e o mapa do fluxo de atendimento da clínica.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Implantação — Semana 1</h4>
+          <p>Começa o diagnóstico e o desenho dos agentes. A partir daqui, ~4 semanas até o go-live.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="meeting-note">
+      <span class="cal">📅</span>
+      <div class="b">Já temos uma <b>conversa marcada para quarta-feira, 03/06/2026 às 18h</b> para fechar a decisão juntos. Analise esta proposta com calma até lá, converse com sua família — qualquer dúvida antes, é só me chamar.</div>
+    </div>
+
+    <div class="closing-cta">
+      <h3>Dr. Lucas, a pergunta não é "quanto custa".</h3>
+      <p>É quanto custa <b>passar mais um trimestre invisível, com ticket de R$ 400</b>, num mercado em que psiquiatria de excelência cobra R$ 2.000 a R$ 2.500.</p>
+      <a class="btn-primary" id="waBtn" href="https://wa.me/5562996363641?text=Ol%C3%A1%20Dr.%20F%C3%A1bio%2C%20%C3%A9%20o%20Dr.%20Lucas%20Colman.%20Analisei%20a%20proposta%20do%20FF.AI%20360%20e%20quero%20conversar%20sobre%20os%20pr%C3%B3ximos%20passos." target="_blank" rel="noopener">
+        Quero implantar o FF.AI 360 →
+      </a>
+      <p class="cta-sub">Você será direcionado para uma conversa direta no WhatsApp com o Dr. Fábio.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div>
+    <div class="partner">FF.AI · Inteligência Artificial para clínicas &nbsp;|&nbsp; Dr. Fábio Faleiro</div>
+    <div style="margin-top:4px;">Proposta confidencial preparada para Dr. Lucas Colman.</div>
+  </div>
+  <div style="text-align:right;">
+    <div>Emitida em 27/05/2026</div>
+    <div style="margin-top:4px;">"Você aprova, a IA executa."</div>
+  </div>
+</footer>
+
+<script>
+  function showTab(i) {
+    document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', idx === i));
+    document.querySelectorAll('.panel').forEach((p, idx) => p.classList.toggle('active', idx === i));
+    window.scrollTo({ top: document.querySelector('.tabs-wrap').offsetTop - 70, behavior: 'smooth' });
+  }
+
+  const brl = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+
+  /* calc() — padrão Preço (reprecificação).
+     - "investimento" = implantação (R$ 19.500) + 12 mensalidades escalonadas (R$ 70.800) = R$ 90.300.
+     - qtd = consultas/mês; precoAtual e precoNovo = ticket médio. */
+  function calc() {
+    const qtd = Math.max(0, parseFloat(document.getElementById('qtd').value) || 0);
+    const pAtual = Math.max(0, parseFloat(document.getElementById('precoAtual').value) || 0);
+    const pNovo = parseFloat(document.getElementById('precoNovo').value) || 0;
+    const investimento = 90300;
+
+    document.getElementById('precoNovoVal').textContent = brl(pNovo);
+
+    const delta = pNovo - pAtual;
+    const recMes = qtd * Math.max(0, delta);
+    const recAno = recMes * 12;
+    const liquido = recAno - investimento;
+    const mult = investimento > 0 ? recAno / investimento : 0;
+
+    document.getElementById('recMes').textContent = brl(recMes);
+    document.getElementById('recAno').textContent = brl(recAno);
+    document.getElementById('invAno').textContent = brl(investimento);
+
+    const liqEl = document.getElementById('liquido');
+    liqEl.textContent = (liquido >= 0 ? '+ ' : '− ') + brl(Math.abs(liquido));
+    liqEl.classList.toggle('neg', liquido < 0);
+
+    const multEl = document.getElementById('multiplo');
+    multEl.textContent = mult.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '× o investimento';
+    multEl.style.background = mult >= 1 ? 'rgba(13,127,98,0.12)' : 'rgba(192,71,58,0.12)';
+    multEl.style.color = mult >= 1 ? 'var(--success)' : 'var(--danger)';
+
+    const maxv = Math.max(recAno, investimento, 1);
+    document.getElementById('barRev').style.width = (recAno / maxv * 100) + '%';
+    document.getElementById('barInv').style.width = (investimento / maxv * 100) + '%';
+
+    const punch = document.getElementById('punch');
+    if (delta <= 0 || qtd <= 0) {
+      punch.innerHTML = 'Arraste o preço-alvo para um valor acima do preço atual para ver o retorno.';
+    } else {
+      const cobreMes = Math.ceil((investimento / 12) / delta);
+      if (cobreMes <= qtd) {
+        punch.innerHTML = 'Com apenas <b>' + cobreMes + (cobreMes === 1 ? ' consulta' : ' consultas') + ' por mês</b> cobradas no novo valor, o FF.AI 360 inteiro se paga no 1º ano. Cada consulta além disso é receita nova.';
+      } else {
+        punch.innerHTML = 'Você precisaria de <b>' + cobreMes + ' consultas/mês</b> no novo valor para o programa se pagar. Aumente o volume ou o preço-alvo para ver o ponto de equilíbrio.';
+      }
+    }
+  }
+  calc();
+</script>
+</body>
+</html>

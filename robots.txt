@@ -1,0 +1,9 @@
+# FF.AI · Inteligência Artificial para clínicas
+# https://ffai.ia.br
+
+User-agent: *
+Allow: /
+Disallow: /propostas/
+
+# Propostas comerciais são confidenciais e não devem ser indexadas
+# nem rastreadas por buscadores ou assistentes de IA.
