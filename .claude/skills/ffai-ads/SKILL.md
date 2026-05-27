@@ -77,7 +77,15 @@ R$ 2.000/mês = R$ 1.520 Search + R$ 480 YouTube. **Meta Ads cortada do plano** 
 | "Como tá hoje?", "Confere o que rodou", "Performance" | **ffai-ads-daily** |
 | "Que termos entraram?", "Relatório de termos", "O que negativar?" | **ffai-ads-search-terms** |
 | "Faz o relatório da semana", "Resume o mês", "Manda pro vault" | **ffai-ads-report** |
-| Qualquer ação direta (pausar, mudar lance, add keyword) | Fica AQUI — pede confirmação antes |
+| "Adiciona/pausa/muda keyword", "expandir AG" | **ffai-ads-keywords** |
+| "Revisa RSAs", "CTR baixo", "trocar headline", "nova copy" | **ffai-ads-rsa** |
+| "Subir lance/verba", "realocar Search↔YT", "max conversões" | **ffai-ads-budget** |
+| "YouTube performance", "VTR", "trocar criativo", "ligar YT" | **ffai-ads-youtube** |
+| "Negativa esse termo", "audita negativas", "lista geral" | **ffai-ads-negatives** |
+| "Sitelink", "callout", "snippet", "auditar extensões" | **ffai-ads-extensions** |
+| "CP-diag", "funil", "qualidade do lead", "Bruna" | **ffai-ads-conversions** |
+| "Canal YouTube" (orgânico), "banner", "playlist", "SEO vídeo" | **ffai-youtube-canal** |
+| Outra coisa fora desse mapa | Fica AQUI — pede confirmação antes de qualquer ação |
 
 ## Fonte de dados
 
@@ -105,8 +113,38 @@ Antes de qualquer decisão estratégica grande, abrir:
 ## Saudação padrão de sessão
 
 Quando esta skill carregar no início de uma sessão, ofereça as opções:
-1. Conferir performance atual (→ ffai-ads-daily)
-2. Revisar termos de busca (→ ffai-ads-search-terms)
-3. Gerar relatório semanal (→ ffai-ads-report)
-4. Ação específica (RSA, lance, keyword) — fica aqui
-5. Outra coisa
+1. Conferir performance atual (→ `ffai-ads-daily`)
+2. Revisar termos de busca (→ `ffai-ads-search-terms`)
+3. Gerar relatório semanal/mensal (→ `ffai-ads-report`)
+4. Análise de conversões e funil (→ `ffai-ads-conversions`)
+5. Ações específicas:
+   - keywords (→ `ffai-ads-keywords`)
+   - RSAs (→ `ffai-ads-rsa`)
+   - Negativas (→ `ffai-ads-negatives`)
+   - Extensões (→ `ffai-ads-extensions`)
+   - Verba/lances (→ `ffai-ads-budget`)
+   - YouTube Ads (→ `ffai-ads-youtube`)
+   - Canal YouTube orgânico (→ `ffai-youtube-canal`)
+6. Outra coisa
+
+## Mapa visual das skills
+
+```
+ffai-ads (master)
+├── LEITURA / ANÁLISE
+│   ├── ffai-ads-daily          ← check rápido 24-48h
+│   ├── ffai-ads-search-terms   ← análise de termos
+│   ├── ffai-ads-conversions    ← funil + CP-diag
+│   └── ffai-ads-report         ← relatório executivo
+│
+├── AÇÃO SEARCH
+│   ├── ffai-ads-keywords       ← keywords (add/pause/match)
+│   ├── ffai-ads-rsa            ← copy de anúncios
+│   ├── ffai-ads-negatives      ← negativas (campanha + lista)
+│   ├── ffai-ads-extensions     ← sitelinks/callouts/snippets
+│   └── ffai-ads-budget         ← verba + lances + estratégia
+│
+└── YOUTUBE
+    ├── ffai-ads-youtube        ← campanha PAGA Visualizações
+    └── ffai-youtube-canal      ← canal ORGÂNICO (manual)
+```
