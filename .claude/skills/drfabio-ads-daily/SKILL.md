@@ -47,13 +47,16 @@ mcp__615a3892-...__get_data(
 
 Verba alvo por campanha (R$ 100/dia total = R$ 3.000/mês):
 
-| Campanha | Verba alvo/dia |
-|---|---|
-| BOFU Portfolio-CRD (23849168373) | R$ 60 |
-| TOFU YT-DemandGen (23856432623) | R$ 30 |
-| BOFU Brand-DrFabio (23858813905) | R$ 10 |
+| Campanha | Verba REAL (27/05) | Verba alvo/dia |
+|---|---|---|
+| BOFU Portfolio-CRD (23849168373) | R$ 30 | R$ 60 |
+| TOFU YT-DemandGen (23856432623) | R$ 35 | R$ 30 |
+| BOFU Brand-DrFabio (23858813905) | R$ 5 | R$ 10 |
+| **Total** | **R$ 70** | **R$ 100** |
 
-Comparar `campaign_budget` retornado vs alvo. **Se desalinhado, ALERTAR no topo do relatório.**
+⚠️ **NÃO usar `campaign_budget` do Windsor pra verificar verba** — o valor não é confiável (pode estar cacheado, ser lifetime, etc.). Pra checar verba diária real, pedir pro Dr. Fábio confirmar no app Google Ads OU usar Playwright pra abrir a campanha no UI.
+
+A verba do Windsor pode ser usada pra **estimar projeção** se cruzar com `spend` real, mas pra **decidir** sempre confirmar UI.
 
 ### 4. Calcular projeção mensal
 

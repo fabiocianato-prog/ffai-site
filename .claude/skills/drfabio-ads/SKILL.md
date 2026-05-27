@@ -39,16 +39,23 @@ Skill orquestradora da conta cirurgia robótica. **NÃO confundir com `ffai-ads`
   - Todas as 3 campanhas ativas otimizam pra essa conversão
   - É a métrica-norte direta da operação
 
-## Campanhas ATIVAS (verificadas em 2026-05-27)
+## Campanhas ATIVAS (verificadas em 2026-05-27, fonte: app Google Ads)
 
-| Campanha | Tipo | Verba/dia atual | Verba alvo* |
+| Campanha | Tipo | Verba/dia REAL | Verba alvo |
 |---|---|---|---|
-| `BOFU \| Portfolio-CRD \| SP+GO \| 2026-05` (id 23849168373) | Search BOFU | R$ 300 | R$ 60 |
-| `TOFU \| YT-DemandGen-CRD \| SP+GO \| 2026-05` (id 23856432623) | YouTube Demand Gen | R$ 280 | R$ 30 |
-| `BOFU \| Brand-DrFabio \| GO e SP \| 2026-05` (id 23858813905) | Branded Search | R$ 40 | R$ 10 |
-| **Total** | | **R$ 620/dia** | **R$ 100/dia** |
+| `BOFU \| Portfolio-CRD \| SP+GO \| 2026-05` (id 23849168373) | Search BOFU | R$ 30 | R$ 60 |
+| `TOFU \| YT-DemandGen-CRD \| SP+GO \| 2026-05` (id 23856432623) | YouTube Demand Gen | R$ 35 | R$ 30 |
+| `BOFU \| Brand-DrFabio \| GO e SP \| 2026-05` (id 23858813905) | Branded Search | R$ 5 | R$ 10 |
+| **Total** | | **R$ 70/dia ≈ R$ 2.100/mês** | **R$ 100/dia / R$ 3.000/mês** |
 
-*Verba alvo é a divisão recomendada de R$ 3.000/mês (60% BOFU Portfolio / 30% YT TOFU / 10% Brand). Verba atual estava configurada pra ~R$ 18.600/mês — desalinhada com o planejamento de R$ 3.000/mês.
+⚠️ **Cuidado com Windsor:** o campo `campaign_budget` retornado pelo Windsor.ai NÃO reflete a verba diária real configurada — pode estar cacheado, ser lifetime budget, ou outro conceito. **SEMPRE validar verba pelo app Google Ads (UI), não pelo Windsor.** A skill `drfabio-ads-daily` deve sinalizar esse risco quando reportar verba.
+
+**Status atual:** **R$ 900/mês ABAIXO do plano** — modo conservador, dentro do orçamento. Espaço pra crescer ~R$ 30/dia se ROI validar.
+
+**Sinais do Google (PRINTs 27/05):**
+- TOFU YT marcado como "Qualificada (LIMITADA pelo orçamento)" — Google sugere R$ 54 ou R$ 63/dia
+- BOFU Portfolio Pontuação 58,5%, gasto R$ 373/mês cumulativo (limite mensal definido em R$ 480, abaixo do que daria R$ 30 × 30)
+- Recomendações do Google são interesse comercial DELE — só seguir com dado de Kommo validando funil
 
 **Convenção de nomenclatura:**
 - `BOFU` = bottom of funnel (intenção de compra)

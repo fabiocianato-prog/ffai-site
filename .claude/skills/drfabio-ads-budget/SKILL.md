@@ -5,18 +5,33 @@ description: Verba, lances e estratégia das 3 campanhas Dr. Fábio Faleiro (CID
 
 # Dr. Fábio Faleiro — Verba e Lances
 
-## Restrição planejada
+## Verba: plano vs realidade (27/05/2026)
 
-**R$ 3.000/mês = R$ 100/dia.** Divisão recomendada:
+**Plano:** R$ 3.000/mês = R$ 100/dia. Divisão recomendada:
 
-| Campanha | % | Verba/dia | Verba/mês |
+| Campanha | % alvo | Alvo/dia | Atual REAL |
 |---|---|---|---|
-| BOFU Portfolio-CRD | 60% | R$ 60 | R$ 1.800 |
-| TOFU YT-DemandGen | 30% | R$ 30 | R$ 900 |
-| BOFU Brand-DrFabio | 10% | R$ 10 | R$ 300 |
-| **Total** | 100% | **R$ 100** | **R$ 3.000** |
+| BOFU Portfolio-CRD | 60% | R$ 60 | R$ 30 |
+| TOFU YT-DemandGen | 30% | R$ 30 | R$ 35 |
+| BOFU Brand-DrFabio | 10% | R$ 10 | R$ 5 |
+| **Total** | 100% | **R$ 100** | **R$ 70** |
 
-**Importante:** as campanhas estavam configuradas com R$ 620/dia (6× o plano). Primeira ação dessa skill quando descobrir desvio: ALERTAR.
+**Status:** modo conservador — R$ 30/dia abaixo do plano. **Não é problema** — espaço pra escalar quando dado validar.
+
+⚠️ **NÃO confiar em `campaign_budget` do Windsor.** Validar verba real pelo app Google Ads (UI) sempre que decidir mexer.
+
+## Quando escalar R$ 70 → R$ 100/dia
+
+Após **14+ dias** com:
+- CP-WhatsApp 🟢 (<R$ 30) sustentado
+- Cruzamento Kommo: WhatsApp→consulta ≥10%
+- Pelo menos 1 cirurgia fechada vinda do tráfego (sinal real de ROI)
+- Capacidade cirúrgica ainda folgada (<15/mês)
+
+Distribuição ideal pra atingir R$ 100/dia:
+- Portfolio R$ 30 → R$ 50 (Search BOFU primeiro, captura intenção quente)
+- YT R$ 35 → R$ 35 (mantém — já no alvo, "limitada por orçamento" do Google é interesse dele)
+- Brand R$ 5 → R$ 15 (eficientíssimo CTR 13%, pouco espaço perdido)
 
 ## Decisão de escalar (revisar quando)
 
