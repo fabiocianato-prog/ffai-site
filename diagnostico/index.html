@@ -1520,6 +1520,14 @@
           errBox.style.display = 'block';
           return;
         }
+        // BR mobile E.164 SEMPRE tem 14 chars (+55 + DDD 2 digitos + 9 digitos).
+        // Bloqueia DDD começando com 0 (que o intl-tel-input "corrige" truncando)
+        // e qualquer comprimento fora do padrão.
+        if (iti.getSelectedCountryData().iso2 === 'br' && rawNumber.length !== 14) {
+          errBox.textContent = 'Confere o número: precisa ser DDD (2 dígitos) + 9XXXX-XXXX.';
+          errBox.style.display = 'block';
+          return;
+        }
 
         var tamanho = (form.querySelector('input[name="tamanho_clinica"]:checked') || {}).value || '';
         var gargalo = (form.querySelector('input[name="gargalo"]:checked') || {}).value || '';
