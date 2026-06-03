@@ -1430,6 +1430,12 @@
 
       // intl-tel-input no campo WhatsApp (BR default, máscara BR)
       var phoneInput = document.getElementById('whatsapp');
+      var phoneHint = document.createElement('div');
+      phoneHint.className = 'help';
+      phoneHint.style.cssText = 'color:#C97B2E;margin-top:6px;font-size:0.85em;display:none;';
+      phoneHint.textContent = 'Não inclua o código do país. Comece pelo DDD: (41) 99999-9999.';
+      phoneInput.parentNode.appendChild(phoneHint);
+
       var iti = window.intlTelInput(phoneInput, {
         initialCountry: 'br',
         preferredCountries: ['br', 'us', 'pt'],
@@ -1437,16 +1443,36 @@
         utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/js/utils.js'
       });
 
+      // Trava o submit até utils.js carregar (senão isValidNumber vira passthrough)
+      var utilsReady = false;
+      if (iti.promise && typeof iti.promise.then === 'function') {
+        iti.promise.then(function () { utilsReady = true; });
+      } else {
+        utilsReady = true; // fallback se a versão não expõe promise
+      }
+
       // Máscara BR (XX) XXXXX-XXXX — só dígitos, máx 11. Outros DDIs ficam livres.
       phoneInput.addEventListener('input', function (e) {
-        if (iti.getSelectedCountryData().iso2 !== 'br') return;
-        var v = e.target.value.replace(/\D/g, '').substring(0, 11);
+        if (iti.getSelectedCountryData().iso2 !== 'br') { phoneHint.style.display = 'none'; return; }
+        var v = e.target.value.replace(/\D/g, '');
+
+        // Anti-"55 duplicado": se o lead digitou "55" + DDD + número (12-13 dígitos
+        // começando com 55), remove o "55" inicial silenciosamente e avisa.
+        var hadDuplicateCC = false;
+        if (v.length >= 12 && v.substring(0, 2) === '55') {
+          v = v.substring(2);
+          hadDuplicateCC = true;
+        }
+        v = v.substring(0, 11);
+
         var out = '';
         if (v.length === 0) out = '';
         else if (v.length <= 2) out = '(' + v;
         else if (v.length <= 7) out = '(' + v.substring(0, 2) + ') ' + v.substring(2);
         else out = '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7, 11);
         e.target.value = out;
+
+        phoneHint.style.display = hadDuplicateCC ? 'block' : 'none';
       });
 
       // gargalo "Outro" → mostra campo de texto
@@ -1477,8 +1503,20 @@
 
         // validação nativa
         if (!form.checkValidity()) { form.reportValidity(); return; }
+        if (!utilsReady) {
+          errBox.textContent = 'Validando o número, tenta de novo em 1 segundo.';
+          errBox.style.display = 'block';
+          return;
+        }
         if (!iti.isValidNumber()) {
           errBox.textContent = 'Esse número parece incompleto. Confere o DDD + 9 dígitos?';
+          errBox.style.display = 'block';
+          return;
+        }
+        // Defesa em profundidade: nunca deixar passar "+5555" (código BR duplicado)
+        var rawNumber = iti.getNumber();
+        if (/^\+5555\d{9}$/.test(rawNumber)) {
+          errBox.textContent = 'O número ficou com o 55 duplicado. Digita só o DDD + 9 dígitos.';
           errBox.style.display = 'block';
           return;
         }
@@ -1517,7 +1555,12 @@
               return !/^(dr|dra|drª|dr\.|dra\.)$/i.test(p);
             });
             var primeiro = partes[0] || payload.nome.split(' ')[0];
-            // Redireciona pra página dedicada — Google Ads dispara conversão por destination URL (/obrigado).
+            try {
+              sessionStorage.setItem('ffai_ec', JSON.stringify({
+                phone: payload.whatsapp,
+                first_name: primeiro.toLowerCase()
+              }));
+            } catch (e) {}
             var params = new URLSearchParams();
             params.set('nome', primeiro);
             ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) {
@@ -1532,6 +1575,19 @@
           });
       });
     })();
+  </script>
+
+  <!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
+  <script>
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;
+      if (!a || typeof gtag !== 'function') return;
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18172890851/__WHATSAPP_CLICK_LABEL__',
+        'value': 200.0,
+        'currency': 'BRL'
+      });
+    });
   </script>
 </body>
 </html>
