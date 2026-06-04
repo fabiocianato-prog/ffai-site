@@ -27,6 +27,22 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Meta Pixel — FF.AI -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '27417120574590791');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=27417120574590791&ev=PageView&noscript=1"/></noscript>
+<!-- /Meta Pixel -->
 <meta name="robots" content="noindex, nofollow" />
 <script>document.documentElement.classList.replace('no-js','js');</script>
 <title>FF.AI · Apresentação Comercial — Inteligência Artificial para Clínicas</title>
@@ -549,6 +565,16 @@
     .topbar-inner, .hero, .tabs-wrap, .panel-area { padding-left: 18px; padding-right: 18px; }
   }
 </style>
+
+<!-- Google tag (gtag.js) — FF.AI Google Ads AW-18172890851 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18172890851');
+</script>
+<!-- /Google tag -->
 </head>
 <body>
 
@@ -1222,6 +1248,19 @@
   calcAtd();
   calcPrs();
   calc360();
+</script>
+
+<!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
+<script>
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;
+    if (!a || typeof gtag !== 'function') return;
+    gtag('event', 'conversion', {
+      'send_to': 'AW-18172890851/__WHATSAPP_CLICK_LABEL__',
+      'value': 200.0,
+      'currency': 'BRL'
+    });
+  });
 </script>
 </body>
 </html>

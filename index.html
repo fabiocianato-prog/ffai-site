@@ -839,11 +839,11 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1724483235588497');
+    fbq('init', '27417120574590791');
     fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1724483235588497&ev=PageView&noscript=1"/></noscript>
+    src="https://www.facebook.com/tr?id=27417120574590791&ev=PageView&noscript=1"/></noscript>
   <!-- /Meta Pixel -->
 </head>
 <body>
@@ -1203,6 +1203,19 @@
       }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
       revealEls.forEach(el => io.observe(el));
     }
+  </script>
+
+  <!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
+  <script>
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;
+      if (!a || typeof gtag !== 'function') return;
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18172890851/__WHATSAPP_CLICK_LABEL__',
+        'value': 200.0,
+        'currency': 'BRL'
+      });
+    });
   </script>
 </body>
 </html>
