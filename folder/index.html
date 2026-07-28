@@ -30,7 +30,13 @@ fbq('track', 'PageView');
   a { color: #0D7F62; text-decoration: none; }
   a:hover { color: #1C2A3F; }
   @media print { a[aria-label="Falar no WhatsApp"] { display: none !important; } }
-  @media (max-width: 820px) {
+  @media screen and (max-width: 820px) {
+    /* A geometria A4 vem do shadow do doc-page (folha 210mm + proporção
+       travada). No celular soltamos: folha fluida, página com altura livre.
+       Vale só para tela; a impressão segue com a geometria do componente. */
+    html, body { overflow-x: hidden; }
+    doc-page { --doc-page-w: 100% !important; }
+    doc-page .page { aspect-ratio: auto !important; height: auto !important; min-height: 60vh; container-type: normal !important; }
     doc-page .page { padding: 28px 20px !important; }
     doc-page .page > div[style*="grid-template-columns: 1fr 1fr"],
     doc-page .page div[style*="grid-template-columns: 1fr 1fr 1fr"],
