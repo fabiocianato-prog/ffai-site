@@ -18,7 +18,7 @@ if(fired)return;if(e.target&&e.target.tagName==='VIDEO'){fired=true;
 if(typeof fbq==='function')fbq('trackCustom','DemoVideoPlay');}},true);})();
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=27417120574590791&ev=PageView&noscript=1"/></noscript>
-<script src="./support.js"></script>
+<script src="/demonstracao/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -97,7 +97,7 @@ if(typeof fbq==='function')fbq('trackCustom','DemoVideoPlay');}},true);})();
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;videoUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;demo-ffai.mp4&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Vídeo&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;videoUrl&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;/demonstracao/demo-ffai.mp4&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Vídeo&quot;}}">
 class Component extends DCLogic {
   embedUrl(raw) {
     const u = String(raw || "").trim();
@@ -109,13 +109,13 @@ class Component extends DCLogic {
     return u;
   }
   renderVals() {
-    const url = this.embedUrl(this.props.videoUrl || "demo-ffai.mp4");
+    const url = this.embedUrl(this.props.videoUrl || "/demonstracao/demo-ffai.mp4");
     const isFile = url && /\.(mp4|webm|mov)(\?|$)/i.test(url);
     let player;
     if (url && isFile) {
       player = React.createElement("video", {
         src: url, controls: true, playsInline: true, preload: "metadata",
-        poster: "demo-ffai-poster.jpg",
+        poster: "/demonstracao/demo-ffai-poster.jpg",
         style: { position: "absolute", inset: 0, width: "100%", height: "100%", background: "#000" }
       });
     } else if (url) {
