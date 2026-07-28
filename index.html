@@ -1203,6 +1203,19 @@
       }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
       revealEls.forEach(el => io.observe(el));
     }
+
+    // Deep-link (#ffai-360 etc): reposiciona depois que o layout assenta,
+    // porque imagens carregando acima do alvo deslocam a âncora nativa.
+    if (location.hash) {
+      const deepTarget = document.getElementById(location.hash.slice(1));
+      if (deepTarget) {
+        const jump = () => {
+          deepTarget.classList.add('is-visible');
+          deepTarget.scrollIntoView({ block: 'start' });
+        };
+        window.addEventListener('load', () => setTimeout(jump, 150));
+      }
+    }
   </script>
 
   <!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
