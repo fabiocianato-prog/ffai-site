@@ -1211,7 +1211,7 @@
       if (deepTarget) {
         const jump = () => {
           deepTarget.classList.add('is-visible');
-          deepTarget.scrollIntoView({ block: 'start' });
+          deepTarget.scrollIntoView({ block: 'start', behavior: 'instant' });
         };
         window.addEventListener('load', () => setTimeout(jump, 150));
       }
