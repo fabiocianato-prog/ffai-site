@@ -9,6 +9,18 @@
        repensar a paginacao do doc-page. -->
   <meta name="viewport" content="width=842">
   <script>
+  (function(){
+    var W = 'width=842';
+    function fix(){
+      var m = document.querySelector('meta[name="viewport"]');
+      if (!m) { m = document.createElement('meta'); m.name = 'viewport'; document.head.appendChild(m); }
+      if (m.getAttribute('content') !== W) m.setAttribute('content', W);
+    }
+    fix();
+    new MutationObserver(fix).observe(document.documentElement, {childList: true, subtree: true, attributes: true, attributeFilter: ['content']});
+  })();
+  </script>
+  <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
