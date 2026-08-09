@@ -20,6 +20,13 @@
     new MutationObserver(fix).observe(document.documentElement, {childList: true, subtree: true, attributes: true, attributeFilter: ['content']});
   })();
   </script>
+  <style>
+    /* Palco do documento: fundo azul-grafite da marca (mesmo gradiente da
+       /demonstracao) e folha ampliada no desktop. So tela; impressao intacta. */
+    html, body { background: linear-gradient(170deg, #0E1E33 0%, #081426 55%, #050E1C 100%) fixed !important; }
+    doc-page { background: transparent !important; }
+    @media screen and (min-width: 1100px) { doc-page { zoom: 1.32; } }
+  </style>
   <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
