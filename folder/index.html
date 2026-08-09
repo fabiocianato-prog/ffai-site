@@ -15,18 +15,18 @@
       var m = document.querySelector('meta[name="viewport"]');
       if (!m) { m = document.createElement('meta'); m.name = 'viewport'; document.head.appendChild(m); }
       if (m.getAttribute('content') !== W) m.setAttribute('content', W);
+      var st = document.getElementById('ffai-stage');
+      if (!st) {
+        st = document.createElement('style');
+        st.id = 'ffai-stage';
+        st.textContent = "html, body { background: linear-gradient(170deg, #0E1E33 0%, #081426 55%, #050E1C 100%) fixed !important; } doc-page { background: transparent !important; } @media screen and (min-width: 1100px) { doc-page { zoom: 1.32; } }";
+        document.head.appendChild(st);
+      }
     }
     fix();
     new MutationObserver(fix).observe(document.documentElement, {childList: true, subtree: true, attributes: true, attributeFilter: ['content']});
   })();
   </script>
-  <style>
-    /* Palco do documento: fundo azul-grafite da marca (mesmo gradiente da
-       /demonstracao) e folha ampliada no desktop. So tela; impressao intacta. */
-    html, body { background: linear-gradient(170deg, #0E1E33 0%, #081426 55%, #050E1C 100%) fixed !important; }
-    doc-page { background: transparent !important; }
-    @media screen and (min-width: 1100px) { doc-page { zoom: 1.32; } }
-  </style>
   <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
