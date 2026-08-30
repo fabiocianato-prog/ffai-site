@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FF.AI CRM · CRM e IA agêntica para clínicas médicas e odontológicas</title>
+  <meta name="description" content="CRM e IA agêntica para clínicas médicas e odontológicas. A IA tria, qualifica, contorna objeção e agenda pelo WhatsApp oficial da Meta. O card anda sozinho, o relatório sai num clique, e exame, nota fiscal e link de pagamento saem da própria ficha do paciente. Setup em 15 dias." />
+  <meta name="theme-color" content="#1C2A3F" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/ffai-favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/ffai-icon.svg" />
+
+  <link rel="canonical" href="https://ffai.ia.br/crm" />
+
+  <meta property="og:title" content="FF.AI CRM · CRM e IA agêntica para clínicas médicas e odontológicas" />
+  <meta property="og:description" content="Você não sabe quantos pacientes a sua clínica perdeu ontem. A IA atende no WhatsApp e o funil se movimenta sozinho conforme o atendimento ocorre." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ffai.ia.br/crm" />
+  <meta property="og:image" content="https://ffai.ia.br/assets/ffai-icon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #1C2A3F;
+      --ink-2: #14324A;
+      --text: #5A6673;
+      --text-2: #3E4C5A;
+      --green: #0D7F62;
+      --green-dk: #0A6650;
+      --mint: #E3F0EB;
+      --mint-bd: #C9E2D9;
+      --mint-lt: #7FCBB2;
+      --clay: #C4703F;
+
+      /* Família de acentos. Todos na mesma faixa de saturação do verde da marca,
+         para colorir sem virar confete. O verde continua sendo o dono. */
+      --ac-verde: #0D7F62;   --ac-verde-dk: #0A6650;   --ac-verde-soft: #E3F0EB;   --ac-verde-bd: #C9E2D9;
+      --ac-azul: #2C6E9B;    --ac-azul-dk: #245A80;    --ac-azul-soft: #E2EEF6;    --ac-azul-bd: #C4DAEA;
+      --ac-ambar: #B8842B;   --ac-ambar-dk: #8F651C;   --ac-ambar-soft: #F7EFDD;   --ac-ambar-bd: #E9D8B2;
+      --ac-terra: #C4703F;   --ac-terra-dk: #A15A2F;   --ac-terra-soft: #F8EBE3;   --ac-terra-bd: #EBD2C0;
+
+      --line: #E4EAE7;
+      --line-2: #D6DEDA;
+      --line-3: #E7EDEA;
+      --line-4: #EDF1EF;
+      --soft: #F6F9F8;
+      --wrap: 1240px;
+      --gut: 24px;
+    }
+    @media (min-width: 900px) { :root { --gut: 40px; } }
+    @media (min-width: 1200px) { :root { --gut: 56px; } }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif;
+      font-size: 17px; line-height: 1.6;
+      color: var(--ink); background: #FFFFFF;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    /* grão fino e fixo: dá matéria ao branco sem sujar a cor */
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+    }
+    body > * { position: relative; z-index: 1; }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { color: var(--ink); }
+    img, svg { display: block; max-width: 100%; }
+    ::selection { background: var(--mint); color: var(--ink); }
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+    .wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gut); }
+    .skip { position: absolute; left: -9999px; background: var(--ink); color: #fff; padding: 12px 18px; z-index: 100; border-radius: 999px; }
+    .skip:focus { left: 12px; top: 12px; color: #fff; }
+
+    /* ---- animações da identidade ---- */
+    .ff-card { transition: transform 220ms ease, box-shadow 220ms ease; }
+    .ff-card:hover { transform: translateY(-4px); box-shadow: 0 28px 60px -28px rgba(28,42,63,0.34); }
+    .ff-btn { transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease; cursor: pointer; }
+    .ff-btn:hover { transform: translateY(-2px); }
+    @keyframes ffPop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @keyframes ffPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    .ff-live { animation: ffPulse 1.8s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .ff-live { animation: none; }
+      .ff-card:hover, .ff-btn:hover { transform: none; }
+    }
+
+    /* ---- tipografia ---- */
+    .h1 { font-size: clamp(38px, 5.2vw, 62px); font-weight: 800; line-height: 1.02; letter-spacing: -0.038em; margin: 0 0 24px; max-width: 16ch; }
+    .h2 { font-size: clamp(30px, 3.8vw, 44px); font-weight: 800; line-height: 1.08; letter-spacing: -0.032em; margin: 0 0 16px; }
+    .h2--sm { font-size: clamp(28px, 3.4vw, 40px); }
+    .eyebrow { font-size: 12.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); margin: 0 0 14px; }
+    .eyebrow--dark { color: var(--mint-lt); }
+    .eyebrow--azul { color: var(--ac-azul); }
+    .eyebrow--ambar { color: var(--ac-ambar-dk); }
+    .eyebrow--terra { color: var(--ac-terra-dk); }
+    .lead { font-size: 17.5px; line-height: 1.6; color: var(--text); margin: 0; }
+    .center { text-align: center; }
+    .center .h2 { margin-left: auto; margin-right: auto; max-width: 24ch; }
+    .center .lead { margin-left: auto; margin-right: auto; max-width: 66ch; }
+    .sec-head { margin-bottom: 46px; }
+    strong.ink { color: var(--ink); font-weight: 700; }
+
+    /* ---- botões pílula ---- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      padding: 18px 30px; border-radius: 999px;
+      font-family: inherit; font-weight: 700; font-size: 16.5px; line-height: 1.2;
+      border: 1px solid transparent; text-align: center;
+    }
+    .btn--green { background: var(--green); color: #FFFFFF; box-shadow: 0 18px 36px -16px rgba(13,127,98,0.72); }
+    .btn--green:hover { background: var(--green-dk); color: #FFFFFF; }
+    .btn--white { background: #FFFFFF; border-color: var(--line-2); color: var(--ink); }
+    .btn--white:hover { color: var(--ink); border-color: var(--ink); }
+    .btn--outline { background: transparent; border-color: rgba(255,255,255,0.4); color: #FFFFFF; }
+    .btn--outline:hover { color: #FFFFFF; border-color: #FFFFFF; }
+    .btn--sm { padding: 13px 24px; font-size: 15px; box-shadow: 0 12px 26px -12px rgba(13,127,98,0.7); }
+
+    /* ---- badge pílula com ponto ---- */
+    .badge {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--mint); border: 1px solid var(--mint-bd); border-radius: 999px;
+      padding: 8px 16px; margin-bottom: 26px;
+    }
+    .badge span:last-child { font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green-dk); }
+    /* no celular a descrição quebra em duas linhas: pílula de raio total fica torta */
+    @media (max-width: 520px) { .badge { border-radius: 16px; align-items: flex-start; } .badge .dot { margin-top: 6px; } }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; flex-shrink: 0; }
+
+    /* ---- nav flutuante ---- */
+    .nav { position: sticky; top: 0; z-index: 60; padding: 16px 0 0; background: transparent; }
+    .nav__pill {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      background: rgba(255,255,255,0.92); backdrop-filter: saturate(180%) blur(10px); -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 11px 12px 11px 24px; box-shadow: 0 14px 34px -20px rgba(28,42,63,0.30);
+    }
+    /* Marca do produto, igual à do app: ladrilho esmeralda com o monograma F
+       e o nó de IA, e o wordmark em Outfit. Tokens copiados do CRM, não do site,
+       porque logotipo é ativo de marca e não se aproxima de olho. */
+    .marca { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
+    .marca__ico { width: 34px; height: 34px; flex-shrink: 0; border-radius: 10px; }
+    .marca__wm {
+      font-family: "Outfit", Manrope, ui-sans-serif, system-ui, sans-serif;
+      font-weight: 500; font-size: 21px; letter-spacing: -0.01em; line-height: 1;
+      color: #17222E; white-space: nowrap;
+    }
+    .marca__wm .ai { color: #047857; }
+    .marca__wm .crm { color: #566676; }
+    a.marca:hover .marca__wm { color: #17222E; }
+    @media (max-width: 420px) { .marca__ico { width: 30px; height: 30px; } .marca__wm { font-size: 18.5px; } }
+    .nav__links { display: none; align-items: center; gap: 30px; font-size: 15px; font-weight: 600; color: var(--text-2); }
+    .nav__links a { color: var(--text-2); }
+    .nav__links a:hover { color: var(--green); }
+    /* o botão dentro da nav não herda a cor dos links */
+    .nav__links a.btn--green, .nav__links a.btn--green:hover { color: #FFFFFF; }
+    .nav__toggle { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; padding: 0; }
+    .nav__toggle .close { display: none; }
+    .nav__toggle[aria-expanded="true"] .open { display: none; }
+    .nav__toggle[aria-expanded="true"] .close { display: block; }
+    .nav__panel { display: none; margin-top: 10px; background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 8px 20px; box-shadow: 0 20px 44px -26px rgba(28,42,63,0.34); }
+    .nav__panel.is-open { display: block; }
+    .nav__panel a { display: block; padding: 15px 0; font-size: 16px; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--line-4); }
+    .nav__panel a:last-child { border-bottom: 0; }
+    /* Os três traços são só do celular e do tablet estreito. A partir de 940px
+       os tópicos aparecem, e entre 940 e 1159 entram num modo compacto, senão
+       não caberiam: o conteúdo cheio da nav pede 999px dentro da pílula. */
+    @media (min-width: 940px) {
+      .nav__links { display: flex; }
+      .nav__toggle { display: none; }
+      .nav__panel, .nav__panel.is-open { display: none; }
+    }
+    @media (min-width: 940px) and (max-width: 1159px) {
+      .nav__links { gap: 19px; font-size: 14px; }
+      .nav__links .btn--sm { padding: 11px 17px; font-size: 14px; }
+      .nav__pill { padding-left: 18px; }
+      .marca { gap: 9px; }
+      .marca__ico { width: 30px; height: 30px; }
+      .marca__wm { font-size: 19px; }
+    }
+
+    /* ---- hero ---- */
+    .hero { position: relative; background: linear-gradient(168deg, #EEF5F2 0%, #F7FAF9 46%, #FFFFFF 100%); overflow: hidden; padding-bottom: 74px; margin-top: -76px; padding-top: 76px; }
+    .hero__blob1, .hero__blob2, .hero__blob3 { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }
+    .hero__blob1 { top: -180px; right: -120px; width: 620px; height: 620px; background: radial-gradient(circle, rgba(13,127,98,0.17), rgba(13,127,98,0) 68%); animation: deriva1 26s ease-in-out infinite; }
+    .hero__blob2 { top: 240px; left: -180px; width: 520px; height: 520px; background: radial-gradient(circle, rgba(28,42,63,0.10), rgba(28,42,63,0) 70%); animation: deriva2 34s ease-in-out infinite; }
+    .hero__blob3 { top: 30px; left: 42%; width: 380px; height: 380px; background: radial-gradient(circle, rgba(44,110,155,0.10), rgba(44,110,155,0) 70%); animation: deriva3 30s ease-in-out infinite; }
+    @keyframes deriva1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-48px, 34px) scale(1.06); } }
+    @keyframes deriva2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(44px, -38px) scale(1.05); } }
+    @keyframes deriva3 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px, 46px); } }
+    @media (prefers-reduced-motion: reduce) { .hero__blob1, .hero__blob2, .hero__blob3 { animation: none; } }
+    .hero__grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; padding-top: 56px; }
+    /* o celular fica ao lado do texto já a partir de 860px, como no design aprovado */
+    @media (min-width: 860px) { .hero__grid { grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr); gap: 40px; padding-top: 60px; } }
+    @media (min-width: 1100px) { .hero__grid { grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); gap: 64px; padding-top: 66px; } }
+    .hero__sub { font-size: clamp(17px, 2vw, 19px); line-height: 1.6; color: var(--text); max-width: 47ch; margin: 0 0 34px; }
+    .hero__ctas { display: flex; gap: 13px; align-items: center; flex-wrap: wrap; margin-bottom: 34px; }
+    .hero__by { display: flex; align-items: center; gap: 14px; }
+    .hero__by img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #FFFFFF; box-shadow: 0 8px 18px -8px rgba(28,42,63,0.5); flex-shrink: 0; }
+    .hero__by p { font-size: 14.5px; line-height: 1.5; color: var(--text); margin: 0; max-width: 44ch; }
+
+    /* ---- celular ---- */
+    .fone { width: 100%; max-width: 372px; margin: 0 auto; border-radius: 42px; background: var(--ink); padding: 12px; box-shadow: 0 50px 90px -40px rgba(28,42,63,0.62), 0 0 0 1px rgba(28,42,63,0.06); }
+    .fone__in { border-radius: 32px; background: #F5F8F7; overflow: hidden; }
+    .fone__top { display: flex; align-items: center; gap: 11px; padding: 16px 18px; background: #FFFFFF; border-bottom: 1px solid var(--line-3); }
+    .fone__av { width: 40px; height: 40px; border-radius: 50%; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0; }
+    .fone__top strong { display: block; font-size: 15px; font-weight: 700; }
+    .fone__on { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--green); font-weight: 600; }
+    .fone__hora { font-size: 12px; color: #8B95A1; font-weight: 600; }
+    /* Conversa começa no topo, como uma conversa nova, e o JS rola para a última
+       mensagem conforme ela enche. Altura fixa para o celular não pular de tamanho. */
+    /* overflow-y precisa ser auto, e não hidden: com hidden o navegador ignora
+       o scrollTop programático e a conversa nunca acompanha a última mensagem.
+       A barra fica escondida para o celular continuar parecendo um celular. */
+    .fone__chat { display: flex; flex-direction: column; justify-content: flex-start; gap: 9px; padding: 18px 16px; height: 396px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; -ms-overflow-style: none; }
+    .fone__chat::-webkit-scrollbar { width: 0; height: 0; }
+    .bolha { max-width: 84%; padding: 11px 14px; font-size: 14px; line-height: 1.45; border-radius: 16px; flex-shrink: 0; }
+    .bolha--eles { align-self: flex-start; background: #FFFFFF; color: var(--ink); border-bottom-left-radius: 5px; }
+    .bolha--nos { align-self: flex-end; background: var(--green); color: #FFFFFF; border-bottom-right-radius: 5px; }
+    .digitando { align-self: flex-start; padding: 13px 16px; border-radius: 16px; background: #FFFFFF; border: 1px solid var(--line-3); display: none; gap: 5px; flex-shrink: 0; }
+    .digitando--nos { align-self: flex-end; }
+    .digitando span { width: 6px; height: 6px; border-radius: 50%; background: #A9B4BF; display: inline-block; }
+    .digitando span:nth-child(2) { animation-delay: 0.3s; }
+    .digitando span:nth-child(3) { animation-delay: 0.6s; }
+    /* Com JS a conversa é encenada: as bolhas entram uma a uma */
+    .js-chat .bolha { display: none; }
+    .js-chat .bolha.on { display: block; animation: ffPop 320ms cubic-bezier(0.22,1,0.36,1) both; }
+    .js-chat .digitando.on { display: flex; animation: ffPop 200ms cubic-bezier(0.22,1,0.36,1) both; }
+    .fone__pe { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 18px; background: #FFFFFF; border-top: 1px solid var(--line-3); }
+    .fone__pe b { font-size: 12.5px; font-weight: 700; color: var(--text); }
+    .chip-ok { font-size: 12px; font-weight: 700; color: var(--green); background: var(--mint); padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+
+
+    /* ---- seções ---- */
+    /* ---- atmosfera: uma superfície contínua, com poças de luz ----
+       Em vez de faixas chapadas alternando, cada seção projeta duas poças de
+       luz na cor do seu acento, em cantos opostos. O fundo muda de temperatura
+       conforme a página rola, e nenhuma seção bate na outra com linha de corte. */
+    .sec { padding: 84px 0; position: relative; --glow: var(--ac-verde); --gx: 14%; --gx2: 86%; }
+    .sec--luz-azul  { --glow: var(--ac-azul); }
+    .sec--luz-ambar { --glow: var(--ac-ambar); }
+    .sec--luz-terra { --glow: var(--ac-terra); }
+    .sec--espelhada { --gx: 86%; --gx2: 14%; }
+    .sec::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(46% 40% at var(--gx) -4%, var(--glow), transparent 70%),
+        radial-gradient(40% 34% at var(--gx2) 104%, var(--glow), transparent 72%);
+      opacity: 0.07;
+    }
+    @supports (background: color-mix(in srgb, red 50%, white)) {
+      .sec::after {
+        opacity: 1;
+        background:
+          radial-gradient(46% 40% at var(--gx) -4%, color-mix(in srgb, var(--glow) 10%, transparent), transparent 70%),
+          radial-gradient(40% 34% at var(--gx2) 104%, color-mix(in srgb, var(--glow) 7%, transparent), transparent 72%);
+      }
+    }
+    /* a faixa clara vira um sopro, com as duas pontas desbotadas */
+    .sec--soft { background: linear-gradient(180deg, #FFFFFF 0%, var(--soft) 12%, var(--soft) 82%, #FFFFFF 100%); }
+    .sec > .wrap { position: relative; z-index: 1; }
+    .grid-3 { display: grid; grid-template-columns: 1fr; gap: 22px; }
+    @media (min-width: 700px) { .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1040px) { .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 26px; }
+    @media (min-width: 900px) { .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    .card { background: #FFFFFF; border: 1px solid var(--line); border-radius: 20px; padding: 28px 26px; box-shadow: 0 16px 38px -30px rgba(28,42,63,0.4); }
+    .card h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px; }
+    .card p { font-size: 15px; line-height: 1.6; color: var(--text); margin: 0; }
+    .card__ico { width: 48px; height: 48px; border-radius: 14px; background: var(--mint); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+
+    /* ---- cartão com painel de ilustração ---- */
+    .cardi { background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 16px 38px -30px rgba(28,42,63,0.4); display: flex; flex-direction: column; }
+    .cardi__palco {
+      position: relative; padding: 24px 22px 0; aspect-ratio: 16 / 10;
+      color: var(--ac); /* os traços inline da ilustração usam currentColor */
+      /* fallback primeiro: navegador sem color-mix ainda recebe o degradê tingido */
+      background: linear-gradient(158deg, var(--ac-soft) 0%, #FDFEFE 100%);
+      background: linear-gradient(158deg, var(--ac-soft) 0%, color-mix(in srgb, var(--ac-soft) 45%, #FFFFFF) 54%, #FDFEFE 100%);
+      border-bottom: 1px solid var(--line-4); overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cardi__palco::after {
+      content: ""; position: absolute; right: -60px; top: -70px; width: 190px; height: 190px; border-radius: 50%;
+      background: radial-gradient(circle, var(--ac-bd), transparent 70%); opacity: 0.5;
+      background: radial-gradient(circle, color-mix(in srgb, var(--ac) 18%, transparent), transparent 70%);
+      pointer-events: none;
+    }
+    @supports (background: color-mix(in srgb, red 50%, white)) { .cardi__palco::after { opacity: 1; } }
+    .cardi__palco svg { position: relative; width: 100%; height: auto; max-height: 100%; overflow: visible; transition: transform 420ms cubic-bezier(0.22,1,0.36,1); }
+    .cardi:hover .cardi__palco svg { transform: scale(1.025); }
+    @media (prefers-reduced-motion: reduce) { .cardi:hover .cardi__palco svg { transform: none; } }
+    .cardi__txt { padding: 26px 26px 28px; flex: 1; }
+    .cardi__txt h3 { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px; line-height: 1.26; }
+    .cardi__txt p { font-size: 15px; line-height: 1.6; color: var(--text); margin: 0; }
+
+    /* Cada cartão herda um acento. As peças da ilustração leem esse acento,
+       então a mesma arte serve as quatro cores sem duplicar SVG. */
+    .cardi { --ac: var(--ac-verde); --ac-dk: var(--ac-verde-dk); --ac-soft: var(--ac-verde-soft); --ac-bd: var(--ac-verde-bd); }
+    .cardi--azul  { --ac: var(--ac-azul);  --ac-dk: var(--ac-azul-dk);  --ac-soft: var(--ac-azul-soft);  --ac-bd: var(--ac-azul-bd); }
+    .cardi--ambar { --ac: var(--ac-ambar); --ac-dk: var(--ac-ambar-dk); --ac-soft: var(--ac-ambar-soft); --ac-bd: var(--ac-ambar-bd); }
+    .cardi--terra { --ac: var(--ac-terra); --ac-dk: var(--ac-terra-dk); --ac-soft: var(--ac-terra-soft); --ac-bd: var(--ac-terra-bd); }
+
+    /* peças da ilustração, mesma gramática nas seis */
+    .il-caixa { fill: #FFFFFF; stroke: #DDE4E2; stroke-width: 1; }
+    .il-caixa-ok { fill: #FFFFFF; stroke: var(--ac, var(--green)); stroke-width: 1.5; }
+    .il-menta { fill: var(--ac-soft, var(--mint)); }
+    .il-verde { fill: var(--ac, var(--green)); }
+    .il-tinta { fill: var(--ink); }
+    .il-linha { stroke: var(--ac-bd, #C9E2D9); stroke-width: 1.6; fill: none; stroke-linecap: round; }
+    .il-tracejo { stroke: var(--ac, var(--green)); stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-dasharray: 4 6; }
+    .il-barra { fill: var(--ac-bd, #CFE3DC); }
+    .il-txt { fill: var(--text); font-size: 7.5px; font-weight: 600; }
+    .il-txt-b { fill: var(--ink); font-size: 8.5px; font-weight: 800; }
+    .il-txt-w { fill: #FFFFFF; font-size: 8px; font-weight: 700; }
+    .il-txt-v { fill: var(--ac-dk, var(--green-dk)); font-size: 7.5px; font-weight: 800; }
+    .il-claro { fill: var(--ac-bd, #7FCBB2); }
+    .il-sombra { filter: drop-shadow(0 6px 12px rgba(28,42,63,0.10)); }
+
+    @keyframes ilFlutua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes ilRisca { to { stroke-dashoffset: -40; } }
+    .il-flutua { animation: ilFlutua 4.5s ease-in-out infinite; }
+    .il-flutua--2 { animation-delay: 1.4s; }
+    .il-tracejo--anda { animation: ilRisca 2.4s linear infinite; }
+    @media (prefers-reduced-motion: reduce) { .il-flutua, .il-tracejo--anda { animation: none; } }
+
+    .vaz { border-left: 3px solid var(--ac-terra); }
+    .vaz:nth-child(2n) { border-left-color: var(--ac-ambar); }
+    .vaz:nth-child(2n) .tag { color: var(--ac-ambar-dk); }
+    .vaz .tag { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ac-terra-dk); display: block; margin-bottom: 12px; }
+    .vaz h3 { font-size: 20px; }
+
+    /* ---- módulos grandes ---- */
+    .mod { border-radius: 22px; padding: 34px 32px; display: flex; flex-direction: column; }
+    .mod--lt { background: #FFFFFF; border: 1px solid var(--mint-bd); box-shadow: 0 22px 50px -34px rgba(28,42,63,0.4); }
+    .mod--dk { background: var(--ink); color: #FFFFFF; border: 1px solid var(--ink); box-shadow: 0 22px 50px -30px rgba(28,42,63,0.6); }
+    .mod .tag { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); display: block; margin-bottom: 18px; }
+    .mod--dk .tag { color: var(--mint-lt); }
+    .mod h3 { font-size: clamp(22px, 2.6vw, 25px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.18; margin: 0 0 14px; }
+    .mod p { font-size: 15.5px; line-height: 1.62; color: var(--text); margin: 0 0 20px; }
+    .mod--dk p { color: rgba(255,255,255,0.78); }
+    .mod__list { display: flex; flex-direction: column; gap: 10px; }
+    .mod__list span { font-size: 15px; line-height: 1.45; padding-left: 16px; border-left: 2px solid var(--green); }
+    .mod--dk .mod__list span { border-left-color: var(--mint-lt); color: rgba(255,255,255,0.92); }
+    .mod__nota { font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,0.55); margin: 18px 0 0; }
+    @media (min-width: 760px) { .mod__list--3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+
+    /* ---- garantia: seção própria, com selo ---- */
+    .garantia { padding: 0 0 84px; --selo: #E7C36C; --selo-fraco: rgba(231,195,108,0.42); }
+    .garantia__box { position: relative; background: linear-gradient(140deg, var(--ink) 0%, var(--ink-2) 100%); border-radius: 28px; padding: 48px var(--gut); overflow: hidden; color: #FFFFFF; }
+    @media (min-width: 900px) { .garantia__box { padding: 62px 56px; } }
+    .garantia__blob { position: absolute; top: -160px; left: -110px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(13,127,98,0.45), rgba(13,127,98,0) 68%); pointer-events: none; }
+    .garantia__grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center; }
+    @media (min-width: 900px) { .garantia__grid { grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr); gap: 56px; } }
+    .garantia__selo { width: 100%; max-width: 260px; margin: 0 auto; }
+    .garantia__selo svg { width: 100%; height: auto; animation: giraSelo 26s linear infinite; }
+    @keyframes giraSelo { to { transform: rotate(360deg); } }
+    .selo-anel { fill: none; stroke: var(--selo-fraco); stroke-width: 1.5; }
+    .selo-fundo { fill: rgba(231,195,108,0.14); }
+    .selo-borda { fill: none; stroke: var(--selo); stroke-width: 2; stroke-dasharray: 5 7; stroke-linecap: round; }
+    .selo-volta { fill: var(--selo); font-size: 11.5px; font-weight: 800; letter-spacing: 0.19em; }
+    .selo-num, .selo-dias { fill: #FFFFFF; text-anchor: middle; font-weight: 800; }
+    .selo-num { font-size: 60px; letter-spacing: -0.04em; }
+    .selo-dias { font-size: 19px; letter-spacing: 0.26em; fill: var(--selo); }
+    /* o miolo não gira junto com a volta de texto */
+    .garantia__selo .selo-num, .garantia__selo .selo-dias { animation: giraSelo 26s linear infinite reverse; transform-origin: 100px 100px; }
+    .garantia h2 { font-size: clamp(28px, 3.8vw, 42px); font-weight: 800; line-height: 1.06; letter-spacing: -0.034em; margin: 0 0 16px; color: #FFFFFF; max-width: 18ch; }
+    .garantia .eyebrow--dark { color: var(--selo); }
+    .garantia .lead { color: rgba(255,255,255,0.78); max-width: 56ch; margin-bottom: 28px; }
+    .garantia__itens { list-style: none; margin: 0 0 24px; padding: 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 620px) { .garantia__itens { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; } }
+    .garantia__itens li { display: flex; gap: 11px; align-items: flex-start; }
+    .garantia__itens svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--mint-lt); margin-top: 2px; }
+    .garantia__itens strong { display: block; font-size: 15.5px; font-weight: 700; margin-bottom: 4px; }
+    .garantia__itens span { display: block; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.66); }
+    .garantia__prazo { font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.55); margin: 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.16); }
+    @media (prefers-reduced-motion: reduce) { .garantia__selo svg, .garantia__selo .selo-num, .garantia__selo .selo-dias { animation: none; } }
+
+    /* ---- integração: o CRM entra ao lado do prontuário ---- */
+    .lado { display: grid; grid-template-columns: 1fr; gap: 14px; align-items: stretch; max-width: 900px; margin: 0 auto; }
+    @media (min-width: 780px) { .lado { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; } }
+    .lado__bloco { background: #FFFFFF; border: 1px solid var(--line); border-radius: 20px; padding: 26px 24px; box-shadow: 0 16px 38px -30px rgba(28,42,63,0.4); }
+    .lado__bloco--nosso { border-color: var(--mint-bd); background: linear-gradient(160deg, var(--mint) 0%, #FFFFFF 68%); }
+    .lado__tag { font-size: 11.5px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text); display: block; margin-bottom: 12px; }
+    .lado__bloco--nosso .lado__tag { color: var(--green-dk); }
+    .lado__bloco h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 10px; }
+    .lado__bloco p { font-size: 14.5px; line-height: 1.58; color: var(--text); margin: 0 0 14px; }
+    .lado__itens { display: flex; flex-wrap: wrap; gap: 8px; }
+    .lado__itens span { font-size: 12.5px; font-weight: 700; color: var(--text); background: var(--soft); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+    .lado__bloco--nosso .lado__itens span { color: var(--green-dk); background: #FFFFFF; border-color: var(--mint-bd); }
+    .integra__nomes { margin: 34px auto 0; max-width: 900px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; overflow: hidden;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+    .integra__trilho { display: flex; gap: 52px; width: max-content; animation: correFaixa 30s linear infinite; }
+    .integra__nomes:hover .integra__trilho { animation-play-state: paused; }
+    @keyframes correFaixa { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .integra__item { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-2); white-space: nowrap; display: flex; align-items: center; gap: 10px; }
+    .integra__item::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ac-verde); flex-shrink: 0; opacity: 0.8; }
+    .integra__item:nth-child(4n+2)::before { background: var(--ac-azul); }
+    .integra__item:nth-child(4n+3)::before { background: var(--ac-ambar); }
+    .integra__item:nth-child(4n)::before { background: var(--ac-terra); }
+    @media (prefers-reduced-motion: reduce) { .integra__trilho { animation: none; } }
+
+    /* ---- comparativo ---- */
+    .comp { border: 1px solid var(--line); border-radius: 22px; overflow: hidden; background: #FFFFFF; box-shadow: 0 22px 50px -34px rgba(28,42,63,0.4); }
+    .comp__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .comp table { width: 100%; border-collapse: collapse; min-width: 680px; }
+    .comp th, .comp td { text-align: left; padding: 17px 22px; font-size: 15px; line-height: 1.5; border-bottom: 1px solid var(--line-4); vertical-align: top; }
+    .comp thead th { font-size: 12px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text); background: #FFFFFF; }
+    .comp thead th.dest { color: var(--green); background: var(--mint); }
+    .comp tbody th { font-weight: 700; width: 26%; color: var(--ink); }
+    .comp td.old { color: var(--text); width: 37%; }
+    .comp td.new { color: var(--ink); width: 37%; background: rgba(227,240,235,0.45); font-weight: 600; }
+    .comp tbody tr:last-child th, .comp tbody tr:last-child td { border-bottom: 0; }
+
+    /* ---- fases ---- */
+    .fases { display: grid; grid-template-columns: 1fr; gap: 22px; }
+    @media (min-width: 700px) { .fases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1040px) { .fases { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    .fase .dia { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-dk); background: var(--mint); padding: 6px 12px; border-radius: 999px; margin-bottom: 14px; }
+    .fase h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; }
+    .fase p { font-size: 14.5px; line-height: 1.58; color: var(--text); margin: 0; }
+
+    /* ---- depoimentos em vídeo ---- */
+    .depos { display: grid; grid-template-columns: 1fr; gap: 26px; max-width: 840px; margin: 0 auto; }
+    @media (min-width: 760px) { .depos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .depo { margin: 0; background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 22px 50px -34px rgba(28,42,63,0.42); }
+    /* height:auto é obrigatório: sem ele o atributo height do <video> vence o aspect-ratio */
+    .depo video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; background: var(--ink); }
+    .depo figcaption { padding: 20px 24px 22px; }
+    .depo figcaption strong { display: block; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .depo figcaption span { display: block; font-size: 14px; line-height: 1.45; color: var(--text); }
+
+    /* ---- pessoas ---- */
+    .pessoa { background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 22px 50px -34px rgba(28,42,63,0.42); }
+    .pessoa img { width: 100%; height: 360px; object-fit: cover; object-position: center 14%; }
+    .pessoa__txt { padding: 26px 28px 28px; }
+    /* com uma pessoa só, o cartão deita: foto à esquerda, texto à direita */
+    .pessoa-solo { max-width: 860px; margin: 0 auto; }
+    @media (min-width: 760px) {
+      .pessoa-solo .pessoa { display: grid; grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr); align-items: stretch; }
+      .pessoa-solo .pessoa img { height: 100%; min-height: 340px; }
+      .pessoa-solo .pessoa__txt { padding: 34px 34px 34px 32px; align-self: center; }
+    }
+    .pessoa__txt strong { display: block; font-size: 21px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .pessoa__papel { display: block; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+    .pessoa__txt p { font-size: 15.5px; line-height: 1.62; color: var(--text); margin: 0 0 16px; }
+    .pessoa__reg { border-top: 1px solid var(--line-4); padding-top: 14px; }
+    .pessoa__reg b { font-size: 13.5px; font-weight: 700; color: var(--ink); display: block; }
+    .pessoa__reg span { font-size: 13.5px; color: var(--text); }
+    .selos { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 38px; }
+    .selo { background: #FFFFFF; border: 1px solid var(--line); border-radius: 999px; padding: 11px 20px; font-size: 14.5px; font-weight: 700; }
+
+    /* ---- FAQ ---- */
+    .faq__grid { display: grid; grid-template-columns: 1fr; gap: 34px; align-items: start; }
+    @media (min-width: 940px) { .faq__grid { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: 56px; } }
+    .faq__list { display: flex; flex-direction: column; gap: 12px; }
+    .faq__item { background: #FFFFFF; border: 1px solid var(--line); border-radius: 16px; transition: background 200ms ease; }
+    .faq__item[open] { background: var(--soft); border-color: var(--mint-bd); }
+    .faq__item summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 24px; cursor: pointer; list-style: none; }
+    .faq__item summary::-webkit-details-marker { display: none; }
+    .faq__q { display: flex; align-items: center; gap: 16px; }
+    .faq__num { font-size: 13px; font-weight: 800; color: var(--green); }
+    .faq__item summary strong { font-size: 17px; font-weight: 700; letter-spacing: -0.015em; }
+    .faq__sinal { font-size: 22px; font-weight: 700; color: var(--green); line-height: 1; flex-shrink: 0; }
+    .faq__item[open] .faq__sinal { transform: rotate(45deg); }
+    .faq__item p { font-size: 15.5px; line-height: 1.62; color: var(--text); margin: 0 24px 20px 53px; max-width: 66ch; }
+
+    /* ---- CTA final ---- */
+    .final { padding: 0 0 84px; }
+    .final__box { position: relative; background: linear-gradient(140deg, var(--ink) 0%, var(--ink-2) 100%); border-radius: 28px; padding: 52px var(--gut); overflow: hidden; }
+    @media (min-width: 900px) { .final__box { padding: 62px 56px; } }
+    .final__blob { position: absolute; top: -140px; right: -80px; width: 460px; height: 460px; border-radius: 50%; background: radial-gradient(circle, rgba(13,127,98,0.42), rgba(13,127,98,0) 68%); pointer-events: none; }
+    .final__box::after, .garantia__box::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(58% 46% at 8% 108%, rgba(127,203,178,0.16), transparent 68%);
+    }
+    .final__box > *, .garantia__box > * { position: relative; z-index: 1; }
+    .final__grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 34px; align-items: center; }
+    @media (min-width: 900px) { .final__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.52fr); gap: 52px; } }
+    .final h2 { font-size: clamp(30px, 4.2vw, 46px); font-weight: 800; line-height: 1.04; letter-spacing: -0.034em; margin: 0 0 18px; color: #FFFFFF; max-width: 18ch; }
+    .final p { font-size: 17.5px; line-height: 1.6; color: rgba(255,255,255,0.76); margin: 0; max-width: 54ch; }
+    /* o olhal é um <p>, então precisa vencer a regra acima */
+    .final p.eyebrow { color: var(--mint-lt); }
+    .final__ctas { display: flex; flex-direction: column; gap: 12px; }
+    .final__nota { margin-top: 16px; font-size: 13.5px; color: rgba(255,255,255,0.55); }
+
+    /* ---- rodapé ---- */
+    .rodape { border-top: 1px solid var(--line); padding: 44px 0 40px; background: var(--soft); }
+    .rodape__grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+    @media (min-width: 720px) { .rodape__grid { grid-template-columns: 1.15fr 1fr 1fr; gap: 40px; } }
+    .rodape__col h4 { font-size: 11.5px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text); margin: 0 0 12px; }
+    .rodape__col p { font-size: 14px; line-height: 1.62; color: var(--text); margin: 0 0 8px; }
+    .rodape__col p:last-child { margin-bottom: 0; }
+    .rodape__col a { color: var(--text); }
+    .rodape__col a:hover { color: var(--green); }
+    .rodape__razao { font-size: 13px; line-height: 1.55; color: var(--text-2); font-weight: 600; }
+    .rodape__cnpj { font-size: 13px; color: var(--text); }
+    .rodape__links { display: flex; flex-direction: column; gap: 9px; font-size: 14px; font-weight: 600; }
+    .rodape__base { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--text); }
+
+
+    /* ---- entrada por rolagem ----
+       O estado escondido só existe quando o JS confirma que vai revelar
+       (classe js-rev na raiz). Sem JS, ou se o observer falhar, tudo aparece. */
+    .js-rev [data-rev] { opacity: 0; transform: translateY(28px); }
+    .js-rev [data-rev].rev-on { opacity: 1; transform: none; }
+    .js-rev [data-rev] {
+      transition: opacity 700ms cubic-bezier(0.22,1,0.36,1), transform 700ms cubic-bezier(0.22,1,0.36,1);
+      transition-delay: var(--d, 0ms);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .js-rev [data-rev] { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ---- nav ganha peso ao descolar do topo ---- */
+    .nav__pill { transition: box-shadow 260ms ease, background 260ms ease, transform 260ms ease; }
+    .nav.rolado .nav__pill { background: rgba(255,255,255,0.97); box-shadow: 0 20px 44px -24px rgba(28,42,63,0.42); }
+    .nav__links a:not(.btn) { position: relative; }
+    .nav__links a:not(.btn)::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: -5px; height: 2px; border-radius: 2px;
+      background: var(--green); transform: scaleX(0); transform-origin: left;
+      transition: transform 260ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .nav__links a:not(.btn):hover::after, .nav__links a:not(.btn):focus-visible::after { transform: scaleX(1); }
+
+    /* ---- resposta ao toque ---- */
+    .btn:active { transform: translateY(1px) scale(0.995); }
+    .ff-card { transition: transform 260ms cubic-bezier(0.22,1,0.36,1), box-shadow 260ms ease, border-color 260ms ease; }
+
+    /* ---- FAQ: a resposta entra, não pisca ---- */
+    .faq__item[open] p { animation: ffPop 340ms cubic-bezier(0.22,1,0.36,1) both; }
+    .faq__sinal { transition: transform 260ms cubic-bezier(0.22,1,0.36,1); }
+
+    /* ---- comparativo: a linha inteira acende ---- */
+    .comp tbody tr { transition: background 220ms ease; }
+    .comp tbody tr:hover { background: rgba(227,240,235,0.30); }
+    .comp tbody tr:hover td.new { background: rgba(227,240,235,0.85); }
+
+    /* ---- selos e chips respondem ao mouse ---- */
+    .selo, .lado__itens span, .integra__item { transition: transform 220ms ease, border-color 220ms ease, color 220ms ease; }
+    .selo:hover { transform: translateY(-2px); border-color: var(--mint-bd); }
+
+    /* ---- WhatsApp flutuante ---- */
+    .wa { position: fixed; right: 18px; bottom: 18px; z-index: 70; width: 58px; height: 58px; border-radius: 50%; background: #0F7A40; color: #fff; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 10px 26px -10px rgba(28,42,63,0.55); transition: background 180ms ease, transform 180ms ease; }
+    .wa:hover { background: #0B6234; color: #fff; transform: translateY(-2px); }
+  </style>
+
+  <!-- Google tag (gtag.js): FF.AI Google Ads AW-18172890851 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18172890851');
+  </script>
+  <!-- /Google tag -->
+
+  <!-- Meta Pixel: FF.AI -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '27417120574590791');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=27417120574590791&ev=PageView&noscript=1"/></noscript>
+  <!-- /Meta Pixel -->
+</head>
+<body>
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap">
+      <div class="nav__pill">
+        <a href="/" class="marca" aria-label="FF.AI CRM, ir para a página inicial da FF.AI">
+          <svg class="marca__ico" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <defs><linearGradient id="ffaiTileNav" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a9268"/><stop offset="1" stop-color="#046048"/></linearGradient></defs>
+            <rect width="32" height="32" rx="9" fill="url(#ffaiTileNav)"/>
+            <rect width="32" height="32" rx="9" fill="#000000" opacity="0.04"/>
+            <path d="M11.4 8.4h9.2v3.05h-6.05v3.0h5.0v3.0h-5.0V23.6H11.4V8.4Z" fill="#FFFFFF"/>
+            <circle cx="21.4" cy="21.7" r="1.85" fill="#a7f3d0"/>
+          </svg>
+          <span class="marca__wm">FF<span class="ai">.AI</span> <span class="crm">CRM</span></span>
+        </a>
+        <nav class="nav__links" aria-label="Principal">
+          <a href="#vazamentos">O problema</a>
+          <a href="#operacao">O que entra</a>
+          <a href="#comparativo">Comparativo</a>
+          <a href="#garantia">Garantia</a>
+          <a href="#prova">Depoimentos</a>
+          <a href="#contato" class="btn btn--green btn--sm">Agendar demonstração
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+          </a>
+        </nav>
+        <button class="nav__toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="navPanel" aria-label="Abrir menu">
+          <svg class="open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18"></path><path d="M3 12h18"></path><path d="M3 18h18"></path></svg>
+          <svg class="close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
+        </button>
+      </div>
+      <div class="nav__panel" id="navPanel">
+        <a href="#vazamentos">O problema</a>
+        <a href="#operacao">O que entra na operação</a>
+        <a href="#comparativo">Comparativo</a>
+        <a href="#integracao">Integração</a>
+        <a href="#implantacao">Implantação</a>
+        <a href="#garantia">Garantia</a>
+        <a href="#prova">Depoimentos</a>
+        <a href="#contato">Agendar demonstração</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <span class="hero__blob1" aria-hidden="true"></span>
+      <span class="hero__blob2" aria-hidden="true"></span>
+      <span class="hero__blob3" aria-hidden="true"></span>
+      <div class="wrap">
+        <div class="hero__grid">
+          <div>
+            <div class="badge">
+              <span class="ff-live dot"></span>
+              <span>CRM e IA agêntica para clínicas médicas e odontológicas</span>
+            </div>
+            <h1 class="h1">Você não sabe quantos pacientes a sua clínica perdeu ontem.</h1>
+            <p class="hero__sub">
+              Eles escreveram no WhatsApp, esperaram, e marcaram com quem respondeu antes. Os poucos que a sua equipe conseguiu atender ninguém registrou no CRM, porque não sobra tempo. No FF.AI CRM a IA responde em segundos e o funil se movimenta de forma automática conforme o atendimento ocorre. <strong class="ink">Ninguém digita nada.</strong>
+            </p>
+            <div class="hero__ctas">
+      <!-- STELLA-PENDENTE: reativar quando houver numero de demonstracao dedicado.
+           Descomentar o bloco abaixo e trocar o href por https://wa.me/<numero>?text=...
+              <a href="#contato" class="btn btn- -green ff-btn">Testar a Stella agora
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8 7 4-7 4V8Z"></path><circle cx="12" cy="12" r="9.5"></circle></svg>
+              </a>
+      -->
+              <a href="#contato" class="btn btn--green ff-btn">Agendar demonstração gratuita
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+              </a>
+            </div>
+            <div class="hero__by">
+              <img src="/assets/fabio-avatar.jpg" alt="Dr. Fábio Faleiro Vieira" width="52" height="52" />
+              <p><strong class="ink">Founder: Dr. Fábio Faleiro.</strong> O FF.AI CRM opera na clínica dele e em outras clínicas médicas e odontológicas.</p>
+            </div>
+          </div>
+
+          <div>
+            <div class="fone" aria-hidden="true">
+              <div class="fone__in">
+                <div class="fone__top">
+                  <div class="fone__av">S</div>
+                  <div style="flex:1">
+                    <strong>Stella · FF.AI</strong>
+                    <span class="fone__on"><span class="ff-live dot"></span>respondendo agora</span>
+                  </div>
+                  <span class="fone__hora">23h04</span>
+                </div>
+                <div class="fone__chat" id="foneChat">
+                  <div class="bolha bolha--eles">Boa noite. Vi o vídeo da cirurgia robótica. Qual o valor da consulta?</div>
+                  <!-- lint-ok: fala simulada da agente com paciente, nao e copy de marca --><div class="bolha bolha--nos">Boa noite! Sou a Stella, do time do Dr. Fábio. Antes do valor, me conta rapidinho: você já fez alguma cirurgia abdominal antes?</div>
+                  <div class="bolha bolha--eles">Duas cesáreas. Ficou aquela separação no músculo que não sai com academia.</div>
+                  <div class="bolha bolha--nos">Entendi. É exatamente o quadro que o Dr. Fábio corrige por via robótica. Tenho quinta às 14h ou sexta às 9h com ele. Qual encaixa melhor?</div>
+                  <div class="bolha bolha--eles">Sexta 9h.</div>
+                  <div class="bolha bolha--nos">Perfeito, agendado. Vou te mandar o preparo por aqui.</div>
+                  <div class="digitando" id="foneDigitando"><span class="ff-live"></span><span class="ff-live"></span><span class="ff-live"></span></div>
+                </div>
+                <div class="fone__pe">
+                  <b>O card moveu sozinho no CRM</b>
+                  <span class="chip-ok">Agendado</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VAZAMENTOS -->
+    <section class="sec sec--luz-terra" id="vazamentos">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow eyebrow--terra">O problema</p>
+          <h2 class="h2">O paciente não espera. E o que a equipe atende, ninguém registra.</h2>
+          <p class="lead">São duas contas somadas. A primeira é a demora: quem pergunta às 14h e é respondido às 17h já marcou em outro lugar. A segunda é o trabalho manual que sobra depois, porque criar o card, mover a etapa e anotar o combinado é tarefa de quem já está atendendo o paciente seguinte. <strong class="ink">São quatro vazamentos que ninguém mede.</strong></p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card vaz ff-card">
+            <span class="tag">Vazamento 01</span>
+            <h3>O paciente espera, e marca com quem respondeu antes</h3>
+            <p>Mensagem às 14h, resposta às 17h. Nesse intervalo ele escreveu para outras três clínicas e fechou com a primeira que respondeu. À noite, no fim de semana e no feriado não responde ninguém, e é exatamente quando ele decide.</p>
+          </div>
+          <div class="card vaz ff-card">
+            <span class="tag">Vazamento 02</span>
+            <h3>O CRM só anda se alguém parar para digitar</h3>
+            <p>Criar o card, mover a etapa, anotar o que foi combinado, marcar o retorno. É trabalho manual que cai sempre sobre quem já está com o próximo paciente na frente. Não é má vontade: é tempo que não existe. No fim do mês, o funil que você abre é ficção.</p>
+          </div>
+          <div class="card vaz ff-card">
+            <span class="tag">Vazamento 03</span>
+            <h3>A conversa mora num lugar, o dado em outro</h3>
+            <p>O WhatsApp está no celular da recepção, a agenda no prontuário, o pagamento no banco e a nota na prefeitura. Ninguém enxerga a linha inteira do paciente, então ninguém sabe em que ponto ele desistiu.</p>
+          </div>
+          <div class="card vaz ff-card">
+            <span class="tag">Vazamento 04</span>
+            <h3>A IA que te venderam agenda e para por aí</h3>
+            <p>Ela responde a dúvida, marca o horário e devolve o lead frio para a equipe. Quem qualifica, quem contorna o "vou pensar" e quem persegue quem não agendou continua sendo gente que já não tinha tempo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- O QUE ENTRA -->
+    <section class="sec sec--soft sec--espelhada" id="operacao">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow">O que entra na sua operação</p>
+          <h2 class="h2 h2--sm">Seis coisas que o seu CRM atual não faz.</h2>
+          <p class="lead">Cada uma nasceu de um problema real de clínica, foi construída para a nossa operação e só depois virou produto.</p>
+        </div>
+
+        <div class="grid-3">
+
+          <!-- 01 · responde em segundos -->
+          <article class="cardi ff-card">
+            <div class="cardi__palco">
+              <svg viewBox="0 0 300 190" role="img" aria-label="Uma mensagem do paciente entra e passa pela triagem, pelo SDR, pelo closer e pela quebra de objeção">
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="8" y="16" width="126" height="34" rx="11"/>
+                  <text class="il-txt" x="20" y="31">Qual o valor da</text>
+                  <text class="il-txt" x="20" y="42">consulta?</text>
+                </g>
+                <g class="il-sombra il-flutua">
+                  <rect class="il-verde" x="196" y="14" width="96" height="24" rx="12"/>
+                  <circle class="il-claro" cx="210" cy="26" r="4"/>
+                  <text class="il-txt-w" x="220" y="29">responde em 41s</text>
+                </g>
+                <path class="il-tracejo il-tracejo--anda" d="M134 33 H186"/>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="8" y="70" width="132" height="30" rx="10"/>
+                  <circle class="il-menta" cx="26" cy="85" r="9"/>
+                  <path d="M22 85l3 3 5-5.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text class="il-txt-b" x="42" y="88">Triagem</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="160" y="70" width="132" height="30" rx="10"/>
+                  <circle class="il-menta" cx="178" cy="85" r="9"/>
+                  <path d="M174 85l3 3 5-5.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text class="il-txt-b" x="194" y="88">SDR qualifica</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="8" y="112" width="132" height="30" rx="10"/>
+                  <circle class="il-menta" cx="26" cy="127" r="9"/>
+                  <path d="M22 127l3 3 5-5.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text class="il-txt-b" x="42" y="130">Closer agenda</text>
+                </g>
+                <g class="il-sombra il-flutua il-flutua--2">
+                  <rect class="il-caixa-ok" x="160" y="112" width="132" height="30" rx="10"/>
+                  <circle class="il-verde" cx="178" cy="127" r="9"/>
+                  <path d="M174 127l3 3 5-5.5" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text class="il-txt-b" x="194" y="130">Quebra objeção</text>
+                </g>
+                <path class="il-linha" d="M74 100 v12"/>
+                <path class="il-linha" d="M226 100 v12"/>
+                <path class="il-linha" d="M140 85 H160"/>
+                <path class="il-linha" d="M140 127 H160"/>
+                <g class="il-sombra">
+                  <rect class="il-menta" x="76" y="156" width="148" height="24" rx="12"/>
+                  <text class="il-txt-v" x="90" y="171">não agendou → follow-up + tag</text>
+                </g>
+              </svg>
+            </div>
+            <div class="cardi__txt">
+              <h3>Responde em segundos, e não para no agendamento</h3>
+              <p>A qualquer hora, inclusive às onze da noite e no domingo. E não é um robô só: um agente de triagem entende o que o paciente quer, um SDR qualifica e direciona, um closer conduz até o agendamento e um agente dedicado a objeção antecipa o "vou pensar" e o "está caro". Quem não agendou entra em follow-up e sai etiquetado para remarketing.</p>
+            </div>
+          </article>
+
+          <!-- 02 · o funil anda sozinho -->
+          <article class="cardi cardi--azul ff-card">
+            <div class="cardi__palco">
+              <svg viewBox="0 0 300 190" role="img" aria-label="Um card do funil se move sozinho da etapa qualificado para agendado">
+                <text class="il-txt" x="10" y="16">NOVO</text>
+                <text class="il-txt" x="110" y="16">QUALIFICADO</text>
+                <text class="il-txt" x="216" y="16">AGENDADO</text>
+                <path class="il-linha" d="M100 24 V178" stroke-dasharray="2 5"/>
+                <path class="il-linha" d="M206 24 V178" stroke-dasharray="2 5"/>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="10" y="28" width="82" height="34" rx="9"/>
+                  <rect class="il-barra" x="20" y="38" width="46" height="4" rx="2"/>
+                  <rect class="il-menta" x="20" y="47" width="30" height="7" rx="3.5"/>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="10" y="72" width="82" height="34" rx="9"/>
+                  <rect class="il-barra" x="20" y="82" width="52" height="4" rx="2"/>
+                  <rect class="il-menta" x="20" y="91" width="36" height="7" rx="3.5"/>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="112" y="28" width="82" height="34" rx="9"/>
+                  <rect class="il-barra" x="122" y="38" width="48" height="4" rx="2"/>
+                  <rect class="il-menta" x="122" y="47" width="42" height="7" rx="3.5"/>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="112" y="72" width="82" height="34" rx="9"/>
+                  <rect class="il-barra" x="122" y="82" width="40" height="4" rx="2"/>
+                  <rect class="il-menta" x="122" y="91" width="30" height="7" rx="3.5"/>
+                </g>
+                <path class="il-tracejo il-tracejo--anda" d="M172 118 C196 132, 214 118, 224 100"/>
+                <g class="il-sombra il-flutua">
+                  <rect class="il-caixa-ok" x="214" y="60" width="82" height="38" rx="9"/>
+                  <rect class="il-verde" x="224" y="70" width="52" height="4" rx="2"/>
+                  <rect class="il-menta" x="224" y="80" width="44" height="9" rx="4.5"/>
+                  <text class="il-txt-v" x="228" y="87">agendado</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-menta" x="86" y="146" width="128" height="26" rx="13"/>
+                  <text class="il-txt-v" x="100" y="162">moveu sem ninguém tocar</text>
+                </g>
+              </svg>
+            </div>
+            <div class="cardi__txt">
+              <h3>O funil anda sozinho</h3>
+              <p>Cada resposta do paciente move o card para a etapa certa, sem ninguém arrastar nada. O que a IA entendeu na conversa vira estágio, etiqueta, valor e próximo passo dentro do CRM. O painel mostra o que aconteceu, não o que alguém lembrou de anotar.</p>
+            </div>
+          </article>
+
+          <!-- 03 · relatório num clique -->
+          <article class="cardi cardi--ambar ff-card">
+            <div class="cardi__palco">
+              <svg viewBox="0 0 300 190" role="img" aria-label="Relatório de funil por etapa com o gargalo destacado">
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="12" y="14" width="276" height="130" rx="14"/>
+                </g>
+                <text class="il-txt-b" x="28" y="36">Conversão por etapa</text>
+                <path class="il-linha" d="M28 122 H272" stroke-dasharray="2 4"/>
+                <path class="il-linha" d="M28 96 H272" stroke-dasharray="2 4"/>
+                <path class="il-linha" d="M28 70 H272" stroke-dasharray="2 4"/>
+                <rect class="il-barra" x="34" y="58" width="30" height="64" rx="5"/>
+                <rect class="il-barra" x="80" y="70" width="30" height="52" rx="5"/>
+                <rect class="il-barra" x="126" y="80" width="30" height="42" rx="5"/>
+                <rect class="il-verde" x="172" y="104" width="30" height="18" rx="5"/>
+                <rect class="il-barra" x="218" y="92" width="30" height="30" rx="5"/>
+                <g class="il-sombra il-flutua">
+                  <rect class="il-caixa-ok" x="152" y="20" width="122" height="30" rx="10"/>
+                  <circle class="il-verde" cx="169" cy="35" r="7"/>
+                  <path d="M169 31.5v4M169 38.2v.6" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                  <text class="il-txt-v" x="182" y="38">gargalo do funil</text>
+                </g>
+                <path class="il-tracejo il-tracejo--anda" d="M187 50 V104"/>
+                <g class="il-sombra">
+                  <rect class="il-menta" x="70" y="156" width="160" height="26" rx="13"/>
+                  <text class="il-txt-v" x="84" y="172">meta do mês · KPI por etapa</text>
+                </g>
+              </svg>
+            </div>
+            <div class="cardi__txt">
+              <h3>Relatório comercial num clique</h3>
+              <p>CRM personalizado clínica a clínica, com relatório de funil, identificação do gargalo, planejamento de metas, KPIs por etapa e análise financeira. Você para de perguntar como foi o mês e passa a olhar onde mexer.</p>
+            </div>
+          </article>
+
+          <!-- 04 · API oficial da Meta -->
+          <article class="cardi ff-card">
+            <div class="cardi__palco">
+              <svg viewBox="0 0 300 190" role="img" aria-label="FF.AI CRM e WhatsApp ligados como provedor de tecnologia oficial da Meta">
+                <path class="il-linha" d="M150 40 a56 56 0 0 1 56 56" opacity="0.45"/>
+                <path class="il-linha" d="M150 40 a56 56 0 0 0 -56 56" opacity="0.45"/>
+                <path class="il-linha" d="M150 26 a70 70 0 0 1 70 70" opacity="0.25"/>
+                <path class="il-linha" d="M150 26 a70 70 0 0 0 -70 70" opacity="0.25"/>
+
+                <g class="il-sombra il-flutua">
+                  <rect x="62" y="66" width="60" height="60" rx="17" fill="url(#tileFfai)"/>
+                  <rect x="62" y="66" width="60" height="60" rx="17" fill="#000000" opacity="0.04"/>
+                  <path d="M83.4 79.4h17.3v5.7h-11.4v5.6h9.4v5.6h-9.4v14.2h-5.9V79.4Z" fill="#FFFFFF"/>
+                  <circle cx="102.2" cy="104.4" r="3.5" fill="#a7f3d0"/>
+                </g>
+
+                <g class="il-sombra il-flutua il-flutua--2">
+                  <circle cx="208" cy="96" r="30" fill="#FFFFFF" stroke="#DDE4E2"/>
+                  <path transform="translate(193 81) scale(1.25)" fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </g>
+
+                <path class="il-tracejo il-tracejo--anda" d="M126 96 H174"/>
+                <g class="il-sombra">
+                  <circle class="il-verde" cx="150" cy="96" r="12"/>
+                  <path d="M144 96l4.5 4.5L157 92" stroke="#FFFFFF" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="6" y="26" width="76" height="24" rx="12"/>
+                  <text class="il-txt" x="16" y="41">remarketing</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="216" y="26" width="80" height="24" rx="12"/>
+                  <text class="il-txt" x="226" y="41">transmissão</text>
+                </g>
+
+                <g class="il-sombra">
+                  <rect class="il-caixa-ok" x="46" y="150" width="208" height="30" rx="15"/>
+                  <text class="il-txt-v" x="62" y="169">Provedor de Tecnologia oficial da Meta</text>
+                </g>
+
+                <defs><linearGradient id="tileFfai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a9268"/><stop offset="1" stop-color="#046048"/></linearGradient></defs>
+              </svg>
+            </div>
+            <div class="cardi__txt">
+              <h3>Provedor de Tecnologia oficial da Meta</h3>
+              <p>A FF.AI é parceira oficial da Meta como Provedora de Tecnologia, então o número da sua clínica roda homologado na API oficial do WhatsApp. É o que libera campanha de remarketing, lista de transmissão e anúncio que clica direto para a conversa, dentro das regras da plataforma. Número em restrição é base de conversa perdida, e base perdida não volta.</p>
+            </div>
+          </article>
+
+          <!-- 05 · vários números, um painel -->
+          <article class="cardi cardi--azul ff-card">
+            <div class="cardi__palco">
+              <svg viewBox="0 0 300 190" role="img" aria-label="Vários números de WhatsApp entrando num painel único">
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="8" y="20" width="98" height="26" rx="13"/>
+                  <circle class="il-menta" cx="24" cy="33" r="7"/>
+                  <text class="il-txt" x="38" y="36">Recepção</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="8" y="76" width="98" height="26" rx="13"/>
+                  <circle class="il-menta" cx="24" cy="89" r="7"/>
+                  <text class="il-txt" x="38" y="92">Comercial</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="8" y="132" width="98" height="26" rx="13"/>
+                  <circle class="il-menta" cx="24" cy="145" r="7"/>
+                  <text class="il-txt" x="38" y="148">Unidade 2</text>
+                </g>
+                <path class="il-tracejo il-tracejo--anda" d="M106 33 C140 33, 140 89, 170 89"/>
+                <path class="il-tracejo il-tracejo--anda" d="M106 89 H170"/>
+                <path class="il-tracejo il-tracejo--anda" d="M106 145 C140 145, 140 89, 170 89"/>
+                <g class="il-sombra il-flutua">
+                  <rect class="il-caixa-ok" x="172" y="30" width="120" height="118" rx="14"/>
+                  <rect class="il-verde" x="172" y="30" width="120" height="24" rx="14"/>
+                  <rect class="il-verde" x="172" y="44" width="120" height="10"/>
+                  <text class="il-txt-w" x="188" y="46">Caixa única</text>
+                  <rect class="il-barra" x="186" y="68" width="92" height="4" rx="2"/>
+                  <rect class="il-menta" x="186" y="78" width="56" height="8" rx="4"/>
+                  <rect class="il-barra" x="186" y="96" width="92" height="4" rx="2"/>
+                  <rect class="il-menta" x="186" y="106" width="70" height="8" rx="4"/>
+                  <rect class="il-barra" x="186" y="124" width="70" height="4" rx="2"/>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-menta" x="76" y="162" width="152" height="22" rx="11"/>
+                  <text class="il-txt-v" x="90" y="177">histórico unificado por telefone</text>
+                </g>
+              </svg>
+            </div>
+            <div class="cardi__txt">
+              <h3>Vários números, um painel só</h3>
+              <p>Gestão multicanal dentro do próprio CRM: o número da recepção, o do comercial, o de cada unidade e o de cada especialista, todos na mesma tela. O histórico fica unificado por telefone, então ninguém repete a pergunta que o colega já fez.</p>
+            </div>
+          </article>
+
+          <!-- 06 · exame, nota fiscal e cobrança -->
+          <article class="cardi cardi--terra ff-card">
+            <div class="cardi__palco">
+              <svg viewBox="0 0 300 190" role="img" aria-label="Pedido de exame assinado, nota fiscal e link de pagamento entregues na conversa">
+                <g class="il-sombra il-flutua">
+                  <rect class="il-caixa" x="14" y="14" width="96" height="118" rx="10"/>
+                  <rect class="il-barra" x="26" y="30" width="56" height="4" rx="2"/>
+                  <rect class="il-barra" x="26" y="42" width="72" height="3" rx="1.5"/>
+                  <rect class="il-barra" x="26" y="52" width="66" height="3" rx="1.5"/>
+                  <rect class="il-barra" x="26" y="62" width="70" height="3" rx="1.5"/>
+                  <circle class="il-verde" cx="62" cy="96" r="17"/>
+                  <path d="M54 96l6 6 12-13" stroke="#FFFFFF" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <text class="il-txt-v" x="30" y="126">assinado A1</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="126" y="24" width="76" height="24" rx="12"/>
+                  <text class="il-txt" x="140" y="39">Nota fiscal</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-caixa" x="126" y="58" width="76" height="24" rx="12"/>
+                  <text class="il-txt" x="138" y="73">Pagamento</text>
+                </g>
+                <path class="il-tracejo il-tracejo--anda" d="M110 74 H126"/>
+                <path class="il-tracejo il-tracejo--anda" d="M202 36 C224 36, 224 96, 236 104"/>
+                <path class="il-tracejo il-tracejo--anda" d="M202 70 C222 70, 224 96, 236 104"/>
+                <g class="il-sombra il-flutua il-flutua--2">
+                  <rect class="il-caixa-ok" x="212" y="96" width="80" height="52" rx="12"/>
+                  <rect class="il-verde" x="224" y="110" width="56" height="8" rx="4"/>
+                  <rect class="il-menta" x="224" y="124" width="44" height="8" rx="4"/>
+                  <text class="il-txt-v" x="224" y="144">no chat</text>
+                </g>
+                <g class="il-sombra">
+                  <rect class="il-menta" x="66" y="160" width="168" height="24" rx="12"/>
+                  <text class="il-txt-v" x="80" y="176">sem abrir outra aba, sem portal</text>
+                </g>
+              </svg>
+            </div>
+            <div class="cardi__txt">
+              <h3>Exame, nota fiscal e cobrança no chat</h3>
+              <p>Um botão na ficha do paciente monta o pedido de exames conforme a indicação médica ou odontológica, assinado digitalmente com o certificado do profissional responsável. Outro emite a nota fiscal junto à prefeitura, e o link de pagamento sai ali mesmo.</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- INTEGRAÇÃO -->
+    <section class="sec sec--luz-azul" id="integracao">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow eyebrow--azul">Integração</p>
+          <h2 class="h2 h2--sm">Integração com vários prontuários do mercado.</h2>
+          <p class="lead">O FF.AI CRM não pede que você troque de prontuário. Ele entra ao lado, na camada comercial e de atendimento, e conversa com o sistema que a sua clínica já usa.</p>
+        </div>
+
+        <div class="lado">
+          <div class="lado__bloco">
+            <span class="lado__tag">Continua como está</span>
+            <h3>O prontuário da sua clínica</h3>
+            <p>Prontuário, odontograma e histórico clínico ficam onde já estão. A FF.AI não pede troca de sistema e não guarda dado clínico do seu paciente.</p>
+            <div class="lado__itens"><span>Prontuário</span><span>Odontograma</span><span>Histórico clínico</span></div>
+          </div>
+
+
+          <div class="lado__bloco lado__bloco--nosso">
+            <span class="lado__tag">Entra junto</span>
+            <h3>O FF.AI CRM</h3>
+            <p>A camada comercial e de atendimento: a conversa, o funil, o relatório e os módulos de exame, nota fiscal e cobrança.</p>
+            <div class="lado__itens"><span>Conversa</span><span>Funil</span><span>Relatório</span><span>Documentos</span></div>
+          </div>
+        </div>
+
+        <div class="integra__nomes">
+          <div class="integra__trilho">
+            <span class="integra__item">Doctoralia</span>
+            <span class="integra__item">Feegow</span>
+            <span class="integra__item">Clinicorp</span>
+            <span class="integra__item">Prontuário Verde</span>
+            <span class="integra__item" aria-hidden="true">Doctoralia</span>
+            <span class="integra__item" aria-hidden="true">Feegow</span>
+            <span class="integra__item" aria-hidden="true">Clinicorp</span>
+            <span class="integra__item" aria-hidden="true">Prontuário Verde</span>
+          </div>
+        </div>
+
+        <p class="integra__nota">Integramos por API nativa com os sistemas acima. O caminho do seu prontuário é validado no setup inicial do serviço, depois da contratação, e entra por escrito no escopo.</p>
+      </div>
+    </section>
+
+    <!-- IMPLANTAÇÃO -->
+    <section class="sec sec--soft sec--espelhada" id="implantacao">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow">A implantação</p>
+          <h2 class="h2 h2--sm">Quinze dias, com a sua clínica dentro.</h2>
+          <p class="lead">Setup personalizado clínica a clínica. Não existe modelo de prateleira: o funil, os agentes e os protocolos são montados em cima de como a sua operação já trabalha.</p>
+        </div>
+
+        <div class="fases" style="margin-bottom: 34px;">
+          <div class="card fase ff-card">
+            <span class="dia">Dia 1 a 3</span>
+            <h3>Diagnóstico e desenho</h3>
+            <p>Mapeamos o funil real, os canais de entrada, as objeções que a sua equipe mais ouve e os procedimentos que vão para o módulo de exames.</p>
+          </div>
+          <div class="card fase ff-card">
+            <span class="dia">Dia 4 a 10</span>
+            <h3>Construção</h3>
+            <p>CRM configurado com o seu funil, agentes treinados no seu tom e nos seus protocolos, número homologado na API oficial e integrações ligadas.</p>
+          </div>
+          <div class="card fase ff-card">
+            <span class="dia">Dia 11 a 13</span>
+            <h3>Testes em conversa real</h3>
+            <p>Acompanhamos atendimentos de verdade, ajustamos a qualificação e a quebra de objeção, e validamos os relatórios com você olhando.</p>
+          </div>
+          <div class="card fase ff-card">
+            <span class="dia">Dia 14 e 15</span>
+            <h3>Go-live e treinamento</h3>
+            <p>Operação no ar e treinamento comercial da sua equipe, incluso: como ler o painel e o que fazer com o lead que a IA entrega.</p>
+          </div>
+        </div>
+
+        <div class="mod mod--lt ff-card" style="margin-top: 26px;">
+          <span class="tag">Bônus da implantação</span>
+          <h3>Treinamento comercial da equipe, dentro do pacote.</h3>
+          <p>De nada adianta a IA entregar o paciente qualificado se quem recebe não sabe conduzir. Nos dois últimos dias treinamos a sua equipe no que a operação passa a exigir.</p>
+          <div class="mod__list mod__list--3">
+            <span>Como ler o painel e agir pelo número, não pela sensação</span>
+            <span>O que fazer com o lead que a IA já qualificou</span>
+            <span>Como conduzir preço e objeção sem derrubar o funil</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GARANTIA -->
+    <section class="garantia" id="garantia">
+      <div class="wrap">
+        <div class="garantia__box">
+          <span class="garantia__blob" aria-hidden="true"></span>
+          <div class="garantia__grid">
+            <div class="garantia__selo" aria-hidden="true">
+              <svg viewBox="0 0 200 200" role="img">
+                <defs>
+                  <path id="voltaSelo" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0" />
+                </defs>
+                <circle class="selo-anel" cx="100" cy="100" r="94" />
+                <circle class="selo-fundo" cx="100" cy="100" r="86" />
+                <circle class="selo-borda" cx="100" cy="100" r="66" />
+                <text class="selo-volta">
+                  <textPath href="#voltaSelo" startOffset="0%">TESTE SEM RISCO · DEVOLUÇÃO INTEGRAL · </textPath>
+                </text>
+                <text class="selo-num" x="100" y="97">15</text>
+                <text class="selo-dias" x="100" y="122">DIAS</text>
+              </svg>
+            </div>
+
+            <div class="garantia__texto">
+              <p class="eyebrow eyebrow--dark">A garantia</p>
+              <h2>Quinze dias para testar. O risco é nosso.</h2>
+              <p class="lead">Você decide com o sistema já rodando dentro da sua clínica, com a sua equipe e os seus pacientes, não com base na promessa de um vendedor. Se em 15 dias não for o que você esperava, devolvemos o valor integral.</p>
+              <ul class="garantia__itens">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg>
+                  <div><strong>Devolução integral</strong><span>O valor inteiro de volta, não proporcional aos dias usados</span></div>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg>
+                  <div><strong>Sem multa e sem carência</strong><span>Nada de taxa de cancelamento nem prazo mínimo escondido</span></div>
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg>
+                  <div><strong>Sem precisar justificar</strong><span>Você avisa, e a devolução corre. Não existe comitê para convencer</span></div>
+                </li>
+              </ul>
+              <p class="garantia__prazo">O prazo conta a partir do go-live, não da assinatura: são 15 dias de uso real, com a operação no ar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARATIVO -->
+    <section class="sec sec--soft sec--luz-azul" id="comparativo">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow eyebrow--azul">Lado a lado</p>
+          <h2 class="h2">O que muda em relação ao que a sua clínica usa hoje.</h2>
+          <p class="lead">A comparação não é com outro chatbot. É com o arranjo que quase toda clínica tem: um CRM genérico, um WhatsApp comum e uma pessoa tentando costurar os dois.</p>
+        </div>
+
+        <div class="comp">
+          <div class="comp__scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">&nbsp;</th>
+                  <th scope="col">CRM genérico + chatbot</th>
+                  <th scope="col" class="dest">FF.AI CRM</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Quem alimenta o funil</th><td class="old">A sua equipe, quando sobra tempo</td><td class="new">A própria conversa com o paciente</td></tr>
+                <tr><th scope="row">O que a IA faz</th><td class="old">Responde dúvida e marca horário</td><td class="new">Tria, qualifica, contorna objeção, agenda e faz o follow-up</td></tr>
+                <tr><th scope="row">Lead que não agendou</th><td class="old">Esfria na caixa de entrada</td><td class="new">Entra em follow-up e sai etiquetado para remarketing</td></tr>
+                <tr><th scope="row">WhatsApp</th><td class="old">Número comum, sujeito a restrição</td><td class="new">API oficial da Meta, número homologado</td></tr>
+                <tr><th scope="row">Mais de um número</th><td class="old">Um aparelho ou uma instância por número</td><td class="new">Todos no mesmo painel, histórico unificado</td></tr>
+                <tr><th scope="row">Pedido de exames</th><td class="old">Digitado e assinado à mão, um por um</td><td class="new">Um clique, assinado digitalmente e enviado no chat</td></tr>
+                <tr><th scope="row">Nota fiscal</th><td class="old">Site da prefeitura, uma a uma, depois do expediente</td><td class="new">Um clique, emitida e entregue na conversa</td></tr>
+                <tr><th scope="row">Relatório comercial</th><td class="old">Exportar e montar na planilha</td><td class="new">Um clique, com gargalo do funil e meta</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROVA -->
+    <section class="sec sec--espelhada" id="prova">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow">Depoimentos</p>
+          <h2 class="h2">O que estão falando de trabalhar com a gente</h2>
+          <p class="lead">A gente não fala pelo cliente. Ouça direto de quem já passou por isso.</p>
+        </div>
+
+        <div class="depos">
+          <figure class="depo ff-card">
+            <video controls preload="metadata" playsinline poster="/crm/videos/dep-rogerio.jpg" width="720" height="1280">
+              <source src="/crm/videos/dep-rogerio.mp4" type="video/mp4" />
+              O seu navegador não abre este vídeo.
+            </video>
+            <figcaption>
+              <strong>Dr. Rogério Troian</strong>
+              <span>Endocrinologia e nutrologia</span>
+            </figcaption>
+          </figure>
+
+          <figure class="depo ff-card">
+            <video controls preload="metadata" playsinline poster="/crm/videos/dep-lidyane.jpg" width="720" height="1280">
+              <source src="/crm/videos/dep-lidyane.mp4" type="video/mp4" />
+              O seu navegador não abre este vídeo.
+            </video>
+            <figcaption>
+              <strong>Dra. Lidyane Gomide</strong>
+              <span>Akoya Clínica · estética íntima e ginecologia regenerativa</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUEM FAZ -->
+    <section class="sec sec--soft sec--luz-terra" id="quem">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow eyebrow--terra">Quem faz</p>
+          <h2 class="h2">Quem vende a IA aqui é quem opera de verdade.</h2>
+          <p class="lead">Não é consultoria vendendo método importado. É um cirurgião que aplicou a IA na própria clínica primeiro e só leva adiante o que já mostrou resultado numa operação viva.</p>
+        </div>
+
+        <div class="pessoa-solo">
+          <div class="pessoa ff-card">
+            <img src="/assets/fabio.jpg" alt="Dr. Fábio Faleiro Vieira" loading="lazy" width="660" height="825" />
+            <div class="pessoa__txt">
+              <strong>Dr. Fábio Faleiro Vieira</strong>
+              <span class="pessoa__papel">Fundador · cirurgião robótico digestivo</span>
+              <p>Prática ativa no Albert Einstein e no Vila Nova Star, em São Paulo, e no MaterDei, em Goiânia. Membro da SBCBM, SOBRACIL, CBCD e IFSO. Dirige a FF.AI e roda o produto inteiro dentro da própria clínica antes de levar para qualquer outra.</p>
+              <div class="pessoa__reg">
+                <b>CRM-GO 15014 · RQE 16301</b>
+                <span>CRM-SP 236248 · RQE 121835-1</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="selos">
+          <span class="selo">Conformidade CFM 2.454</span>
+          <span class="selo">LGPD e consentimento clínico</span>
+          <span class="selo">WhatsApp oficial da Meta</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec sec--luz-ambar sec--espelhada">
+      <div class="wrap faq__grid">
+        <div>
+          <p class="eyebrow eyebrow--ambar">Dúvidas frequentes</p>
+          <h2 class="h2">O que todo dono de clínica pergunta antes.</h2>
+          <p class="lead" style="font-size: 16.5px;">Se a sua dúvida não está aqui, ela cabe nos trinta minutos da demonstração.</p>
+        </div>
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">01</span><strong>Preciso trocar o meu prontuário?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Não. Prontuário e odontograma continuam no sistema que a sua clínica já usa. O FF.AI CRM entra ao lado, na camada comercial e de atendimento, e conversa com o que já existe. Qual caminho de integração serve para o seu sistema é definido no diagnóstico e entra por escrito na proposta.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">02</span><strong>A IA fala com o paciente sem ninguém olhar?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>A IA conduz a conversa e a sua equipe assume quando quiser, a qualquer momento. Cada resposta passa por filtro de conformidade, e a operação inteira fica registrada e auditável. Ela não substitui a relação da clínica com o paciente: ela evita que o paciente fique sem resposta.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">03</span><strong>Meu número corre risco de restrição?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Por isso o WhatsApp roda na API oficial da Meta, com o número homologado. É o que permite campanha de remarketing e lista de transmissão dentro das regras. O volume de envio é combinado em contrato, e quem pede para não receber sai da lista na hora.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">04</span><strong>Quanto tempo até estar funcionando?</strong></span><span class="faq__sinal">+</span></summary>
+            <!-- lint-ok: "sem risco" e a garantia de devolucao, definida pelo Dr. Fabio --><p>Quinze dias do início ao go-live, com o setup montado sobre a operação da sua clínica e o treinamento comercial da equipe nos dois últimos dias. Depois disso você ainda tem 15 dias para testar sem risco: se não for o que esperava, devolvemos o valor integral.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">05</span><strong>Quanto custa?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Depende de quantos profissionais atendem, do volume de pacientes que passa pelo funil e de quantas integrações a sua operação exige. É por isso que não existe tabela na internet: um consultório de um profissional e uma clínica de doze não compram a mesma coisa. A demonstração fecha o número em trinta minutos, com o escopo escrito.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="final" id="contato">
+      <div class="wrap">
+        <div class="final__box">
+          <span class="final__blob" aria-hidden="true"></span>
+          <div class="final__grid">
+            <div>
+              <p class="eyebrow eyebrow--dark">O primeiro passo</p>
+              <h2>Duas formas de ver funcionando.</h2>
+              <p>Converse com a Stella como se você fosse um paciente da sua própria clínica, e veja a triagem, a qualificação e a quebra de objeção acontecendo em tempo real. Ou marque trinta minutos e eu abro o CRM por dentro, com o funil, os relatórios e os módulos de exame e nota fiscal.</p>
+            </div>
+            <div>
+              <div class="final__ctas">
+      <!-- STELLA-PENDENTE: reativar quando houver numero de demonstracao dedicado.
+           Descomentar o bloco abaixo e trocar o href por https://wa.me/<numero>?text=...
+                <a href="#top" class="btn btn- -green ff-btn">Testar a Stella agora
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8 7 4-7 4V8Z"></path><circle cx="12" cy="12" r="9.5"></circle></svg>
+                </a>
+      -->
+                <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20da%20p%C3%A1gina%20do%20FF.AI%20CRM%20e%20quero%20agendar%20uma%20demonstra%C3%A7%C3%A3o." class="btn btn--white ff-btn" target="_blank" rel="noopener">Agendar demonstração gratuita
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                </a>
+              </div>
+              <p class="final__nota">Setup em 15 dias · garantia de 15 dias com devolução integral</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="wrap">
+      <div class="rodape__grid">
+        <div class="rodape__col">
+          <span class="marca" style="margin-bottom:14px;">
+          <svg class="marca__ico" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <defs><linearGradient id="ffaiTileRod" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a9268"/><stop offset="1" stop-color="#046048"/></linearGradient></defs>
+            <rect width="32" height="32" rx="9" fill="url(#ffaiTileRod)"/>
+            <rect width="32" height="32" rx="9" fill="#000000" opacity="0.04"/>
+            <path d="M11.4 8.4h9.2v3.05h-6.05v3.0h5.0v3.0h-5.0V23.6H11.4V8.4Z" fill="#FFFFFF"/>
+            <circle cx="21.4" cy="21.7" r="1.85" fill="#a7f3d0"/>
+          </svg>
+          <span class="marca__wm">FF<span class="ai">.AI</span> <span class="crm">CRM</span></span>
+        </span>
+          <p class="rodape__razao">FF.AI Comercial, Marketing e IA para Clínicas LTDA</p>
+          <p class="rodape__cnpj">CNPJ 68.429.840/0001-08</p>
+        </div>
+
+        <div class="rodape__col">
+          <h4>Onde ficamos</h4>
+          <p>Avenida D, nº 419, Quadra G11, Lote 01, Sala 401<br />Setor Marista · Goiânia, GO<br />CEP 74.150-040</p>
+        </div>
+
+        <div class="rodape__col">
+          <h4>Contato</h4>
+          <p><a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20da%20p%C3%A1gina%20do%20FF.AI%20CRM." target="_blank" rel="noopener">+55 11 93089-6237</a></p>
+          <p><a href="mailto:contato@ffai.ia.br">contato@ffai.ia.br</a></p>
+          <div class="rodape__links" style="margin-top:14px;">
+            <a href="/termos">Termos de Uso</a>
+            <a href="/privacidade">Política de Privacidade</a>
+            <a href="/diagnostico-termos">Termos do Diagnóstico</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="rodape__base">© 2026 FF.AI · Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20da%20p%C3%A1gina%20do%20FF.AI%20CRM." class="wa" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+    // A conversa da Stella encenada: mesma cadência do design aprovado (1100ms),
+    // com indicador de digitação entre as mensagens e recomeço no fim.
+    (function () {
+      var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var caixa = document.getElementById('foneChat');
+      var digitando = document.getElementById('foneDigitando');
+      if (reduz || !caixa || !digitando) return; // sem JS ou sem animação: conversa inteira visível
+
+      var bolhas = Array.prototype.slice.call(caixa.querySelectorAll('.bolha'));
+      if (!bolhas.length) return;
+      caixa.classList.add('js-chat');
+
+      var passo = 1, escrevendo = false, timer = null;
+
+      function pintar() {
+        for (var i = 0; i < bolhas.length; i++) {
+          if (i < passo) bolhas[i].classList.add('on');
+          else bolhas[i].classList.remove('on');
+        }
+        // o indicador fica do lado de quem vai falar a seguir
+        var proxima = bolhas[passo];
+        digitando.classList.toggle('digitando--nos', !!proxima && proxima.classList.contains('bolha--nos'));
+        digitando.classList.toggle('on', escrevendo);
+        // Acompanha a última mensagem, como um app de conversa faz.
+        // Síncrono e instantâneo de propósito: ler scrollHeight já obriga o
+        // navegador a recalcular o layout, e as duas alternativas falham em aba
+        // oculta (scroll-behavior smooth não avança, requestAnimationFrame não roda).
+        caixa.scrollTop = passo === 1 ? 0 : caixa.scrollHeight;
+      }
+
+      function passar() {
+        if (passo >= bolhas.length) { passo = 1; escrevendo = false; }
+        else if (escrevendo) { passo = passo + 1; escrevendo = false; }
+        else { escrevendo = true; }
+        pintar();
+      }
+
+      function tocar() { if (!timer) timer = setInterval(passar, 1100); }
+      function parar() { if (timer) { clearInterval(timer); timer = null; } }
+
+      pintar();
+      tocar();
+
+      // Pausa só quando a aba sai de foco. Não amarrar ao IntersectionObserver:
+      // em aba oculta ou painel embutido ele reporta "fora de vista" e a
+      // conversa nunca começa, que foi o defeito da primeira versão.
+      document.addEventListener('visibilitychange', function () {
+        document.hidden ? parar() : tocar();
+      });
+    })();
+
+
+    // Entrada por rolagem. A rede de segurança é obrigatória: em aba oculta o
+    // IntersectionObserver não dispara, e sem ela a página ficaria em branco.
+    (function () {
+      var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var alvos = document.querySelectorAll(
+        '.sec-head > *, .card, .cardi, .lado__bloco, .integra__nomes, .integra__nota,' +
+        '.fase, .mod, .garantia__box, .comp, .depo, .pessoa, .selos .selo, .fit > div, .faq__item, .final__box'
+      );
+      if (!alvos.length || reduz) return;
+
+      document.documentElement.classList.add('js-rev');
+      var porPai = new Map();
+      for (var i = 0; i < alvos.length; i++) {
+        var el = alvos[i];
+        el.setAttribute('data-rev', '');
+        var n = porPai.get(el.parentElement) || 0;
+        el.style.setProperty('--d', Math.min(n * 80, 320) + 'ms');
+        porPai.set(el.parentElement, n + 1);
+      }
+
+      // Depois de entrar, o elemento precisa PARAR de casar com a regra de reveal:
+      // ela fixa transform:none com especificidade maior que a do :hover e mataria
+      // o levantar dos cartões. Por isso o data-rev sai quando a entrada termina.
+      function revelar(el) {
+        el.classList.add('rev-on');
+        var atraso = parseInt(el.style.getPropertyValue('--d'), 10) || 0;
+        window.setTimeout(function () { el.removeAttribute('data-rev'); }, atraso + 780);
+      }
+      function revelarTudo() {
+        for (var j = 0; j < alvos.length; j++) revelar(alvos[j]);
+      }
+      if (!('IntersectionObserver' in window)) { revelarTudo(); return; }
+
+      var io = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (e) {
+          if (e.isIntersecting) { revelar(e.target); io.unobserve(e.target); }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+      for (var k = 0; k < alvos.length; k++) io.observe(alvos[k]);
+
+      // A rede não pode ser um prazo fixo: revelar tudo em poucos segundos
+      // apagaria o efeito, porque ninguém rolou a página inteira até lá.
+      // Em vez disso, checa se o observer deu sinal de vida. Se nada foi
+      // revelado depois do load, ele não funciona aqui e aí sim mostra tudo.
+      window.addEventListener('load', function () {
+        window.setTimeout(function () {
+          if (!document.querySelector('.rev-on')) revelarTudo();
+        }, 1200);
+      });
+    })();
+
+    // A nav ganha peso quando descola do topo
+    (function () {
+      var nav = document.querySelector('.nav');
+      if (!nav) return;
+      function ver() { nav.classList.toggle('rolado', window.scrollY > 10); }
+      window.addEventListener('scroll', ver, { passive: true });
+      ver();
+    })();
+
+    var toggle = document.getElementById('navToggle');
+    var panel = document.getElementById('navPanel');
+    toggle.addEventListener('click', function () {
+      var aberto = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!aberto));
+      panel.classList.toggle('is-open', !aberto);
+      toggle.setAttribute('aria-label', aberto ? 'Abrir menu' : 'Fechar menu');
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        toggle.setAttribute('aria-expanded', 'false');
+        panel.classList.remove('is-open');
+      }
+    });
+  </script>
+
+  <!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
+  <script>
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;
+      if (!a || typeof gtag !== 'function') return;
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18172890851/SdHkCJf3jr8cEOOdwdlD',
+        'value': 200.0,
+        'currency': 'BRL'
+      });
+    });
+  </script>
+
+  <!-- Meta Pixel: funil da /crm no dataset "FF AI" 27417120574590791 (business FF.AI,
+       nao e o pixel da clinica, que e restrito por saude). Eventos enderecados ao pixel
+       com trackSingle para nao vazarem caso um segundo pixel entre na pagina. -->
+  <script>
+    (function () {
+      var PIXEL = '27417120574590791';
+      function meta(tipo, nome, dados) {
+        if (typeof fbq !== 'function') return;
+        fbq(tipo, PIXEL, nome, dados || {});
+      }
+
+      // Intencao: clique em qualquer CTA de WhatsApp. Uma vez por carregamento.
+      var jaClicou = false;
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;
+        if (!a || jaClicou) return;
+        jaClicou = true;
+        meta('trackSingle', 'Lead', { content_name: 'FF.AI CRM', content_category: 'lp-crm' });
+        meta('trackSingleCustom', 'CRMDemoWhats', { content_name: 'FF.AI CRM' });
+      });
+
+      // Interesse: leu ate a garantia. Uma vez por visitante, com dedup em localStorage.
+      var MARCA = 'ffai_crm_leitura_profunda';
+      var jaLeu = false;
+      try { jaLeu = window.localStorage.getItem(MARCA) === '1'; } catch (err) {}
+      var garantia = document.getElementById('garantia');
+      if (garantia && !jaLeu && 'IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function (entradas) {
+          for (var i = 0; i < entradas.length; i++) {
+            if (!entradas[i].isIntersecting) continue;
+            obs.disconnect();
+            meta('trackSingleCustom', 'CRMLeituraProfunda', {});
+            try { window.localStorage.setItem(MARCA, '1'); } catch (err2) {}
+            return;
+          }
+        }, { threshold: 0.35 });
+        obs.observe(garantia);
+      }
+
+      // Consideracao: assistiu depoimento de cliente.
+      var videos = document.querySelectorAll('video');
+      for (var v = 0; v < videos.length; v++) {
+        videos[v].addEventListener('play', function () {
+          if (this.getAttribute('data-meta-play') === '1') return;
+          this.setAttribute('data-meta-play', '1');
+          meta('trackSingleCustom', 'CRMDepoimentoPlay', {});
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

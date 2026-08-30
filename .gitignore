@@ -21,3 +21,6 @@ dist/
 
 # Server local de preview
 .serve/
+
+# Preview local do Claude Code
+.claude/

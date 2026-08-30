@@ -1,8 +1,29 @@
 {
   "redirects": [
-    { "source": "/presenca", "destination": "/conteudo", "permanent": true },
-    { "source": "/scrubin", "destination": "https://drfabiofaleiro.com.br/metodo-scrub-in/", "permanent": false },
-    { "source": "/360", "destination": "/#ffai-360", "permanent": false },
-    { "source": "/cna", "destination": "https://drfabiofaleiro.com.br/treinamento-cna/", "permanent": false }
+    {
+      "source": "/ffai-crm",
+      "destination": "/crm",
+      "permanent": true
+    },
+    {
+      "source": "/presenca",
+      "destination": "/conteudo",
+      "permanent": true
+    },
+    {
+      "source": "/scrubin",
+      "destination": "https://drfabiofaleiro.com.br/metodo-scrub-in/",
+      "permanent": false
+    },
+    {
+      "source": "/360",
+      "destination": "/#ffai-360",
+      "permanent": false
+    },
+    {
+      "source": "/cna",
+      "destination": "https://drfabiofaleiro.com.br/treinamento-cna/",
+      "permanent": false
+    }
   ]
 }
