@@ -237,6 +237,23 @@
     .js-chat .bolha.on { display: block; animation: ffPop 320ms cubic-bezier(0.22,1,0.36,1) both; }
     .js-chat .digitando.on { display: flex; animation: ffPop 200ms cubic-bezier(0.22,1,0.36,1) both; }
     .fone__pe { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 18px; background: #FFFFFF; border-top: 1px solid var(--line-3); }
+
+    /* Quadro do CRM ao lado da conversa: o card anda de etapa sozinho, no mesmo
+       compasso das mensagens. So transform e cor, nada que force layout. */
+    .palco { display: grid; gap: 14px; }
+    .quadro { width: 100%; max-width: 372px; margin: 0 auto; background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; padding: 15px 15px 17px; box-shadow: 0 26px 54px -34px rgba(28,42,63,0.45); }
+    .quadro__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+    .quadro__marca { font-size: 11.5px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink); }
+    .quadro__vivo { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: var(--green); }
+    .quadro__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .quadro__col { font-size: 10px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #8B95A1; text-align: center; padding: 8px 3px; border-radius: 10px; background: #F4F7F6; transition: background 300ms ease, color 300ms ease; }
+    .quadro__col.ativa { background: var(--mint); color: var(--green-dk); }
+    .quadro__pista { position: relative; height: 78px; margin-top: 9px; }
+    .quadro__card { position: absolute; top: 0; left: 0; box-sizing: border-box; width: calc((100% - 16px) / 3); display: flex; flex-direction: column; gap: 4px; padding: 9px 9px 10px; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--mint-bd); box-shadow: 0 12px 24px -15px rgba(28,42,63,0.55); transform: translateX(calc(var(--et, 0) * (100% + 8px))); transition: transform 640ms cubic-bezier(0.22, 1, 0.36, 1); }
+    .quadro__pac { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; color: var(--text); }
+    .quadro__bolinha { width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex: none; }
+    .quadro__det { font-size: 11.5px; line-height: 1.28; font-weight: 600; color: var(--ink); }
+    @media (prefers-reduced-motion: reduce) { .quadro__card { transition: none; } }
     .fone__pe b { font-size: 12.5px; font-weight: 700; color: var(--text); }
     .chip-ok { font-size: 12px; font-weight: 700; color: var(--green); background: var(--mint); padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
 
@@ -591,7 +608,84 @@
     /* ---- WhatsApp flutuante ---- */
     .wa { position: fixed; right: 18px; bottom: 18px; z-index: 70; width: 58px; height: 58px; border-radius: 50%; background: #0F7A40; color: #fff; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 10px 26px -10px rgba(28,42,63,0.55); transition: background 180ms ease, transform 180ms ease; }
     .wa:hover { background: #0B6234; color: #fff; transform: translateY(-2px); }
-  </style>
+  
+    /* TESTE DE LEITURA EM CELULAR: todo tamanho de fonte que vale ate 720px,
+       reescrito 15%% maior. Bloco gerado, com marcador para sair inteiro.
+       INICIO fonte-mobile-115 */
+    @media (max-width: 720px) {
+      .badge span:last-child { font-size: 14.37px; }
+      .bolha { font-size: 16.10px; }
+      .btn--sm { font-size: 17.25px; }
+      .card h3 { font-size: 21.85px; }
+      .card p { font-size: 17.25px; }
+      .cardi__txt h3 { font-size: 21.85px; }
+      .cardi__txt p { font-size: 17.25px; }
+      .chip-ok { font-size: 13.80px; }
+      .comp tbody td { font-size: 16.67px; }
+      .comp tbody td::before { font-size: 12.07px; }
+      .comp tbody th { font-size: 18.40px; }
+      .comp th, .comp td { font-size: 17.25px; }
+      .comp thead th { font-size: 13.80px; }
+      .depo figcaption span { font-size: 16.10px; }
+      .depo figcaption strong { font-size: 20.70px; }
+      .eyebrow { font-size: 14.37px; }
+      .faq__item p { font-size: 17.82px; }
+      .faq__item summary strong { font-size: 19.55px; }
+      .faq__num { font-size: 14.95px; }
+      .faq__sinal { font-size: 25.30px; }
+      .fase .dia { font-size: 13.80px; }
+      .fase h3 { font-size: 20.70px; }
+      .fase p { font-size: 16.67px; }
+      .final p { font-size: 20.12px; }
+      .final__nota { font-size: 15.52px; }
+      .fone__av { font-size: 18.40px; }
+      .fone__hora { font-size: 13.80px; }
+      .fone__on { font-size: 14.37px; }
+      .fone__pe b { font-size: 14.37px; }
+      .fone__top strong { font-size: 17.25px; }
+      .garantia__itens span { font-size: 16.10px; }
+      .garantia__itens strong { font-size: 17.82px; }
+      .garantia__prazo { font-size: 15.52px; }
+      .hero__by p { font-size: 16.67px; }
+      .il-txt { font-size: 8.62px; }
+      .il-txt-b { font-size: 9.77px; }
+      .il-txt-v { font-size: 8.62px; }
+      .il-txt-w { font-size: 9.20px; }
+      .integra__item { font-size: 20.70px; }
+      .lado__bloco h3 { font-size: 20.70px; }
+      .lado__bloco p { font-size: 16.67px; }
+      .lado__itens span { font-size: 14.37px; }
+      .lado__tag { font-size: 13.22px; }
+      .lead { font-size: 20.12px; }
+      .marca__wm { font-size: 21.27px; }
+      .mod .tag { font-size: 13.80px; }
+      .mod p { font-size: 17.82px; }
+      .mod__list span { font-size: 17.25px; }
+      .mod__nota { font-size: 14.37px; }
+      .nav__links { font-size: 17.25px; }
+      .nav__panel a { font-size: 18.40px; }
+      .pessoa__papel { font-size: 16.10px; }
+      .pessoa__reg b { font-size: 15.52px; }
+      .pessoa__reg span { font-size: 15.52px; }
+      .pessoa__txt p { font-size: 17.82px; }
+      .pessoa__txt strong { font-size: 24.15px; }
+      .rodape__base { font-size: 14.95px; }
+      .rodape__cnpj { font-size: 14.95px; }
+      .rodape__col h4 { font-size: 13.22px; }
+      .rodape__col p { font-size: 16.10px; }
+      .rodape__links { font-size: 16.10px; }
+      .rodape__razao { font-size: 14.95px; }
+      .selo { font-size: 16.67px; }
+      .selo-dias { font-size: 21.85px; }
+      .selo-num { font-size: 69.00px; }
+      .selo-volta { font-size: 13.22px; }
+      .vaz .tag { font-size: 13.80px; }
+      .vaz h3 { font-size: 23.00px; }
+      /* ---- botões pílula ---- */ .btn { font-size: 18.97px; }
+      body { font-size: 19.55px; }
+    }
+    /* FIM fonte-mobile-115 */
+</style>
 
   <!-- Google tag (gtag.js): FF.AI Google Ads AW-18172890851 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
@@ -701,6 +795,7 @@
           </div>
 
           <div>
+            <div class="palco">
             <div class="fone" aria-hidden="true">
               <div class="fone__in">
                 <div class="fone__top">
@@ -720,9 +815,24 @@
                   <div class="bolha bolha--nos">Perfeito, agendado. Vou te mandar o preparo por aqui.</div>
                   <div class="digitando" id="foneDigitando"><span class="ff-live"></span><span class="ff-live"></span><span class="ff-live"></span></div>
                 </div>
-                <div class="fone__pe">
-                  <b>O card moveu sozinho no CRM</b>
-                  <span class="chip-ok">Agendado</span>
+              </div>
+              </div>
+
+              <div class="quadro" aria-hidden="true">
+                <div class="quadro__top">
+                  <span class="quadro__marca">FF.AI CRM</span>
+                  <span class="quadro__vivo"><span class="ff-live dot"></span>movendo sozinho</span>
+                </div>
+                <div class="quadro__cols">
+                  <span class="quadro__col" data-etapa="0">Novo contato</span>
+                  <span class="quadro__col" data-etapa="1">Qualificado</span>
+                  <span class="quadro__col" data-etapa="2">Agendado</span>
+                </div>
+                <div class="quadro__pista">
+                  <article class="quadro__card" id="crmCard">
+                    <span class="quadro__pac"><span class="quadro__bolinha"></span>Paciente · WhatsApp</span>
+                    <span class="quadro__det" id="crmDet">Pediu o valor da consulta</span>
+                  </article>
                 </div>
               </div>
             </div>
@@ -1416,6 +1526,38 @@
       if (!bolhas.length) return;
       caixa.classList.add('js-chat');
 
+      // O quadro do CRM anda junto: a etapa vem do ponto da conversa, nao de um
+      // relogio proprio, senao os dois desencontram quando a aba pausa.
+      var card = document.getElementById('crmCard');
+      var det = document.getElementById('crmDet');
+      var colunas = Array.prototype.slice.call(document.querySelectorAll('.quadro__col'));
+      var ETAPAS = [
+        { ate: 2, texto: 'Pediu o preço' },
+        { ate: 4, texto: 'Diástase' },
+        { ate: 99, texto: 'Sexta, 9h' }
+      ];
+      var etapaAtual = -1;
+      function moverCard() {
+        if (!card) return;
+        var i = 0;
+        while (i < ETAPAS.length - 1 && passo > ETAPAS[i].ate) i++;
+        if (i < etapaAtual) {
+          // Voltar deslizando leria como paciente desagendando. No recomeco do
+          // ciclo o card reaparece na primeira coluna, sem percorrer o caminho.
+          card.style.transition = 'none';
+          card.style.setProperty('--et', i);
+          void card.offsetWidth;
+          card.style.transition = '';
+        } else {
+          card.style.setProperty('--et', i);
+        }
+        etapaAtual = i;
+        if (det) det.textContent = ETAPAS[i].texto;
+        for (var c = 0; c < colunas.length; c++) {
+          colunas[c].classList.toggle('ativa', c === i);
+        }
+      }
+
       var passo = 1, escrevendo = false, timer = null;
 
       function pintar() {
@@ -1432,6 +1574,7 @@
         // navegador a recalcular o layout, e as duas alternativas falham em aba
         // oculta (scroll-behavior smooth não avança, requestAnimationFrame não roda).
         caixa.scrollTop = passo === 1 ? 0 : caixa.scrollHeight;
+        moverCard();
       }
 
       function passar() {
@@ -1461,7 +1604,7 @@
     (function () {
       var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var alvos = document.querySelectorAll(
-        '.hero__grid > div > *, .fone,' +
+        '.hero__grid > div > *, .palco > *,' +
         '.sec-head > *, .card, .cardi, .lado__bloco, .integra__nomes, .integra__nota,' +
         '.fase, .mod, .garantia__box, .comp, .depo, .pessoa, .selos .selo, .fit > div, .faq__item, .final__box'
       );
