@@ -173,6 +173,8 @@
     /* Os três traços são só do celular e do tablet estreito. A partir de 940px
        os tópicos aparecem, e entre 940 e 1159 entram num modo compacto, senão
        não caberiam: o conteúdo cheio da nav pede 999px dentro da pílula. */
+    /* Alvo de toque do logotipo em celular: cresce o clicavel sem crescer a barra. */
+    @media (max-width: 939px) { .marca { padding: 8px 0; margin: -8px 0; } }
     @media (min-width: 940px) {
       .nav__links { display: flex; }
       .nav__toggle { display: none; }
@@ -422,6 +424,34 @@
     .comp td.new { color: var(--ink); width: 37%; background: rgba(227,240,235,0.45); font-weight: 600; }
     .comp tbody tr:last-child th, .comp tbody tr:last-child td { border-bottom: 0; }
 
+    /* Em tela estreita a tabela nao cabe: 680px de largura minima ficariam
+       cortados e inalcancaveis, porque .comp recorta com overflow hidden.
+       Entao cada linha vira um bloco, e o cabecalho vira rotulo em cada celula. */
+    @media (max-width: 720px) {
+      .comp__scroll { overflow-x: visible; }
+      .comp table { min-width: 0; display: block; }
+      .comp thead { display: none; }
+      .comp tbody, .comp tbody tr, .comp tbody th, .comp tbody td { display: block; }
+      /* .comp td.old/.new fixam 37% com especificidade (0,2,1); a media query nao
+         soma peso, entao o override precisa citar a classe para chegar a (0,2,2). */
+      .comp tbody th, .comp tbody td.old, .comp tbody td.new { width: auto; }
+      .comp tbody tr { border-bottom: 1px solid var(--line-4); padding-bottom: 15px; }
+      .comp tbody tr:last-child { border-bottom: 0; }
+      .comp tbody th { padding: 18px 18px 10px; font-size: 16px; border-bottom: 0; }
+      .comp tbody td { margin: 0 18px 7px; padding: 9px 13px; font-size: 14.5px; border-bottom: 0; border-radius: 11px; }
+      .comp tbody td::before {
+        content: attr(data-col);
+        display: block; margin-bottom: 3px;
+        font-size: 10.5px; font-weight: 800; letter-spacing: 0.11em;
+        text-transform: uppercase; color: var(--text);
+      }
+      .comp tbody td.old { background: #F7F9F8; border: 1px solid var(--line-4); }
+      .comp tbody td.new { background: var(--mint); border: 1px solid var(--mint-bd); margin-bottom: 0; }
+      .comp tbody td.new::before { color: var(--green-dk); }
+      .comp tbody tr:hover, .comp tbody tr:hover td.new { background: transparent; }
+      .comp tbody tr:hover td.new { background: var(--mint); }
+    }
+
     /* ---- fases ---- */
     .fases { display: grid; grid-template-columns: 1fr; gap: 22px; }
     @media (min-width: 700px) { .fases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -507,6 +537,14 @@
     .rodape__cnpj { font-size: 13px; color: var(--text); }
     .rodape__links { display: flex; flex-direction: column; gap: 9px; font-size: 14px; font-weight: 600; }
     .rodape__base { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--text); }
+
+    /* Em celular o dedo precisa de alvo: telefone, e-mail e links legais tinham
+       19-22px de altura. O toque confortavel comeca em 44px. */
+    @media (max-width: 720px) {
+      .rodape__col a, .rodape__links a { display: inline-block; padding: 11px 0; line-height: 1.35; }
+      .rodape__links { gap: 0; }
+      .rodape__col p { margin-bottom: 2px; }
+    }
 
 
     /* ---- entrada por rolagem ----
@@ -1174,14 +1212,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><th scope="row">Quem alimenta o funil</th><td class="old">A sua equipe, quando sobra tempo</td><td class="new">A própria conversa com o paciente</td></tr>
-                <tr><th scope="row">O que a IA faz</th><td class="old">Responde dúvida e marca horário</td><td class="new">Tria, qualifica, contorna objeção, agenda e faz o follow-up</td></tr>
-                <tr><th scope="row">Lead que não agendou</th><td class="old">Esfria na caixa de entrada</td><td class="new">Entra em follow-up e sai etiquetado para remarketing</td></tr>
-                <tr><th scope="row">WhatsApp</th><td class="old">Número comum, sujeito a restrição</td><td class="new">API oficial da Meta, número homologado</td></tr>
-                <tr><th scope="row">Mais de um número</th><td class="old">Um aparelho ou uma instância por número</td><td class="new">Todos no mesmo painel, histórico unificado</td></tr>
-                <tr><th scope="row">Pedido de exames</th><td class="old">Digitado e assinado à mão, um por um</td><td class="new">Um clique, assinado digitalmente e enviado no chat</td></tr>
-                <tr><th scope="row">Nota fiscal</th><td class="old">Site da prefeitura, uma a uma, depois do expediente</td><td class="new">Um clique, emitida e entregue na conversa</td></tr>
-                <tr><th scope="row">Relatório comercial</th><td class="old">Exportar e montar na planilha</td><td class="new">Um clique, com gargalo do funil e meta</td></tr>
+                <tr><th scope="row">Quem alimenta o funil</th><td class="old" data-col="CRM genérico + chatbot">A sua equipe, quando sobra tempo</td><td class="new" data-col="FF.AI CRM">A própria conversa com o paciente</td></tr>
+                <tr><th scope="row">O que a IA faz</th><td class="old" data-col="CRM genérico + chatbot">Responde dúvida e marca horário</td><td class="new" data-col="FF.AI CRM">Tria, qualifica, contorna objeção, agenda e faz o follow-up</td></tr>
+                <tr><th scope="row">Lead que não agendou</th><td class="old" data-col="CRM genérico + chatbot">Esfria na caixa de entrada</td><td class="new" data-col="FF.AI CRM">Entra em follow-up e sai etiquetado para remarketing</td></tr>
+                <tr><th scope="row">WhatsApp</th><td class="old" data-col="CRM genérico + chatbot">Número comum, sujeito a restrição</td><td class="new" data-col="FF.AI CRM">API oficial da Meta, número homologado</td></tr>
+                <tr><th scope="row">Mais de um número</th><td class="old" data-col="CRM genérico + chatbot">Um aparelho ou uma instância por número</td><td class="new" data-col="FF.AI CRM">Todos no mesmo painel, histórico unificado</td></tr>
+                <tr><th scope="row">Pedido de exames</th><td class="old" data-col="CRM genérico + chatbot">Digitado e assinado à mão, um por um</td><td class="new" data-col="FF.AI CRM">Um clique, assinado digitalmente e enviado no chat</td></tr>
+                <tr><th scope="row">Nota fiscal</th><td class="old" data-col="CRM genérico + chatbot">Site da prefeitura, uma a uma, depois do expediente</td><td class="new" data-col="FF.AI CRM">Um clique, emitida e entregue na conversa</td></tr>
+                <tr><th scope="row">Relatório comercial</th><td class="old" data-col="CRM genérico + chatbot">Exportar e montar na planilha</td><td class="new" data-col="FF.AI CRM">Um clique, com gargalo do funil e meta</td></tr>
               </tbody>
             </table>
           </div>
