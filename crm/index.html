@@ -1423,6 +1423,7 @@
     (function () {
       var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var alvos = document.querySelectorAll(
+        '.hero__grid > div > *, .fone,' +
         '.sec-head > *, .card, .cardi, .lado__bloco, .integra__nomes, .integra__nota,' +
         '.fase, .mod, .garantia__box, .comp, .depo, .pessoa, .selos .selo, .fit > div, .faq__item, .final__box'
       );
@@ -1455,18 +1456,24 @@
         entradas.forEach(function (e) {
           if (e.isIntersecting) { revelar(e.target); io.unobserve(e.target); }
         });
-      }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+      }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
       for (var k = 0; k < alvos.length; k++) io.observe(alvos[k]);
 
-      // A rede não pode ser um prazo fixo: revelar tudo em poucos segundos
-      // apagaria o efeito, porque ninguém rolou a página inteira até lá.
-      // Em vez disso, checa se o observer deu sinal de vida. Se nada foi
-      // revelado depois do load, ele não funciona aqui e aí sim mostra tudo.
-      window.addEventListener('load', function () {
-        window.setTimeout(function () {
-          if (!document.querySelector('.rev-on')) revelarTudo();
-        }, 1200);
+      // A rede de segurança testa o OBSERVER, não o resultado dele. Perguntar
+      // "algo foi revelado?" dá falso positivo de defeito sempre que a primeira
+      // tela não contém nenhum alvo: ninguém rolou ainda, nada revelou, e a rede
+      // revelava a página inteira de uma vez, matando a animação para todo mundo.
+      // A sonda observa um elemento que está sempre presente: se o callback do
+      // IntersectionObserver roda, o mecanismo funciona e a rede não faz nada.
+      var sondaViva = false;
+      var sonda = new IntersectionObserver(function () {
+        sondaViva = true;
+        sonda.disconnect();
       });
+      sonda.observe(document.body);
+      window.setTimeout(function () {
+        if (!sondaViva) revelarTudo();
+      }, 1500);
     })();
 
     // A nav ganha peso quando descola do topo
