@@ -1,8 +1,13 @@
 {
   "redirects": [
     {
+      "source": "/crm",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/ffai-crm",
-      "destination": "/crm",
+      "destination": "/",
       "permanent": true
     },
     {
@@ -17,7 +22,7 @@
     },
     {
       "source": "/360",
-      "destination": "/#ffai-360",
+      "destination": "/ecossistema#ffai-360",
       "permanent": false
     },
     {

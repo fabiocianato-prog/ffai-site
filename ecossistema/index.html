@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FF.AI · Ecossistema de IA para médicos e clínicas</title>
+  <meta name="description" content="A FF.AI é o ecossistema de inteligência artificial da sua clínica: agentes que atendem e qualificam pacientes (FF.AI Atendimento) e produção de conteúdo 100% por IA com aprovação humana (FF.AI Presença). Diagnóstico gratuito com o fundador." />
+  <meta name="theme-color" content="#1C2A3F" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/ffai-favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/ffai-icon.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FF.AI · Ecossistema de IA para médicos e clínicas" />
+  <meta property="og:description" content="Um time de agentes de IA que atende seus pacientes e uma produção de conteúdo que constrói sua autoridade. Você aprova, a IA executa." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ffai.ia.br/ecossistema" />
+  <meta property="og:image" content="https://ffai.ia.br/assets/ffai-icon.svg" />
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #1C2A3F;
+      --ink-2: #2C3E5C;
+      --green: #0D7F62;
+      --green-dim: #0a6650;
+      --green-soft: rgba(13, 127, 98, 0.08);
+      --off: #FAFAF7;
+      --warm: #F1EDE4;
+      --steel: #4A5568;
+      --line: #E2E8F0;
+      --line-warm: #E4DECF;
+      --soft: #F4F5F2;
+      --max-width: 1120px;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --transition: 200ms ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--off);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: var(--green); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--green-dim); }
+    img, svg { display: block; max-width: 100%; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    /* ---------- Scroll reveal ---------- */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .js .reveal.is-visible { opacity: 1; transform: none; }
+    .js .reveal.d1 { transition-delay: 90ms; }
+    .js .reveal.d2 { transition-delay: 180ms; }
+    .js .reveal.d3 { transition-delay: 270ms; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+    }
+
+    /* ---------- Navbar ---------- */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(8px);
+      -webkit-backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition);
+    }
+    .nav.scrolled { border-bottom-color: var(--line); }
+
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 16px;
+    }
+
+    .nav__logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .nav__logo .dot { color: var(--green); }
+    .nav__logo:hover { color: var(--ink); }
+
+    .nav__links {
+      display: none;
+      gap: 28px;
+      align-items: center;
+      margin-left: auto;
+    }
+    .nav__links a {
+      color: var(--ink);
+      font-weight: 500;
+      font-size: 15px;
+    }
+    .nav__links a:hover { color: var(--green); }
+
+    @media (min-width: 820px) {
+      .nav__links { display: flex; }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: transform var(--transition), background var(--transition),
+                  color var(--transition), border-color var(--transition);
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn--primary { background: var(--green); color: var(--off); }
+    .btn--primary:hover { background: var(--green-dim); color: var(--off); transform: translateY(-1px); }
+    .btn--ghost { color: var(--ink); border-color: var(--line); background: transparent; }
+    .btn--ghost:hover { border-color: var(--ink); color: var(--ink); }
+    .btn--light { color: var(--off); border-color: rgba(255,255,255,0.25); background: transparent; }
+    .btn--light:hover { border-color: var(--off); color: var(--off); }
+    .btn--lg { padding: 16px 28px; font-size: 16px; }
+    .btn--sm { padding: 9px 16px; font-size: 14px; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      padding: 72px 0 88px;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(13, 127, 98, 0.07), transparent 52%),
+        radial-gradient(circle at 88% 92%, rgba(28, 42, 63, 0.06), transparent 50%),
+        var(--off);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(28, 42, 63, 0.10) 1px, transparent 1.5px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 78% 70% at 60% 38%, black 28%, transparent 74%);
+      -webkit-mask-image: radial-gradient(ellipse 78% 70% at 60% 38%, black 28%, transparent 74%);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .hero__container {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 44px;
+      align-items: center;
+    }
+    @media (min-width: 960px) {
+      .hero__container {
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+        gap: 60px;
+      }
+    }
+
+    .hero__pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+    .hero__pill::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+    .hero h1 {
+      font-size: clamp(33px, 5vw, 53px);
+      line-height: 1.1;
+      letter-spacing: -0.022em;
+      margin: 0 0 22px;
+      font-weight: 700;
+      color: var(--ink);
+      max-width: 17ch;
+    }
+    .hero h1 em { font-style: normal; color: var(--green); }
+
+    .hero__sub {
+      font-size: clamp(16.5px, 2vw, 20px);
+      color: var(--steel);
+      max-width: 54ch;
+      margin: 0 0 32px;
+    }
+
+    .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+    .hero__trust {
+      display: flex;
+      gap: 10px 26px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+    }
+    .hero__trust-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13.5px;
+      color: var(--steel);
+    }
+    .hero__trust-item svg { color: var(--green); flex-shrink: 0; }
+
+    /* hero visual: foto */
+    .hero__figure {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    .hero__photo {
+      position: relative;
+      aspect-ratio: 5 / 6;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      box-shadow: 0 22px 50px -18px rgba(28, 42, 63, 0.32);
+    }
+    .hero__photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+    }
+    .hero__photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 52%, rgba(28, 42, 63, 0.62) 100%);
+    }
+    .hero__caption {
+      position: absolute;
+      left: 18px; right: 18px; bottom: 16px;
+      z-index: 2;
+      color: var(--off);
+    }
+    .hero__caption strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .hero__caption span {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(250, 250, 247, 0.78);
+    }
+    .hero__badge {
+      position: absolute;
+      top: -14px; right: -10px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 14px;
+      background: var(--ink);
+      color: var(--off);
+      border-radius: 999px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      box-shadow: 0 10px 24px -8px rgba(28, 42, 63, 0.5);
+    }
+    .hero__badge::before {
+      content: "";
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #3FCF8E;
+      box-shadow: 0 0 0 3px rgba(63, 207, 142, 0.25);
+    }
+    .hero__figure-grid {
+      position: absolute;
+      inset: -22px -22px auto auto;
+      width: 120px; height: 120px;
+      background-image: radial-gradient(circle, rgba(13,127,98,0.32) 1.2px, transparent 1.6px);
+      background-size: 16px 16px;
+      z-index: -1;
+      border-radius: 4px;
+    }
+
+    /* ---------- Sections base ---------- */
+    section { padding: 86px 0; }
+    section + section { border-top: 1px solid var(--line); }
+
+    .eyebrow {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 14px;
+    }
+    .s-title {
+      font-size: clamp(27px, 3.5vw, 39px);
+      line-height: 1.16;
+      letter-spacing: -0.018em;
+      margin: 0 0 16px;
+      font-weight: 700;
+      max-width: 20ch;
+    }
+    .s-lead {
+      font-size: 18px;
+      color: var(--steel);
+      max-width: 58ch;
+      margin: 0;
+    }
+    .s-head { margin-bottom: 54px; }
+
+    /* ---------- DOR (editorial) ---------- */
+    .dor {
+      background: var(--warm);
+      position: relative;
+    }
+    .dor + section, section + .dor { border-top: 1px solid var(--line-warm); }
+    .dor .s-lead { color: #6b6354; }
+
+    .movements {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .movement {
+      position: relative;
+      background: #FBFAF6;
+      border: 1px solid var(--line-warm);
+      border-left: 3px solid var(--green);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+    }
+    @media (min-width: 760px) {
+      .movement { padding: 44px 48px; }
+    }
+    .movement__tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 14px;
+    }
+    .movement h3 {
+      font-size: clamp(21px, 2.7vw, 28px);
+      line-height: 1.25;
+      letter-spacing: -0.015em;
+      margin: 0 0 16px;
+      font-weight: 600;
+      color: var(--ink);
+      max-width: 26ch;
+    }
+    .movement p {
+      font-size: 16.5px;
+      line-height: 1.62;
+      color: var(--steel);
+      margin: 0;
+      max-width: 64ch;
+    }
+    .movement__cost {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 1px dashed var(--line-warm);
+    }
+    .movement__cost svg { color: var(--green); flex-shrink: 0; margin-top: 2px; }
+    .movement__cost span {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .dor__bridge {
+      margin-top: 36px;
+      font-size: clamp(19px, 2.4vw, 25px);
+      line-height: 1.4;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      max-width: 30ch;
+    }
+    .dor__bridge em { font-style: normal; color: var(--green); }
+
+    /* ---------- SOLUÇÕES ---------- */
+    .sol__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 900px) {
+      .sol__grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .sol-card {
+      display: flex;
+      flex-direction: column;
+      padding: 30px 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--off);
+      transition: border-color var(--transition), transform var(--transition),
+                  box-shadow var(--transition);
+    }
+    .sol-card:hover {
+      border-color: var(--green);
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px -22px rgba(28, 42, 63, 0.4);
+    }
+    .sol-card--featured {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--off);
+    }
+    .sol-card--featured:hover { border-color: var(--green); }
+
+    .sol-card__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .sol-card__name {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .sol-card--featured .sol-card__name { color: var(--off); }
+    .sol-card__star {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: #3FCF8E;
+      padding: 4px 9px;
+      border-radius: 5px;
+    }
+    .sol-card h3 {
+      font-size: 21px;
+      line-height: 1.3;
+      letter-spacing: -0.012em;
+      margin: 0 0 12px;
+      font-weight: 600;
+    }
+    .sol-card--featured h3 { color: var(--off); }
+    .sol-card__desc {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--steel);
+      margin: 0 0 22px;
+    }
+    .sol-card--featured .sol-card__desc { color: rgba(250,250,247,0.78); }
+
+    .sol-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 26px;
+      flex: 1;
+    }
+    .sol-card li {
+      position: relative;
+      padding: 7px 0 7px 22px;
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+    .sol-card--featured li { color: rgba(250,250,247,0.9); }
+    .sol-card li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 13px;
+      width: 12px; height: 1.5px;
+      background: var(--green);
+    }
+    .sol-card__link {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sol-card__link:hover { gap: 10px; }
+    .sol-card--featured .sol-card__link { color: #3FCF8E; }
+
+    /* ---------- Circuito fechado ---------- */
+    .loop {
+      margin-top: 30px;
+      padding: 30px 28px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: var(--soft);
+    }
+    .loop__label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--steel);
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .loop__flow {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: stretch;
+    }
+    @media (min-width: 760px) {
+      .loop__flow { flex-direction: row; align-items: center; }
+    }
+    .loop__step {
+      flex: 1;
+      background: var(--off);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      text-align: center;
+    }
+    .loop__step strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+    .loop__step span {
+      font-size: 12.5px;
+      color: var(--steel);
+    }
+    .loop__step--a { border-color: rgba(13,127,98,0.4); }
+    .loop__arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      flex-shrink: 0;
+      transform: rotate(90deg);
+    }
+    @media (min-width: 760px) {
+      .loop__arrow { transform: none; }
+    }
+    .loop__back {
+      margin-top: 14px;
+      text-align: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--green);
+    }
+
+    /* ---------- Case ---------- */
+    .case { background: var(--soft); }
+    .case__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+    @media (min-width: 880px) {
+      .case__grid { grid-template-columns: 1fr 1fr; gap: 72px; }
+    }
+    .case__quote {
+      font-size: 21px;
+      line-height: 1.45;
+      color: var(--ink);
+      font-weight: 500;
+      margin: 0 0 26px;
+      padding-left: 22px;
+      border-left: 3px solid var(--green);
+    }
+    .case__author { font-size: 14.5px; color: var(--steel); line-height: 1.5; }
+    .case__author strong { color: var(--ink); display: block; margin-bottom: 3px; }
+
+    .case__metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      padding: 28px;
+      background: var(--off);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .metric strong {
+      display: block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 31px;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .metric span {
+      font-size: 12.5px;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .case__stack { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+    .case__stack-label {
+      font-size: 11.5px;
+      color: var(--steel);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 11px;
+    }
+    .case__stack-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .stack-pill {
+      padding: 4px 11px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12px;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--ink);
+    }
+
+    /* ---------- Sobre ---------- */
+    .about__inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+    @media (min-width: 880px) {
+      .about__inner { grid-template-columns: minmax(260px, 340px) 1fr; gap: 60px; }
+    }
+    .about__photo {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: relative;
+      background: var(--soft);
+      box-shadow: 0 12px 32px rgba(28, 42, 63, 0.08);
+    }
+    .about__photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+    }
+    .about__photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(28, 42, 63, 0.3) 100%);
+    }
+    .about__photo-caption {
+      position: absolute;
+      left: 16px; bottom: 14px;
+      z-index: 1;
+      color: var(--off);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      opacity: 0.92;
+    }
+    .about__lead {
+      font-size: 18.5px;
+      line-height: 1.6;
+      color: var(--ink);
+      margin: 0 0 22px;
+    }
+    .about__lead em { color: var(--green); font-style: normal; font-weight: 600; }
+    .about__creds { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .cred {
+      padding: 6px 14px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12.5px;
+      color: var(--ink);
+    }
+
+    /* ---------- CTA final ---------- */
+    .cta-final { background: var(--ink); color: var(--off); text-align: center; }
+    .cta-final .eyebrow { color: #3FCF8E; }
+    .cta-final h2 {
+      font-size: clamp(27px, 4vw, 42px);
+      line-height: 1.16;
+      margin: 0 auto 16px;
+      color: var(--off);
+      max-width: 20ch;
+      letter-spacing: -0.018em;
+    }
+    .cta-final p {
+      color: rgba(250, 250, 247, 0.74);
+      font-size: 17.5px;
+      margin: 0 auto 32px;
+      max-width: 52ch;
+    }
+    .cta-final__ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      background: var(--ink);
+      color: rgba(250, 250, 247, 0.7);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 38px 0;
+      font-size: 14px;
+    }
+    .footer__inner {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    @media (min-width: 720px) {
+      .footer__inner { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
+    .footer__logo img { height: 22px; }
+    .footer__meta { display: flex; flex-direction: column; gap: 4px; }
+    @media (min-width: 720px) { .footer__meta { text-align: right; } }
+    .footer a { color: var(--off); }
+    .footer__links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
+    .footer__links a {
+      color: rgba(250, 250, 247, 0.7);
+      font-size: 12.5px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .footer__links a:hover { color: var(--off); }
+
+    /* ---------- WhatsApp Float ---------- */
+    .wa-float {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #25d366;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      z-index: 60;
+      transition: transform var(--transition);
+    }
+    .wa-float:hover { transform: scale(1.06); color: white; }
+  </style>
+
+  <!-- Google tag (gtag.js) · FF.AI Google Ads AW-18172890851 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18172890851');
+  </script>
+  <!-- /Google tag -->
+
+  <!-- Meta Pixel · FF.AI -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '27417120574590791');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=27417120574590791&ev=PageView&noscript=1"/></noscript>
+  <!-- /Meta Pixel -->
+</head>
+<body>
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- ========== NAVBAR ========== -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#top" class="nav__logo" aria-label="FF.AI"><span>FF</span><span class="dot">.</span><span>AI</span></a>
+      <nav class="nav__links">
+        <a href="#solucoes">As soluções</a>
+        <a href="#case">Case-vivo</a>
+        <a href="#sobre">Quem faz</a>
+      </nav>
+      <a href="/diagnostico" class="btn btn--primary btn--sm">Diagnóstico gratuito</a>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="top">
+    <div class="container hero__container">
+      <div class="hero__content">
+        <span class="hero__pill reveal">Ecossistema de IA para médicos e clínicas</span>
+        <h1 class="reveal d1">Você se formou para cuidar de gente. Hoje, gerencia <em>WhatsApp, secretária, Instagram</em>.</h1>
+        <p class="hero__sub reveal d2">
+          A FF.AI é o ecossistema de inteligência artificial que assume isso por você. Um time de agentes que atende e qualifica seus pacientes, e uma produção de conteúdo que constrói a sua autoridade. <strong>Você aprova. A IA executa.</strong>
+        </p>
+        <div class="hero__ctas reveal d2">
+          <a href="/diagnostico" class="btn btn--primary btn--lg">Agendar diagnóstico gratuito</a>
+          <a href="#solucoes" class="btn btn--ghost btn--lg">Ver as soluções</a>
+        </div>
+
+        <div class="hero__trust reveal d3">
+          <div class="hero__trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            Diagnóstico gratuito, sem compromisso
+          </div>
+          <div class="hero__trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/></svg>
+            Governança CFM 2.454 incorporada
+          </div>
+          <div class="hero__trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Rodando na nossa própria clínica
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__figure reveal d2">
+        <div class="hero__figure-grid" aria-hidden="true"></div>
+        <div class="hero__badge" aria-hidden="true">CASE-VIVO</div>
+        <figure class="hero__photo">
+          <img src="/assets/dr-fabio-hero.jpg" alt="Dr. Fábio Faleiro Vieira, cirurgião robótico digestivo e fundador da FF.AI" />
+          <figcaption class="hero__caption">
+            <strong>Dr. Fábio Faleiro Vieira</strong>
+            <span>Cirurgião robótico · fundador FF.AI</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DOR ========== -->
+  <section class="dor" id="dor">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">A conta que ninguém te apresentou</span>
+        <h2 class="s-title reveal">Ninguém abre uma clínica para virar gerente de WhatsApp.</h2>
+        <p class="s-lead reveal d1">
+          Mas foi o que aconteceu. Duas rotinas invisíveis estão drenando o seu tempo, o seu faturamento e a sua paz, e nenhuma delas tem a ver com a sua competência médica.
+        </p>
+      </div>
+
+      <div class="movements">
+        <article class="movement reveal">
+          <div class="movement__tag">01 · O atendimento</div>
+          <h3>São 21h47. E você ainda está respondendo mensagem.</h3>
+          <p>
+            O último paciente saiu há uma hora. A secretária já foi. Mas o celular não para: "qual o valor da consulta?", "vocês atendem meu convênio?", "tem horário na quinta?". Você responde o que dá conta. Amanhã, três pessoas que escreveram hoje não vão ter resposta a tempo. Duas delas vão marcar com outro médico. E você nunca vai saber que elas existiram.
+          </p>
+          <div class="movement__cost">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+            <span>O custo: cada lead que esfria é uma cirurgia que foi para o concorrente.</span>
+          </div>
+        </article>
+
+        <article class="movement reveal">
+          <div class="movement__tag">02 · A presença</div>
+          <h3>Faz três meses que você não posta. E você sabe disso.</h3>
+          <p>
+            Você sabe que devia estar no Instagram. Sabe que o colega com metade da sua técnica tem o triplo de seguidores, e a agenda cheia por causa disso. Mas entre o centro cirúrgico, o plantão e a família, gravar Reels é a última coisa do mundo que você faria hoje. Então não grava. E a sua autoridade, que devia estar crescendo, ficou parada onde estava.
+          </p>
+          <div class="movement__cost">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>
+            <span>O custo: o paciente escolhe quem ele vê. Hoje, ele não vê você.</span>
+          </div>
+        </article>
+      </div>
+
+      <p class="dor__bridge reveal">
+        Nenhuma das duas é falha sua. É a falta de um <em>sistema</em>. E é exatamente isso que a FF.AI instala.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== SOLUÇÕES ========== -->
+  <section class="sol" id="solucoes">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">O ecossistema FF.AI</span>
+        <h2 class="s-title reveal">Duas dores. Duas soluções. Um sistema que se fecha.</h2>
+        <p class="s-lead reveal d1">
+          Comece pela ponta que mais dói, ou vá direto para a operação completa com o FF.AI 360. Cada solução é um produto independente; o 360 une a tecnologia de atendimento ao método que faz a clínica crescer.
+        </p>
+      </div>
+
+      <div class="sol__grid">
+        <article class="sol-card reveal">
+          <div class="sol-card__top">
+            <span class="sol-card__name">FF.AI Atendimento</span>
+          </div>
+          <h3>O paciente nunca mais fica sem resposta.</h3>
+          <p class="sol-card__desc">
+            Uma rede de agentes de IA que recebe, qualifica, agenda e reativa pacientes, conectada ao seu CRM e ao prontuário, 24 horas por dia. Não é um chatbot solto: é a sua operação comercial inteira, automatizada e supervisionada.
+          </p>
+          <ul>
+            <li>Atendimento e triagem 24/7, em todos os canais</li>
+            <li>Confirmação ativa que derruba o no-show</li>
+            <li>Reativação automática de paciente antigo</li>
+            <li>KPIs do funil em tempo real</li>
+          </ul>
+          <a href="/atendimento" class="sol-card__link">Conhecer o FF.AI Atendimento →</a>
+        </article>
+
+        <article class="sol-card reveal d1">
+          <div class="sol-card__top">
+            <span class="sol-card__name">FF.AI Presença</span>
+          </div>
+          <h3>Sua autoridade no Instagram, no piloto automático.</h3>
+          <p class="sol-card__desc">
+            Criamos o seu clone digital, com avatar e voz idênticos aos seus. A IA produz o conteúdo do mês inteiro no seu lugar. Você revisa pelo celular e aprova. Produção 100% IA, aprovação 100% sua.
+          </p>
+          <ul>
+            <li>Avatar e voz clonados a partir de uma gravação</li>
+            <li>Pauta, roteiro, arte e edição feitos por IA</li>
+            <li>Filtro de compliance CFM em cada peça</li>
+            <li>Você só aprova. Nunca mais grava</li>
+          </ul>
+          <a href="/conteudo" class="sol-card__link">Conhecer o FF.AI Presença →</a>
+        </article>
+
+        <article class="sol-card sol-card--featured reveal d2" id="ffai-360" style="scroll-margin-top: 96px">
+          <div class="sol-card__top">
+            <span class="sol-card__name">FF.AI 360</span>
+            <span class="sol-card__star">Recomendado</span>
+          </div>
+          <h3>A IA atende. O método faz a clínica vender mais.</h3>
+          <p class="sol-card__desc">
+            O serviço completo: o FF.AI Atendimento, que não deixa nenhum paciente se perder, somado ao Método Scrub In, o treinamento comercial e de marketing que transforma a sua clínica numa máquina previsível. A tecnologia atende; o método faz a clínica escolher o paciente certo e cobrar o que vale.
+          </p>
+          <ul>
+            <li>Tudo do FF.AI Atendimento</li>
+            <li>Método Scrub In: treinamento comercial e de marketing</li>
+            <li>Previsibilidade comercial: a clínica escolhe quem entra</li>
+            <li>Implantação e mentoria acompanhadas de ponta a ponta</li>
+          </ul>
+          <a href="/diagnostico" class="sol-card__link">Falar sobre o FF.AI 360 →</a>
+        </article>
+      </div>
+
+      <div class="loop reveal">
+        <div class="loop__label">Como Presença e Atendimento se completam · o circuito fechado</div>
+        <div class="loop__flow">
+          <div class="loop__step loop__step--a">
+            <strong>Presença</strong>
+            <span>atrai e aquece</span>
+          </div>
+          <div class="loop__arrow" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+          <div class="loop__step">
+            <strong>Lead</strong>
+            <span>chega no WhatsApp</span>
+          </div>
+          <div class="loop__arrow" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+          <div class="loop__step">
+            <strong>Atendimento</strong>
+            <span>qualifica e agenda</span>
+          </div>
+          <div class="loop__arrow" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+          <div class="loop__step loop__step--a">
+            <strong>Paciente</strong>
+            <span>na cadeira do consultório</span>
+          </div>
+        </div>
+        <div class="loop__back">↺ paciente satisfeito vira conteúdo, indicação e reativação, e o ciclo recomeça</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CASE-VIVO ========== -->
+  <section class="case" id="case">
+    <div class="container">
+      <div class="s-head">
+        <span class="eyebrow reveal">Case-vivo</span>
+        <h2 class="s-title reveal">A gente não vende o que não usa.</h2>
+        <p class="s-lead reveal d1">
+          O FF.AI Atendimento roda em produção na clínica do Dr. Fábio, em Goiânia e São Paulo. O FF.AI Presença nasceu no nosso próprio Instagram. Você não é o experimento. Nós somos.
+        </p>
+      </div>
+
+      <div class="case__grid">
+        <div class="reveal">
+          <p class="case__quote">
+            "Não vendemos teoria. Vendemos o que já está rodando há meses na nossa clínica, documentado em mais de 30 entregáveis versionados. Cada decisão de produto passa primeiro pelo nosso próprio funil real, com pacientes reais."
+          </p>
+          <div class="case__author">
+            <strong>Dr. Fábio Faleiro Vieira</strong>
+            Cirurgião robótico digestivo · fundador da FF.AI<br />
+            CRM-GO 15014 / RQE 16301 · CRM-SP 236248 / RQE 121835-1
+          </div>
+        </div>
+
+        <div class="reveal d1">
+          <div class="case__metrics">
+            <div class="metric">
+              <strong>2</strong>
+              <span>agentes de IA em produção</span>
+            </div>
+            <div class="metric">
+              <strong>4</strong>
+              <span>pipelines comerciais</span>
+            </div>
+            <div class="metric">
+              <strong>11</strong>
+              <span>etapas de funil auditadas</span>
+            </div>
+            <div class="metric">
+              <strong>30+</strong>
+              <span>entregáveis versionados</span>
+            </div>
+          </div>
+          <div class="case__stack">
+            <div class="case__stack-label">Stack já validada em produção</div>
+            <div class="case__stack-list">
+              <span class="stack-pill">Anthropic</span>
+              <span class="stack-pill">n8n</span>
+              <span class="stack-pill">Kommo</span>
+              <span class="stack-pill">HeyGen</span>
+              <span class="stack-pill">ElevenLabs</span>
+              <span class="stack-pill">iClinic</span>
+              <span class="stack-pill">Looker Studio</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SOBRE ========== -->
+  <section class="about" id="sobre">
+    <div class="container">
+      <div class="about__inner">
+        <figure class="about__photo reveal">
+          <img src="/assets/dr-fabio.jpg" alt="Dr. Fábio Faleiro Vieira, fundador da FF.AI" loading="lazy" />
+          <figcaption class="about__photo-caption">Dr. Fábio Faleiro · fundador</figcaption>
+        </figure>
+
+        <div class="reveal d1">
+          <span class="eyebrow">Quem faz</span>
+          <h2 class="s-title">Um cirurgião que constrói. Um operador que opera.</h2>
+          <p class="about__lead">
+            A FF.AI é dirigida por <em>Dr. Fábio Faleiro Vieira</em>, cirurgião robótico digestivo com prática ativa em São Paulo (Albert Einstein, Vila Nova Star) e Goiânia (MaterDei). Membro da SBCBM, SOBRACIL, CBCD e IFSO.
+          </p>
+          <p class="about__lead">
+            Não somos uma consultoria que vende método importado. Somos médicos e operadores que <em>aplicam a IA na própria casa primeiro</em>, e só levam para outras clínicas o que já mostrou resultado dentro de uma operação viva.
+          </p>
+          <div class="about__creds">
+            <span class="cred">SBCBM</span>
+            <span class="cred">SOBRACIL</span>
+            <span class="cred">CBCD</span>
+            <span class="cred">IFSO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA FINAL ========== -->
+  <section class="cta-final" id="contato">
+    <div class="container">
+      <span class="eyebrow reveal">O primeiro passo</span>
+      <h2 class="reveal">O diagnóstico é gratuito. A clareza, também.</h2>
+      <p class="reveal d1">
+        30 minutos com o Dr. Fábio Faleiro. Você sai sabendo exatamente onde a sua clínica está perdendo paciente, e qual solução FF.AI resolveria isso primeiro. Sem compromisso, sem roteiro de venda.
+      </p>
+      <div class="cta-final__ctas reveal d1">
+        <a href="/diagnostico" class="btn btn--primary btn--lg">Agendar diagnóstico gratuito</a>
+        <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20do%20site%20FF.AI%20e%20quero%20entender%20as%20solu%C3%A7%C3%B5es%20de%20IA%20para%20a%20minha%20cl%C3%ADnica." class="btn btn--light btn--lg" target="_blank" rel="noopener">
+          Falar pelo WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__logo">
+        <img src="/assets/ffai-wordmark-dark.svg" alt="FF.AI" />
+      </div>
+      <div class="footer__meta">
+        <div>FF.AI · o ecossistema de IA da sua clínica</div>
+        <div>contato@ffai.ia.br</div>
+        <div>© 2026 · Todos os direitos reservados</div>
+        <div class="footer__links">
+          <a href="/termos">Termos de Uso</a>
+          <a href="/privacidade">Política de Privacidade</a>
+          <a href="/diagnostico-termos">Termos do Diagnóstico</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== WHATSAPP FLOAT ========== -->
+  <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20do%20site%20FF.AI." class="wa-float" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+    // Scroll shadow no nav
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 8) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Scroll reveal
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealEls = document.querySelectorAll('.reveal');
+    if (reduce || !('IntersectionObserver' in window)) {
+      revealEls.forEach(el => el.classList.add('is-visible'));
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(el => io.observe(el));
+    }
+
+    // Deep-link (#ffai-360 etc): reposiciona depois que o layout assenta,
+    // porque imagens carregando acima do alvo deslocam a âncora nativa.
+    if (location.hash) {
+      const deepTarget = document.getElementById(location.hash.slice(1));
+      if (deepTarget) {
+        const jump = () => {
+          deepTarget.classList.add('is-visible');
+          deepTarget.scrollIntoView({ block: 'start', behavior: 'instant' });
+        };
+        window.addEventListener('load', () => setTimeout(jump, 150));
+      }
+    }
+  </script>
+
+  <!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
+  <script>
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;
+      if (!a || typeof gtag !== 'function') return;
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18172890851/SdHkCJf3jr8cEOOdwdlD',
+        'value': 200.0,
+        'currency': 'BRL'
+      });
+    });
+  </script>
+</body>
+</html>
