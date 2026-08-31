@@ -645,7 +645,76 @@
     /* ---- WhatsApp flutuante ---- */
     .wa { position: fixed; right: 18px; bottom: 18px; z-index: 70; width: 58px; height: 58px; border-radius: 50%; background: #0F7A40; color: #fff; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 10px 26px -10px rgba(28,42,63,0.55); transition: background 180ms ease, transform 180ms ease; }
     .wa:hover { background: #0B6234; color: #fff; transform: translateY(-2px); }
-  
+
+    /* ---- FF.AI 360: o produto premium, o único campo escuro integral ----
+       O azul-grafite que a página reserva aos boxes de garantia e de CTA vira
+       aqui a seção inteira, e o dourado do selo da garantia (#E7C36C, o mesmo
+       token) vira o fio condutor. No miolo, a inversão: um painel de papel
+       claro dentro da noite, o white paper de elite literal. Nenhuma fonte
+       nova, nenhum raio novo, prefixo s360 grepado sem colisão. */
+    .s360 { position: relative; padding: 104px 0; margin-bottom: 84px; background: linear-gradient(158deg, var(--ink) 0%, var(--ink-2) 100%); color: #FFFFFF; overflow: hidden; --selo: #E7C36C; }
+    .s360::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(52% 44% at 10% -6%, rgba(13,127,98,0.20), transparent 68%),
+                  radial-gradient(46% 40% at 94% 110%, rgba(231,195,108,0.12), transparent 70%); }
+    .s360__anel { position: absolute; top: -170px; right: -150px; width: 560px; height: 560px; pointer-events: none; }
+    .s360__anel svg { width: 100%; height: 100%; animation: giraSelo 60s linear infinite; }
+    .s360 .wrap { position: relative; z-index: 1; }
+    .s360__head { text-align: center; margin-bottom: 54px; }
+    .s360__eyebrow { display: inline-flex; align-items: center; gap: 14px; font-size: 12.5px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--selo); margin: 0 0 18px; }
+    .s360__eyebrow::before, .s360__eyebrow::after { content: ""; width: 44px; height: 1px; background: linear-gradient(90deg, transparent, rgba(231,195,108,0.7)); }
+    .s360__eyebrow::after { background: linear-gradient(270deg, transparent, rgba(231,195,108,0.7)); }
+    .s360__head h2 { font-size: clamp(30px, 3.9vw, 46px); font-weight: 800; line-height: 1.06; letter-spacing: -0.032em; color: #FFFFFF; margin: 0 auto 18px; max-width: 24ch; }
+    .s360__head h2 em { font-style: normal; color: var(--selo); }
+    .s360__lead { font-size: 17.5px; line-height: 1.65; color: rgba(255,255,255,0.75); max-width: 64ch; margin: 0 auto; }
+    .s360__ciclo { display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; padding: 9px 18px; border: 1px solid rgba(231,195,108,0.42); border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--selo); background: rgba(231,195,108,0.07); }
+    .s360__ciclo .dot { background: var(--selo); }
+    .s360__fases { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 44px; }
+    @media (min-width: 700px) { .s360__fases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1040px) { .s360__fases { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+    .s360__fase { position: relative; background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.13); border-radius: 22px; padding: 26px 24px 28px; transition: transform 260ms cubic-bezier(0.22,1,0.36,1), border-color 260ms ease, background 260ms ease, box-shadow 260ms ease; }
+    .s360__fase:hover { transform: translateY(-4px); border-color: rgba(231,195,108,0.55); background: rgba(255,255,255,0.07); box-shadow: 0 28px 60px -28px rgba(28,42,63,0.85); }
+    .s360__num { display: block; font-size: 12px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--selo); margin-bottom: 14px; }
+    .s360__fase h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; color: #FFFFFF; margin: 0 0 9px; }
+    .s360__fase p { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.72); margin: 0; }
+    .s360__painel { position: relative; background: linear-gradient(175deg, #FFFFFF 0%, var(--soft) 100%); border-radius: 28px; padding: 44px var(--gut) 46px; color: var(--ink); box-shadow: 0 40px 90px -40px rgba(28,42,63,0.9); overflow: hidden; }
+    @media (min-width: 900px) { .s360__painel { padding: 54px 56px 56px; } }
+    .s360__painel::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent 4%, var(--selo) 30%, var(--ac-ambar) 70%, transparent 96%); }
+    .s360__ptag { display: block; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ac-ambar-dk); margin-bottom: 16px; }
+    .s360__painel h3 { font-size: clamp(22px, 2.6vw, 27px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.16; margin: 0 0 14px; }
+    .s360__painel > p { font-size: 15.5px; line-height: 1.64; color: var(--text-2); margin: 0 0 26px; max-width: 76ch; }
+    .s360__pilares { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 760px) { .s360__pilares { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; } }
+    .s360__pilar { background: #FFFFFF; border: 1px solid var(--ac-ambar-bd); border-radius: 15px; padding: 17px 18px 18px; }
+    .s360__pilar__cab { display: flex; align-items: center; gap: 9px; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 9px; }
+    .s360__pilar__ico { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9px; background: var(--ac-ambar); color: #FFFFFF; flex: none; }
+    .s360__pilar p { font-size: 14px; line-height: 1.55; color: var(--text-2); margin: 0; }
+    .s360__pe { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--line-2); }
+    .s360__pe p { font-size: 14px; line-height: 1.55; color: var(--text); margin: 0; max-width: 52ch; }
+    @media (prefers-reduced-motion: reduce) {
+      .s360__anel svg { animation: none; }
+      .s360__fase:hover { transform: none; }
+    }
+    /* Fonte 15% maior no celular, na mesma regra do bloco gerado: estas classes
+       nao existiam quando ele foi gerado, entao entram aqui, ja escaladas. */
+    @media (max-width: 720px) {
+      .s360 { padding: 88px 0 92px; }
+      /* o anel vaza o viewport estreito (mesmo recortado, o retangulo estoura
+         a varredura de 320/375px): abaixo de 720px ele sai de cena */
+      .s360__anel { display: none; }
+      .s360__eyebrow { font-size: 14.37px; }
+      .s360__eyebrow::before, .s360__eyebrow::after { width: 26px; }
+      .s360__lead { font-size: 20.12px; }
+      .s360__ciclo { font-size: 14.95px; }
+      .s360__num { font-size: 13.80px; }
+      .s360__fase h3 { font-size: 20.70px; }
+      .s360__fase p { font-size: 16.67px; }
+      .s360__painel { padding: 36px 22px 38px; }
+      .s360__ptag { font-size: 13.80px; }
+      .s360__pilar__cab { font-size: 17.82px; }
+      .s360__pilar p { font-size: 16.10px; }
+      .s360__pe p { font-size: 16.10px; }
+    }
+
     /* TESTE DE LEITURA EM CELULAR: todo tamanho de fonte que vale ate 720px,
        reescrito 15%% maior. Bloco gerado, com marcador para sair inteiro.
        INICIO fonte-mobile-115 */
@@ -1520,73 +1589,84 @@
       </div>
     </section>
 
-    <!-- FF.AI 360: a entrega completa. Upsell do CRM, sem preço na página:
-         o escopo é personalizado na call. Só classes já existentes no arquivo. -->
-    <section class="sec sec--soft" id="ffai-360">
+    <!-- FF.AI 360: o produto premium, upsell do CRM. Único campo escuro
+         integral da página, de propósito: destaque à parte, pedido pelo
+         Dr. Fábio em 30/08. Sem preço: o escopo é personalizado na call. -->
+    <section class="s360" id="ffai-360">
+      <div class="s360__anel" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none">
+          <circle cx="100" cy="100" r="96" stroke="#E7C36C" stroke-opacity="0.16" stroke-width="0.6"/>
+          <circle cx="100" cy="100" r="78" stroke="#E7C36C" stroke-opacity="0.32" stroke-width="1" stroke-dasharray="3 9" stroke-linecap="round"/>
+          <circle cx="100" cy="100" r="56" stroke="#FFFFFF" stroke-opacity="0.05" stroke-width="12"/>
+        </svg>
+      </div>
       <div class="wrap">
-        <div class="sec-head center">
-          <p class="eyebrow">A entrega completa</p>
-          <h2 class="h2 h2--sm">FF.AI 360: o CRM que você viu, com a consultoria que arruma a operação.</h2>
-          <p class="lead">Para a clínica que quer ir além da tecnologia. O FF.AI 360 soma ao FF.AI CRM um programa de consultoria de 12 meses, em quatro fases, para clínicas médicas e odontológicas: comercial, marketing, gestão e relacionamento com a base, trabalhados enquanto a IA cuida do atendimento.</p>
+        <div class="s360__head">
+          <p class="s360__eyebrow">O programa premium</p>
+          <h2><em>FF.AI 360:</em> o CRM que você viu, com a consultoria que arruma a operação.</h2>
+          <p class="s360__lead">Para a clínica que quer ir além da tecnologia. O FF.AI 360 soma ao FF.AI CRM um programa de consultoria em quatro fases, para clínicas médicas e odontológicas: comercial, marketing, gestão e relacionamento com a base, trabalhados enquanto a IA cuida do atendimento.</p>
+          <div><span class="s360__ciclo"><span class="dot"></span>Ciclos de 6 meses · renováveis</span></div>
         </div>
 
-        <div class="fases" style="margin-bottom: 34px;">
-          <div class="card fase ff-card">
-            <span class="dia">Mês 1 a 3</span>
+        <div class="s360__fases">
+          <div class="s360__fase">
+            <span class="s360__num">Fase 01</span>
             <h3>Fundação e controle</h3>
             <p>Paramos o vazamento e colocamos a clínica no controle dos próprios números: funil medido, processo comercial claro e rotina de gestão instalada.</p>
           </div>
-          <div class="card fase ff-card">
-            <span class="dia">Mês 4 a 6</span>
+          <div class="s360__fase">
+            <span class="s360__num">Fase 02</span>
             <h3>Máquina de vendas em tração</h3>
             <p>Entrada previsível de pacientes e posicionamento premium: o funil de marketing passa a trazer o paciente certo, e a equipe aprende a conduzir até o fechamento.</p>
           </div>
-          <div class="card fase ff-card">
-            <span class="dia">Mês 7 a 9</span>
+          <div class="s360__fase">
+            <span class="s360__num">Fase 03</span>
             <h3>Retenção e multiplicação</h3>
             <p>Faturamento na própria base: recorrência, indicação, reativação e construção de ticket, sem depender só de paciente novo.</p>
           </div>
-          <div class="card fase ff-card">
-            <span class="dia">Mês 9 a 12</span>
+          <div class="s360__fase">
+            <span class="s360__num">Fase 04</span>
             <h3>Escala e blindagem</h3>
             <p>Operação consistente e equipe autônoma: a clínica cresce sem depender de uma pessoa só para vender, atender e decidir.</p>
           </div>
         </div>
 
-        <div class="mod mod--dk ff-card" id="ffai-360-escopo">
-          <span class="tag">Escopo sob medida</span>
+        <div class="s360__painel" id="ffai-360-escopo">
+          <span class="s360__ptag">Escopo sob medida</span>
           <h3>Do convênio para o particular, sem depender de uma pessoa só.</h3>
           <p>Essa é a promessa do programa, e é por isso que ele não tem tabela pronta: o escopo é desenhado clínica a clínica, a partir do porte, de quantos profissionais atendem, dos canais que já existem e do que a operação já tem de pé. O desenho e o valor fecham na mesma demonstração que apresenta o CRM.</p>
-          <div class="mod__botoes">
-            <div class="mod__bt">
-              <span class="mod__bt__cab"><span class="mod__bt__ico" aria-hidden="true">
+          <div class="s360__pilares">
+            <div class="s360__pilar">
+              <span class="s360__pilar__cab"><span class="s360__pilar__ico" aria-hidden="true">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-5 3 3 5-7"/></svg>
               </span>Processo comercial</span>
               <p>Da primeira mensagem ao fechamento: etapas claras, papéis definidos e um número que a equipe inteira enxerga.</p>
             </div>
-            <div class="mod__bt">
-              <span class="mod__bt__cab"><span class="mod__bt__ico" aria-hidden="true">
+            <div class="s360__pilar">
+              <span class="s360__pilar__cab"><span class="s360__pilar__ico" aria-hidden="true">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h4l7 5V5l-7 5H4Z"/><path d="M18 9a5 5 0 0 1 0 6"/></svg>
               </span>Funil de marketing</span>
               <p>Aquisição planejada dentro da publicidade em saúde, seguindo as normas do seu conselho, do topo do funil até a agenda.</p>
             </div>
-            <div class="mod__bt">
-              <span class="mod__bt__cab"><span class="mod__bt__ico" aria-hidden="true">
+            <div class="s360__pilar">
+              <span class="s360__pilar__cab"><span class="s360__pilar__ico" aria-hidden="true">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>
               </span>Gestão de pessoas e processos</span>
               <p>Rotina de gestão, treinamento e processos que sustentam o crescimento sem sobrecarregar quem está na frente.</p>
             </div>
-            <div class="mod__bt">
-              <span class="mod__bt__cab"><span class="mod__bt__ico" aria-hidden="true">
+            <div class="s360__pilar">
+              <span class="s360__pilar__cab"><span class="s360__pilar__ico" aria-hidden="true">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4.4-3.2-8-6.2-8-10a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 3.8-3.6 6.8-8 10Z"/></svg>
               </span>Construção de LTV</span>
               <p>Relacionamento com a base para o paciente voltar, indicar e permanecer: a parte do faturamento que não depende de anúncio.</p>
             </div>
           </div>
-          <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20da%20p%C3%A1gina%20do%20FF.AI%20CRM%20e%20quero%20conversar%20sobre%20o%20FF.AI%20360%20na%20demonstra%C3%A7%C3%A3o." class="btn btn--green ff-btn" target="_blank" rel="noopener" style="margin-top: 26px; align-self: flex-start;">Conversar sobre o 360 na demonstração
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
-          </a>
-          <p class="mod__nota">Programa de 12 meses, conduzido junto com a implantação do CRM. A publicidade em saúde do programa segue as normas do seu conselho: a governança atende CFM e CFO.</p>
+          <div class="s360__pe">
+            <p>Programa em ciclos de 6 meses, renováveis, conduzido junto com a implantação do CRM. A publicidade em saúde do programa segue as normas do seu conselho: a governança atende CFM e CFO.</p>
+            <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20da%20p%C3%A1gina%20do%20FF.AI%20CRM%20e%20quero%20conversar%20sobre%20o%20FF.AI%20360%20na%20demonstra%C3%A7%C3%A3o." class="btn btn--green ff-btn" target="_blank" rel="noopener">Conversar sobre o 360 na demonstração
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -1766,7 +1846,8 @@
       var alvos = document.querySelectorAll(
         '.hero__grid > div > *, .palco > *,' +
         '.sec-head > *, .card, .cardi, .lado__bloco, .integra__nomes, .integra__nota,' +
-        '.fase, .mod, .garantia__box, .comp, .depo, .pessoa, .selos .selo, .fit > div, .faq__item, .final__box'
+        '.fase, .mod, .garantia__box, .comp, .depo, .pessoa, .selos .selo, .fit > div, .faq__item, .final__box,' +
+        '.s360__head > *, .s360__fase, .s360__painel'
       );
       if (!alvos.length || reduz) return;
 
