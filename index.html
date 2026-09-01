@@ -904,6 +904,9 @@
               <a href="#contato" class="btn btn--green ff-btn">Agendar demonstração gratuita
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
               </a>
+              <a href="/demonstracao" class="btn btn--white ff-btn" data-crm="verdemo">Ver a demonstração
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8 7 4-7 4V8Z"></path><circle cx="12" cy="12" r="9.5"></circle></svg>
+              </a>
             </div>
             <div class="hero__by">
               <img src="/assets/fabio-avatar.jpg" alt="Dr. Fábio Faleiro Vieira" width="52" height="52" />
@@ -1716,7 +1719,7 @@
             <div>
               <p class="eyebrow eyebrow--dark">O primeiro passo</p>
               <h2>Duas formas de ver funcionando.</h2>
-              <p>Converse com a Stella como se você fosse um paciente da sua própria clínica, e veja a triagem, a qualificação e a quebra de objeção acontecendo em tempo real. Ou marque trinta minutos e eu abro o CRM por dentro, com o funil, os relatórios e os módulos de exame e nota fiscal.</p>
+              <p>Entre na demonstração como se você fosse um paciente da sua própria clínica, e veja a triagem, o agendamento, a nota fiscal e o pedido de exames acontecerem no seu WhatsApp. Ou marque trinta minutos e eu abro o CRM por dentro, com o funil, os relatórios e os módulos de exame e nota fiscal.</p>
             </div>
             <div>
               <div class="final__ctas">
@@ -1728,6 +1731,9 @@
       -->
                 <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20da%20p%C3%A1gina%20do%20FF.AI%20CRM%20e%20quero%20agendar%20uma%20demonstra%C3%A7%C3%A3o." class="btn btn--green ff-btn" target="_blank" rel="noopener">Agendar demonstração gratuita
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                </a>
+                <a href="/demonstracao" class="btn btn--white ff-btn" data-crm="verdemo">Ver a demonstração
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8 7 4-7 4V8Z"></path><circle cx="12" cy="12" r="9.5"></circle></svg>
                 </a>
               </div>
               <p class="final__nota">Setup em 15 dias · garantia de 15 dias com devolução integral</p>
@@ -2010,6 +2016,16 @@
         jaClicou = true;
         meta('trackSingle', 'Lead', { content_name: 'FF.AI CRM', content_category: 'lp-crm' });
         meta('trackSingleCustom', 'CRMDemoWhats', { content_name: 'FF.AI CRM' });
+      });
+
+      // Intencao de ver a esteira rodando: clique no botao que leva a /demonstracao.
+      // Nao e Lead: o lead nasce la, no CTA que abre a conversa de teste.
+      var jaVerDemo = false;
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a[data-crm="verdemo"]') : null;
+        if (!a || jaVerDemo) return;
+        jaVerDemo = true;
+        meta('trackSingleCustom', 'CRMVerDemo', { content_name: 'FF.AI CRM' });
       });
 
       // Interesse: leu ate a garantia. Uma vez por visitante, com dedup em localStorage.
