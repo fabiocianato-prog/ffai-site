@@ -694,6 +694,14 @@
       .s360__anel svg { animation: none; }
       .s360__fase:hover { transform: none; }
     }
+    /* ---- números medidos (seção "Nossos números") ----
+       Cartão branco do padrão com o número grande em verde. Todos os valores
+       vêm de medição no banco do CRM, confirmados pelo Dr. Fábio em 31/08. */
+    .kpi__n { display: flex; align-items: baseline; gap: 9px; margin-bottom: 14px; }
+    .kpi__n b { font-size: clamp(40px, 4.6vw, 58px); font-weight: 800; letter-spacing: -0.035em; line-height: 1; color: var(--green); }
+    .kpi__n span { font-size: clamp(19px, 2vw, 24px); font-weight: 800; letter-spacing: -0.01em; color: var(--green-dk); }
+    .kpi__nota { max-width: 760px; margin: 26px auto 0; text-align: center; font-size: 13.5px; line-height: 1.55; color: var(--text); }
+
     /* Fonte 15% maior no celular, na mesma regra do bloco gerado: estas classes
        nao existiam quando ele foi gerado, entao entram aqui, ja escaladas. */
     @media (max-width: 720px) {
@@ -713,6 +721,7 @@
       .s360__pilar__cab { font-size: 17.82px; }
       .s360__pilar p { font-size: 16.10px; }
       .s360__pe p { font-size: 16.10px; }
+      .kpi__nota { font-size: 15.52px; }
     }
 
     /* TESTE DE LEITURA EM CELULAR: todo tamanho de fonte que vale ate 720px,
@@ -989,6 +998,77 @@
             <h3>A IA que te venderam agenda e para por aí</h3>
             <p>Ela responde a dúvida, marca o horário e devolve o lead frio para a equipe. Quem qualifica, quem contorna o "vou pensar" e quem persegue quem não agendou continua sendo gente que já não tinha tempo.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOSSOS NÚMEROS: tudo medido no banco do CRM em 31/08/2026 e aprovado
+         pelo Dr. Fábio. Piso conservador (arredondado para baixo), janela dos
+         primeiros 90 dias da plataforma (junho a agosto/2026). -->
+    <section class="sec sec--soft sec--espelhada" id="numeros">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow">Nossos números</p>
+          <h2 class="h2 h2--sm">Os primeiros 90 dias, medidos.</h2>
+          <p class="lead">Nada aqui é projeção. São os números lidos da própria plataforma, do jeito que a operação registrou, nos primeiros 90 dias do FF.AI CRM no ar.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card kpi ff-card">
+            <p class="kpi__n"><b>62</b><span>mil+</span></p>
+            <h3>Mensagens de WhatsApp</h3>
+            <p>Trocadas entre clínicas e pacientes dentro da plataforma, com a IA na linha de frente da conversa.</p>
+          </div>
+          <div class="card kpi ff-card">
+            <p class="kpi__n"><b>250</b><span>+</span></p>
+            <h3>Consultas marcadas</h3>
+            <p>Leads levados até a etapa de agendamento dentro dos funis das clínicas.</p>
+          </div>
+          <div class="card kpi ff-card">
+            <p class="kpi__n"><b>130</b><span>+</span></p>
+            <h3>Pacientes recuperados</h3>
+            <p>Tinham esfriado, entraram em follow-up e voltaram para a agenda ou para o fechamento.</p>
+          </div>
+          <div class="card kpi ff-card">
+            <!-- lint-ok: R$ 390 mil medido no banco (deals ganhos R$ 395.313,70) e aprovado pelo Dr. Fabio em 31/08 --><p class="kpi__n"><span>R$</span><b>390</b><span>mil+</span></p>
+            <h3>Em negócios fechados</h3>
+            <p>Registrados nos funis das clínicas que operam na plataforma, do lead ao fechamento.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROVA (movida para logo após os números em 31/08, a pedido do Dr. Fábio) -->
+    <section class="sec" id="prova">
+      <div class="wrap">
+        <div class="sec-head center">
+          <p class="eyebrow">Depoimentos</p>
+          <h2 class="h2">O que estão falando de trabalhar com a gente</h2>
+          <p class="lead">A gente não fala pelo cliente. Ouça direto de quem já passou por isso.</p>
+        </div>
+
+        <div class="depos">
+          <figure class="depo ff-card">
+            <video controls preload="metadata" playsinline poster="/crm/videos/dep-rogerio.jpg" width="720" height="1280">
+              <source src="/crm/videos/dep-rogerio.mp4" type="video/mp4" />
+              O seu navegador não abre este vídeo.
+            </video>
+            <figcaption>
+              <strong>Dr. Rogério Troian</strong>
+              <span>Endocrinologia e nutrologia</span>
+            </figcaption>
+          </figure>
+
+          <figure class="depo ff-card">
+            <video controls preload="metadata" playsinline poster="/crm/videos/dep-lidyane.jpg" width="720" height="1280">
+              <source src="/crm/videos/dep-lidyane.mp4" type="video/mp4" />
+              O seu navegador não abre este vídeo.
+            </video>
+            <figcaption>
+              <strong>Dra. Lidyane Gomide</strong>
+              <span>Akoya Clínica · estética íntima e ginecologia regenerativa</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -1472,41 +1552,6 @@
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROVA -->
-    <section class="sec sec--espelhada" id="prova">
-      <div class="wrap">
-        <div class="sec-head center">
-          <p class="eyebrow">Depoimentos</p>
-          <h2 class="h2">O que estão falando de trabalhar com a gente</h2>
-          <p class="lead">A gente não fala pelo cliente. Ouça direto de quem já passou por isso.</p>
-        </div>
-
-        <div class="depos">
-          <figure class="depo ff-card">
-            <video controls preload="metadata" playsinline poster="/crm/videos/dep-rogerio.jpg" width="720" height="1280">
-              <source src="/crm/videos/dep-rogerio.mp4" type="video/mp4" />
-              O seu navegador não abre este vídeo.
-            </video>
-            <figcaption>
-              <strong>Dr. Rogério Troian</strong>
-              <span>Endocrinologia e nutrologia</span>
-            </figcaption>
-          </figure>
-
-          <figure class="depo ff-card">
-            <video controls preload="metadata" playsinline poster="/crm/videos/dep-lidyane.jpg" width="720" height="1280">
-              <source src="/crm/videos/dep-lidyane.mp4" type="video/mp4" />
-              O seu navegador não abre este vídeo.
-            </video>
-            <figcaption>
-              <strong>Dra. Lidyane Gomide</strong>
-              <span>Akoya Clínica · estética íntima e ginecologia regenerativa</span>
-            </figcaption>
-          </figure>
         </div>
       </div>
     </section>
