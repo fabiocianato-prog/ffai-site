@@ -521,6 +521,20 @@
     .depo { margin: 0; background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 22px 50px -34px rgba(28,42,63,0.42); }
     /* height:auto é obrigatório: sem ele o atributo height do <video> vence o aspect-ratio */
     .depo video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; background: var(--ink); }
+
+    /* video hospedado fora (Panda). A capa propria entra como fachada: o iframe
+       so nasce no clique, entao a pagina nao carrega o player de graca. */
+    .videoff { margin: 0; background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 22px 50px -34px rgba(28,42,63,0.42); }
+    .videoff__capa { display: block; width: 100%; padding: 0; border: 0; background: var(--ink); cursor: pointer; position: relative; line-height: 0; }
+    .videoff__capa img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1), filter 400ms ease; }
+    .videoff__capa:hover img { transform: scale(1.018); filter: brightness(1.06); }
+    .videoff__capa:focus-visible { outline: 3px solid var(--green); outline-offset: -3px; }
+    .videoff__quadro { position: relative; width: 100%; aspect-ratio: 16 / 9; background: var(--ink); }
+    .videoff__quadro iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .videoff figcaption { padding: 20px 24px 22px; }
+    .videoff figcaption strong { display: block; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
+    .videoff figcaption span { display: block; font-size: 14px; line-height: 1.45; color: var(--text); }
+    @media (max-width: 720px) { .videoff figcaption strong { font-size: 20.70px; } .videoff figcaption span { font-size: 16.10px; } }
     .depo figcaption { padding: 20px 24px 22px; }
     .depo figcaption strong { display: block; font-size: 18px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 4px; }
     .depo figcaption span { display: block; font-size: 14px; line-height: 1.45; color: var(--text); }
@@ -907,11 +921,18 @@
 
           <div>
             <div class="palco">
-              <figure class="depo ff-card">
-                <video controls preload="metadata" playsinline poster="/demonstracao/demo-ffai-poster.jpg" width="720" height="1280">
-                  <source src="/demonstracao/demo-ffai.mp4" type="video/mp4" />
-                  O seu navegador não abre este vídeo.
-                </video>
+              <figure class="videoff ff-card">
+                <button class="videoff__capa" type="button" data-demo="play"
+                        data-src="https://player-vz-e7b2ecbe-e16.tv.pandavideo.com.br/embed/?v=d1dd2943-0519-4fd7-b113-6d555b6b321f"
+                        aria-label="Assistir à demonstração completa do FF.AI CRM">
+                  <picture>
+                    <!-- no telefone a capa tem 310px de largura: entra a versão de
+                         tipo maior, senão o texto da arte fica ilegível -->
+                    <source media="(max-width: 720px)" srcset="/demonstracao/capa-demo-mobile.jpg" />
+                    <img src="/demonstracao/capa-demo.jpg" width="1920" height="1080"
+                         alt="Capa da demonstração do FF.AI CRM, apresentada pelo Dr. Fábio Faleiro" />
+                  </picture>
+                </button>
                 <figcaption>
                   <strong>A esteira completa, gravada</strong>
                   <span>Triagem, agendamento, cobrança, nota fiscal e pedido de exames. Sem corte de roteiro.</span>
@@ -1206,6 +1227,26 @@
       ver();
     })();
 
+    // Fachada do video: a capa e uma imagem estatica ate alguem clicar. So entao
+    // o iframe do player nasce, ja com autoplay, herdando o gesto do clique.
+    (function () {
+      var capa = document.querySelector('.videoff__capa');
+      if (!capa) return;
+      capa.addEventListener('click', function () {
+        var src = capa.getAttribute('data-src');
+        if (!src) return;
+        var quadro = document.createElement('div');
+        quadro.className = 'videoff__quadro';
+        var frame = document.createElement('iframe');
+        frame.src = src + (src.indexOf('?') === -1 ? '?' : '&') + 'autoplay=true';
+        frame.setAttribute('title', 'Demonstração completa do FF.AI CRM');
+        frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        frame.setAttribute('allowfullscreen', '');
+        quadro.appendChild(frame);
+        capa.replaceWith(quadro);
+      });
+    })();
+
     var toggle = document.getElementById('navToggle');
     var panel = document.getElementById('navPanel');
     toggle.addEventListener('click', function () {
@@ -1266,9 +1307,9 @@
 
       // Intencao maxima: clique no CTA que abre a conversa de teste com a IA.
       // Uma vez por carregamento, para clique repetido nao contar em dobro.
-      var jaTeste = false, jaCall = false;
+      var jaTeste = false, jaCall = false, jaPlay = false;
       document.addEventListener('click', function (e) {
-        var a = e.target && e.target.closest ? e.target.closest('a[data-demo]') : null;
+        var a = e.target && e.target.closest ? e.target.closest('[data-demo]') : null;
         if (!a) return;
         var tipo = a.getAttribute('data-demo');
         if (tipo === 'teste' && !jaTeste) {
@@ -1278,18 +1319,13 @@
         } else if (tipo === 'call' && !jaCall) {
           jaCall = true;
           meta('trackSingleCustom', 'DemoAgendarCall', {});
+        } else if (tipo === 'play' && !jaPlay) {
+          // O video mora fora (Panda), entao o play e o clique na fachada, nao o
+          // evento 'play' de um <video> que esta pagina nao tem mais.
+          jaPlay = true;
+          meta('trackSingleCustom', 'DemoVideoPlay', {});
         }
       });
-
-      // Consideracao: deu play no video da esteira.
-      var videos = document.querySelectorAll('video');
-      for (var v = 0; v < videos.length; v++) {
-        videos[v].addEventListener('play', function () {
-          if (this.getAttribute('data-meta-play') === '1') return;
-          this.setAttribute('data-meta-play', '1');
-          meta('trackSingleCustom', 'DemoVideoPlay', {});
-        });
-      }
     })();
   </script>
 </body>
