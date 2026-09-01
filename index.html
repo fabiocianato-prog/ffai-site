@@ -86,6 +86,17 @@
     .ff-btn:hover { transform: translateY(-2px); }
     @keyframes ffPop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     @keyframes ffPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    /* Pulso do CTA de demonstracao: o halo se expande e some, como um toque na
+       superficie. O scale e minimo de proposito, para o botao nao "respirar". */
+    @keyframes ffPulsaCta {
+      0%   { transform: scale(1);     box-shadow: 0 18px 36px -16px rgba(13,127,98,0.72), 0 0 0 0 rgba(13,127,98,0.55); }
+      55%  { transform: scale(1.028); box-shadow: 0 22px 42px -16px rgba(13,127,98,0.80), 0 0 0 16px rgba(13,127,98,0); }
+      100% { transform: scale(1);     box-shadow: 0 18px 36px -16px rgba(13,127,98,0.72), 0 0 0 0 rgba(13,127,98,0); }
+    }
+    .ff-pulsa { animation: ffPulsaCta 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    .ff-pulsa:hover { animation-play-state: paused; }
+    @media (prefers-reduced-motion: reduce) { .ff-pulsa { animation: none; } }
     .ff-live { animation: ffPulse 1.8s ease-in-out infinite; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -901,10 +912,7 @@
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8 7 4-7 4V8Z"></path><circle cx="12" cy="12" r="9.5"></circle></svg>
               </a>
       -->
-              <a href="#contato" class="btn btn--green ff-btn">Agendar demonstração gratuita
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
-              </a>
-              <a href="/demonstracao" class="btn btn--white ff-btn" data-crm="verdemo">Ver a demonstração
+              <a href="/demonstracao" class="btn btn--green ff-btn ff-pulsa" data-crm="verdemo">Ver a demonstração
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8 7 4-7 4V8Z"></path><circle cx="12" cy="12" r="9.5"></circle></svg>
               </a>
             </div>
