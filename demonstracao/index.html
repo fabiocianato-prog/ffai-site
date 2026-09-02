@@ -607,6 +607,17 @@
     .final p.eyebrow { color: var(--mint-lt); }
     .final__ctas { display: flex; flex-direction: column; gap: 12px; }
     .final .final__nota { margin-top: 18px; font-size: 15.5px; color: rgba(255,255,255,0.55); padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.16); }
+    /* Pulso do CTA do formulario: mesmo ffPulsaCta da home. So transform e
+       box-shadow, pausa no hover, some em prefers-reduced-motion. */
+    @keyframes ffPulsaCta {
+      0%   { transform: scale(1);     box-shadow: 0 18px 36px -16px rgba(13,127,98,0.72), 0 0 0 0 rgba(13,127,98,0.55); }
+      55%  { transform: scale(1.028); box-shadow: 0 22px 42px -16px rgba(13,127,98,0.80), 0 0 0 16px rgba(13,127,98,0); }
+      100% { transform: scale(1);     box-shadow: 0 18px 36px -16px rgba(13,127,98,0.72), 0 0 0 0 rgba(13,127,98,0); }
+    }
+    .ff-pulsa { animation: ffPulsaCta 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    .ff-pulsa:hover { animation-play-state: paused; }
+    @media (prefers-reduced-motion: reduce) { .ff-pulsa { animation: none; } }
+
     /* nesta LP a nota carrega um link (agendar call). O verde do link global some
        no fundo escuro, entao aqui ele e branco e sublinhado. */
     .final .final__nota a { color: #FFFFFF; text-decoration: underline; text-underline-offset: 3px; }
@@ -922,6 +933,11 @@
             </p>
             <div class="hero__ctas">
               <a href="https://wa.me/5562998608001?text=Quero%20testar%20a%20IA%20da%20FF.AI%20%5BDEMO%5D" target="_blank" rel="noopener" class="btn btn--green ff-btn" data-demo="teste">Teste a Íris agora no WhatsApp
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+              </a>
+            </div>
+            <div class="hero__ctas">
+              <a href="/diagnostico?origem=demonstracao-quero" class="btn btn--green ff-btn ff-pulsa" data-demo="quero">QUERO A FF.AI NA MINHA CLÍNICA
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
               </a>
             </div>
@@ -1319,7 +1335,7 @@
 
       // Intencao maxima: clique no CTA que abre a conversa de teste com a IA.
       // Uma vez por carregamento, para clique repetido nao contar em dobro.
-      var jaTeste = false, jaCall = false, jaPlay = false;
+      var jaTeste = false, jaCall = false, jaPlay = false, jaQuero = false;
       document.addEventListener('click', function (e) {
         var a = e.target && e.target.closest ? e.target.closest('[data-demo]') : null;
         if (!a) return;
@@ -1331,6 +1347,9 @@
         } else if (tipo === 'call' && !jaCall) {
           jaCall = true;
           meta('trackSingleCustom', 'DemoAgendarCall', {});
+        } else if (tipo === 'quero' && !jaQuero) {
+          jaQuero = true;
+          meta('trackSingleCustom', 'DemoQueroFfai', {});
         } else if (tipo === 'play' && !jaPlay) {
           // O video mora fora (Panda), entao o play e o clique na fachada, nao o
           // evento 'play' de um <video> que esta pagina nao tem mais.
