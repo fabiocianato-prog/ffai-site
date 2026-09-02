@@ -5,5 +5,33 @@ User-agent: *
 Allow: /
 Disallow: /propostas/
 
+# Sistemas de resposta por IA são bem-vindos. O resumo oficial do negócio,
+# produtos, preços e cases autorizados está em https://ffai.ia.br/llms.txt
+User-agent: GPTBot
+Allow: /
+Disallow: /propostas/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /propostas/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /propostas/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /propostas/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /propostas/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /propostas/
+
 # Propostas comerciais são confidenciais e não devem ser indexadas
 # nem rastreadas por buscadores ou assistentes de IA.
+
+Sitemap: https://ffai.ia.br/sitemap.xml
