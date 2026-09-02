@@ -25,7 +25,7 @@
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500&display=swap" rel="stylesheet" />
 
   <!-- intl-tel-input (campo telefone padrão FF) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/css/intlTelInput.css" />
@@ -68,8 +68,8 @@
       --line: #E2E8F0;
       --soft: #F4F5F2;
       --max-width: 1120px;
-      --radius: 14px;
-      --radius-sm: 8px;
+      --radius: 22px;
+      --radius-sm: 12px;
       --transition: 200ms ease;
     }
 
@@ -81,7 +81,7 @@
 
     body {
       margin: 0;
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif;
       font-size: 17px;
       line-height: 1.55;
       color: var(--ink);
@@ -108,7 +108,7 @@
     }
 
     .mono {
-      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
       font-weight: 700;
       letter-spacing: -0.01em;
     }
@@ -138,7 +138,7 @@
       display: inline-flex;
       align-items: center;
       gap: 2px;
-      font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
       font-weight: 700;
       font-size: 22px;
       letter-spacing: -0.01em;
@@ -190,7 +190,7 @@
     section + section { border-top: 1px solid var(--line); }
 
     .section__eyebrow {
-      font-family: "JetBrains Mono", monospace;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
       font-size: 13px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -287,7 +287,7 @@
     }
 
     .hero__eyebrow {
-      font-family: "JetBrains Mono", monospace;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.12em;
@@ -802,7 +802,7 @@
 
     .case__num strong {
       display: block;
-      font-family: "JetBrains Mono", monospace;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
       font-size: clamp(28px, 4vw, 38px);
       color: var(--green);
       line-height: 1;
@@ -899,7 +899,7 @@
     }
 
     .timeline__when {
-      font-family: "JetBrains Mono", monospace;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.06em;
@@ -950,7 +950,7 @@
 
     .faq__item summary::after {
       content: "+";
-      font-family: "JetBrains Mono", monospace;
+      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
       font-size: 22px;
       color: var(--green);
       transition: transform var(--transition);
@@ -1079,7 +1079,7 @@
       position: absolute; top: 12px; left: 12px; z-index: 2;
       display: inline-flex; align-items: center; gap: 7px;
       padding: 6px 12px; background: rgba(13, 127, 98, 0.94); color: #fff;
-      border-radius: 999px; font-family: "JetBrains Mono", monospace;
+      border-radius: 999px; font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
       font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; pointer-events: none;
     }
     .hero__video-badge::before {
@@ -1459,7 +1459,7 @@
 
     // ---------- Formulário /diagnostico ----------
     (function () {
-      var WEBHOOK = 'https://hook.us2.make.com/a31csn06pszdxhm4pady2jp25aow32gd';
+      var WEBHOOK = 'https://qoaanghwludaicceugsa.supabase.co/functions/v1/lp-lead-intake';
       var form = document.getElementById('diag-form');
       if (!form) return;
 
@@ -1529,6 +1529,36 @@
       var btn = document.getElementById('submit-btn');
       var errBox = document.getElementById('form-error');
 
+      var enviouCompleto = false;
+      var enviouParcial = false;
+      function enviarParcial() {
+        if (enviouCompleto) { return; }
+        if (enviouParcial) { return; }
+        if (!utilsReady) { return; }
+        var nomeParcial = form.nome.value.trim();
+        if (nomeParcial.length < 2) { return; }
+        if (!iti.isValidNumber()) { return; }
+        var tamanhoP = (form.querySelector('input[name="tamanho_clinica"]:checked') || {}).value || '';
+        var gargaloP = (form.querySelector('input[name="gargalo"]:checked') || {}).value || '';
+        var corpo = JSON.stringify({
+          lp: 'ffai-diagnostico', partial: true,
+          nome: nomeParcial, whatsapp: iti.getNumber(),
+          especialidade: form.especialidade.value || '',
+          tamanho_clinica: tamanhoP, gargalo: gargaloP,
+          disponibilidade: form.disponibilidade.value || '',
+          origem: getUTM('origem') || '',
+          landing_url: window.location.href,
+          utm: { source: getUTM('utm_source') || 'direto', medium: getUTM('utm_medium'), campaign: getUTM('utm_campaign') }
+        });
+        try {
+          enviouParcial = navigator.sendBeacon(WEBHOOK, new Blob([corpo], { type: 'text/plain' }));
+        } catch (err) {}
+      }
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden') { enviarParcial(); }
+      });
+      window.addEventListener('pagehide', enviarParcial);
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         errBox.style.display = 'none';
@@ -1570,20 +1600,23 @@
         var gargalo = (form.querySelector('input[name="gargalo"]:checked') || {}).value || '';
 
         var payload = {
+          lp: 'ffai-diagnostico',
           nome: form.nome.value.trim(),
           whatsapp: iti.getNumber(),                       // E.164
           especialidade: form.especialidade.value,
           tamanho_clinica: tamanho,
-          tem_clinica: tamanho === 'Só eu' ? 'Não' : 'Sim',
           gargalo: gargalo,
           gargalo_outro: gargaloOutro.value.trim(),
           disponibilidade: form.disponibilidade.value,
           aceite_termos: form.aceite_termos.checked,
           aceite_termos_at: new Date().toISOString(),
-          utm_source: getUTM('utm_source') || 'direto',
-          utm_medium: getUTM('utm_medium'),
-          utm_campaign: getUTM('utm_campaign'),
-          website: ''
+          origem: getUTM('origem') || '',
+          landing_url: window.location.href,
+          utm: {
+            source: getUTM('utm_source') || 'direto',
+            medium: getUTM('utm_medium'),
+            campaign: getUTM('utm_campaign')
+          }
         };
 
         btn.disabled = true;
@@ -1596,6 +1629,7 @@
         })
           .then(function (r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
+            enviouCompleto = true;
             var partes = payload.nome.split(' ').filter(function (p) {
               return !/^(dr|dra|drª|dr\.|dra\.)$/i.test(p);
             });
@@ -1608,8 +1642,8 @@
             } catch (e) {}
             var params = new URLSearchParams();
             params.set('nome', primeiro);
-            ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) {
-              if (payload[k]) params.set(k, payload[k]);
+            ['source', 'medium', 'campaign'].forEach(function (k) {
+              if (payload.utm[k]) params.set('utm_' + k, payload.utm[k]);
             });
             window.location.href = '/obrigado?' + params.toString();
           })
