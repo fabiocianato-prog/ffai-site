@@ -221,6 +221,7 @@
     @media (min-width: 1100px) { .hero__grid { grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr); gap: 64px; padding-top: 66px; } }
     .hero__sub { font-size: clamp(17px, 2vw, 19px); line-height: 1.6; color: var(--text); max-width: 47ch; margin: 0 0 34px; }
     .hero__ctas { display: flex; gap: 13px; align-items: center; flex-wrap: wrap; margin-bottom: 34px; }
+    .hero__ctas--centro { justify-content: center; margin: 40px 0 0; }
     .hero__by { display: flex; align-items: center; gap: 14px; }
     .hero__by img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #FFFFFF; box-shadow: 0 8px 18px -8px rgba(28,42,63,0.5); flex-shrink: 0; }
     .hero__by p { font-size: 14.5px; line-height: 1.5; color: var(--text); margin: 0; max-width: 44ch; }
@@ -936,11 +937,6 @@
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
               </a>
             </div>
-            <div class="hero__ctas">
-              <a href="/diagnostico?origem=demonstracao-quero" class="btn btn--green ff-btn ff-pulsa" data-demo="quero">QUERO A FF.AI NA MINHA CLÍNICA
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
-              </a>
-            </div>
             <div class="hero__by">
               <img src="/assets/fabio-avatar.jpg" alt="Dr. Fábio Faleiro Vieira" width="52" height="52" />
               <p><strong class="ink">Founder: Dr. Fábio Faleiro.</strong> A mesma esteira que você vai testar aqui atende os pacientes da clínica dele todos os dias.</p>
@@ -968,6 +964,12 @@
               </figure>
             </div>
           </div>
+        </div>
+
+        <div class="hero__ctas hero__ctas--centro">
+          <a href="/diagnostico?origem=demonstracao-quero" class="btn btn--green ff-btn ff-pulsa" data-demo="quero">QUERO A FF.AI NA MINHA CLÍNICA
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+          </a>
         </div>
       </div>
     </section>
