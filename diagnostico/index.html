@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Onde a sua clínica perde paciente? · Diagnóstico gratuito FF.AI</title>
-  <meta name="description" content="Diagnóstico gratuito pra consultórios e clínicas: o Dr. Fábio acha onde você perde paciente (WhatsApp, no-show, Instagram parado) e te mostra o que dá pra arrumar. Conversa direta com ele, sem você precisar entender de tecnologia." />
+  <meta name="description" content="Diagnóstico gratuito para consultórios e clínicas médicas e odontológicas: sete perguntas, menos de um minuto, e o resultado chega no seu WhatsApp." />
   <meta name="theme-color" content="#1C2A3F" />
 
   <link rel="icon" type="image/svg+xml" href="../assets/ffai-favicon.svg" />
@@ -13,7 +13,7 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Onde a sua clínica está perdendo paciente? · FF.AI" />
-  <meta property="og:description" content="Diagnóstico gratuito em 7 dias, com o Dr. Fábio. Descubra onde sua clínica perde paciente e o que arrumar. 5 vagas por mês." />
+  <meta property="og:description" content="Sete perguntas, menos de um minuto. Descubra onde a sua clínica perde paciente e o que a IA resolve." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ffai.ia.br/diagnostico/" />
   <meta property="og:image" content="https://ffai.ia.br/assets/og-diagnostico.jpg" />
@@ -118,7 +118,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(250, 250, 247, 0.85);
+      background: rgba(20, 30, 48, 0.88);
       backdrop-filter: saturate(180%) blur(8px);
       -webkit-backdrop-filter: saturate(180%) blur(8px);
       border-bottom: 1px solid transparent;
@@ -134,7 +134,7 @@
       height: 64px;
     }
 
-    .nav__logo {
+    .nav__logo { color: var(--off) !important;
       display: inline-flex;
       align-items: center;
       gap: 2px;
@@ -149,7 +149,7 @@
     .nav__logo span.dot { color: var(--green); }
     .nav__logo:hover { color: var(--ink); }
 
-    .nav__back {
+    .nav__back { color: rgba(250,250,247,0.7) !important;
       color: var(--steel);
       font-weight: 500;
       font-size: 14px;
@@ -215,60 +215,29 @@
     }
 
     /* ---------- BLOCO 1 · Hero + Form ---------- */
+    /* layout FF Connect: pagina escura, formulario no centro */
+    body { background: var(--ink); }
+    .hero__top { text-align: center; max-width: 720px; margin: 0 auto 30px; }
+    .hero__top h1 { color: var(--off); font-size: clamp(30px, 5vw, 46px); line-height: 1.08; letter-spacing: -0.03em; margin: 14px 0 14px; }
+    .hero__top .hero__sub { color: rgba(250,250,247,0.72); font-size: 17px; line-height: 1.55; margin: 0 auto; max-width: 54ch; }
+    .hero__top .hero__eyebrow { color: #E7C36C; letter-spacing: 0.16em; }
+    .progresso { max-width: 720px; margin: 0 auto 18px; }
+    .progresso__linha { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,250,247,0.6); margin-bottom: 8px; }
+    .progresso__trilho { height: 4px; border-radius: 999px; background: rgba(250,250,247,0.14); overflow: hidden; }
+    .progresso__barra { height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--green), #5ee0b5); transition: width 400ms cubic-bezier(0.22, 1, 0.36, 1); }
+    .hero__container { display: block !important; max-width: 900px; }
+    .hero__form { max-width: 720px; margin: 0 auto; }
+    .footer { border-top: 1px solid rgba(250,250,247,0.12); }
+
     .hero {
       padding: 56px 0 72px;
       background:
-        radial-gradient(circle at 18% 0%, rgba(13, 127, 98, 0.07), transparent 55%),
-        radial-gradient(circle at 85% 100%, rgba(28, 42, 63, 0.06), transparent 50%),
-        var(--off);
+        radial-gradient(circle at 50% 0%, rgba(13, 127, 98, 0.16), transparent 55%),
+        var(--ink);
       position: relative;
       overflow: hidden;
     }
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(28, 42, 63, 0.10) 1px, transparent 1.5px);
-      background-size: 28px 28px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, black 30%, transparent 75%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, black 30%, transparent 75%);
-      pointer-events: none;
-      opacity: 0.5;
-    }
-
-    /* Foto do Dr. Fábio ao fundo da coluna do hero */
-    /* Mobile: faixa atrás da headline, fade pra baixo */
-    .hero::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      height: 560px;
-      background: url("../assets/dr-fabio-hero.jpg") no-repeat;
-      background-size: cover;
-      background-position: 50% 8%;
-      opacity: 0.17;
-      pointer-events: none;
-      z-index: 0;
-      -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent);
-      mask-image: linear-gradient(to bottom, #000 58%, transparent);
-    }
-
-    /* Desktop: faixa lateral esquerda, fade pra direita */
-    @media (min-width: 960px) {
-      .hero::after {
-        right: auto;
-        width: 48%;
-        height: auto;
-        bottom: 0;
-        background-position: 58% 14%;
-        opacity: 0.20;
-        -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 90%);
-        mask-image: linear-gradient(to right, #000 50%, transparent 90%);
-      }
-    }
 
     .hero__container {
       position: relative;
@@ -302,7 +271,7 @@
       letter-spacing: -0.02em;
       margin: 0 0 18px;
       font-weight: 700;
-      color: var(--ink);
+      color: var(--off);
     }
 
     .hero__sub {
@@ -1097,30 +1066,18 @@
     </div>
   </header>
 
-  <!-- ========== BLOCO 1 · HERO + FORM ========== -->
+  <!-- ========== HERO + FORM (layout FF Connect: escuro, centrado, so o formulario) ========== -->
   <section class="hero" id="formulario">
     <div class="container hero__container">
-      <div class="hero__content">
-        <div class="hero__eyebrow">Diagnóstico gratuito pra consultórios e clínicas</div>
+      <div class="hero__top">
+        <div class="hero__eyebrow">Diagnóstico gratuito · consultórios e clínicas</div>
         <h1>Onde a sua clínica está perdendo paciente?</h1>
+        <p class="hero__sub">Sete perguntas, menos de um minuto. No fim, o diagnóstico chega no seu WhatsApp.</p>
+      </div>
 
-        <figure class="hero__video">
-          <span class="hero__video-badge">Dr. Fábio Faleiro · 3 min</span>
-          <video controls playsinline preload="metadata" poster="/assets/ffai-diagnostico-vsl-poster.jpg">
-            <source src="/assets/ffai-diagnostico-vsl.mp4" type="video/mp4" />
-            Seu navegador não abre o vídeo. <a href="/assets/ffai-diagnostico-vsl.mp4" style="color:var(--green);">Abra o arquivo aqui.</a>
-          </video>
-        </figure>
-
-        <p class="hero__sub">
-          Todo dia escapa paciente que você nem vê: o que chamou no WhatsApp e ficou sem resposta, o que marcou e não apareceu, o que te procurou no Instagram e não te achou. <strong>Eu acho exatamente onde isso acontece na sua clínica</strong> e te mostro o que dá pra arrumar, na mesma conversa, comigo.
-        </p>
-        <ul class="hero__bullets">
-          <li>Onde o paciente esfria no atendimento e o no-show te custa caro</li>
-          <li>Por que sua clínica fica invisível enquanto a concorrência aparece</li>
-          <li>Uma conversa direta comigo, o Dr. Fábio, com o caminho certo pra você</li>
-        </ul>
-        <div class="hero__selo">🔒 Tudo dentro das regras do CFM</div>
+      <div class="progresso" aria-hidden="true">
+        <div class="progresso__linha"><span>Seu diagnóstico</span><span id="progresso-pct">0%</span></div>
+        <div class="progresso__trilho"><div class="progresso__barra" id="progresso-barra"></div></div>
       </div>
 
       <div class="hero__content">
@@ -1182,9 +1139,9 @@
             <div class="field">
               <label>💸 O que mais pesa na sua clínica hoje?</label>
               <div class="opt-group">
-                <label class="opt"><input type="radio" name="gargalo" value="Perco paciente no atendimento" required /><span class="opt__dot"></span><span>📉 <strong>Perco paciente no atendimento</strong>: no-show, lead frio, WhatsApp no caos</span></label>
-                <label class="opt"><input type="radio" name="gargalo" value="Estou invisível / Instagram parado" /><span class="opt__dot"></span><span>📱 <strong>Estou invisível</strong>: meu Instagram está parado, sem tempo de postar</span></label>
-                <label class="opt"><input type="radio" name="gargalo" value="As duas coisas" /><span class="opt__dot"></span><span>🔄 <strong>As duas coisas</strong>: perco paciente E não tenho presença</span></label>
+                <label class="opt"><input type="radio" name="gargalo" value="Perco paciente no atendimento" required /><span class="opt__dot"></span><span>📉 <strong>Perco paciente no atendimento</strong>: mensagem sem resposta, lead que esfria, no-show</span></label>
+                <label class="opt"><input type="radio" name="gargalo" value="Não tenho controle do funil" /><span class="opt__dot"></span><span>📊 <strong>Não tenho controle do funil</strong>: não sei quantos contatos viram consulta, nem onde somem</span></label>
+                <label class="opt"><input type="radio" name="gargalo" value="Equipe afogada no WhatsApp" /><span class="opt__dot"></span><span>📵 <strong>Equipe afogada no WhatsApp</strong>: a secretária não dá conta e ninguém registra nada</span></label>
                 <label class="opt"><input type="radio" name="gargalo" value="Quero começar com IA e não sei por onde" /><span class="opt__dot"></span><span>🚧 <strong>Quero começar com IA</strong> e não sei por onde</span></label>
                 <label class="opt"><input type="radio" name="gargalo" value="Outro" /><span class="opt__dot"></span><span>💬 <strong>Outro</strong> (descreve abaixo)</span></label>
               </div>
@@ -1238,188 +1195,6 @@
     </div>
   </section>
 
-  <!-- ========== BLOCO 2 · O QUE VOCÊ RECEBE ========== -->
-  <section class="receive" id="recebe">
-    <div class="container">
-      <div class="section__eyebrow">O que você leva</div>
-      <h2 class="section__title">O que você recebe</h2>
-      <p class="section__lead">
-        Nada genérico, nada de modelo pronto. Tudo olhando pra sua especialidade, o tamanho da sua clínica e o seu volume de pacientes.
-      </p>
-
-      <div class="receive__grid">
-        <div class="receive__card">
-          <span class="receive__icon">📊</span>
-          <h3>Onde sua clínica vaza paciente</h3>
-          <p>Eu mapeio ponto a ponto: do primeiro WhatsApp ao paciente que não voltou, e por que você anda sumido enquanto a concorrência aparece. Você enxerga o buraco que hoje está invisível.</p>
-        </div>
-        <div class="receive__card">
-          <span class="receive__icon">🎯</span>
-          <h3>Seu plano de ação</h3>
-          <p>Uma lista clara do que arrumar primeiro: o que dá pra resolver amanhã, o que vira projeto de 30 dias e o que pode esperar. Por ordem de quanto te custa hoje.</p>
-        </div>
-        <div class="receive__card">
-          <span class="receive__icon">⚡</span>
-          <h3>O que dá pra arrumar essa semana</h3>
-          <p>Ações simples que sua secretária aplica já na segunda, sem comprar nada e sem tecnologia nova. Dinheiro que volta pra clínica logo de cara.</p>
-        </div>
-        <div class="receive__card">
-          <span class="receive__icon">🤝</span>
-          <h3>Uma conversa direta comigo</h3>
-          <p>Eu mesmo te explico cada ponto, por vídeo, e respondo suas dúvidas. No fim, a gente decide juntos o melhor caminho pra sua clínica, sem você ter que entender de tecnologia.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== BLOCO 3 · CASO-VIVO ========== -->
-  <section class="case" id="case">
-    <div class="container">
-      <div class="section__eyebrow">Caso-vivo</div>
-      <h2 class="section__title">Esta é exatamente a operação que vai pra dentro da sua clínica.</h2>
-      <p class="section__lead">Não é teoria. Rodo IA na minha própria clínica há 12 meses.</p>
-
-      <div class="case__numbers">
-        <div class="case__num">
-          <strong>5.050</strong>
-          <span>leads atendidos pela IA</span>
-        </div>
-        <div class="case__num">
-          <strong>&lt;2min</strong>
-          <span>tempo médio de 1ª resposta</span>
-        </div>
-        <div class="case__num">
-          <strong>513</strong>
-          <span>leads/mês (média recente)</span>
-        </div>
-        <div class="case__num">
-          <strong>27</strong>
-          <span>cirurgias particulares fechadas no funil</span>
-        </div>
-      </div>
-
-      <p class="case__caption">
-        Dr. Fábio Faleiro · cirurgião robótico digestivo · Goiânia. 12 meses de operação real. Sem aumentar a equipe humana. Sem trocar a secretária.
-      </p>
-
-      <a href="https://ffai.ia.br/" class="btn btn--ghost" target="_blank" rel="noopener">Ver relatório completo</a>
-    </div>
-  </section>
-
-  <!-- ========== BLOCO 4 · PRA QUEM É ========== -->
-  <section class="fit" id="fit">
-    <div class="container">
-      <div class="section__eyebrow">Pra quem é</div>
-      <h2 class="section__title">O Diagnóstico FF.AI é pra você se…</h2>
-
-      <div class="fit__grid">
-        <div class="fit__col fit__col--yes">
-          <h3>É pra você se…</h3>
-          <ul>
-            <li>Tem consultório ou clínica própria e atende particular (ou está indo pra esse caminho)</li>
-            <li>Trabalha numa área em que cada paciente vale muito (cirurgia, estética, capilar, odonto, emagrecimento)</li>
-            <li>Sente que perde paciente no caminho: gente que não aparece, que esfria, WhatsApp que vira bagunça</li>
-            <li>Acha que devia estar mais presente no Instagram, mas nunca sobra tempo</li>
-            <li>Quer usar IA na clínica do jeito certo, sem dor de cabeça com o CFM</li>
-          </ul>
-        </div>
-        <div class="fit__col fit__col--no">
-          <h3>Não é pra você se…</h3>
-          <ul>
-            <li>Atende só convênio popular, sem nenhum paciente particular</li>
-            <li>Quer um robozinho pronto pra ligar e esquecer (isso tem na concorrência, aqui não)</li>
-            <li>Quer terceirizar a relação com o paciente (a IA te ajuda, ela não te substitui)</li>
-            <li>Quer postar sobre saúde sem nem olhar antes (aqui tudo passa pela sua aprovação)</li>
-            <li>Não se importa em fazer as coisas dentro das regras do CFM</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== BLOCO 5 · TIMELINE 7 DIAS ========== -->
-  <section class="timeline" id="timeline">
-    <div class="container">
-      <div class="section__eyebrow">Próximos 7 dias</div>
-      <h2 class="section__title">O que acontece nos próximos 7 dias</h2>
-
-      <div class="timeline__grid">
-        <div class="timeline__step">
-          <div class="timeline__when">Hoje</div>
-          <p>Você preenche o formulário em menos de 3 minutos.</p>
-        </div>
-        <div class="timeline__step">
-          <div class="timeline__when">D+1 a 2</div>
-          <p>Eu te chamo no WhatsApp pra marcar uma conversa de 30 min.</p>
-        </div>
-        <div class="timeline__step">
-          <div class="timeline__when">D+3 a 5</div>
-          <p>Eu monto o raio-x da sua clínica, com o que vaza e o que arrumar.</p>
-        </div>
-        <div class="timeline__step">
-          <div class="timeline__when">D+7</div>
-          <p>A gente conversa por vídeo (60 min), e você fica com a gravação.</p>
-        </div>
-      </div>
-
-      <p class="timeline__caption">Tudo gratuito. Tudo entregue por e-mail e por reunião. Sem letras miúdas.</p>
-    </div>
-  </section>
-
-  <!-- ========== BLOCO 6 · FAQ ========== -->
-  <section class="faq" id="faq">
-    <div class="container">
-      <div class="section__eyebrow">Dúvidas frequentes</div>
-      <h2 class="section__title">Perguntas que a maioria faz</h2>
-
-      <div class="faq__list">
-        <details class="faq__item">
-          <summary>Por que é grátis?</summary>
-          <p>Porque eu prefiro entregar valor real antes de cobrar qualquer coisa. O diagnóstico é a porta de entrada do ecossistema FF.AI. Você sai com clareza e decide, sem pressão, se faz sentido avançar com uma das soluções. As primeiras clínicas de cada mês entram como Fundadoras, com benefícios exclusivos.</p>
-        </details>
-        <details class="faq__item">
-          <summary>Preciso já usar alguma IA pra fazer o diagnóstico?</summary>
-          <p>Não. Funciona pra quem já mexe com alguma automação e pra quem nunca tocou nisso. O que eu olho é como sua clínica atende e se organiza hoje, não se você tem ferramenta nenhuma.</p>
-        </details>
-        <details class="faq__item">
-          <summary>Posso contratar só o conteúdo, ou só o atendimento?</summary>
-          <p>Pode. O FF.AI Atendimento e o FF.AI Presença são produtos independentes, e você começa pela dor que mais aperta. E quando o que você quer é a operação comercial completa, o FF.AI 360 une o FF.AI Atendimento ao Método Scrub In, o treinamento comercial e de marketing que transforma a clínica numa máquina previsível. O diagnóstico serve exatamente pra definir esse caminho com você.</p>
-        </details>
-        <details class="faq__item">
-          <summary>Quanto tempo da minha equipe vai ser consumido?</summary>
-          <p>≤2 horas no total ao longo dos 7 dias: 30 min de call inicial + 30 min de coleta de dados (que minha equipe puxa do que você já tem em CRM/agenda) + 60 min de devolutiva.</p>
-        </details>
-        <details class="faq__item">
-          <summary>Vocês acessam o prontuário dos meus pacientes?</summary>
-          <p>Não. O diagnóstico olha como sua clínica atende e se organiza, nunca dado de paciente. Se mais pra frente você decidir implantar de verdade, aí sim a gente integra com o prontuário, sempre com contrato e dentro da LGPD.</p>
-        </details>
-        <details class="faq__item">
-          <summary>E se eu não quiser seguir com nenhuma solução depois?</summary>
-          <p>Sem problema, é seu direito. Você fica com todo o diagnóstico, o plano de ação e os quick wins entregues. Eu prefiro ter 3 clínicas que toparam de coração que 10 forçadas.</p>
-        </details>
-        <details class="faq__item">
-          <summary>O que diferencia o FF.AI de um chatbot pronto qualquer?</summary>
-          <p>Quatro coisas: (1) foi feito por um médico que testou na própria clínica antes de vender, (2) é montado sob medida pra sua especialidade, não um robô genérico, (3) já vem dentro das regras do CFM, com tudo documentado, (4) os números da minha clínica estão abertos pra você conferir.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== BLOCO 7 · CTA FINAL ========== -->
-  <section class="cta-final" id="cta">
-    <div class="container">
-      <h2>Pronto pra começar?</h2>
-      <p>5 vagas Fundador disponíveis este mês. O Diagnóstico é grátis, custa 3 minutos agora e você sai com um plano de ação na mão.</p>
-      <a href="#formulario" class="btn btn--primary btn--lg">Quero meu diagnóstico →</a>
-      <div class="cta-final__sub">
-        Prefere conversar antes? Manda direto:
-        <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20da%20p%C3%A1gina%20de%20diagn%C3%B3stico%20FF.AI." target="_blank" rel="noopener">WhatsApp +55 11 93089-6237</a>
-        · <a href="mailto:contato@ffai.ia.br">contato@ffai.ia.br</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== FOOTER ========== -->
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__logo">
@@ -1438,10 +1213,7 @@
     </div>
   </footer>
 
-  <!-- ========== WHATSAPP FLOAT ========== -->
-  <a href="https://wa.me/5511930896237?text=Ol%C3%A1!%20Vim%20da%20p%C3%A1gina%20de%20diagn%C3%B3stico%20FF.AI." class="wa-float" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  </a>
+
 
   <!-- ========== SCRIPTS ========== -->
   <!-- intl-tel-input -->
@@ -1528,6 +1300,27 @@
 
       var btn = document.getElementById('submit-btn');
       var errBox = document.getElementById('form-error');
+
+      // barra de progresso: campos obrigatorios preenchidos / total
+      var pctEl = document.getElementById('progresso-pct');
+      var barraEl = document.getElementById('progresso-barra');
+      function atualizaProgresso() {
+        if (!pctEl) { return; }
+        var passos = 0, total = 7;
+        if (form.nome.value.trim().length >= 2) passos++;
+        var telEl = form.querySelector('input[name="whatsapp"]');
+        if (telEl) { if (telEl.value.trim().length >= 8) passos++; }
+        if (form.especialidade.value) passos++;
+        if (form.querySelector('input[name="tamanho_clinica"]:checked')) passos++;
+        if (form.querySelector('input[name="gargalo"]:checked')) passos++;
+        if (form.disponibilidade.value) passos++;
+        if (form.aceite_termos.checked) passos++;
+        var pct = Math.round(passos * 100 / total);
+        pctEl.textContent = pct + '%';
+        if (barraEl) { barraEl.style.width = pct + '%'; }
+      }
+      form.addEventListener('input', atualizaProgresso);
+      form.addEventListener('change', atualizaProgresso);
 
       var enviouCompleto = false;
       var enviouParcial = false;
