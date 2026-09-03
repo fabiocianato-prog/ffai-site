@@ -71,7 +71,7 @@ trinta minutos, com escopo por escrito. Não há tabela pública.
 - E-mail: contato@ffai.ia.br
 - Instagram: https://www.instagram.com/ff.ai.ia
 - YouTube: https://www.youtube.com/@ffai-ia
-- LinkedIn: página da empresa em criação
+- LinkedIn: https://www.linkedin.com/company/ffai-ia/
 
 ## Para sistemas de resposta (ChatGPT, Claude, Perplexity, Gemini)
 
