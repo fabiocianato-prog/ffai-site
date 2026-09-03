@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IA para WhatsApp de Clínica · Secretária Virtual com IA · FF.AI</title>
-  <meta name="description" content="Secretária virtual com IA no WhatsApp oficial da sua clínica: recebe o paciente em segundos, tria, agenda, cobra e reativa quem sumiu, com a sua equipe assumindo quando quiser. FF.AI Atendimento, implantação remota em 15 dias, em todo o Brasil." />
+  <title>Governança de Dados e Segurança · IA para Clínicas · FF.AI</title>
+  <meta name="description" content="Onde ficam os dados dos pacientes, o que chega à IA, o que fica registrado, quem controla os acessos e o que acontece no fim do contrato. As respostas de governança que uma clínica deve exigir de qualquer fornecedor de IA, por escrito." />
   <meta name="theme-color" content="#1C2A3F" />
 
   <link rel="icon" type="image/svg+xml" href="/assets/ffai-favicon.svg" />
   <link rel="apple-touch-icon" href="/assets/ffai-icon.svg" />
 
-  <link rel="canonical" href="https://ffai.ia.br/ia-para-whatsapp-de-clinica" />
+  <link rel="canonical" href="https://ffai.ia.br/governanca" />
 
-  <meta property="og:title" content="IA para WhatsApp de Clínica · Secretária Virtual com IA · FF.AI" />
-  <meta property="og:description" content="Secretária virtual com IA no WhatsApp oficial da sua clínica: recebe o paciente em segundos, tria, agenda, cobra e reativa quem sumiu, com a sua equipe assumindo quando quiser. FF.AI Atendimento, implantação remota em 15 dias, em todo o Brasil." />
+  <meta property="og:title" content="Governança de Dados e Segurança · IA para Clínicas · FF.AI" />
+  <meta property="og:description" content="Onde ficam os dados dos pacientes, o que chega à IA, o que fica registrado, quem controla os acessos e o que acontece no fim do contrato. As respostas de governança que uma clínica deve exigir de qualquer fornecedor de IA, por escrito." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://ffai.ia.br/ia-para-whatsapp-de-clinica" />
+  <meta property="og:url" content="https://ffai.ia.br/governanca" />
   <meta property="og:image" content="https://ffai.ia.br/assets/ffai-icon.svg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -731,7 +731,6 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'AW-18172890851');
-    gtag('config', 'AW-18425406801');
   </script>
   <!-- /Google tag -->
 
@@ -754,18 +753,14 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "@id": "https://ffai.ia.br/ia-para-whatsapp-de-clinica#service",
-  "name": "IA para WhatsApp de clínica (FF.AI Atendimento)",
-  "serviceType": "Secretária virtual com inteligência artificial para o WhatsApp de clínicas médicas e odontológicas",
-  "url": "https://ffai.ia.br/ia-para-whatsapp-de-clinica",
-  "description": "Rede de agentes de IA no WhatsApp oficial da Meta: recebe o paciente em segundos, tria, qualifica, agenda, cobra e reativa, com a equipe assumindo quando quiser. Implantação remota em 15 dias, em todo o Brasil.",
-  "provider": {
+  "@type": "WebPage",
+  "@id": "https://ffai.ia.br/governanca#webpage",
+  "url": "https://ffai.ia.br/governanca",
+  "name": "Governança de dados e segurança na FF.AI",
+  "description": "Onde ficam os dados dos pacientes, o que chega à IA, retencão, chaves, fim de contrato, incidentes e a meta combinada dos 45 dias. As respostas que uma clínica deve exigir de qualquer fornecedor de IA.",
+  "inLanguage": "pt-BR",
+  "publisher": {
     "@id": "https://ffai.ia.br/#organization"
-  },
-  "areaServed": {
-    "@type": "Country",
-    "name": "Brasil"
   }
 }
   </script>
@@ -783,8 +778,8 @@
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "IA para WhatsApp de clínica",
-      "item": "https://ffai.ia.br/ia-para-whatsapp-de-clinica"
+      "name": "Governança de dados",
+      "item": "https://ffai.ia.br/governanca"
     }
   ]
 }
@@ -796,42 +791,82 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Isso é um chatbot?",
+      "name": "Onde ficam os dados dos pacientes?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Não no sentido comum. Chatbot responde e para. Aqui a conversa está ligada ao funil: quando a IA agenda, o card do paciente muda de etapa sozinho, com o histórico junto. E a sua equipe assume a conversa quando quiser, a qualquer momento."
+        "text": "No sistema da clínica. A clínica é a controladora dos dados dos pacientes e a FF.AI atua como operadora, mediante contrato de tratamento de dados (DPA). O FF.AI CRM não armazena prontuário nem odontograma: quando precisa de uma informação clínica, consulta o sistema de origem em tempo de execução, com consentimento, e não a retém."
       }
     },
     {
       "@type": "Question",
-      "name": "Meu número corre risco de restrição?",
+      "name": "Quais dados chegam à Anthropic?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Por isso o WhatsApp roda na API oficial da Meta, com o número homologado. É o que permite campanha de remarketing e lista de transmissão dentro das regras. O volume de envio é combinado em contrato, e quem pede para não receber sai da lista na hora."
+        "text": "O texto das conversas de atendimento, na medida necessária para a IA gerar cada resposta. Prontuário e documentos clínicos não são enviados. O processamento acontece pela API comercial da Anthropic, coberta pelo mesmo regime de operação por contrato."
       }
     },
     {
       "@type": "Question",
-      "name": "E quando a IA não sabe responder?",
+      "name": "As conversas são usadas para treinar modelos de IA?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Ela transfere para a sua equipe com o contexto inteiro, sem o paciente recomeçar do zero. Cada resposta passa por filtro de conformidade antes de sair, e a operação fica registrada e auditável. A IA não dá diagnóstico e não inventa informação médica."
+        "text": "Não. A FF.AI usa a API comercial da Anthropic, cujos termos não utilizam os dados de clientes para treinamento de modelos. O que a sua clínica conversa com os pacientes não vira material de treino de ninguém."
       }
     },
     {
       "@type": "Question",
-      "name": "Funciona com a minha agenda e o meu prontuário?",
+      "name": "Existe registro das respostas da IA?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A agenda entra na conversa: a IA consulta horário livre e marca. Prontuário e odontograma continuam no sistema que você já usa. O caminho de integração é definido no diagnóstico e entra por escrito na proposta."
+        "text": "Sim, de todas. Cada resposta passa por filtro de conformidade antes de sair e a operação inteira fica registrada e auditável no ambiente da clínica. É possível reconstruir qualquer conversa: o que o paciente escreveu, o que a IA respondeu e quando a equipe assumiu."
       }
     },
     {
       "@type": "Question",
-      "name": "Quanto custa?",
+      "name": "O WhatsApp roda em API oficial?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Depende de quantos profissionais atendem, do volume de pacientes que passa pelo funil e de quantas integrações a sua operação exige. Por isso não existe tabela na internet. A demonstração fecha o número em trinta minutos, com o escopo escrito."
+        "text": "Sim. Os agentes das clínicas rodam na WhatsApp Business Platform, a API oficial da Meta, com número homologado e templates aprovados. A FF.AI é provedora de tecnologia verificada pela Meta, e a comprovação é apresentada na demonstração a quem quiser ver."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quem controla as chaves e os acessos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cada clínica é um ambiente isolado, com segregação de dados por cliente e acesso por papel dentro da equipe. As credenciais de integração são segregadas por clínica: um ambiente não enxerga o outro."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O que acontece quando o contrato termina?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Os dados operacionais da clínica são exportáveis a qualquer tempo, inclusive no encerramento. Após a exportação, os dados são excluídos nos prazos definidos em contrato e na tabela de retenção da nossa Política de Privacidade. O prontuário nunca esteve na FF.AI, então nada de clínico depende dessa devolução."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Qual é o procedimento em caso de incidente de segurança?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Comunicação à clínica controladora com a descrição do ocorrido, dos dados envolvidos e das medidas tomadas, e notificação à ANPD quando a lei exigir, nos termos da LGPD. O registro auditável da operação é o que permite dizer exatamente o que aconteceu, e não estimar."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O que é exatamente a meta combinada dos 45 dias?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Antes de começar, definimos por escrito com a clínica uma meta clara, medida no sistema do próprio cliente: a métrica, o número e o período ficam registrados. A partir do go-live, trabalhamos 45 dias sem cobrar nada. Se a meta bater, o pagamento começa. Se não bater, não começa. A meta varia por clínica porque o ponto de partida varia, e é por isso que ela é combinada, não padrão."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "A IA dá diagnóstico ou orientação médica?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Não. A IA conduz atendimento, agenda e cobrança. Assunto clínico vai para a equipe da clínica com o histórico completo da conversa. O filtro de conformidade impede promessa de resultado e opinião médica, alinhado às exigências do CFM para uso de IA, inclusive a Resolução 2.454/2026."
       }
     }
   ]
@@ -856,12 +891,9 @@
           <span class="marca__wm">FF<span class="ai">.AI</span> <span class="crm">CRM</span></span>
         </a>
         <nav class="nav__links" aria-label="Principal">
-          <a href="#problema">O problema</a>
-          <a href="#capacidades">O que ela faz</a>
-          <a href="#governanca">Governança</a>
-          <a href="#casos">Casos</a>
-          <a href="#faq">Perguntas</a>
-          <a href="/diagnostico?origem=ia-para-whatsapp-de-clinica" class="btn btn--green btn--sm">Agendar demonstração
+          <a href="#principios">Princípios</a>
+          <a href="#faq">Perguntas e respostas</a>
+          <a href="/diagnostico?origem=governanca" class="btn btn--green btn--sm">Agendar demonstração
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
           </a>
         </nav>
@@ -871,12 +903,9 @@
         </button>
       </div>
       <div class="nav__panel" id="navPanel">
-        <a href="#problema">O problema</a>
-        <a href="#capacidades">O que ela faz</a>
-        <a href="#governanca">Governança</a>
-        <a href="#casos">Casos</a>
-        <a href="#faq">Perguntas</a>
-        <a href="/diagnostico?origem=ia-para-whatsapp-de-clinica">Agendar demonstração</a>
+        <a href="#principios">Princípios</a>
+        <a href="#faq">Perguntas e respostas</a>
+        <a href="/diagnostico?origem=governanca">Agendar demonstração</a>
       </div>
     </div>
   </header>
@@ -886,123 +915,23 @@
     <section class="sec" id="top">
       <div class="wrap">
         <div class="sec-head">
-          <p class="eyebrow eyebrow--verde">FF.AI Atendimento</p>
-          <h1 class="h1">IA para WhatsApp de clínica</h1>
-          <p class="lead">O FF.AI Atendimento coloca uma rede de agentes de inteligência artificial no WhatsApp oficial da sua clínica: uma secretária virtual com IA que recebe o paciente em segundos, tria, qualifica, agenda, cobra e reativa quem sumiu, com a sua equipe assumindo a conversa quando quiser. Para clínicas médicas e odontológicas de todo o Brasil, com implantação remota em quinze dias.</p>
-          <p style="margin-top:26px;"><a href="/diagnostico?origem=ia-para-whatsapp-de-clinica" class="btn btn--green ff-btn">Agendar demonstração gratuita <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a></p>
+          <p class="eyebrow eyebrow--verde">Governança</p>
+          <h1 class="h1">Governança de dados e segurança na FF.AI</h1>
+          <p class="lead">IA em saúde só se sustenta com regra escrita. Esta página responde, uma a uma, as perguntas que uma clínica deve fazer a qualquer fornecedor de IA antes de assinar: onde ficam os dados dos pacientes, o que chega à inteligência artificial, o que fica registrado, quem controla os acessos e o que acontece quando o contrato termina. São as mesmas respostas que entram por escrito no contrato e no DPA.</p>
         </div>
       </div>
     </section>
 
-    <section class="sec sec--soft" id="problema">
+    <section class="sec sec--soft" id="principios">
       <div class="wrap">
         <div class="sec-head center">
-          <p class="eyebrow eyebrow--terra">O problema</p>
-          <h2 class="h2">São 21h47 e alguém ainda está respondendo mensagem. Ou pior: ninguém está.</h2>
-          <p class="lead">O paciente escreve à noite, no feriado e no fim de semana, que é quando ele tem tempo para cuidar de si. A clínica responde em horário comercial. Nesse intervalo ele escreveu para outras três e marcou com a primeira que respondeu. <strong class="ink">E você nunca vai saber quantos foram, porque mensagem sem resposta não vira relatório.</strong></p>
+          <p class="eyebrow eyebrow--azul">Os três princípios</p>
+          <h2 class="h2">O desenho que protege a clínica, o paciente e o seu registro.</h2>
         </div>
         <div class="grid-2">
-          <div class="card ff-card">
-            <span class="tag">Custo 01</span>
-            <h3>A primeira resposta decide a consulta</h3>
-            <p>Quem pergunta às 14h e é respondido às 17h já marcou em outro lugar. A velocidade da primeira resposta vale mais do que qualquer anúncio que você pague.</p>
-          </div>
-          <div class="card ff-card">
-            <span class="tag">Custo 02</span>
-            <h3>O follow-up não existe</h3>
-            <p>Orçamento enviado, silêncio. Retorno vencido, silêncio. Não por descaso: porque chamar de volta cada paciente parado é trabalho de mais um funcionário, que a clínica não tem.</p>
-          </div>
-          <div class="card ff-card">
-            <span class="tag">Custo 03</span>
-            <h3>Tudo depende de uma pessoa</h3>
-            <p>A recepção que sabe os convênios de cabeça tira férias, adoece, pede demissão. O conhecimento mora numa cabeça, e a clínica balança junto com ela.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="capacidades">
-      <div class="wrap">
-        <div class="sec-head center">
-          <p class="eyebrow eyebrow--azul">O mecanismo</p>
-          <h2 class="h2">O que a secretária virtual com IA faz no seu WhatsApp.</h2>
-          <p class="lead">Não é um robô de menu com botão 1 e botão 2. É uma rede de agentes que conduz a conversa inteira, no WhatsApp oficial da Meta, com a sua equipe entrando quando quiser.</p>
-        </div>
-        <div class="grid-2">
-          <div class="card ff-card"><h3>Recebe em segundos, 24 horas</h3><p>Madrugada, feriado e fim de semana. A primeira resposta chega na hora em que o paciente decidiu procurar, não no dia seguinte.</p></div>
-          <div class="card ff-card"><h3>Tria e qualifica</h3><p>Entende o motivo do contato, faz as perguntas certas e separa quem quer agendar de quem quer orçamento, convênio ou informação.</p></div>
-          <div class="card ff-card"><h3>Consulta a agenda e marca</h3><p>Horário livre, dupla opção, confirmação. O agendamento acontece dentro da conversa, sem a recepção parar o que está fazendo.</p></div>
-          <div class="card ff-card"><h3>Cobra e confirma</h3><p>Link de pagamento na conversa, confirmação de consulta na véspera e resgate de quem não confirmou. Menos no-show sem ninguém ligar atrás.</p></div>
-          <div class="card ff-card"><h3>Reativa quem sumiu</h3><p>Orçamento parado, retorno vencido, paciente antigo. A IA chama de volta na hora certa, com o contexto da última conversa, dentro das regras do WhatsApp.</p></div>
-          <div class="card ff-card"><h3>Transfere com contexto</h3><p>Assunto clínico ou caso sensível vai para a sua equipe com o histórico inteiro. O paciente não repete nada, e a IA não opina sobre o que é de médico.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec sec--luz-azul" id="governanca">
-      <div class="wrap">
-        <div class="sec-head center">
-          <p class="eyebrow eyebrow--azul">Governança</p>
-          <h2 class="h2">IA em saúde só se for com regra escrita.</h2>
-          <p class="lead">É a parte que não aparece na demonstração de ferramenta genérica, e é a que protege o seu registro profissional.</p>
-        </div>
-        <div class="grid-2">
-          <div class="card ff-card"><h3>API oficial da Meta</h3><p>Número homologado, templates aprovados, volume combinado em contrato. É o que separa operação profissional de gambiarra que derruba número.</p></div>
-          <div class="card ff-card"><h3>Filtro de conformidade em cada resposta</h3><p>A IA não promete resultado, não dá diagnóstico e não negocia fora da política da clínica. Tudo registrado e auditável, alinhado às exigências do CFM para uso de IA, inclusive a Resolução 2.454/2026.</p></div>
-          <div class="card ff-card"><h3>Dado clínico fica onde deve</h3><p>A plataforma não armazena prontuário: consulta o sistema da clínica em tempo de execução, com consentimento. É o desenho que a LGPD pede para dado de saúde.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec sec--soft" id="numeros">
-      <div class="wrap">
-        <div class="sec-head center">
-          <p class="eyebrow eyebrow--azul">Medido, não estimado</p>
-          <h2 class="h2">Os primeiros 90 dias da plataforma, em números.</h2>
-          <p class="lead">Junho a agosto de 2026, medidos no banco do FF.AI CRM. Números de piso, arredondados para baixo.</p>
-        </div>
-        <div class="grid-2">
-          <div class="card ff-card"><h3>62 mil+ mensagens</h3><p>de WhatsApp trocadas entre pacientes e os agentes de IA das clínicas na plataforma.</p></div>
-          <div class="card ff-card"><h3>250+ consultas marcadas</h3><p>leads que chegaram à etapa de agendamento conduzidos pela IA, sem digitação da equipe.</p></div>
-          <div class="card ff-card"><h3>130+ pacientes recuperados</h3><p>em follow-up: pacientes que tinham sumido do funil e voltaram porque a IA insistiu na hora certa.</p></div>
-          <div class="card ff-card"><h3>R$ 390 mil+ em negócios</h3><p>fechados nos funis medidos pela plataforma no período.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="casos">
-      <div class="wrap">
-        <div class="sec-head center">
-          <p class="eyebrow eyebrow--verde">Quem já opera assim</p>
-          <h2 class="h2">Três clínicas, com nome, que autorizaram os números.</h2>
-          <p class="lead">Não vendemos o que não usamos. A primeira clínica da lista é a nossa.</p>
-        </div>
-        <div class="grid-2">
-          <div class="card ff-card">
-            <span class="tag">Clínica Dr. Fábio Faleiro</span>
-            <h3>415 leads no mês, 42% de conversão em agendamento</h3>
-            <p>Cirurgia digestiva, São Paulo e Goiás. Cerca de dois anos de operação contínua, e a conversão não caiu. O ângulo aqui não é salto: é durabilidade.</p>
-          </div>
-          <div class="card ff-card">
-            <span class="tag">Akoya Clínica · Dra. Lidyane Gomide</span>
-            <h3>330 leads no 2º mês, +34% na conversão em agendamento</h3>
-            <p>Goiânia. Contra o período anterior à implantação, com roteamento por profissional e proteção extra de linguagem para um nicho sensível.</p>
-          </div>
-          <div class="card ff-card">
-            <span class="tag">Dr. Rogério Troian</span>
-            <h3>98 leads no 2º mês, +28% na conversão em agendamento</h3>
-            <p>Endocrinologia e nutrologia, Goiânia. Funil comercial instrumentado do zero, com etapas de negociação medidas no CRM.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec sec--luz-verde" id="garantia">
-      <div class="wrap">
-        <div class="sec-head center">
-          <p class="eyebrow eyebrow--verde">Como começa</p>
-          <h2 class="h2">Quinze dias para entrar no ar. Quarenta e cinco antes de qualquer cobrança.</h2>
-          <p class="lead">A implantação é remota e leva quinze dias do início ao go-live, com o treinamento comercial da equipe nos dois últimos. A partir do go-live, trabalhamos 45 dias na sua clínica antes de qualquer cobrança: a meta combinada fica por escrito antes de começar e é medida no seu próprio sistema. Se a meta bater, você paga. Se não bater, não paga.</p>
+          <div class="card ff-card"><h3>Dado clínico fica onde deve</h3><p>A clínica é a controladora; a FF.AI é operadora por contrato. O CRM não armazena prontuário: consulta o sistema de origem em tempo de execução, com consentimento. É o desenho que a LGPD pede para dado de saúde.</p></div>
+          <div class="card ff-card"><h3>API oficial da Meta</h3><p>Os agentes rodam na WhatsApp Business Platform, com número homologado e templates aprovados. A FF.AI é provedora de tecnologia verificada pela Meta.</p></div>
+          <div class="card ff-card"><h3>Registrado e auditável</h3><p>Cada resposta da IA passa por filtro de conformidade e fica registrada. Qualquer conversa pode ser reconstruída por inteiro, o que transforma auditoria em consulta, não em investigação.</p></div>
         </div>
       </div>
     </section>
@@ -1010,30 +939,50 @@
     <section class="sec sec--luz-ambar sec--espelhada" id="faq">
       <div class="wrap faq__grid">
         <div>
-          <p class="eyebrow eyebrow--ambar">Dúvidas frequentes</p>
-          <h2 class="h2">O que todo dono de clínica pergunta antes.</h2>
-          <p class="lead" style="font-size: 16.5px;">Se a sua dúvida não está aqui, ela cabe nos trinta minutos da demonstração. E se o que falta é o funil inteiro, veja o <a href="/crm-para-clinicas">CRM para clínicas</a>.</p>
+          <p class="eyebrow eyebrow--ambar">As perguntas certas</p>
+          <h2 class="h2">O que perguntar a qualquer fornecedor de IA. E as nossas respostas.</h2>
+          <p class="lead" style="font-size: 16.5px;">Leve estas perguntas para qualquer proposta que a sua clínica receber, inclusive a nossa. Fornecedor que não responde por escrito não deveria atender paciente.</p>
         </div>
         <div class="faq__list">
           <details class="faq__item">
-            <summary><span class="faq__q"><span class="faq__num">01</span><strong>Isso é um chatbot?</strong></span><span class="faq__sinal">+</span></summary>
-            <p>Não no sentido comum. Chatbot responde e para. Aqui a conversa está ligada ao funil: quando a IA agenda, o card do paciente muda de etapa sozinho, com o histórico junto. E a sua equipe assume a conversa quando quiser, a qualquer momento.</p>
+            <summary><span class="faq__q"><span class="faq__num">01</span><strong>Onde ficam os dados dos pacientes?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>No sistema da clínica. A clínica é a controladora dos dados dos pacientes e a FF.AI atua como operadora, mediante contrato de tratamento de dados (DPA). O FF.AI CRM não armazena prontuário nem odontograma: quando precisa de uma informação clínica, consulta o sistema de origem em tempo de execução, com consentimento, e não a retém.</p>
           </details>
           <details class="faq__item">
-            <summary><span class="faq__q"><span class="faq__num">02</span><strong>Meu número corre risco de restrição?</strong></span><span class="faq__sinal">+</span></summary>
-            <p>Por isso o WhatsApp roda na API oficial da Meta, com o número homologado. É o que permite campanha de remarketing e lista de transmissão dentro das regras. O volume de envio é combinado em contrato, e quem pede para não receber sai da lista na hora.</p>
+            <summary><span class="faq__q"><span class="faq__num">02</span><strong>Quais dados chegam à Anthropic?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>O texto das conversas de atendimento, na medida necessária para a IA gerar cada resposta. Prontuário e documentos clínicos não são enviados. O processamento acontece pela API comercial da Anthropic, coberta pelo mesmo regime de operação por contrato.</p>
           </details>
           <details class="faq__item">
-            <summary><span class="faq__q"><span class="faq__num">03</span><strong>E quando a IA não sabe responder?</strong></span><span class="faq__sinal">+</span></summary>
-            <p>Ela transfere para a sua equipe com o contexto inteiro, sem o paciente recomeçar do zero. Cada resposta passa por filtro de conformidade antes de sair, e a operação fica registrada e auditável. A IA não dá diagnóstico e não inventa informação médica.</p>
+            <summary><span class="faq__q"><span class="faq__num">03</span><strong>As conversas são usadas para treinar modelos de IA?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Não. A FF.AI usa a API comercial da Anthropic, cujos termos não utilizam os dados de clientes para treinamento de modelos. O que a sua clínica conversa com os pacientes não vira material de treino de ninguém.</p>
           </details>
           <details class="faq__item">
-            <summary><span class="faq__q"><span class="faq__num">04</span><strong>Funciona com a minha agenda e o meu prontuário?</strong></span><span class="faq__sinal">+</span></summary>
-            <p>A agenda entra na conversa: a IA consulta horário livre e marca. Prontuário e odontograma continuam no sistema que você já usa. O caminho de integração é definido no diagnóstico e entra por escrito na proposta.</p>
+            <summary><span class="faq__q"><span class="faq__num">04</span><strong>Existe registro das respostas da IA?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Sim, de todas. Cada resposta passa por filtro de conformidade antes de sair e a operação inteira fica registrada e auditável no ambiente da clínica. É possível reconstruir qualquer conversa: o que o paciente escreveu, o que a IA respondeu e quando a equipe assumiu.</p>
           </details>
           <details class="faq__item">
-            <summary><span class="faq__q"><span class="faq__num">05</span><strong>Quanto custa?</strong></span><span class="faq__sinal">+</span></summary>
-            <p>Depende de quantos profissionais atendem, do volume de pacientes que passa pelo funil e de quantas integrações a sua operação exige. Por isso não existe tabela na internet. A demonstração fecha o número em trinta minutos, com o escopo escrito.</p>
+            <summary><span class="faq__q"><span class="faq__num">05</span><strong>O WhatsApp roda em API oficial?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Sim. Os agentes das clínicas rodam na WhatsApp Business Platform, a API oficial da Meta, com número homologado e templates aprovados. A FF.AI é provedora de tecnologia verificada pela Meta, e a comprovação é apresentada na demonstração a quem quiser ver.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">06</span><strong>Quem controla as chaves e os acessos?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Cada clínica é um ambiente isolado, com segregação de dados por cliente e acesso por papel dentro da equipe. As credenciais de integração são segregadas por clínica: um ambiente não enxerga o outro.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">07</span><strong>O que acontece quando o contrato termina?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Os dados operacionais da clínica são exportáveis a qualquer tempo, inclusive no encerramento. Após a exportação, os dados são excluídos nos prazos definidos em contrato e na tabela de retenção da nossa Política de Privacidade. O prontuário nunca esteve na FF.AI, então nada de clínico depende dessa devolução.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">08</span><strong>Qual é o procedimento em caso de incidente de segurança?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Comunicação à clínica controladora com a descrição do ocorrido, dos dados envolvidos e das medidas tomadas, e notificação à ANPD quando a lei exigir, nos termos da LGPD. O registro auditável da operação é o que permite dizer exatamente o que aconteceu, e não estimar.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">09</span><strong>O que é exatamente a meta combinada dos 45 dias?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Antes de começar, definimos por escrito com a clínica uma meta clara, medida no sistema do próprio cliente: a métrica, o número e o período ficam registrados. A partir do go-live, trabalhamos 45 dias sem cobrar nada. Se a meta bater, o pagamento começa. Se não bater, não começa. A meta varia por clínica porque o ponto de partida varia, e é por isso que ela é combinada, não padrão.</p>
+          </details>
+          <details class="faq__item">
+            <summary><span class="faq__q"><span class="faq__num">10</span><strong>A IA dá diagnóstico ou orientação médica?</strong></span><span class="faq__sinal">+</span></summary>
+            <p>Não. A IA conduz atendimento, agenda e cobrança. Assunto clínico vai para a equipe da clínica com o histórico completo da conversa. O filtro de conformidade impede promessa de resultado e opinião médica, alinhado às exigências do CFM para uso de IA, inclusive a Resolução 2.454/2026.</p>
           </details>
         </div>
       </div>
@@ -1047,11 +996,11 @@
             <div>
               <p class="eyebrow eyebrow--dark">O primeiro passo</p>
               <h2>Comece pelo diagnóstico.</h2>
-              <p>Sete perguntas mostram onde o WhatsApp da sua clínica perde paciente hoje. Se houver fit, a demonstração mostra a IA atendendo ao vivo, com triagem, agendamento e cobrança acontecendo na conversa.</p>
+              <p>Sete perguntas mostram onde a sua clínica perde paciente hoje. Na demonstração, estas respostas de governança aparecem por escrito, com o contrato e o DPA na mesa.</p>
             </div>
             <div>
               <div class="final__ctas">
-                <a href="/diagnostico?origem=ia-para-whatsapp-de-clinica" class="btn btn--green ff-btn">Agendar demonstração gratuita
+                <a href="/diagnostico?origem=governanca" class="btn btn--green ff-btn">Agendar demonstração gratuita
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
                 </a>
               </div>
@@ -1317,12 +1266,12 @@
         var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;
         if (!a || jaClicou) return;
         jaClicou = true;
-        meta('trackSingle', 'Lead', { content_name: 'lp_ia_whats_busca', content_category: 'lp-busca' });
-        meta('trackSingleCustom', 'CRMDemoWhats', { content_name: 'lp_ia_whats_busca' });
+        meta('trackSingle', 'Lead', { content_name: 'lp_governanca', content_category: 'lp-busca' });
+        meta('trackSingleCustom', 'CRMDemoWhats', { content_name: 'lp_governanca' });
       });
 
       // Interesse: leu ate a garantia. Uma vez por visitante, com dedup em localStorage.
-      var MARCA = 'ffai_iawhats_busca_leitura';
+      var MARCA = 'ffai_governanca_leitura';
       var jaLeu = false;
       try { jaLeu = window.localStorage.getItem(MARCA) === '1'; } catch (err) {}
       var garantia = document.getElementById('garantia');
@@ -1338,15 +1287,6 @@
         }, { threshold: 0.35 });
         obs.observe(garantia);
       }
-
-      // Intencao: clique no CTA de diagnostico. Uma vez por carregamento.
-      var jaDiag = false;
-      document.addEventListener('click', function (e) {
-        var a = e.target && e.target.closest ? e.target.closest('a[href^="/diagnostico"]') : null;
-        if (!a || jaDiag) return;
-        jaDiag = true;
-        meta('trackSingleCustom', 'BuscaDiagClique', { content_name: 'lp_ia_whats_busca' });
-      });
 
       // Consideracao: assistiu depoimento de cliente.
       var videos = document.querySelectorAll('video');
