@@ -338,7 +338,11 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 60; transition: transform var(--transition);
     }
     .wa-float:hover { transform: scale(1.06); color: white; }
-  </style>
+      /* ---- Botao flutuante para o diagnostico ---- */
+    .wa { position: fixed; right: 18px; bottom: 18px; z-index: 70; width: 58px; height: 58px; border-radius: 50%; background: #0F7A40; color: #fff; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 10px 26px -10px rgba(28,42,63,0.55); transition: background 180ms ease, transform 180ms ease; }
+    .wa:hover { background: #0B6234; color: #fff; transform: translateY(-2px); }
+
+</style>
 
   <!-- Google tag (gtag.js): FF.AI Google Ads AW-18172890851 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
@@ -804,5 +808,9 @@
       });
     });
   </script>
+
+  <a href="/diagnostico?origem=atendimento-flutuante" class="wa" data-crm="diagnostico" aria-label="Fazer o diagnóstico gratuito">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1Z"></path><path d="M8 6H6.5A1.5 1.5 0 0 0 5 7.5v12A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 17.5 6H16"></path><path d="m9 13 2 2 4-4"></path></svg>
+  </a>
 </body>
 </html>
