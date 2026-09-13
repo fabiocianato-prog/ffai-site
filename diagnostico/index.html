@@ -58,6 +58,8 @@
     src="https://www.facebook.com/tr?id=27417120574590791&ev=PageView&noscript=1"/></noscript>
   <!-- /Meta Pixel -->
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/css/intlTelInput.css" />
+  <style>.iti{width:100%;display:block}.iti__tel-input{width:100%}.iti__country-container{border-radius:12px 0 0 12px}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -177,7 +179,7 @@ html,body{margin:0}
 <p style="margin:0;font-size:12px;color:#5B6577;text-align:center">Seus dados são usados só pra preparar e entregar seu diagnóstico.</p>
 <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(28,42,63,.12);font-size:12px;line-height:1.7;color:#5B6577;display:flex;flex-direction:column;gap:2px">
 <img alt="FF.AI CRM" src="/assets/v2/img/ffai-logo.png" style="height:28px;width:auto;align-self:flex-start;margin-bottom:6px"/><span style="font-weight:700;color:#1C2A3F">FF.AI · o ecossistema de IA da sua clínica</span>
-<span>Faleiro Serviços Médico-Cirúrgicos LTDA · CNPJ 31.814.184/0001-57</span>
+<span>FF.AI Comercial, Marketing e IA para Clínicas LTDA · CNPJ 68.429.840/0001-08</span>
 <span>Goiânia/GO · Brasil · contato@ffai.ia.br · WhatsApp +55 11 93089-6237</span>
 <div style="display:flex;gap:14px;margin-top:6px"><a href="/privacidade" style="color:#5B6577">Privacidade</a><a href="/termos" style="color:#5B6577">Termos</a><a href="/" style="color:#5B6577">Site FF.AI</a></div>
 </div>
@@ -207,7 +209,7 @@ html,body{margin:0}
   document.querySelectorAll('video').forEach(function(v){ v.addEventListener('play', function(){ document.querySelectorAll('video').forEach(function(o){ if (o !== v && !o.paused) o.pause(); }); }); });
 })();
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/js/intlTelInput.min.js"></script>
 <script>
 (function(){
   var WEBHOOK = 'https://qoaanghwludaicceugsa.supabase.co/functions/v1/lp-lead-intake';
@@ -224,6 +226,22 @@ html,body{margin:0}
   var $ = function(s){ return document.querySelector(s); };
   var campo = function(n){ return document.querySelector('[data-campo="' + n + '"]'); };
   var outroBox = $('[data-toggle="isOutro"]'), erroBox = $('[data-toggle="hasErr"]');
+  // seletor de pais com mascara (intl-tel-input, o mesmo do formulario anterior)
+  var zap = campo('setZap'), iti = null, utilsReady = false;
+  if (window.intlTelInput) {
+    zap.removeAttribute('placeholder');
+    iti = window.intlTelInput(zap, {
+      initialCountry: 'br', countryOrder: ['br', 'us', 'pt'], separateDialCode: true,
+      formatAsYouType: true, autoPlaceholder: 'aggressive',
+      utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/js/utils.js'
+    });
+    if (iti.promise && typeof iti.promise.then === 'function') iti.promise.then(function(){ utilsReady = true; }); else utilsReady = true;
+  }
+  function numero(){
+    if (iti) return utilsReady && iti.isValidNumber() ? iti.getNumber() : '';
+    return e164(f.zap);
+  }
+  function ehBR(){ return !iti || iti.getSelectedCountryData().iso2 === 'br'; }
   function mask(raw){
     var v = String(raw).replace(/\D/g, '');
     if (v.length >= 12 && v.substring(0, 2) === '55') v = v.substring(2);
@@ -250,13 +268,25 @@ html,body{margin:0}
   }
   document.querySelectorAll('[data-opt]').forEach(function(b){ b.addEventListener('click', function(e){ e.preventDefault(); f[CHAVE[b.getAttribute('data-opt')]] = Number(b.getAttribute('data-idx')); pintar(); }); });
   campo('setNome').addEventListener('input', function(e){ f.nome = e.target.value; pintar(); });
-  campo('setZap').addEventListener('input', function(e){ e.target.value = mask(e.target.value); f.zap = e.target.value; pintar(); });
+  var hint = document.createElement('div');
+  hint.style.cssText = 'color:#A86B1F;margin-top:6px;font-size:12px;font-weight:500;display:none';
+  hint.textContent = 'Não inclua o código do país. Comece pelo DDD: (41) 99999-9999.';
+  (zap.closest('.iti') || zap).insertAdjacentElement('afterend', hint);
+  zap.addEventListener('input', function(e){
+    if (ehBR()) {
+      var d = e.target.value.replace(/\D/g, ''), dup = d.length >= 12 && d.substring(0, 2) === '55';
+      e.target.value = mask(e.target.value);  // mascara BR (DD) 9XXXX-XXXX, igual ao formulario anterior, e tira o 55 duplicado
+      hint.style.display = dup ? 'block' : 'none';
+    } else { hint.style.display = 'none'; }
+    f.zap = e.target.value; pintar();
+  });
+  zap.addEventListener('countrychange', function(){ f.zap = zap.value; hint.style.display = 'none'; pintar(); });
   campo('setEsp').addEventListener('change', function(e){ f.esp = e.target.value; pintar(); });
   var outro = campo('setOutro'); if (outro) outro.addEventListener('input', function(e){ f.outro = e.target.value; });
   campo('toggleAceite').addEventListener('change', function(e){ f.aceite = e.target.checked; pintar(); });
   function erro(msg){ if (!erroBox) return; $('#form-erro').textContent = msg; if (msg) erroBox.removeAttribute('hidden'); else erroBox.setAttribute('hidden', ''); }
   function base(){
-    return { lp: 'ffai-diagnostico', nome: f.nome.trim(), whatsapp: e164(f.zap), especialidade: f.esp || '',
+    return { lp: 'ffai-diagnostico', nome: f.nome.trim(), whatsapp: numero(), especialidade: f.esp || '',
       tamanho_clinica: f.porte === null ? '' : PORTE[f.porte], gargalo: f.dor === null ? '' : DOR[f.dor],
       disponibilidade: f.quando === null ? 'Sem preferência' : QUANDO[f.quando],
       interesse: f.interesse === null ? '' : ['FF.AI CRM', 'FF.AI 360'][f.interesse],
@@ -265,7 +295,7 @@ html,body{margin:0}
   }
   var enviouCompleto = false, enviouParcial = false, enviando = false;
   function parcial(){
-    if (enviouCompleto || enviouParcial || f.nome.trim().length < 2 || !e164(f.zap)) return;
+    if (enviouCompleto || enviouParcial || f.nome.trim().length < 2 || !numero()) return;
     var b = base(); b.partial = true;
     try { enviouParcial = navigator.sendBeacon(WEBHOOK, new Blob([JSON.stringify(b)], { type: 'text/plain' })); } catch (x) {}
   }
@@ -278,7 +308,10 @@ html,body{margin:0}
     if (Date.now() - renderedAt < 3000) return;
     var msg = '';
     if (f.nome.trim().length < 2) msg = 'Me diz o seu nome.';
-    else if (!e164(f.zap)) msg = 'Confere o número: precisa ser DDD (2 dígitos) + 9XXXX-XXXX.';
+    else if (iti && !utilsReady) msg = 'Validando o número, tenta de novo em 1 segundo.';
+    else if (!numero()) msg = ehBR() ? 'Esse número parece incompleto. Confere o DDD + 9 dígitos?' : 'Esse número parece incompleto para o país escolhido.';
+    else if (/^\+5555\d{9}$/.test(numero())) msg = 'O número ficou com o 55 duplicado. Digita só o DDD + 9 dígitos.';
+    else if (iti && ehBR() && numero().length !== 14) msg = 'Confere o número: precisa ser DDD (2 dígitos) + 9XXXX-XXXX.';
     else if (!f.esp) msg = 'Escolhe a sua especialidade.';
     else if (f.interesse === null) msg = 'Qual serviço mais te interessa: FF.AI CRM ou FF.AI 360?';
     else if (f.porte === null) msg = 'Quantos profissionais atendem na clínica?';
