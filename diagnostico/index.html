@@ -28,7 +28,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500&display=swap" rel="stylesheet" />
 
   <!-- intl-tel-input (campo telefone padrão FF) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/css/intlTelInput.css" />
 
   <!-- Google tag (gtag.js) · FF.AI Google Ads AW-18172890851 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
@@ -59,1342 +58,257 @@
     src="https://www.facebook.com/tr?id=27417120574590791&ev=PageView&noscript=1"/></noscript>
   <!-- /Meta Pixel -->
 
-  <style>
-    :root {
-      --ink: #1C2A3F;
-      --ink-2: #2C3E5C;
-      --green: #0D7F62;
-      --green-dim: #0a6650;
-      --off: #FAFAF7;
-      --steel: #4A5568;
-      --line: #E2E8F0;
-      --soft: #F4F5F2;
-      --max-width: 1120px;
-      --radius: 22px;
-      --radius-sm: 12px;
-      --transition: 200ms ease;
-    }
-
-    *,
-    *::before,
-    *::after { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif;
-      font-size: 17px;
-      line-height: 1.55;
-      color: var(--ink);
-      background: var(--off);
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    a {
-      color: var(--green);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-
-    a:hover { color: var(--green-dim); }
-
-    img, svg { display: block; max-width: 100%; }
-
-    .container {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .mono {
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-
-    /* ---------- Navbar ---------- */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: transparent;
-      backdrop-filter: saturate(180%) blur(8px);
-      -webkit-backdrop-filter: saturate(180%) blur(8px);
-      border-bottom: 1px solid transparent;
-      transition: border-color var(--transition);
-    }
-
-    .nav.scrolled { border-bottom-color: var(--line); }
-
-    .nav { padding-top: 12px; }
-    .nav__inner {
-      background: #FFFFFF;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 10px 22px;
-      box-shadow: 0 14px 34px -24px rgba(28, 42, 63, 0.45);
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-
-    .nav__logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-weight: 700;
-      font-size: 22px;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .nav__logo span.dot { color: var(--green); }
-    .nav__logo:hover { color: var(--ink); }
-
-    .nav__back {
-      color: var(--steel);
-      font-weight: 500;
-      font-size: 14px;
-    }
-    .nav__back:hover { color: var(--ink); }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 22px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 15px;
-      transition: transform var(--transition), background var(--transition), color var(--transition);
-      border: 1px solid transparent;
-      cursor: pointer;
-    }
-
-    .btn--primary { background: var(--green); color: var(--off); }
-    .btn--primary:hover {
-      background: var(--green-dim);
-      color: var(--off);
-      transform: translateY(-1px);
-    }
-
-    .btn--ghost {
-      color: var(--ink);
-      border-color: var(--line);
-      background: transparent;
-    }
-    .btn--ghost:hover { border-color: var(--ink); color: var(--ink); }
-
-    .btn--lg { padding: 16px 28px; font-size: 16px; }
-
-    /* ---------- Sections ---------- */
-    section { padding: 80px 0; }
-    section + section { border-top: 1px solid var(--line); }
-
-    .section__eyebrow {
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 12px;
-    }
-
-    .section__title {
-      font-size: clamp(28px, 3.6vw, 40px);
-      line-height: 1.15;
-      letter-spacing: -0.015em;
-      margin: 0 0 16px;
-      font-weight: 700;
-      max-width: 24ch;
-    }
-
-    .section__lead {
-      font-size: 18px;
-      color: var(--steel);
-      max-width: 62ch;
-      margin: 0 0 48px;
-    }
-
-    /* ---------- BLOCO 1 · Hero + Form ---------- */
-    /* layout enxuto na pele da HOME (ffai.ia.br) */
-    body { background: #FFFFFF; }
-    .hero__top { text-align: center; max-width: 720px; margin: 0 auto 30px; }
-    .hero__top h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.08; letter-spacing: -0.03em; margin: 14px 0 14px; }
-    .hero__top .hero__sub { color: var(--steel); font-size: 17px; line-height: 1.55; margin: 0 auto; max-width: 54ch; }
-    .hero__top .hero__eyebrow { color: var(--green); letter-spacing: 0.14em; }
-    .progresso { max-width: 720px; margin: 0 auto 18px; }
-    .progresso__linha { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--steel); margin-bottom: 8px; }
-    .progresso__trilho { height: 4px; border-radius: 999px; background: var(--line); overflow: hidden; }
-    .progresso__barra { height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--green), #5ee0b5); transition: width 400ms cubic-bezier(0.22, 1, 0.36, 1); }
-    .hero__container { display: block !important; max-width: 900px; }
-    .hero__form { max-width: 720px; margin: 0 auto; }
-
-    .hero {
-      padding: 46px 0 72px;
-      background: linear-gradient(168deg, #EEF5F2 0%, #F7FAF9 46%, #FFFFFF 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-
-    .hero__container {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    @media (min-width: 960px) {
-      .hero__container {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 56px;
-      }
-    }
-
-    .hero__eyebrow {
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: clamp(32px, 4.8vw, 50px);
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      margin: 0 0 18px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .hero__sub {
-      font-size: clamp(16px, 1.9vw, 19px);
-      color: var(--steel);
-      max-width: 52ch;
-      margin: 0 0 28px;
-    }
-
-    .hero__sub strong { color: var(--ink); font-weight: 600; }
-
-    .hero__bullets {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .hero__bullets li {
-      position: relative;
-      padding-left: 30px;
-      font-size: 15px;
-      color: var(--ink);
-      line-height: 1.4;
-    }
-
-    .hero__bullets li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 1px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: rgba(13, 127, 98, 0.12);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230D7F62' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-
-    .hero__selo {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      border-radius: 999px;
-      background: rgba(13, 127, 98, 0.08);
-      border: 1px solid rgba(13, 127, 98, 0.25);
-      color: var(--green);
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    /* ---------- Coluna do formulário (nativo) ---------- */
-    .hero__form {
-      background: #FFFFFF;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      box-shadow: 0 22px 50px -34px rgba(28, 42, 63, 0.4);
-      padding: 30px 28px;
-    }
-
-    .hero__form-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin: 0 0 4px;
-      color: var(--ink);
-    }
-
-    .hero__form-sub {
-      font-size: 14px;
-      color: var(--steel);
-      margin: 0 0 22px;
-    }
-
-    .field { margin-bottom: 18px; }
-
-    .field label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 7px;
-    }
-
-    .field .help {
-      font-size: 12px;
-      color: var(--steel);
-      margin-top: 5px;
-    }
-
-    .field input[type="text"],
-    .field input[type="tel"],
-    .field select {
-      width: 100%;
-      padding: 12px 14px;
-      font-family: inherit;
-      font-size: 15px;
-      color: var(--ink);
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      transition: border-color var(--transition);
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .field input:focus,
-    .field select:focus {
-      outline: none;
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(13, 127, 98, 0.12);
-    }
-
-    .field select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234A5568' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 38px;
-      cursor: pointer;
-    }
-
-    /* opções em botões (radio cards) */
-    .opt-group { display: flex; flex-direction: column; gap: 8px; }
-
-    .opt {
-      position: relative;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 11px 14px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-size: 14px;
-      color: var(--ink);
-      background: #fff;
-      transition: border-color var(--transition), background var(--transition);
-      line-height: 1.35;
-    }
-
-    .opt:hover { border-color: var(--green); }
-
-    .opt input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .opt__dot {
-      flex-shrink: 0;
-      width: 16px;
-      height: 16px;
-      margin-top: 1px;
-      border-radius: 50%;
-      border: 2px solid var(--line);
-      transition: border-color var(--transition);
-    }
-
-    .opt input:checked ~ .opt__dot {
-      border-color: var(--green);
-      background: radial-gradient(circle, var(--green) 0 5px, transparent 6px);
-    }
-
-    .opt:has(input:checked) {
-      border-color: var(--green);
-      background: rgba(13, 127, 98, 0.04);
-    }
-
-    /* honeypot · invisível */
-    .hp-field {
-      position: absolute;
-      left: -9999px;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-    }
-
-    .iti { width: 100%; }
-
-    .hero__form .btn--primary {
-      width: 100%;
-      justify-content: center;
-      margin-top: 4px;
-    }
-
-    .hero__form .btn--primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .form-error {
-      display: none;
-      font-size: 13px;
-      color: #c0392b;
-      margin-top: 10px;
-    }
-
-    .form-legal {
-      font-size: 11px;
-      color: var(--steel);
-      margin-top: 14px;
-      text-align: center;
-      line-height: 1.5;
-    }
-
-    /* estado de sucesso */
-    .form-success {
-      display: none;
-      text-align: center;
-      padding: 24px 8px;
-    }
-
-    .form-success__icon {
-      font-size: 40px;
-      margin-bottom: 12px;
-    }
-
-    .form-success h3 {
-      font-size: 20px;
-      margin: 0 0 10px;
-      color: var(--ink);
-    }
-
-    .form-success p {
-      font-size: 15px;
-      color: var(--steel);
-      margin: 0 0 8px;
-    }
-
-    .form-success__steps {
-      text-align: left;
-      margin: 20px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .form-success__steps li {
-      position: relative;
-      padding: 8px 0 8px 26px;
-      font-size: 14px;
-      color: var(--ink);
-      border-bottom: 1px solid var(--line);
-    }
-    .form-success__steps li:last-child { border-bottom: 0; }
-    .form-success__steps li::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: var(--green);
-      font-weight: 700;
-    }
-
-
-
-    /* Radio cards: papel claro sobre o cartão escuro
-       Especificidade alta (.field label.opt) pra vencer .hero__form .field label */
-    .hero__form .field label.opt {
-      background-color: var(--off);
-      color: var(--ink);
-      border-color: transparent;
-    }
-
-    .hero__form .field label.opt:hover {
-      border-color: var(--green);
-      background-color: #fff;
-    }
-
-    .hero__form .field label.opt:has(input:checked) {
-      border-color: var(--green);
-      background-color: var(--green);
-      color: #fff;
-      box-shadow: 0 0 0 2px var(--green), 0 8px 20px rgba(13, 127, 98, 0.30);
-    }
-
-    .hero__form .field label.opt strong { color: var(--ink); }
-
-    .hero__form .field label.opt:has(input:checked) strong { color: #fff; }
-
-    .hero__form .field label.opt:has(input:checked) .opt__dot {
-      border-color: #fff;
-      background: radial-gradient(circle, #fff 0 5px, transparent 6px);
-    }
-
-    .hero__form .opt__dot {
-      border-color: rgba(28, 42, 63, 0.25);
-    }
-
-    .hero__form .opt input:checked ~ .opt__dot {
-      border-color: var(--green);
-      background: radial-gradient(circle, var(--green) 0 5px, transparent 6px);
-    }
-
-    .hero__form .form-legal {
-      color: var(--steel);
-    }
-
-    .hero__form .form-legal a {
-      color: var(--green);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    /* iti (intl-tel-input) · flag selector papel-claro */
-    .hero__form .iti__country-list {
-      background-color: var(--off);
-      color: var(--ink);
-      border-color: var(--line);
-    }
-    .hero__form .iti__country.iti__highlight {
-      background-color: rgba(13, 127, 98, 0.10);
-    }
-    .hero__form .iti__dial-code {
-      color: var(--steel);
-    }
-
-    /* ---------- Checkbox de aceite dos Termos do Diagnóstico ---------- */
-    .field--consent {
-      margin-bottom: 16px;
-      margin-top: 6px;
-    }
-
-    /* Specificity 0,2,0 pra vencer `.field label { display: block }` (0,1,1) · vide bug 2026-05-17 */
-    .field--consent .consent {
-      position: relative;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      cursor: pointer;
-      font-size: 13px;
-      color: var(--steel);
-      line-height: 1.45;
-      margin-bottom: 0;
-    }
-
-    .consent input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .consent__box {
-      flex-shrink: 0;
-      width: 18px;
-      height: 18px;
-      margin-top: 1px;
-      border-radius: 4px;
-      border: 1.5px solid var(--line-2, #D6DEDA);
-      background: #FFFFFF;
-      transition: all var(--transition);
-      position: relative;
-    }
-
-    .consent:hover .consent__box {
-      border-color: var(--green);
-    }
-
-    .consent input:focus-visible ~ .consent__box {
-      box-shadow: 0 0 0 3px rgba(13, 127, 98, 0.30);
-    }
-
-    .consent input:checked ~ .consent__box {
-      border-color: var(--green);
-      background: var(--green);
-    }
-
-    .consent input:checked ~ .consent__box::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-
-    .consent__text a {
-      color: var(--green);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .consent__text a:hover { color: var(--green); }
-
-    /* ---------- BLOCO 2 · O que você recebe ---------- */
-    .receive__grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    @media (min-width: 720px) {
-      .receive__grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .receive__card {
-      padding: 30px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--off);
-      transition: border-color var(--transition), transform var(--transition);
-    }
-
-    .receive__card:hover {
-      border-color: var(--green);
-      transform: translateY(-2px);
-    }
-
-    .receive__card h3 {
-      font-size: 20px;
-      line-height: 1.25;
-      margin: 0 0 10px;
-      font-weight: 600;
-    }
-
-    .receive__icon { font-size: 26px; margin-bottom: 14px; display: block; }
-
-    .receive__card p { color: var(--steel); margin: 0; font-size: 15px; }
-
-    /* ---------- BLOCO 3 · Caso-vivo ---------- */
-    .case { background: var(--ink); color: var(--off); }
-    .case .section__eyebrow { color: rgba(13, 127, 98, 0.95); }
-    .case .section__title { color: var(--off); }
-    .case .section__lead { color: rgba(250, 250, 247, 0.7); }
-
-    .case__numbers {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    @media (min-width: 720px) {
-      .case__numbers { grid-template-columns: repeat(4, 1fr); }
-    }
-
-    .case__num {
-      padding: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .case__num strong {
-      display: block;
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-size: clamp(28px, 4vw, 38px);
-      color: var(--green);
-      line-height: 1;
-      margin-bottom: 10px;
-    }
-
-    .case__num span {
-      font-size: 13px;
-      color: rgba(250, 250, 247, 0.7);
-      line-height: 1.35;
-    }
-
-    .case__caption {
-      color: rgba(250, 250, 247, 0.78);
-      font-size: 15px;
-      max-width: 60ch;
-      margin: 0 0 24px;
-    }
-
-    .case .btn--ghost {
-      color: var(--off);
-      border-color: rgba(255, 255, 255, 0.25);
-    }
-    .case .btn--ghost:hover {
-      border-color: var(--off);
-      color: var(--off);
-    }
-
-    /* ---------- BLOCO 4 · Pra quem é ---------- */
-    .fit__grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-
-    @media (min-width: 760px) {
-      .fit__grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .fit__col {
-      padding: 32px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--off);
-    }
-
-    .fit__col--yes { border-color: rgba(13, 127, 98, 0.4); background: rgba(13, 127, 98, 0.03); }
-
-    .fit__col h3 {
-      font-size: 19px;
-      margin: 0 0 18px;
-      font-weight: 700;
-    }
-
-    .fit__col ul { list-style: none; padding: 0; margin: 0; }
-
-    .fit__col li {
-      position: relative;
-      padding: 9px 0 9px 28px;
-      font-size: 15px;
-      color: var(--ink);
-      line-height: 1.45;
-      border-bottom: 1px solid var(--line);
-    }
-    .fit__col li:last-child { border-bottom: 0; }
-
-    .fit__col li::before {
-      position: absolute;
-      left: 0;
-      top: 9px;
-      font-size: 15px;
-    }
-    .fit__col--yes li::before { content: "✅"; }
-    .fit__col--no li::before { content: "❌"; }
-
-    /* ---------- BLOCO 5 · Timeline ---------- */
-    .timeline__grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      counter-reset: step;
-    }
-
-    @media (min-width: 760px) {
-      .timeline__grid { grid-template-columns: repeat(4, 1fr); }
-    }
-
-    .timeline__step {
-      padding: 26px 22px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--soft);
-      position: relative;
-    }
-
-    .timeline__when {
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 10px;
-    }
-
-    .timeline__step p {
-      margin: 0;
-      font-size: 15px;
-      color: var(--ink);
-      line-height: 1.4;
-    }
-
-    .timeline__caption {
-      margin-top: 28px;
-      font-size: 15px;
-      color: var(--steel);
-      text-align: center;
-    }
-
-    /* ---------- BLOCO 6 · FAQ ---------- */
-    .faq__list { max-width: 760px; }
-
-    .faq__item {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      background: var(--off);
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
-
-    .faq__item summary {
-      list-style: none;
-      cursor: pointer;
-      padding: 20px 24px;
-      font-weight: 600;
-      font-size: 16px;
-      color: var(--ink);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .faq__item summary::-webkit-details-marker { display: none; }
-
-    .faq__item summary::after {
-      content: "+";
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-size: 22px;
-      color: var(--green);
-      transition: transform var(--transition);
-      flex-shrink: 0;
-    }
-
-    .faq__item[open] summary::after { transform: rotate(45deg); }
-
-    .faq__item p {
-      margin: 0;
-      padding: 0 24px 22px;
-      color: var(--steel);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    /* ---------- BLOCO 7 · CTA Final ---------- */
-    .cta-final {
-      background: var(--ink);
-      color: var(--off);
-      text-align: center;
-    }
-
-    .cta-final h2 {
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.15;
-      margin: 0 auto 16px;
-      color: var(--off);
-      max-width: 20ch;
-      letter-spacing: -0.015em;
-    }
-
-    .cta-final p {
-      color: rgba(250, 250, 247, 0.75);
-      font-size: 18px;
-      margin: 0 auto 32px;
-      max-width: 52ch;
-    }
-
-    .cta-final__sub {
-      margin-top: 24px;
-      font-size: 14px;
-      color: rgba(250, 250, 247, 0.6);
-    }
-    .cta-final__sub a { color: rgba(250, 250, 247, 0.9); }
-
-    /* ---------- Footer ---------- */
-    .footer {
-      background: var(--soft);
-      color: var(--steel);
-      border-top: 1px solid var(--line);
-      padding: 40px 0;
-      font-size: 14px;
-    }
-
-    .footer__inner {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    @media (min-width: 720px) {
-      .footer__inner {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
-
-    .footer__logo img { height: 22px; }
-
-    .footer__meta { display: flex; flex-direction: column; gap: 4px; }
-
-    @media (min-width: 720px) {
-      .footer__meta { text-align: right; }
-    }
-
-    .footer a { color: var(--green); }
-
-    .footer__links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-top: 6px;
-    }
-
-    /* ---------- Whatsapp Float ---------- */
-    .wa-float {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      background: #25d366;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-      z-index: 60;
-      transition: transform var(--transition);
-    }
-
-    .wa-float:hover { transform: scale(1.06); color: white; }
-
-    /* ---------- Vídeo no hero (logo abaixo da headline) ---------- */
-    .hero__video {
-      position: relative;
-      width: 100%;
-      margin: 0 0 26px;
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid var(--line);
-      box-shadow: 0 22px 50px -18px rgba(28, 42, 63, 0.32);
-      background: #000;
-    }
-    .hero__video video {
-      display: block;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-    }
-    .hero__video-badge {
-      position: absolute; top: 12px; left: 12px; z-index: 2;
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 6px 12px; background: rgba(13, 127, 98, 0.94); color: #fff;
-      border-radius: 999px; font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; pointer-events: none;
-    }
-    .hero__video-badge::before {
-      content: ""; width: 7px; height: 7px; border-radius: 50%; background: #5ee0b5;
-    }
-  </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F1E8;color:#1A2030;font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
+*{box-sizing:border-box}
+@keyframes ffFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ffPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,125,91,.35)}50%{box-shadow:0 0 0 8px rgba(46,125,91,0)}}
+@keyframes ffDash{to{stroke-dashoffset:-24}}
+@keyframes ffSlide{0%,15%{transform:translateX(-110%);opacity:0}40%,85%{transform:none;opacity:1}100%{transform:translateX(-110%);opacity:0}}
+@keyframes ffGrow{0%{transform:scaleY(.2)}60%,100%{transform:scaleY(1)}}
+@keyframes ffBlink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes ffGira{to{transform:rotate(360deg)}}
+@keyframes ffOuroLeve{0%,100%{box-shadow:0 0 0 0 rgba(227,199,122,.55),0 10px 26px -12px rgba(201,162,74,.9);transform:scale(1)}50%{box-shadow:0 0 0 11px rgba(227,199,122,0),0 14px 34px -10px rgba(243,223,162,.95);transform:scale(1.03)}}
+@keyframes ffCorre{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes ffBolha{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ffOuro{0%,100%{box-shadow:0 0 0 0 rgba(227,199,122,.55),0 18px 44px -14px rgba(201,162,74,.95);transform:scale(1)}50%{box-shadow:0 0 0 16px rgba(227,199,122,0),0 22px 60px -10px rgba(243,223,162,1);transform:scale(1.035)}}
+@keyframes ffBrilho{0%{transform:translateX(-120%) skewX(-20deg)}60%,100%{transform:translateX(260%) skewX(-20deg)}}
+@media (prefers-reduced-motion: reduce){.ff-anim{animation:none!important}}
+</style>
+
+<style id="dc-static">
+html,body{margin:0}
+.dc-d{display:contents}.dc-m{display:none}
+[hidden]{display:none!important}
+.dc-toggle:not([hidden]){display:contents}
+:root{--vaz-bg:#F5F1E8;--fab-bottom:22px;--capa360-h:820px;--capa360-pos:right top;--capa360-top:0px;--capa360-veu:linear-gradient(90deg,rgba(10,13,18,.97) 0%,rgba(10,13,18,.86) 40%,rgba(10,13,18,.5) 62%,rgba(10,13,18,.3) 100%)}
+@media (max-width:859px){.dc-d{display:none}.dc-m{display:contents}:root{--vaz-bg:rgba(255,255,255,.78);--fab-bottom:84px;--capa360-h:640px;--capa360-pos:60% top;--capa360-top:56px;--capa360-veu:linear-gradient(180deg,rgba(10,13,18,.25) 0%,rgba(10,13,18,.72) 40%,rgba(10,13,18,.95) 100%)}}
+.dc1:focus{border-color:#C9A24A !important;box-shadow:0 0 0 3px rgba(201,162,74,.2) !important}
+.dc2:focus{border-color:#C9A24A !important;box-shadow:0 0 0 3px rgba(201,162,74,.2) !important}
+.dc3:hover{border-color:#C9A24A !important}
+.dc4:hover{border-color:#C9A24A !important}
+.dc5:hover{border-color:#C9A24A !important}
+.dc6:hover{border-color:#C9A24A !important}
+.dc7:hover{border-color:#C9A24A !important}
+.dc8:hover{border-color:#C9A24A !important}
+.dc9:hover{border-color:#C9A24A !important}
+.dc10:hover{border-color:#C9A24A !important}
+.dc11:hover{border-color:#C9A24A !important}
+.dc12:hover{border-color:#C9A24A !important}
+.dc13:hover{border-color:#C9A24A !important}
+.dc14:focus{border-color:#C9A24A !important;box-shadow:0 0 0 3px rgba(201,162,74,.2) !important}
+.dc15:hover{border-color:#C9A24A !important}
+.dc16:hover{border-color:#C9A24A !important}
+.dc17:hover{border-color:#C9A24A !important}
+.dc18:hover{border-color:#C9A24A !important}
+.dc19:hover{background:#C9A24A !important;color:#131E30 !important}
+.dc20:hover{filter:brightness(1.1) !important}
+</style>
 </head>
 <body>
+<div id="dc-root">
+<div style="display:flex;flex-direction:column;min-height:100vh;font-family:'Manrope',sans-serif">
 
-  <!-- ========== NAVBAR ========== -->
-  <header class="nav" id="nav">
-    <div class="container nav__inner">
-      <a href="https://ffai.ia.br/" class="nav__logo" aria-label="FF.AI"><span>FF</span><span class="dot">.</span><span>AI</span></a>
-      <a href="https://ffai.ia.br/" class="nav__back">← Voltar ao site</a>
-    </div>
-  </header>
+<div data-screen-label="Diagnóstico" style="position:relative;min-height:100vh;background:#131E30;overflow:hidden">
+<img alt="" src="/assets/v2/img/07-marketing-odontologia.webp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%"/>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.82) 0%,rgba(19,30,48,.7) 50%,rgba(19,30,48,.9) 100%)"></div>
+<div style="position:relative;max-width:1200px;margin:0 auto;padding:24px clamp(16px,4vw,36px);display:flex;justify-content:space-between;align-items:center;gap:12px">
+<a href="/" style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:20px"><span style="width:32px;height:32px;border-radius:8px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:19px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:6px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></a>
+<a href="/" style="color:#C9CFDA;font-size:13px">← Voltar ao site</a>
+</div>
+<div style="position:relative;max-width:1200px;margin:0 auto;padding:24px clamp(16px,4vw,36px) 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:48px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:16px;color:#F5F1E8;padding-top:24px;position:sticky;top:32px">
+<div style="display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600"><span style="width:28px;height:1px;background:#C9A24A"></span>Diagnóstico gratuito · consultórios e clínicas</div>
+<h1 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(36px,3.8vw,54px);line-height:1.04;text-wrap:pretty">Onde a sua clínica está perdendo paciente?</h1>
+<p style="margin:0;font-size:16px;line-height:1.6;color:#C9CFDA">Oito perguntas, menos de um minuto. No fim, o diagnóstico chega no seu WhatsApp.</p>
+</div>
+<div style="background:#F5F1E8;border-radius:24px;padding:clamp(24px,4vw,40px) clamp(18px,3.5vw,36px);display:flex;flex-direction:column;gap:24px;width:100%;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;font-size:12px;color:#5B6577;font-weight:600"><span>Seu diagnóstico</span><span><span id="form-pct">0%</span></span></div>
+<div style="height:3px;background:rgba(28,42,63,.12);border-radius:2px;overflow:hidden"><div style="height:100%;background:#C9A24A;width:0%;transition:width .4s ease"></div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h2 style="margin:0;font-size:22px;color:#1C2A3F;font-weight:700">Descubra onde sua clínica perde paciente</h2>
+<p style="margin:0;font-size:14px;color:#5B6577">Leva menos de 3 minutos. Sem cadastro, sem login, sem cartão.</p>
+</div>
+<label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:#1C2A3F">👋 Como você se chama?<input autocomplete="name" class="dc1" data-campo="setNome" placeholder="Seu nome" style="font:inherit;font-weight:400;padding:14px 16px;border:1px solid rgba(28,42,63,.2);border-radius:12px;background:#fff;color:#1A2030;outline:none"/></label>
+<label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:#1C2A3F">📱 Seu WhatsApp<input autocomplete="tel-national" class="dc2" data-campo="setZap" inputmode="tel" placeholder="(00) 00000-0000" style="font:inherit;font-weight:400;padding:14px 16px;border:1px solid rgba(28,42,63,.2);border-radius:12px;background:#fff;color:#1A2030;outline:none" type="tel"/></label>
+<label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:#1C2A3F">🩺 Sua especialidade
+      <select data-campo="setEsp" style="font:inherit;font-weight:400;padding:14px 16px;border:1px solid rgba(28,42,63,.2);border-radius:12px;background:#fff;color:#1A2030;outline:none">
+<option value="">Selecione…</option><option>Odontologia</option><option>Cirurgia</option><option>Dermatologia e estética</option><option>Endocrinologia e emagrecimento</option><option>Ginecologia</option><option>Cardiologia</option><option>Ortopedia</option><option>Oftalmologia</option><option>Outra especialidade médica</option>
+</select>
+</label>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:14px;font-weight:600;color:#1C2A3F">🎯 Qual serviço mais te interessa?</div>
+<button class="dc3" data-idx="0" data-opt="interesseOpts" style="text-align:left;font:inherit;font-size:14px;line-height:1.5;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;flex-direction:column;gap:2px" type="button"><strong>FF.AI CRM</strong><span style="color:#5B6577">O CRM com IA que atende, qualifica e agenda no WhatsApp</span></button>
+<button class="dc4" data-idx="1" data-opt="interesseOpts" style="text-align:left;font:inherit;font-size:14px;line-height:1.5;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;flex-direction:column;gap:2px" type="button"><strong>FF.AI 360</strong><span style="color:#5B6577">O CRM com a consultoria que arruma comercial, marketing e gestão</span></button>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:14px;font-weight:600;color:#1C2A3F">👥 Quantos profissionais atendem na sua clínica (incluindo você)?</div>
+<button class="dc5" data-idx="0" data-opt="porteOpts" style="text-align:left;font:inherit;font-size:14px;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:8px;align-items:baseline" type="button"><strong>Só eu</strong><span style="color:#5B6577">, atendimento individual</span></button>
+<button class="dc6" data-idx="1" data-opt="porteOpts" style="text-align:left;font:inherit;font-size:14px;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:8px;align-items:baseline" type="button"><strong>2 a 3 profissionais</strong><span style="color:#5B6577">, estrutura enxuta</span></button>
+<button class="dc7" data-idx="2" data-opt="porteOpts" style="text-align:left;font:inherit;font-size:14px;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:8px;align-items:baseline" type="button"><strong>4 a 10 profissionais</strong><span style="color:#5B6577">, clínica consolidada</span></button>
+<button class="dc8" data-idx="3" data-opt="porteOpts" style="text-align:left;font:inherit;font-size:14px;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:8px;align-items:baseline" type="button"><strong>11 ou mais</strong><span style="color:#5B6577">, clínica média ou hospitalar</span></button>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:14px;font-weight:600;color:#1C2A3F">💸 O que mais pesa na sua clínica hoje?</div>
+<button class="dc9" data-idx="0" data-opt="dorOpts" style="text-align:left;font:inherit;font-size:14px;line-height:1.5;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:10px" type="button"><span>📉</span><span><strong>Perco paciente no atendimento</strong>: mensagem sem resposta, lead que esfria, no-show</span></button>
+<button class="dc10" data-idx="1" data-opt="dorOpts" style="text-align:left;font:inherit;font-size:14px;line-height:1.5;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:10px" type="button"><span>📊</span><span><strong>Não tenho controle do funil</strong>: não sei quantos contatos viram consulta, nem onde somem</span></button>
+<button class="dc11" data-idx="2" data-opt="dorOpts" style="text-align:left;font:inherit;font-size:14px;line-height:1.5;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:10px" type="button"><span>📵</span><span><strong>Equipe afogada no WhatsApp</strong>: a secretária não dá conta e ninguém registra nada</span></button>
+<button class="dc12" data-idx="3" data-opt="dorOpts" style="text-align:left;font:inherit;font-size:14px;line-height:1.5;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:10px" type="button"><span>🚧</span><span><strong>Quero começar com IA</strong> e não sei por onde</span></button>
+<button class="dc13" data-idx="4" data-opt="dorOpts" style="text-align:left;font:inherit;font-size:14px;line-height:1.5;padding:14px 16px;border-radius:12px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1A2030;cursor:pointer;display:flex;gap:10px" type="button"><span>💬</span><span><strong>Outro</strong> (descreve abaixo)</span></button>
+<span class="dc-toggle" data-toggle="isOutro" hidden=""><input class="dc14" data-campo="setOutro" maxlength="300" placeholder="Conta rapidinho o que pesa" style="font:inherit;font-weight:400;padding:14px 16px;border:1px solid rgba(28,42,63,.2);border-radius:12px;background:#fff;color:#1A2030;outline:none"/></span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-size:14px;font-weight:600;color:#1C2A3F">📅 Quando faz sentido eu te chamar?</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="dc15" data-idx="0" data-opt="quandoOpts" style="font:inherit;font-size:13px;font-weight:600;padding:11px 16px;border-radius:999px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1C2A3F;cursor:pointer" type="button">Esta semana ainda</button>
+<button class="dc16" data-idx="1" data-opt="quandoOpts" style="font:inherit;font-size:13px;font-weight:600;padding:11px 16px;border-radius:999px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1C2A3F;cursor:pointer" type="button">Próxima semana</button>
+<button class="dc17" data-idx="2" data-opt="quandoOpts" style="font:inherit;font-size:13px;font-weight:600;padding:11px 16px;border-radius:999px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1C2A3F;cursor:pointer" type="button">Em 15 dias</button>
+<button class="dc18" data-idx="3" data-opt="quandoOpts" style="font:inherit;font-size:13px;font-weight:600;padding:11px 16px;border-radius:999px;border:1px solid rgba(28,42,63,.2);background:#fff;color:#1C2A3F;cursor:pointer" type="button">Sem pressa, me avisa quando ficar pronto</button>
+</div>
+</div>
+<label style="display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.5;color:#3E4757"><input data-campo="toggleAceite" style="margin-top:3px;accent-color:#C9A24A;width:16px;height:16px" type="checkbox"/><span>Li e aceito os <a href="/diagnostico-termos" style="color:#B8923A;text-decoration:underline" target="_blank">Termos do Diagnóstico</a> e a <a href="/privacidade" style="color:#B8923A;text-decoration:underline" target="_blank">Política de Privacidade</a>.</span></label>
+<button class="dc19" id="form-enviar" style="font:inherit;font-weight:700;font-size:16px;padding:18px 28px;border-radius:999px;border:none;background:#1C2A3F;color:#fff;cursor:pointer;box-shadow:0 20px 40px -20px rgba(28,42,63,.6)" type="button"><span id="form-btn-label">Quero meu diagnóstico →</span></button>
+<span class="dc-toggle" data-toggle="hasErr" hidden=""><p role="alert" style="margin:0;font-size:14px;color:#A33A2B;text-align:center;font-weight:600"><span id="form-erro"></span></p></span>
+<p style="margin:0;font-size:12px;color:#5B6577;text-align:center">Seus dados são usados só pra preparar e entregar seu diagnóstico.</p>
+<div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(28,42,63,.12);font-size:12px;line-height:1.7;color:#5B6577;display:flex;flex-direction:column;gap:2px">
+<img alt="FF.AI CRM" src="/assets/v2/img/ffai-logo.png" style="height:28px;width:auto;align-self:flex-start;margin-bottom:6px"/><span style="font-weight:700;color:#1C2A3F">FF.AI · o ecossistema de IA da sua clínica</span>
+<span>Faleiro Serviços Médico-Cirúrgicos LTDA · CNPJ 31.814.184/0001-57</span>
+<span>Goiânia/GO · Brasil · contato@ffai.ia.br · WhatsApp +55 11 93089-6237</span>
+<div style="display:flex;gap:14px;margin-top:6px"><a href="/privacidade" style="color:#5B6577">Privacidade</a><a href="/termos" style="color:#5B6577">Termos</a><a href="/" style="color:#5B6577">Site FF.AI</a></div>
+</div>
+</div>
+</div>
+</div>
+<a aria-label="Falar com a nossa equipe" class="ff-anim dc20" data-crm="diagnostico" href="/diagnostico?origem=site" style="position:fixed;right:18px;bottom:var(--fab-bottom);z-index:49;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);border:1px solid rgba(255,244,210,.7);display:grid;place-items:center;animation:ffOuro 2.4s ease-in-out infinite"><svg fill="none" height="26" stroke="#1A1508" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="26"><rect height="17" rx="2" width="14" x="5" y="4"></rect><path d="M9 4.5V3h6v1.5"></path><path d="M9 13l2 2 4-4"></path></svg></a>
+</div>
+</div>
 
-  <!-- ========== HERO + FORM (layout FF Connect: escuro, centrado, so o formulario) ========== -->
-  <section class="hero" id="formulario">
-    <div class="container hero__container">
-      <div class="hero__top">
-        <div class="hero__eyebrow">Diagnóstico gratuito · consultórios e clínicas</div>
-        <h1>Onde a sua clínica está perdendo paciente?</h1>
-        <p class="hero__sub">Sete perguntas, menos de um minuto. No fim, o diagnóstico chega no seu WhatsApp.</p>
-      </div>
+<script>
+(function(){
+  // UTM e ids de clique acompanham os links internos (formulario e demonstracao)
+  var q = new URLSearchParams(location.search), extra = [];
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){ if (q.get(k)) extra.push([k, q.get(k)]); });
+  if (extra.length) document.querySelectorAll('a[href^="/diagnostico"],a[href^="/demonstracao"],a[href="/"]').forEach(function(a){
+    var u = new URL(a.getAttribute('href'), location.origin); extra.forEach(function(e){ if (!u.searchParams.get(e[0])) u.searchParams.set(e[0], e[1]); });
+    a.setAttribute('href', u.pathname + u.search + u.hash);
+  });
+  // menu do celular
+  var bt = document.getElementById('nav-toggle'), menu = document.querySelector('[data-toggle="menuOpen"]');
+  if (bt && menu) {
+    bt.addEventListener('click', function(){ var ab = menu.hasAttribute('hidden'); if (ab) menu.removeAttribute('hidden'); else menu.setAttribute('hidden', ''); bt.setAttribute('aria-expanded', String(ab)); });
+    menu.addEventListener('click', function(e){ if (e.target.closest('a')) { menu.setAttribute('hidden', ''); bt.setAttribute('aria-expanded', 'false'); } });
+  }
+  // um depoimento por vez
+  document.querySelectorAll('video').forEach(function(v){ v.addEventListener('play', function(){ document.querySelectorAll('video').forEach(function(o){ if (o !== v && !o.paused) o.pause(); }); }); });
+})();
+</script>
 
-      <div class="progresso" aria-hidden="true">
-        <div class="progresso__linha"><span>Seu diagnóstico</span><span id="progresso-pct">0%</span></div>
-        <div class="progresso__trilho"><div class="progresso__barra" id="progresso-barra"></div></div>
-      </div>
+<script>
+(function(){
+  var WEBHOOK = 'https://qoaanghwludaicceugsa.supabase.co/functions/v1/lp-lead-intake';
+  var root = document.getElementById('form-enviar'); if (!root) return;
+  var q = new URLSearchParams(location.search);
+  function qs(k){ return q.get(k) || ''; }
+  var renderedAt = Date.now();
+  var f = { nome: '', zap: '', esp: '', porte: null, dor: null, quando: null, aceite: false, outro: '', interesse: ({ crm: 0, '360': 1 })[qs('interesse')] };
+  if (f.interesse === undefined) f.interesse = null;
+  var PORTE = ['Só eu', '2 a 3 profissionais', '4 a 10 profissionais', '11 ou mais'];
+  var DOR = ['Perco paciente no atendimento', 'Não tenho controle do funil', 'Equipe afogada no WhatsApp', 'Quero começar com IA e não sei por onde', 'Outro'];
+  var QUANDO = ['Esta semana ainda', 'Próxima semana', 'Em 15 dias', 'Sem preferência'];
+  var CHAVE = { porteOpts: 'porte', dorOpts: 'dor', quandoOpts: 'quando', interesseOpts: 'interesse' };
+  var $ = function(s){ return document.querySelector(s); };
+  var campo = function(n){ return document.querySelector('[data-campo="' + n + '"]'); };
+  var outroBox = $('[data-toggle="isOutro"]'), erroBox = $('[data-toggle="hasErr"]');
+  function mask(raw){
+    var v = String(raw).replace(/\D/g, '');
+    if (v.length >= 12 && v.substring(0, 2) === '55') v = v.substring(2);
+    v = v.substring(0, 11);
+    if (!v) return ''; if (v.length <= 2) return '(' + v;
+    if (v.length <= 7) return '(' + v.substring(0, 2) + ') ' + v.substring(2);
+    return '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7, 11);
+  }
+  function e164(z){ var d = String(z).replace(/\D/g, ''); return (d.length === 11 && d.charAt(2) === '9' && d.charAt(0) !== '0') ? '+55' + d : ''; }
+  function pintar(){
+    document.querySelectorAll('[data-opt]').forEach(function(b){
+      var on = f[CHAVE[b.getAttribute('data-opt')]] === Number(b.getAttribute('data-idx'));
+      b.style.borderColor = on ? '#C9A24A' : 'rgba(28,42,63,.2)';
+      b.style.background = on ? 'rgba(201,162,74,.12)' : '#fff';
+      if (b.getAttribute('data-opt') === 'quandoOpts') b.style.color = on ? '#131E30' : '#1C2A3F';
+      b.setAttribute('aria-pressed', String(on));
+    });
+    if (outroBox) { if (f.dor === 4) outroBox.removeAttribute('hidden'); else outroBox.setAttribute('hidden', ''); }
+    var n = [f.nome.trim().length >= 2, f.zap.replace(/\D/g, '').length >= 8, f.esp, f.porte !== null, f.dor !== null, f.quando !== null, f.aceite, f.interesse !== null].filter(Boolean).length;
+    var pct = Math.round(n / 8 * 100) + '%';
+    $('#form-pct').textContent = pct;
+    var barra = $('#form-pct').closest('div').parentNode.querySelector('div[style*="transition:width"]');
+    if (barra) barra.style.width = pct;
+  }
+  document.querySelectorAll('[data-opt]').forEach(function(b){ b.addEventListener('click', function(e){ e.preventDefault(); f[CHAVE[b.getAttribute('data-opt')]] = Number(b.getAttribute('data-idx')); pintar(); }); });
+  campo('setNome').addEventListener('input', function(e){ f.nome = e.target.value; pintar(); });
+  campo('setZap').addEventListener('input', function(e){ e.target.value = mask(e.target.value); f.zap = e.target.value; pintar(); });
+  campo('setEsp').addEventListener('change', function(e){ f.esp = e.target.value; pintar(); });
+  var outro = campo('setOutro'); if (outro) outro.addEventListener('input', function(e){ f.outro = e.target.value; });
+  campo('toggleAceite').addEventListener('change', function(e){ f.aceite = e.target.checked; pintar(); });
+  function erro(msg){ if (!erroBox) return; $('#form-erro').textContent = msg; if (msg) erroBox.removeAttribute('hidden'); else erroBox.setAttribute('hidden', ''); }
+  function base(){
+    return { lp: 'ffai-diagnostico', nome: f.nome.trim(), whatsapp: e164(f.zap), especialidade: f.esp || '',
+      tamanho_clinica: f.porte === null ? '' : PORTE[f.porte], gargalo: f.dor === null ? '' : DOR[f.dor],
+      disponibilidade: f.quando === null ? 'Sem preferência' : QUANDO[f.quando],
+      interesse: f.interesse === null ? '' : ['FF.AI CRM', 'FF.AI 360'][f.interesse],
+      origem: ((qs('origem') || 'site').slice(0, 30) + (f.interesse === null ? '' : ['|crm', '|360'][f.interesse])),
+      landing_url: location.href, utm: { source: qs('utm_source') || 'direto', medium: qs('utm_medium'), campaign: qs('utm_campaign') } };
+  }
+  var enviouCompleto = false, enviouParcial = false, enviando = false;
+  function parcial(){
+    if (enviouCompleto || enviouParcial || f.nome.trim().length < 2 || !e164(f.zap)) return;
+    var b = base(); b.partial = true;
+    try { enviouParcial = navigator.sendBeacon(WEBHOOK, new Blob([JSON.stringify(b)], { type: 'text/plain' })); } catch (x) {}
+  }
+  document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'hidden') parcial(); });
+  window.addEventListener('pagehide', parcial);
+  root.addEventListener('click', function(e){
+    e.preventDefault();
+    if (enviando) return;
+    var hp = document.getElementById('website'); if (hp && hp.value.trim() !== '') return;
+    if (Date.now() - renderedAt < 3000) return;
+    var msg = '';
+    if (f.nome.trim().length < 2) msg = 'Me diz o seu nome.';
+    else if (!e164(f.zap)) msg = 'Confere o número: precisa ser DDD (2 dígitos) + 9XXXX-XXXX.';
+    else if (!f.esp) msg = 'Escolhe a sua especialidade.';
+    else if (f.interesse === null) msg = 'Qual serviço mais te interessa: FF.AI CRM ou FF.AI 360?';
+    else if (f.porte === null) msg = 'Quantos profissionais atendem na clínica?';
+    else if (f.dor === null) msg = 'O que mais pesa na clínica hoje?';
+    else if (f.dor === 4 && !f.outro.trim()) msg = 'Conta rapidinho o que pesa na clínica.';
+    else if (!f.aceite) msg = 'Falta aceitar os Termos do Diagnóstico e a Política de Privacidade.';
+    if (msg) { erro(msg); return; }
+    erro('');
+    var payload = base();
+    payload.gargalo_outro = f.dor === 4 ? f.outro.trim() : '';
+    payload.aceite_termos = true; payload.aceite_termos_at = new Date().toISOString();
+    enviando = true; $('#form-btn-label').textContent = 'Recebendo seu pedido…';
+    fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function(r){
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        enviouCompleto = true;
+        var partes = payload.nome.split(' ').filter(function(p){ return !/^(dr|dra|drª|dr\.|dra\.)$/i.test(p); });
+        var primeiro = partes[0] || payload.nome.split(' ')[0];
+        try { sessionStorage.setItem('ffai_ec', JSON.stringify({ phone: payload.whatsapp, first_name: primeiro.toLowerCase() })); } catch (x) {}
+        var p = new URLSearchParams(); p.set('nome', primeiro);
+        ['source', 'medium', 'campaign'].forEach(function(k){ if (payload.utm[k]) p.set('utm_' + k, payload.utm[k]); });
+        location.href = '/obrigado?' + p.toString();
+      })
+      .catch(function(){ enviando = false; $('#form-btn-label').textContent = 'Quero meu diagnóstico →'; erro('Não consegui enviar agora. Tenta de novo em alguns segundos.'); });
+  });
+  pintar();
+})();
+</script>
 
-      <div class="hero__content">
-        <div class="hero__form" id="form-wrap">
-          <p class="hero__form-title">Descubra onde sua clínica perde paciente</p>
-          <p class="hero__form-sub">Leva menos de 3 minutos. Sem cadastro, sem login, sem cartão.</p>
-
-          <form id="diag-form" novalidate>
-            <!-- honeypot anti-spam -->
-            <div class="hp-field" aria-hidden="true">
-              <label for="website">Não preencha este campo</label>
-              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
-            </div>
-
-            <div class="field">
-              <label for="nome">👋 Como você se chama?</label>
-              <input type="text" id="nome" name="nome" placeholder="Dr. Fábio Faleiro" autocomplete="name" required />
-            </div>
-
-            <div class="field">
-              <label for="whatsapp">📱 Seu WhatsApp</label>
-              <input type="tel" id="whatsapp" name="whatsapp" placeholder="(11) 99999-9999" autocomplete="tel" inputmode="numeric" maxlength="15" required />
-            </div>
-
-            <div class="field">
-              <label for="especialidade">🩺 Sua especialidade</label>
-              <select id="especialidade" name="especialidade" required>
-                <option value="" disabled selected>Selecione…</option>
-                <option>Odontologia</option>
-                <option>Cirurgia</option>
-                <option>Dermatologia e estética</option>
-                <option>Endocrinologia e emagrecimento</option>
-                <option>Ginecologia</option>
-                <option>Cardiologia</option>
-                <option>Ortopedia</option>
-                <option>Oftalmologia</option>
-                <option>Outra especialidade médica</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>👥 Quantos profissionais atendem na sua clínica (incluindo você)?</label>
-              <div class="opt-group">
-                <label class="opt"><input type="radio" name="tamanho_clinica" value="Só eu" required /><span class="opt__dot"></span><span><strong>Só eu</strong>, atendimento individual</span></label>
-                <label class="opt"><input type="radio" name="tamanho_clinica" value="2 a 3 profissionais" /><span class="opt__dot"></span><span><strong>2 a 3 profissionais</strong>, estrutura enxuta</span></label>
-                <label class="opt"><input type="radio" name="tamanho_clinica" value="4 a 10 profissionais" /><span class="opt__dot"></span><span><strong>4 a 10 profissionais</strong>, clínica consolidada</span></label>
-                <label class="opt"><input type="radio" name="tamanho_clinica" value="11 ou mais" /><span class="opt__dot"></span><span><strong>11 ou mais</strong>, clínica média ou hospitalar</span></label>
-              </div>
-            </div>
-
-            <div class="field">
-              <label>💸 O que mais pesa na sua clínica hoje?</label>
-              <div class="opt-group">
-                <label class="opt"><input type="radio" name="gargalo" value="Perco paciente no atendimento" required /><span class="opt__dot"></span><span>📉 <strong>Perco paciente no atendimento</strong>: mensagem sem resposta, lead que esfria, no-show</span></label>
-                <label class="opt"><input type="radio" name="gargalo" value="Não tenho controle do funil" /><span class="opt__dot"></span><span>📊 <strong>Não tenho controle do funil</strong>: não sei quantos contatos viram consulta, nem onde somem</span></label>
-                <label class="opt"><input type="radio" name="gargalo" value="Equipe afogada no WhatsApp" /><span class="opt__dot"></span><span>📵 <strong>Equipe afogada no WhatsApp</strong>: a secretária não dá conta e ninguém registra nada</span></label>
-                <label class="opt"><input type="radio" name="gargalo" value="Quero começar com IA e não sei por onde" /><span class="opt__dot"></span><span>🚧 <strong>Quero começar com IA</strong> e não sei por onde</span></label>
-                <label class="opt"><input type="radio" name="gargalo" value="Outro" /><span class="opt__dot"></span><span>💬 <strong>Outro</strong> (descreve abaixo)</span></label>
-              </div>
-              <input type="text" id="gargalo_outro" name="gargalo_outro" placeholder="Descreve em 1 linha…" style="margin-top:8px;display:none;" />
-            </div>
-
-            <div class="field">
-              <label for="disponibilidade">📅 Quando faz sentido eu te chamar?</label>
-              <select id="disponibilidade" name="disponibilidade">
-                <option value="Esta semana ainda">Esta semana ainda</option>
-                <option value="Próxima semana">Próxima semana</option>
-                <option value="Em 15 dias">Em 15 dias</option>
-                <option value="Sem preferência" selected>Sem pressa, me avisa quando ficar pronto</option>
-              </select>
-            </div>
-
-            <div class="field field--consent">
-              <label class="consent">
-                <input type="checkbox" id="aceite_termos" name="aceite_termos" required />
-                <span class="consent__box"></span>
-                <span class="consent__text">
-                  Li e aceito os <a href="/diagnostico-termos" target="_blank" rel="noopener">Termos do Diagnóstico</a> e a <a href="/privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.
-                </span>
-              </label>
-            </div>
-
-            <button type="submit" class="btn btn--primary btn--lg" id="submit-btn">Quero meu diagnóstico →</button>
-            <div class="form-error" id="form-error">Algo travou aqui do meu lado. Tenta de novo ou me chama no <a href="https://wa.me/5511930896237">WhatsApp +55 11 93089-6237</a>.</div>
-            <p class="form-legal">Seus dados são usados só pra preparar e entregar seu diagnóstico.</p>
-          </form>
-
-          <div class="form-success" id="form-success">
-            <div class="form-success__icon">✅</div>
-            <h3 id="success-title">Recebi tudo!</h3>
-            <p>Já tô preparando o raio-x da sua clínica.</p>
-            <ul class="form-success__steps">
-              <li><strong>Em até 2 min</strong>: você recebe uma mensagem no WhatsApp confirmando.</li>
-              <li><strong>Em até 48h</strong>: eu te chamo pra marcar uma conversa de 30 min.</li>
-              <li><strong>Em até 7 dias</strong>: seu diagnóstico completo, com a nota da sua clínica, o plano de ação e uma devolutiva em vídeo comigo.</li>
-            </ul>
-          </div>
-
-          <noscript>
-            <p style="font-size:14px;color:var(--steel);text-align:center;">
-              Ative o JavaScript pra usar o formulário, ou fale direto pelo
-              <a href="https://wa.me/5511930896237">WhatsApp +55 11 93089-6237</a>.
-            </p>
-          </noscript>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container footer__inner">
-      <div class="footer__logo">
-        <img src="../assets/ffai-wordmark-light.svg" alt="FF.AI" />
-      </div>
-      <div class="footer__meta">
-        <div>FF.AI · o ecossistema de IA da sua clínica</div>
-        <div>Faleiro Serviços Médico-Cirúrgicos LTDA · CNPJ 31.814.184/0001-57</div>
-        <div>Goiânia/GO · Brasil · contato@ffai.ia.br · WhatsApp +55 11 93089-6237</div>
-        <div class="footer__links">
-          <a href="https://ffai.ia.br/privacidade">Privacidade</a>
-          <a href="https://ffai.ia.br/termos">Termos</a>
-          <a href="https://ffai.ia.br/">Site FF.AI</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-
-
-  <!-- ========== SCRIPTS ========== -->
-  <!-- intl-tel-input -->
-  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/js/intlTelInput.min.js"></script>
-
-  <script>
-    // ---------- Scroll shadow no nav ----------
-    var nav = document.getElementById('nav');
-    function onScroll() {
-      if (window.scrollY > 8) nav.classList.add('scrolled');
-      else nav.classList.remove('scrolled');
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    // ---------- Formulário /diagnostico ----------
-    (function () {
-      var WEBHOOK = 'https://qoaanghwludaicceugsa.supabase.co/functions/v1/lp-lead-intake';
-      var form = document.getElementById('diag-form');
-      if (!form) return;
-
-      var renderedAt = Date.now();
-
-      // intl-tel-input no campo WhatsApp (BR default, máscara BR)
-      var phoneInput = document.getElementById('whatsapp');
-      var phoneHint = document.createElement('div');
-      phoneHint.className = 'help';
-      phoneHint.style.cssText = 'color:#C97B2E;margin-top:6px;font-size:0.85em;display:none;';
-      phoneHint.textContent = 'Não inclua o código do país. Comece pelo DDD: (41) 99999-9999.';
-      phoneInput.parentNode.appendChild(phoneHint);
-
-      var iti = window.intlTelInput(phoneInput, {
-        initialCountry: 'br',
-        preferredCountries: ['br', 'us', 'pt'],
-        separateDialCode: true,
-        utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/js/utils.js'
-      });
-
-      // Trava o submit até utils.js carregar (senão isValidNumber vira passthrough)
-      var utilsReady = false;
-      if (iti.promise && typeof iti.promise.then === 'function') {
-        iti.promise.then(function () { utilsReady = true; });
-      } else {
-        utilsReady = true; // fallback se a versão não expõe promise
-      }
-
-      // Máscara BR (XX) XXXXX-XXXX · só dígitos, máx 11. Outros DDIs ficam livres.
-      phoneInput.addEventListener('input', function (e) {
-        if (iti.getSelectedCountryData().iso2 !== 'br') { phoneHint.style.display = 'none'; return; }
-        var v = e.target.value.replace(/\D/g, '');
-
-        // Anti-"55 duplicado": se o lead digitou "55" + DDD + número (12-13 dígitos
-        // começando com 55), remove o "55" inicial silenciosamente e avisa.
-        var hadDuplicateCC = false;
-        if (v.length >= 12 && v.substring(0, 2) === '55') {
-          v = v.substring(2);
-          hadDuplicateCC = true;
-        }
-        v = v.substring(0, 11);
-
-        var out = '';
-        if (v.length === 0) out = '';
-        else if (v.length <= 2) out = '(' + v;
-        else if (v.length <= 7) out = '(' + v.substring(0, 2) + ') ' + v.substring(2);
-        else out = '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7, 11);
-        e.target.value = out;
-
-        phoneHint.style.display = hadDuplicateCC ? 'block' : 'none';
-      });
-
-      // gargalo "Outro" → mostra campo de texto
-      var gargaloOutro = document.getElementById('gargalo_outro');
-      form.querySelectorAll('input[name="gargalo"]').forEach(function (r) {
-        r.addEventListener('change', function () {
-          var isOutro = form.querySelector('input[name="gargalo"]:checked').value === 'Outro';
-          gargaloOutro.style.display = isOutro ? 'block' : 'none';
-          if (!isOutro) gargaloOutro.value = '';
-        });
-      });
-
-      function getUTM(key) {
-        return new URLSearchParams(window.location.search).get(key) || '';
-      }
-
-      var btn = document.getElementById('submit-btn');
-      var errBox = document.getElementById('form-error');
-
-      // barra de progresso: campos obrigatorios preenchidos / total
-      var pctEl = document.getElementById('progresso-pct');
-      var barraEl = document.getElementById('progresso-barra');
-      function atualizaProgresso() {
-        if (!pctEl) { return; }
-        var passos = 0, total = 7;
-        if (form.nome.value.trim().length >= 2) passos++;
-        var telEl = form.querySelector('input[name="whatsapp"]');
-        if (telEl) { if (telEl.value.trim().length >= 8) passos++; }
-        if (form.especialidade.value) passos++;
-        if (form.querySelector('input[name="tamanho_clinica"]:checked')) passos++;
-        if (form.querySelector('input[name="gargalo"]:checked')) passos++;
-        if (form.disponibilidade.value) passos++;
-        if (form.aceite_termos.checked) passos++;
-        var pct = Math.round(passos * 100 / total);
-        pctEl.textContent = pct + '%';
-        if (barraEl) { barraEl.style.width = pct + '%'; }
-      }
-      form.addEventListener('input', atualizaProgresso);
-      form.addEventListener('change', atualizaProgresso);
-
-      var enviouCompleto = false;
-      var enviouParcial = false;
-      function enviarParcial() {
-        if (enviouCompleto) { return; }
-        if (enviouParcial) { return; }
-        if (!utilsReady) { return; }
-        var nomeParcial = form.nome.value.trim();
-        if (nomeParcial.length < 2) { return; }
-        if (!iti.isValidNumber()) { return; }
-        var tamanhoP = (form.querySelector('input[name="tamanho_clinica"]:checked') || {}).value || '';
-        var gargaloP = (form.querySelector('input[name="gargalo"]:checked') || {}).value || '';
-        var corpo = JSON.stringify({
-          lp: 'ffai-diagnostico', partial: true,
-          nome: nomeParcial, whatsapp: iti.getNumber(),
-          especialidade: form.especialidade.value || '',
-          tamanho_clinica: tamanhoP, gargalo: gargaloP,
-          disponibilidade: form.disponibilidade.value || '',
-          origem: getUTM('origem') || '',
-          landing_url: window.location.href,
-          utm: { source: getUTM('utm_source') || 'direto', medium: getUTM('utm_medium'), campaign: getUTM('utm_campaign') }
-        });
-        try {
-          enviouParcial = navigator.sendBeacon(WEBHOOK, new Blob([corpo], { type: 'text/plain' }));
-        } catch (err) {}
-      }
-      document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'hidden') { enviarParcial(); }
-      });
-      window.addEventListener('pagehide', enviarParcial);
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        errBox.style.display = 'none';
-
-        // honeypot · bot preencheu campo invisível
-        if (document.getElementById('website').value.trim() !== '') return;
-        // tempo mínimo · submit em < 3s = provável bot
-        if (Date.now() - renderedAt < 3000) return;
-
-        // validação nativa
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-        if (!utilsReady) {
-          errBox.textContent = 'Validando o número, tenta de novo em 1 segundo.';
-          errBox.style.display = 'block';
-          return;
-        }
-        if (!iti.isValidNumber()) {
-          errBox.textContent = 'Esse número parece incompleto. Confere o DDD + 9 dígitos?';
-          errBox.style.display = 'block';
-          return;
-        }
-        // Defesa em profundidade: nunca deixar passar "+5555" (código BR duplicado)
-        var rawNumber = iti.getNumber();
-        if (/^\+5555\d{9}$/.test(rawNumber)) {
-          errBox.textContent = 'O número ficou com o 55 duplicado. Digita só o DDD + 9 dígitos.';
-          errBox.style.display = 'block';
-          return;
-        }
-        // BR mobile E.164 SEMPRE tem 14 chars (+55 + DDD 2 digitos + 9 digitos).
-        // Bloqueia DDD começando com 0 (que o intl-tel-input "corrige" truncando)
-        // e qualquer comprimento fora do padrão.
-        if (iti.getSelectedCountryData().iso2 === 'br' && rawNumber.length !== 14) {
-          errBox.textContent = 'Confere o número: precisa ser DDD (2 dígitos) + 9XXXX-XXXX.';
-          errBox.style.display = 'block';
-          return;
-        }
-
-        var tamanho = (form.querySelector('input[name="tamanho_clinica"]:checked') || {}).value || '';
-        var gargalo = (form.querySelector('input[name="gargalo"]:checked') || {}).value || '';
-
-        var payload = {
-          lp: 'ffai-diagnostico',
-          nome: form.nome.value.trim(),
-          whatsapp: iti.getNumber(),                       // E.164
-          especialidade: form.especialidade.value,
-          tamanho_clinica: tamanho,
-          gargalo: gargalo,
-          gargalo_outro: gargaloOutro.value.trim(),
-          disponibilidade: form.disponibilidade.value,
-          aceite_termos: form.aceite_termos.checked,
-          aceite_termos_at: new Date().toISOString(),
-          origem: getUTM('origem') || '',
-          landing_url: window.location.href,
-          utm: {
-            source: getUTM('utm_source') || 'direto',
-            medium: getUTM('utm_medium'),
-            campaign: getUTM('utm_campaign')
-          }
-        };
-
-        btn.disabled = true;
-        btn.textContent = 'Recebendo seu pedido…';
-
-        fetch(WEBHOOK, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        })
-          .then(function (r) {
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            enviouCompleto = true;
-            var partes = payload.nome.split(' ').filter(function (p) {
-              return !/^(dr|dra|drª|dr\.|dra\.)$/i.test(p);
-            });
-            var primeiro = partes[0] || payload.nome.split(' ')[0];
-            try {
-              sessionStorage.setItem('ffai_ec', JSON.stringify({
-                phone: payload.whatsapp,
-                first_name: primeiro.toLowerCase()
-              }));
-            } catch (e) {}
-            var params = new URLSearchParams();
-            params.set('nome', primeiro);
-            ['source', 'medium', 'campaign'].forEach(function (k) {
-              if (payload.utm[k]) params.set('utm_' + k, payload.utm[k]);
-            });
-            window.location.href = '/obrigado?' + params.toString();
-          })
-          .catch(function () {
-            btn.disabled = false;
-            btn.textContent = 'Quero meu diagnóstico →';
-            errBox.style.display = 'block';
-          });
-      });
-    })();
-  </script>
-
-  <!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
+<!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
   <script>
     document.addEventListener('click', function (e) {
       var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;

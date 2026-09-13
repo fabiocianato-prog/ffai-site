@@ -49,245 +49,102 @@
     src="https://www.facebook.com/tr?id=27417120574590791&ev=Lead&noscript=1"/></noscript>
   <!-- /Meta Pixel -->
 
-  <style>
-    :root {
-      --ink: #1C2A3F;
-      --ink-2: #2C3E5C;
-      --green: #0D7F62;
-      --green-dim: #0a6650;
-      --off: #FAFAF7;
-      --steel: #4A5568;
-      --line: #E2E8F0;
-      --soft: #F4F5F2;
-      --max-width: 1120px;
-      --radius: 22px;
-      --radius-sm: 12px;
-      --transition: 200ms ease;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F1E8;color:#1A2030;font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
+*{box-sizing:border-box}
+@keyframes ffFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ffPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,125,91,.35)}50%{box-shadow:0 0 0 8px rgba(46,125,91,0)}}
+@keyframes ffDash{to{stroke-dashoffset:-24}}
+@keyframes ffSlide{0%,15%{transform:translateX(-110%);opacity:0}40%,85%{transform:none;opacity:1}100%{transform:translateX(-110%);opacity:0}}
+@keyframes ffGrow{0%{transform:scaleY(.2)}60%,100%{transform:scaleY(1)}}
+@keyframes ffBlink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes ffGira{to{transform:rotate(360deg)}}
+@keyframes ffOuroLeve{0%,100%{box-shadow:0 0 0 0 rgba(227,199,122,.55),0 10px 26px -12px rgba(201,162,74,.9);transform:scale(1)}50%{box-shadow:0 0 0 11px rgba(227,199,122,0),0 14px 34px -10px rgba(243,223,162,.95);transform:scale(1.03)}}
+@keyframes ffCorre{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes ffBolha{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ffOuro{0%,100%{box-shadow:0 0 0 0 rgba(227,199,122,.55),0 18px 44px -14px rgba(201,162,74,.95);transform:scale(1)}50%{box-shadow:0 0 0 16px rgba(227,199,122,0),0 22px 60px -10px rgba(243,223,162,1);transform:scale(1.035)}}
+@keyframes ffBrilho{0%{transform:translateX(-120%) skewX(-20deg)}60%,100%{transform:translateX(260%) skewX(-20deg)}}
+@media (prefers-reduced-motion: reduce){.ff-anim{animation:none!important}}
+</style>
 
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif;
-      font-size: 17px;
-      line-height: 1.55;
-      color: var(--ink);
-      background: var(--off);
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    a { color: var(--green); text-decoration: none; transition: color var(--transition); }
-    a:hover { color: var(--green-dim); }
-
-    .container {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* ---------- Navbar ---------- */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(250, 250, 247, 0.85);
-      backdrop-filter: saturate(180%) blur(8px);
-      -webkit-backdrop-filter: saturate(180%) blur(8px);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav__inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-    .nav__logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-weight: 700;
-      font-size: 22px;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    .nav__logo span.dot { color: var(--green); }
-    .nav__back { color: var(--steel); font-weight: 500; font-size: 14px; }
-    .nav__back:hover { color: var(--ink); }
-
-    /* ---------- Main ---------- */
-    main {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 56px 0;
-      background:
-        radial-gradient(circle at 18% 0%, rgba(13, 127, 98, 0.07), transparent 55%),
-        radial-gradient(circle at 85% 100%, rgba(28, 42, 63, 0.06), transparent 50%),
-        var(--off);
-    }
-
-    .card {
-      background: var(--ink);
-      color: var(--off);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 0 24px 60px rgba(28, 42, 63, 0.35);
-      border-radius: var(--radius);
-      padding: 40px 32px;
-      max-width: 540px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .card__eyebrow {
-      font-family: Manrope, "Helvetica Neue", Arial, sans-serif; font-weight: 800;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 8px;
-    }
-
-    .card__icon {
-      width: 72px;
-      height: 72px;
-      margin: 8px auto 18px;
-      background: var(--green);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
-      line-height: 1;
-    }
-
-    .card h1 {
-      font-size: clamp(24px, 3.2vw, 30px);
-      line-height: 1.2;
-      letter-spacing: -0.015em;
-      margin: 0 0 12px;
-      font-weight: 700;
-      color: var(--off);
-    }
-
-    .card__lead {
-      font-size: 16px;
-      color: rgba(250, 250, 247, 0.75);
-      margin: 0 0 24px;
-    }
-
-    .steps {
-      text-align: left;
-      margin: 24px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .steps li {
-      position: relative;
-      padding: 14px 0 14px 28px;
-      font-size: 14px;
-      color: var(--off);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .steps li:last-child { border-bottom: 0; }
-
-    .steps li::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      top: 14px;
-      color: var(--green);
-      font-weight: 700;
-    }
-
-    .card__cta {
-      margin-top: 28px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 14px;
-      color: rgba(250, 250, 247, 0.65);
-    }
-
-    .card__cta a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--off);
-      font-weight: 600;
-      border-bottom: 1px solid rgba(250, 250, 247, 0.3);
-      padding-bottom: 2px;
-    }
-    .card__cta a:hover { border-bottom-color: var(--off); color: var(--off); }
-
-    /* ---------- Footer ---------- */
-    footer {
-      padding: 24px 0;
-      border-top: 1px solid var(--line);
-      font-size: 13px;
-      color: var(--steel);
-      text-align: center;
-    }
-    footer a { color: var(--steel); }
-    footer a:hover { color: var(--ink); }
-  </style>
+<style id="dc-static">
+html,body{margin:0}
+.dc-d{display:contents}.dc-m{display:none}
+[hidden]{display:none!important}
+.dc-toggle:not([hidden]){display:contents}
+:root{--vaz-bg:#F5F1E8;--fab-bottom:22px;--capa360-h:820px;--capa360-pos:right top;--capa360-top:0px;--capa360-veu:linear-gradient(90deg,rgba(10,13,18,.97) 0%,rgba(10,13,18,.86) 40%,rgba(10,13,18,.5) 62%,rgba(10,13,18,.3) 100%)}
+@media (max-width:859px){.dc-d{display:none}.dc-m{display:contents}:root{--vaz-bg:rgba(255,255,255,.78);--fab-bottom:84px;--capa360-h:640px;--capa360-pos:60% top;--capa360-top:56px;--capa360-veu:linear-gradient(180deg,rgba(10,13,18,.25) 0%,rgba(10,13,18,.72) 40%,rgba(10,13,18,.95) 100%)}}
+.dc1:hover{filter:brightness(1.1) !important}
+</style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="container nav__inner">
-      <a href="/" class="nav__logo">FF<span class="dot">.</span>AI</a>
-      <a href="/" class="nav__back">← Voltar ao site</a>
-    </div>
-  </nav>
+<div id="dc-root">
+<div style="display:flex;flex-direction:column;min-height:100vh;font-family:'Manrope',sans-serif">
 
-  <main>
-    <div class="card">
-      <div class="card__eyebrow">Diagnóstico de IA-readiness</div>
-      <div class="card__icon" aria-hidden="true">✓</div>
-      <h1 id="success-title">Recebi tudo!</h1>
-      <p class="card__lead">Já estou preparando o seu diagnóstico de IA-readiness.</p>
+<div data-screen-label="Obrigado" style="position:relative;min-height:100vh;background:#0E1614;color:#F5F1E8;display:flex;flex-direction:column;overflow:hidden">
+<img alt="Dr. Fábio Faleiro Vieira" src="/assets/v2/img/01-fabio-hero.webp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% center"/>
+<div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(19,30,48,.94) 0%,rgba(19,30,48,.88) 40%,rgba(19,30,48,.35) 60%,rgba(19,30,48,.05) 100%)"></div>
+<div style="position:relative;padding:24px clamp(16px,4vw,36px);display:flex;justify-content:space-between;align-items:center;gap:12px;max-width:1200px;width:100%;margin:0 auto">
+<a href="/" style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:20px"><span style="width:32px;height:32px;border-radius:8px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:19px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:6px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></a>
+<a href="/" style="color:#F5F1E8;font-size:13px">← Voltar ao site</a>
+</div>
+<div style="position:relative;flex:1;display:flex;align-items:flex-end;max-width:1200px;width:100%;margin:0 auto;padding:60px clamp(16px,4vw,36px) 110px">
+<div style="display:flex;flex-direction:column;gap:28px;width:100%;max-width:520px">
+<div style="display:flex;flex-direction:column;gap:18px;animation:ffFade .8s ease both">
+<div style="width:56px;height:56px;border-radius:50%;background:#C9A24A;display:grid;place-items:center;color:#131E30;font-size:24px;font-weight:700">✓</div>
+<h1 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(40px,4.4vw,60px);line-height:1"><span id="obrigado-titulo">Recebi tudo!</span></h1>
+<p style="margin:0;font-size:19px;line-height:1.5;color:#D8DCE3">Já tô preparando o raio-x da sua clínica.</p>
+</div>
+<div style="background:rgba(19,30,48,.8);backdrop-filter:blur(14px);border:1px solid rgba(201,162,74,.4);border-radius:22px;padding:30px;display:flex;flex-direction:column;gap:18px">
+<div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;color:#E3C77A;font-weight:600;white-space:nowrap;min-width:110px">Em até 2 min</div><p style="margin:0;font-size:15px;line-height:1.55;color:#D8DCE3">você recebe uma mensagem no WhatsApp confirmando.</p></div>
+<div style="height:1px;background:rgba(201,162,74,.3)"></div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;color:#E3C77A;font-weight:600;white-space:nowrap;min-width:110px">Em até 48h</div><p style="margin:0;font-size:15px;line-height:1.55;color:#D8DCE3">eu te chamo pra marcar uma conversa de 30 min.</p></div>
+<div style="height:1px;background:rgba(201,162,74,.3)"></div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;color:#E3C77A;font-weight:600;white-space:nowrap;min-width:110px">Em até 7 dias</div><p style="margin:0;font-size:15px;line-height:1.55;color:#D8DCE3">seu diagnóstico completo, com a nota da sua clínica, o plano de ação e uma devolutiva em vídeo comigo.</p></div>
+<div style="display:flex;align-items:center;gap:12px;padding-top:8px">
+<img alt="Dr. Fábio Faleiro Vieira" src="/assets/v2/img/03-fabio-conexao.webp" style="width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid #C9A24A"/>
+<span style="font-size:13px;color:#C9CFDA"><strong style="color:#fff">Dr. Fábio Faleiro</strong> · Fundador da FF.AI</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<a aria-label="Falar com a nossa equipe" class="ff-anim dc1" data-crm="diagnostico" href="/diagnostico?origem=site" style="position:fixed;right:18px;bottom:var(--fab-bottom);z-index:49;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);border:1px solid rgba(255,244,210,.7);display:grid;place-items:center;animation:ffOuro 2.4s ease-in-out infinite"><svg fill="none" height="26" stroke="#1A1508" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="26"><rect height="17" rx="2" width="14" x="5" y="4"></rect><path d="M9 4.5V3h6v1.5"></path><path d="M9 13l2 2 4-4"></path></svg></a>
+</div>
+</div>
 
-      <ul class="steps">
-        <li><strong>Em até 2 min</strong>: você recebe uma mensagem no WhatsApp confirmando.</li>
-        <li><strong>Em até 48h</strong>: eu te chamo pra agendar uma call de 30 min.</li>
-        <li><strong>Em até 7 dias</strong>: diagnóstico completo (score de 0 a 100), action plan e devolutiva por vídeo.</li>
-      </ul>
+<script>
+(function(){
+  // UTM e ids de clique acompanham os links internos (formulario e demonstracao)
+  var q = new URLSearchParams(location.search), extra = [];
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){ if (q.get(k)) extra.push([k, q.get(k)]); });
+  if (extra.length) document.querySelectorAll('a[href^="/diagnostico"],a[href^="/demonstracao"],a[href="/"]').forEach(function(a){
+    var u = new URL(a.getAttribute('href'), location.origin); extra.forEach(function(e){ if (!u.searchParams.get(e[0])) u.searchParams.set(e[0], e[1]); });
+    a.setAttribute('href', u.pathname + u.search + u.hash);
+  });
+  // menu do celular
+  var bt = document.getElementById('nav-toggle'), menu = document.querySelector('[data-toggle="menuOpen"]');
+  if (bt && menu) {
+    bt.addEventListener('click', function(){ var ab = menu.hasAttribute('hidden'); if (ab) menu.removeAttribute('hidden'); else menu.setAttribute('hidden', ''); bt.setAttribute('aria-expanded', String(ab)); });
+    menu.addEventListener('click', function(e){ if (e.target.closest('a')) { menu.setAttribute('hidden', ''); bt.setAttribute('aria-expanded', 'false'); } });
+  }
+  // um depoimento por vez
+  document.querySelectorAll('video').forEach(function(v){ v.addEventListener('play', function(){ document.querySelectorAll('video').forEach(function(o){ if (o !== v && !o.paused) o.pause(); }); }); });
+})();
+</script>
 
-      <div class="card__cta">
-        Quer adiantar?
-        <a href="https://wa.me/5511930896237">Me chama no WhatsApp →</a>
-      </div>
-    </div>
-  </main>
+<script>
+(function(){
+  var el = document.getElementById('obrigado-titulo'); if (!el) return;
+  var n = (new URLSearchParams(location.search).get('nome') || '').replace(/[^\p{L}\s\-']/gu, '').trim().slice(0, 40);
+  if (n) el.textContent = 'Recebi tudo, ' + n + '!';
+})();
+</script>
 
-  <footer>
-    <div class="container">
-      © FF.AI · <a href="/privacidade">Privacidade</a> · <a href="/diagnostico-termos">Termos do Diagnóstico</a>
-    </div>
-  </footer>
-
-  <script>
-    // Personalização do nome via query string (?nome=Primeiro)
-    (function () {
-      var nome = new URLSearchParams(window.location.search).get('nome');
-      if (nome) {
-        var clean = nome.replace(/[^\p{L}\s\-']/gu, '').trim().slice(0, 40);
-        if (clean) {
-          document.getElementById('success-title').textContent = 'Recebi tudo, ' + clean + '!';
-        }
-      }
-    })();
-  </script>
-
-  <!-- FF.AI conversion: Lead_Form_Submit (PRIMARY, R$ 1500 BRL) -->
+<!-- FF.AI conversion: Lead_Form_Submit (PRIMARY, R$ 1500 BRL) -->
   <script>
     (function () {
       if (typeof gtag !== 'function') return;
@@ -310,8 +167,7 @@
       });
     })();
   </script>
-
-  <!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
+<!-- FF.AI conversion: WhatsApp_Click (SECONDARY, R$ 200 BRL) -->
   <script>
     document.addEventListener('click', function (e) {
       var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;

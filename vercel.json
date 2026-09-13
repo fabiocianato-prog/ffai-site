@@ -29,17 +29,31 @@
       "source": "/cna",
       "destination": "https://drfabiofaleiro.com.br/treinamento-cna/",
       "permanent": false
-    }
-  ],
-  "headers": [
+    },
     {
-      "source": "/v2/(.*)",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
+      "source": "/v2",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/v2/demonstracao",
+      "destination": "/demonstracao",
+      "permanent": true
+    },
+    {
+      "source": "/v2/diagnostico",
+      "destination": "/diagnostico",
+      "permanent": true
+    },
+    {
+      "source": "/v2/obrigado",
+      "destination": "/obrigado",
+      "permanent": true
+    },
+    {
+      "source": "/v2/:path*",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
