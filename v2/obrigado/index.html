@@ -114,6 +114,11 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
 @keyframes ffSlide{0%,15%{transform:translateX(-110%);opacity:0}40%,85%{transform:none;opacity:1}100%{transform:translateX(-110%);opacity:0}}
 @keyframes ffGrow{0%{transform:scaleY(.2)}60%,100%{transform:scaleY(1)}}
 @keyframes ffBlink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes ffCorre{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes ffBolha{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ffOuro{0%,100%{box-shadow:0 0 0 0 rgba(227,199,122,.55),0 18px 44px -14px rgba(201,162,74,.95);transform:scale(1)}50%{box-shadow:0 0 0 16px rgba(227,199,122,0),0 22px 60px -10px rgba(243,223,162,1);transform:scale(1.035)}}
+@keyframes ffBrilho{0%{transform:translateX(-120%) skewX(-20deg)}60%,100%{transform:translateX(260%) skewX(-20deg)}}
+@media (prefers-reduced-motion: reduce){.ff-anim{animation:none!important}}
 </style>
 </helmet>
 
@@ -167,34 +172,36 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
           <div style="width:38px;height:38px;border-radius:50%;background:#C9A24A;color:#131E30;display:grid;place-items:center;font-family:'Manrope',sans-serif;font-weight:800;font-size:20px">S</div>
           <div style="flex:1;font-size:13px;line-height:1.3"><strong>Stella · FF.AI</strong> respondendo agora</div><span style="font-size:12px;color:#C9CFDA">23h04</span>
         </div>
-        <div style="padding:18px 20px;display:flex;flex-direction:column;gap:10px;font-size:13.5px;line-height:1.5;background:#F8F6F1;flex:1">
-          <div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px">Boa noite. Vi o vídeo da cirurgia robótica. Qual o valor da consulta?</div>
-          <div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px">Boa noite! Sou a Stella, do time do Dr. Fábio. Antes do valor, me conta rapidinho: você já fez alguma cirurgia abdominal antes?</div>
-          <div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px">Duas cesáreas. Ficou aquela separação no músculo que não sai com academia.</div>
-          <div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px">Entendi. É exatamente o quadro que o Dr. Fábio corrige por via robótica. Tenho quinta às 14h ou sexta às 9h com ele. Qual encaixa melhor?</div>
-          <div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px">Sexta 9h.</div>
-          <div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px">Perfeito, agendado. Vou te mandar o preparo por aqui.</div>
+        <div id="v2chat" style="padding:18px 20px;display:flex;flex-direction:column;gap:10px;font-size:13.5px;line-height:1.5;background:#F8F6F1;flex:none;height:430px;min-height:430px;max-height:430px;overflow:hidden;box-sizing:border-box">
+          <sc-if value="{{ chat.s0 }}" hint-placeholder-val="{{ true }}"><div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px;flex-shrink:0;animation:ffBolha .35s ease both">Boa noite. Vi o vídeo da cirurgia robótica. Qual o valor da consulta?</div></sc-if>
+          <sc-if value="{{ chat.s1 }}" hint-placeholder-val="{{ true }}"><div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px;flex-shrink:0;animation:ffBolha .35s ease both">Boa noite! Sou a Stella, do time do Dr. Fábio. Antes do valor, me conta rapidinho: você já fez alguma cirurgia abdominal antes?</div></sc-if>
+          <sc-if value="{{ chat.s2 }}" hint-placeholder-val="{{ true }}"><div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px;flex-shrink:0;animation:ffBolha .35s ease both">Duas cesáreas. Ficou aquela separação no músculo que não sai com academia.</div></sc-if>
+          <sc-if value="{{ chat.s3 }}" hint-placeholder-val="{{ true }}"><div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px;flex-shrink:0;animation:ffBolha .35s ease both">Entendi. É exatamente o quadro que o Dr. Fábio corrige por via robótica. Tenho quinta às 14h ou sexta às 9h com ele. Qual encaixa melhor?</div></sc-if>
+          <sc-if value="{{ chat.s4 }}" hint-placeholder-val="{{ true }}"><div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px;flex-shrink:0;animation:ffBolha .35s ease both">Sexta 9h.</div></sc-if>
+          <sc-if value="{{ chat.s5 }}" hint-placeholder-val="{{ true }}"><div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px;flex-shrink:0;animation:ffBolha .35s ease both">Perfeito, agendado. Vou te mandar o preparo por aqui.</div></sc-if>
+          <sc-if value="{{ chat.typing }}" hint-placeholder-val="{{ false }}"><div style="align-self:{{ chat.side }};background:{{ chat.bg }};border:1px solid #E6E1D6;padding:12px 16px;border-radius:14px;display:flex;gap:5px;flex-shrink:0;animation:ffBolha .25s ease both"><span style="width:7px;height:7px;border-radius:50%;background:{{ chat.dot }};animation:ffBlink 1s 0s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:{{ chat.dot }};animation:ffBlink 1s 0.2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:{{ chat.dot }};animation:ffBlink 1s 0.4s infinite"></span></div></sc-if>
         </div>
       </div>
       <div style="position:relative;border-radius:20px;overflow:hidden;min-height:360px;box-shadow:0 30px 60px -30px rgba(19,30,48,.45);display:flex;flex-direction:column;justify-content:flex-end">
         <img src="/v2/img/05-atendimento-inteligente.webp" alt="Recepção da clínica com IA no WhatsApp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
-        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,0) 30%,rgba(19,30,48,.92) 100%)"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.12) 0%,rgba(19,30,48,.5) 38%,rgba(19,30,48,.97) 100%)"></div>
         <div style="position:relative;padding:22px;display:flex;flex-direction:column;gap:12px;color:#fff">
-          <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">FF.AI CRM movendo sozinho</div>
+          <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">FF.AI CRM movendo sozinho <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#7EE0B0;margin-left:6px;vertical-align:middle;animation:ffBlink 1.2s infinite"></span></div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:12px">
-            <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px"><em style="font-style:normal;color:#C9CFDA">Leads de entrada</em><div style="font-size:20px;font-weight:700">{{ funil.a }}</div></div>
-            <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px"><em style="font-style:normal;color:#C9CFDA">Stella · SDR IA</em><div style="font-size:20px;font-weight:700">{{ funil.b }}</div></div>
-            <div style="background:rgba(201,162,74,.25);border:1px solid #C9A24A;border-radius:10px;padding:10px"><em style="font-style:normal;color:#E3C77A">Consulta agendada</em><div style="font-size:20px;font-weight:700">{{ funil.c }}</div></div>
+            <div style="border-radius:10px;padding:10px;backdrop-filter:blur(8px);transition:all .45s ease;{{ funil.sta }}"><em style="font-style:normal;font-weight:600;{{ funil.lba }}">Leads de entrada</em><div style="font-size:22px;font-weight:800;color:#fff">{{ funil.a }}</div></div>
+            <div style="border-radius:10px;padding:10px;backdrop-filter:blur(8px);transition:all .45s ease;{{ funil.stb }}"><em style="font-style:normal;font-weight:600;{{ funil.lbb }}">Stella · SDR IA</em><div style="font-size:22px;font-weight:800;color:#fff">{{ funil.b }}</div></div>
+            <div style="border-radius:10px;padding:10px;backdrop-filter:blur(8px);transition:all .45s ease;{{ funil.stc }}"><em style="font-style:normal;font-weight:600;{{ funil.lbc }}">Consulta agendada</em><div style="font-size:22px;font-weight:800;color:#fff">{{ funil.c }}</div></div>
           </div>
-          <div style="background:#fff;color:#1A2030;border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px"><span><strong>Ana Paula</strong> · <em style="font-style:normal;color:#B8923A">R$ 450</em></span><span style="color:#5B6577;font-size:12px">{{ funil.status }}</span></div>
+          <div style="background:#fff;color:#1A2030;border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px"><span><strong>Ana Paula</strong> · <em style="font-style:normal;color:#B8923A">R$ 450</em></span><span style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;transition:all .45s ease;{{ funil.chip }}">{{ funil.status }}</span></div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- PROBLEMA -->
-  <section id="vazamentos" style="background:#F5F1E8;padding:110px 24px 90px">
-    <div style="max-width:1200px;margin:0 auto">
+  <section id="vazamentos" style="position:relative;overflow:hidden;background:#F5F1E8;padding:110px 24px 90px">
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><img src="/v2/img/10-inteligencia-em-crescimento.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:35% center"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,241,232,.86) 0%,rgba(245,241,232,.78) 50%,rgba(245,241,232,.9) 100%)"></div></sc-if>
+    <div style="position:relative;max-width:1200px;margin:0 auto">
       <div style="max-width:760px;display:flex;flex-direction:column;gap:18px">
         <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">O problema</div>
         <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F;text-wrap:pretty">O paciente não espera. E o que a equipe atende, ninguém registra.</h2>
@@ -203,14 +210,14 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px;margin-top:56px;align-items:stretch">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:rgba(28,42,63,.12);border:1px solid rgba(28,42,63,.12)">
         <sc-for list="{{ vazamentos }}" as="v" hint-placeholder-count="4">
-          <div style="background:#F5F1E8;padding:32px 28px;display:flex;flex-direction:column;gap:14px" style-hover="background:#fff">
+          <div style="background:{{ vazBg }};padding:32px 28px;display:flex;flex-direction:column;gap:14px" style-hover="background:#fff">
             <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">{{ v.n }}</div>
             <h3 style="margin:0;font-size:19px;line-height:1.3;color:#1C2A3F;font-weight:700;text-wrap:pretty">{{ v.t }}</h3>
             <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A5364">{{ v.d }}</p>
           </div>
         </sc-for>
       </div>
-      <div style="position:relative;border-radius:20px;overflow:hidden;min-height:420px"><img src="/v2/img/10-inteligencia-em-crescimento.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:35% center"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,0) 60%,rgba(19,30,48,.55) 100%)"></div></div>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><div style="position:relative;border-radius:20px;overflow:hidden;min-height:420px"><img src="/v2/img/10-inteligencia-em-crescimento.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:35% center"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,0) 60%,rgba(19,30,48,.55) 100%)"></div></div></sc-if>
     </div>
     </div>
   </section>
@@ -248,14 +255,14 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
         <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">O que estão falando de trabalhar com a gente</h2>
         <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757">A gente não fala pelo cliente. Ouça direto de quem já passou por isso.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <video controls playsinline preload="none" poster="/crm/videos/dep-rogerio.jpg" src="/crm/videos/dep-rogerio.mp4" style="width:100%;height:auto;aspect-ratio:16/9;border-radius:16px;background:#1C2A3F;object-fit:cover;display:block"></video>
-          <p style="margin:0;font-size:14px;color:#3E4757"><strong style="color:#1C2A3F">Dr. Rogério Troian</strong> · Endocrinologia e nutrologia</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:26px;width:100%;max-width:840px;margin:0 auto">
+        <div style="display:flex;flex-direction:column;background:#fff;border:1px solid rgba(28,42,63,.1);border-radius:22px;overflow:hidden;box-shadow:0 22px 50px -34px rgba(28,42,63,.42)">
+          <video controls playsinline preload="metadata" poster="/crm/videos/dep-rogerio.jpg" style="width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;object-position:center;display:block;background:#1C2A3F"><source src="/crm/videos/dep-rogerio.mp4" type="video/mp4"></video>
+          <p style="margin:0;padding:18px 22px 20px;font-size:14px;line-height:1.5;color:#3E4757"><strong style="color:#1C2A3F">Dr. Rogério Troian</strong> · Endocrinologia e nutrologia</p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <video controls playsinline preload="none" poster="/crm/videos/dep-lidyane.jpg" src="/crm/videos/dep-lidyane.mp4" style="width:100%;height:auto;aspect-ratio:16/9;border-radius:16px;background:#1C2A3F;object-fit:cover;display:block"></video>
-          <p style="margin:0;font-size:14px;color:#3E4757"><strong style="color:#1C2A3F">Dra. Lidyane Gomide</strong> · Akoya Clínica · estética íntima e ginecologia regenerativa</p>
+        <div style="display:flex;flex-direction:column;background:#fff;border:1px solid rgba(28,42,63,.1);border-radius:22px;overflow:hidden;box-shadow:0 22px 50px -34px rgba(28,42,63,.42)">
+          <video controls playsinline preload="metadata" poster="/crm/videos/dep-lidyane.jpg" style="width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;object-position:center;display:block;background:#1C2A3F"><source src="/crm/videos/dep-lidyane.mp4" type="video/mp4"></video>
+          <p style="margin:0;padding:18px 22px 20px;font-size:14px;line-height:1.5;color:#3E4757"><strong style="color:#1C2A3F">Dra. Lidyane Gomide</strong> · Akoya Clínica · estética íntima e ginecologia regenerativa</p>
         </div>
       </div>
     </div>
@@ -263,14 +270,15 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
 
   <!-- OPERAÇÃO -->
   <section id="operacao" style="background:#131E30;color:#F5F1E8;padding:110px 24px;position:relative;overflow:hidden">
-    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:56px">
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><img src="/v2/img/09-jornada-conectada.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.72) 0%,rgba(19,30,48,.9) 18%,rgba(19,30,48,.96) 100%)"></div></sc-if>
+    <div style="position:relative;max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:56px">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px;align-items:center">
         <div style="display:flex;flex-direction:column;gap:16px">
           <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600">O que entra na sua operação</div>
           <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08">Seis coisas que o seu CRM atual não faz.</h2>
           <p style="margin:0;font-size:16px;line-height:1.65;color:#C9CFDA;text-wrap:pretty">Cada uma nasceu de um problema real de clínica, foi construída para a nossa operação e só depois virou produto.</p>
         </div>
-        <div style="border-radius:20px;overflow:hidden;aspect-ratio:16/9;border:1px solid rgba(201,162,74,.3)"><img src="/v2/img/09-jornada-conectada.webp" alt="Jornada do paciente conectada" style="width:100%;height:100%;object-fit:cover"></div>
+        <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><div style="border-radius:20px;overflow:hidden;aspect-ratio:16/9;border:1px solid rgba(201,162,74,.3)"><img src="/v2/img/09-jornada-conectada.webp" alt="Jornada do paciente conectada" style="width:100%;height:100%;object-fit:cover"></div></sc-if>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px">
         <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="border-color:rgba(201,162,74,.6)">
@@ -379,7 +387,7 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center">
-        <div style="display:flex;gap:40px;flex-wrap:wrap;justify-content:center;font-family:'Manrope',sans-serif;font-weight:700;font-size:26px;font-weight:600;color:#1C2A3F;opacity:.75"><span>Doctoralia</span><span>Feegow</span><span>Clinicorp</span><span>Prontuário Verde</span></div>
+        <div style="width:100%;max-width:900px;overflow:hidden;border-top:1px solid rgba(28,42,63,.15);border-bottom:1px solid rgba(28,42,63,.15);padding:22px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)"><div class="ff-anim" style="display:flex;gap:56px;width:max-content;padding-right:56px;animation:ffCorre 26s linear infinite;font-family:'Manrope',sans-serif;font-size:26px;font-weight:700;color:#1C2A3F"><span style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Doctoralia</span><span style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Feegow</span><span style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Clinicorp</span><span style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Prontuário Verde</span><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Doctoralia</span><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Feegow</span><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Clinicorp</span><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Prontuário Verde</span><span style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Doctoralia</span><span style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Feegow</span><span style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Clinicorp</span><span style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Prontuário Verde</span><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Doctoralia</span><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Feegow</span><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Clinicorp</span><span aria-hidden="true" style="display:inline-flex;align-items:center;gap:12px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#C9A24A"></span>Prontuário Verde</span></div></div>
         <p style="margin:0;max-width:720px;font-size:13.5px;line-height:1.6;color:#5B6577">Integramos por API nativa com os sistemas acima. O caminho do seu prontuário é validado no setup inicial do serviço, depois da contratação, e entra por escrito no escopo.</p>
       </div>
     </div>
@@ -409,7 +417,7 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
         <div style="position:relative;border-radius:20px;overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff">
           <img src="/v2/img/07-marketing-odontologia.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">
-          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.05) 20%,rgba(19,30,48,.94) 65%)"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.5) 0%,rgba(19,30,48,.82) 32%,rgba(19,30,48,.97) 58%)"></div>
           <div style="position:relative;padding:32px;display:flex;flex-direction:column;gap:14px">
             <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">Módulo opcional da implantação</div>
             <h3 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:30px;line-height:1.1">Pedido de exames e nota fiscal saem no toque de um botão.</h3>
@@ -505,7 +513,7 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
   <!-- FAQ -->
   <section style="background:#F5F1E8;padding:110px 24px">
     <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px;align-items:start">
-      <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:96px">
+      <div style="display:flex;flex-direction:column;gap:16px">
         <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">Dúvidas frequentes</div>
         <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">O que todo dono de clínica pergunta antes.</h2>
         <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757">Se a sua dúvida não está aqui, ela cabe nos trinta minutos da demonstração.</p>
@@ -524,8 +532,7 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
   <!-- FF.AI 360 -->
   <section id="ffai-360" style="position:relative;background:#07090D;color:#F5F1E8;padding:8px;overflow:hidden">
     <div style="position:relative;border:1px solid rgba(201,162,74,.45);border-radius:28px;overflow:hidden;background:radial-gradient(ellipse at 20% 0%,rgba(201,162,74,.18),transparent 45%),radial-gradient(ellipse at 90% 100%,rgba(201,162,74,.12),transparent 50%),#0A0D12">
-      <img src="/v2/img/09-jornada-conectada.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16;filter:saturate(.4) contrast(1.1)">
-      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,18,.6) 0%,rgba(10,13,18,.92) 45%,rgba(10,13,18,.98) 100%)"></div>
+      <div style="position:absolute;left:0;right:0;top:0;height:{{ capa360h }}"><img src="/v2/img/12-capa-arquitetura.webp" alt="Dr. Fábio Faleiro Vieira, fundador da FF.AI" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ capa360pos }}"><div style="position:absolute;inset:0;background:{{ capa360veu }}"></div><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,18,.35) 0%,rgba(10,13,18,0) 22%,rgba(10,13,18,.55) 58%,#0A0D12 92%)"></div></div>
       <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,#E3C77A,transparent)"></div>
       <div style="position:relative;max-width:1200px;margin:0 auto;padding:110px 24px;display:flex;flex-direction:column;gap:60px">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px;align-items:end">
@@ -554,7 +561,7 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
             <h3 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:clamp(28px,2.8vw,38px);line-height:1.1;color:#FFF9EC">Do convênio para o particular, sem depender de uma pessoa só.</h3>
             <p style="margin:0;font-size:15px;line-height:1.7;color:#D8D2C4;text-wrap:pretty">Essa é a promessa do programa, e é por isso que ele não tem tabela pronta: o escopo é desenhado clínica a clínica, a partir do porte, de quantos profissionais atendem, dos canais que já existem e do que a operação já tem de pé. O desenho e o valor fecham na mesma demonstração que apresenta o CRM.</p>
             <p style="margin:0;font-size:13px;line-height:1.6;color:#8E8778">Programa em ciclos de 6 meses, renováveis, conduzido junto com a implantação do CRM. A publicidade em saúde do programa segue as normas do seu conselho: a governança atende CFM e CFO.</p>
-            <a href="https://wa.me/5511930896237" style="align-self:flex-start;margin-top:10px;background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);color:#1A1508;font-weight:800;font-size:14px;padding:16px 28px;border-radius:999px;box-shadow:0 18px 40px -16px rgba(201,162,74,.9)" style-hover="filter:brightness(1.08)">Conversar sobre o 360 na demonstração</a>
+            <a href="https://wa.me/5511930896237" class="ff-anim" style="position:relative;overflow:hidden;align-self:flex-start;margin-top:18px;background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);color:#1A1508;font-weight:800;font-size:clamp(16px,1.5vw,19px);letter-spacing:-.01em;padding:22px 40px;border-radius:999px;border:1px solid rgba(255,244,210,.7);animation:ffOuro 2.4s ease-in-out infinite;display:inline-flex;align-items:center;gap:12px" style-hover="filter:brightness(1.1)"><span class="ff-anim" style="position:absolute;top:0;bottom:0;left:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);animation:ffBrilho 3s ease-in-out infinite;pointer-events:none"></span><span style="position:relative">Conversar sobre o 360 na demonstração</span><span style="position:relative;font-size:20px">→</span></a>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
             <sc-for list="{{ pilares }}" as="pl" hint-placeholder-count="4">
@@ -814,14 +821,18 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;startPage&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;home&quot;, &quot;demo&quot;, &quot;diag&quot;, &quot;obrigado&quot;], &quot;default&quot;: &quot;obrigado&quot;, &quot;tsType&quot;: &quot;&#x27;home&#x27;|&#x27;demo&#x27;|&#x27;diag&#x27;|&#x27;obrigado&#x27;&quot;, &quot;section&quot;: &quot;Navegação&quot;}, &quot;showSwitcher&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Navegação&quot;}}">
 class Component extends DCLogic {
-  state = { page: null, demoPlaying: false, sending: false, err: '', funil: { a: 0, b: 0, c: 0, status: 'Entrou agora · aguardando' }, form: { nome: '', zap: '', esp: '', porte: null, dor: null, quando: null, aceite: false, outro: '' } };
+  state = { page: null, passo: 6, escrevendo: false, demoPlaying: false, sending: false, err: '', funil: { a: 0, b: 0, c: 0, status: 'Entrou agora · aguardando' }, form: { nome: '', zap: '', esp: '', porte: null, dor: null, quando: null, aceite: false, outro: '' } };
   componentDidMount() {
     this._renderedAt = Date.now(); this._partial = () => v2Partial(this); window.addEventListener('pagehide', this._partial); document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') this._partial(); });
     this._onResize = () => { const m = window.innerWidth < 860; if (m !== this.state.mobile) this.setState({ mobile: m, menuOpen: false }); };
     this._onResize(); window.addEventListener('resize', this._onResize);
-    const steps = [[1,0,0,'Entrou agora · aguardando'],[1,1,0,'Stella qualificando'],[1,1,1,'Sexta 9h · agendado'],[0,0,0,'Sem próximo passo']];
-    let i = 0;
-    this._t = setInterval(() => { i = (i + 1) % steps.length; const s = steps[i]; this.setState({ funil: { a: s[0], b: s[1], c: s[2], status: s[3] } }); }, 1800);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this._t = setInterval(() => { if (document.hidden) return; const s = this.state; let passo = s.passo, esc = s.escrevendo;
+        if (passo >= 6) { passo = 1; esc = false; } else if (esc) { passo += 1; esc = false; } else { esc = true; }
+        this.setState({ passo, escrevendo: esc });
+        setTimeout(() => { const c = document.getElementById('v2chat'); if (c) c.scrollTop = passo === 1 ? 0 : c.scrollHeight; }, 30);
+      }, 1100);
+    }
   }
   componentWillUnmount() { clearInterval(this._t); window.removeEventListener('resize', this._onResize); }
   go(page) { return (e) => { if (e && e.preventDefault) e.preventDefault(); window.location.href = v2Url(page, this.props.startPage || 'home'); }; }
@@ -846,7 +857,16 @@ class Component extends DCLogic {
       fabBottom: this.state.mobile ? '84px' : '22px',
       tabHome: tab('home'), tabDemo: tab('demo'), tabDiag: tab('diag'), tabObrigado: tab('obrigado'),
       goHome: this.go('home'), goDemo: this.go('demo'), goDiag: this.go('diag'), goObrigado: this.go('obrigado'),
-      funil: this.state.funil,
+      chat: (() => { const p = this.state.passo, e = this.state.escrevendo, nos = p % 2 === 1; const o = { typing: e && p < 6, side: nos ? 'flex-end' : 'flex-start', bg: nos ? '#1C2A3F' : '#fff', dot: nos ? '#E3C77A' : '#9AA3B2' }; for (let i = 0; i < 6; i++) o['s' + i] = i < p; return o; })(),
+      funil: (() => { const p = this.state.passo, et = p <= 2 ? 0 : p <= 4 ? 1 : 2;
+        const on = 'background:rgba(201,162,74,.28);border:1px solid #E3C77A;box-shadow:0 0 0 3px rgba(201,162,74,.18)', off = 'background:rgba(15,22,36,.72);border:1px solid rgba(255,255,255,.26)';
+        const chips = ['background:#EEF0F3;color:#5B6577', 'background:#E8E4F6;color:#4B3FA0', 'background:#DDEDE5;color:#1F6B4A'];
+        return { a: et === 0 ? 1 : 0, b: et === 1 ? 1 : 0, c: et === 2 ? 1 : 0, sta: et === 0 ? on : off, stb: et === 1 ? on : off, stc: et === 2 ? on : off,
+          lba: et === 0 ? 'color:#F3DFA2' : 'color:#E1E5EC', lbb: et === 1 ? 'color:#F3DFA2' : 'color:#E1E5EC', lbc: et === 2 ? 'color:#F3DFA2' : 'color:#E1E5EC',
+          status: ['Entrou agora · aguardando', 'Stella qualificando', 'Sexta 9h · agendado'][et], chip: chips[et] }; })(),
+      vazBg: this.state.mobile ? 'rgba(255,255,255,.78)' : '#F5F1E8',
+      capa360h: this.state.mobile ? '640px' : '820px', capa360pos: this.state.mobile ? '78% top' : 'right top',
+      capa360veu: this.state.mobile ? 'linear-gradient(180deg,rgba(10,13,18,.25) 0%,rgba(10,13,18,.72) 40%,rgba(10,13,18,.95) 100%)' : 'linear-gradient(90deg,rgba(10,13,18,.97) 0%,rgba(10,13,18,.86) 40%,rgba(10,13,18,.5) 62%,rgba(10,13,18,.3) 100%)',
       form: f, progressLabel: pct + '%', progressWidth: pct + '%',
       setNome: e => this.setF('nome', e.target.value), setZap: e => this.setF('zap', v2Mask(e.target.value)), setOutro: e => this.setF('outro', e.target.value), setEsp: e => this.setF('esp', e.target.value),
       toggleAceite: () => this.setF('aceite', !f.aceite), isOutro: f.dor === 4, hasErr: !!this.state.err, errMsg: this.state.err, btnLabel: this.state.sending ? 'Recebendo seu pedido…' : 'Quero meu diagnóstico →', demoPlaying: !!this.state.demoPlaying, playDemo: (e) => { if (e && e.preventDefault) e.preventDefault(); if (!this.state.demoPlaying) { v2Track('DemoVideoPlay'); this.setState({ demoPlaying: true }); } }, obrigadoTitulo: v2NomeTitulo(),
