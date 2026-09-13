@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>FF.AI CRM · nova versão</title>
+<link rel="icon" type="image/svg+xml" href="/assets/ffai-favicon.svg">
+<meta name="theme-color" content="#131E30">
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18172890851"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-18172890851'); gtag('config', 'AW-18425406801'); gtag('config', 'G-VW8M4SP8SY', { content_group: 'v2' });</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '27417120574590791'); fbq('track', 'PageView');  fbq('trackSingleCustom', '27417120574590791', 'V2Home');</script>
+
+
+<script>
+(function(){
+  var WEBHOOK = 'https://qoaanghwludaicceugsa.supabase.co/functions/v1/lp-lead-intake';
+  var ORIGEM = { home: 'v2-home', demo: 'v2-demo', diag: 'v2-form', obrigado: 'v2-obrigado' };
+  function qs(k){ return new URLSearchParams(location.search).get(k) || ''; }
+  function utmQs(){ var p = new URLSearchParams(); ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'].forEach(function(k){ var v = qs(k); if (v) p.set(k, v); }); return p; }
+  window.v2Track = function(name){ try { if (window.fbq) fbq('trackSingleCustom', '27417120574590791', name); } catch(e){} };
+  window.v2Url = function(page, from){
+    var p = utmQs();
+    if (page === 'home') return '/v2/' + (p.toString() ? '?' + p : '');
+    if (page === 'demo') { v2Track('V2VerDemo'); return '/v2/demonstracao' + (p.toString() ? '?' + p : ''); }
+    if (page === 'diag') { v2Track('V2DiagnosticoClique'); p.set('origem', ORIGEM[from] || 'v2'); return '/v2/diagnostico?' + p; }
+    return '/v2/obrigado' + (p.toString() ? '?' + p : '');
+  };
+  window.v2Mask = function(raw){
+    var v = String(raw).replace(/\D/g, '');
+    if (v.length >= 12 && v.substring(0, 2) === '55') v = v.substring(2);
+    v = v.substring(0, 11);
+    if (!v) return '';
+    if (v.length <= 2) return '(' + v;
+    if (v.length <= 7) return '(' + v.substring(0, 2) + ') ' + v.substring(2);
+    return '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7, 11);
+  };
+  function e164(zap){ var d = String(zap).replace(/\D/g, ''); return (d.length === 11 && d.charAt(2) === '9' && d.charAt(0) !== '0') ? '+55' + d : ''; }
+  var PORTE = ['Só eu', '2 a 3 profissionais', '4 a 10 profissionais', '11 ou mais'];
+  var DOR = ['Perco paciente no atendimento', 'Não tenho controle do funil', 'Equipe afogada no WhatsApp', 'Quero começar com IA e não sei por onde', 'Outro'];
+  var QUANDO = ['Esta semana ainda', 'Próxima semana', 'Em 15 dias', 'Sem preferência'];
+  function pick(list, i){ return i === null || i === undefined ? '' : list[i]; }
+  function base(f){
+    return { lp: 'ffai-diagnostico', nome: f.nome.trim(), whatsapp: e164(f.zap), especialidade: f.esp || '',
+      tamanho_clinica: pick(PORTE, f.porte), gargalo: pick(DOR, f.dor), disponibilidade: f.quando === null ? 'Sem preferência' : QUANDO[f.quando],
+      origem: qs('origem') || 'v2-form', landing_url: location.href,
+      utm: { source: qs('utm_source') || 'direto', medium: qs('utm_medium'), campaign: qs('utm_campaign') } };
+  }
+  var enviouCompleto = false, enviouParcial = false;
+  window.v2Partial = function(c){
+    if (enviouCompleto || enviouParcial) return;
+    var f = c.state.form;
+    if (f.nome.trim().length < 2 || !e164(f.zap)) return;
+    var b = base(f); b.partial = true;
+    try { enviouParcial = navigator.sendBeacon(WEBHOOK, new Blob([JSON.stringify(b)], { type: 'text/plain' })); } catch (e) {}
+  };
+  window.v2Submit = function(c){
+    if (c.state.sending) return;
+    var f = c.state.form, err = '';
+    if (Date.now() - (c._renderedAt || 0) < 3000) return;
+    if (f.nome.trim().length < 2) err = 'Me diz o seu nome.';
+    else if (!e164(f.zap)) err = 'Confere o número: precisa ser DDD (2 dígitos) + 9XXXX-XXXX.';
+    else if (!f.esp) err = 'Escolhe a sua especialidade.';
+    else if (f.porte === null) err = 'Quantos profissionais atendem na clínica?';
+    else if (f.dor === null) err = 'O que mais pesa na clínica hoje?';
+    else if (f.dor === 4 && !f.outro.trim()) err = 'Conta rapidinho o que pesa na clínica.';
+    else if (!f.aceite) err = 'Falta aceitar os Termos do Diagnóstico e a Política de Privacidade.';
+    if (err) { c.setState({ err: err }); return; }
+    var payload = base(f);
+    payload.gargalo_outro = f.dor === 4 ? f.outro.trim() : '';
+    payload.aceite_termos = true; payload.aceite_termos_at = new Date().toISOString();
+    c.setState({ sending: true, err: '' });
+    fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function(r){
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        enviouCompleto = true;
+        var partes = payload.nome.split(' ').filter(function(p){ return !/^(dr|dra|drª|dr\.|dra\.)$/i.test(p); });
+        var primeiro = partes[0] || payload.nome.split(' ')[0];
+        try { sessionStorage.setItem('ffai_ec', JSON.stringify({ phone: payload.whatsapp, first_name: primeiro.toLowerCase() })); } catch (e) {}
+        var p = new URLSearchParams(); p.set('nome', primeiro);
+        ['source','medium','campaign'].forEach(function(k){ if (payload.utm[k]) p.set('utm_' + k, payload.utm[k]); });
+        location.href = '/v2/obrigado?' + p;
+      })
+      .catch(function(){ c.setState({ sending: false, err: 'Não consegui enviar agora. Tenta de novo em alguns segundos.' }); });
+  };
+  window.v2NomeTitulo = function(){
+    var n = (qs('nome') || '').replace(/[^\p{L}\s\-']/gu, '').trim().slice(0, 40);
+    return n ? 'Recebi tudo, ' + n + '!' : 'Recebi tudo!';
+  };
+  // intencao: clique em WhatsApp
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href*="wa.me/"]') : null;
+    if (!a) return;
+    try { if (window.fbq) { fbq('trackSingle', '27417120574590791', 'Lead'); fbq('trackSingleCustom', '27417120574590791', 'V2WhatsClique'); } } catch (x) {}
+    if (typeof gtag === 'function') gtag('event', 'conversion', { send_to: 'AW-18172890851/SdHkCJf3jr8cEOOdwdlD', value: 200.0, currency: 'BRL' });
+  }, true);
+})();
+</script>
+<script src="/v2/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F1E8;color:#1A2030;font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
+*{box-sizing:border-box}
+@keyframes ffFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ffPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,125,91,.35)}50%{box-shadow:0 0 0 8px rgba(46,125,91,0)}}
+@keyframes ffDash{to{stroke-dashoffset:-24}}
+@keyframes ffSlide{0%,15%{transform:translateX(-110%);opacity:0}40%,85%{transform:none;opacity:1}100%{transform:translateX(-110%);opacity:0}}
+@keyframes ffGrow{0%{transform:scaleY(.2)}60%,100%{transform:scaleY(1)}}
+@keyframes ffBlink{0%,100%{opacity:1}50%{opacity:.35}}
+</style>
+</helmet>
+
+<div style="display:flex;flex-direction:column;min-height:100vh;font-family:'Manrope',sans-serif">
+
+<!-- ===================== HOME ===================== -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div data-screen-label="Home">
+  <header style="position:sticky;top:0;z-index:20;background:rgba(19,30,48,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,162,74,.25)">
+    <div style="max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="/v2/" style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:21px;letter-spacing:-.01em"><span style="width:34px;height:34px;border-radius:9px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:7px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></a>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><nav style="display:flex;gap:22px;flex-wrap:wrap;font-size:13px;font-weight:500;color:#C9CFDA">
+        <a href="#vazamentos" style="color:#C9CFDA">O problema</a><a href="#operacao" style="color:#C9CFDA">O que entra</a><a href="#comparativo" style="color:#C9CFDA">Comparativo</a><a href="#garantia" style="color:#C9CFDA">A oferta</a><a href="#prova" style="color:#C9CFDA">Depoimentos</a><a href="#ffai-360" style="color:#C9CFDA">FF.AI 360</a>
+      </nav>
+      <a href="#" onClick="{{ goDiag }}" style="background:#C9A24A;color:#131E30;font-weight:700;font-size:13px;padding:11px 18px;border-radius:999px;white-space:nowrap" style-hover="background:#E3C77A">Agendar demonstração</a></sc-if>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><button onClick="{{ toggleMenu }}" aria-label="Menu" style="background:transparent;border:1px solid rgba(201,162,74,.5);border-radius:10px;width:42px;height:42px;display:grid;place-items:center;cursor:pointer;gap:0"><span style="display:flex;flex-direction:column;gap:5px"><span style="width:18px;height:2px;background:#E3C77A"></span><span style="width:18px;height:2px;background:#E3C77A"></span><span style="width:18px;height:2px;background:#E3C77A"></span></span></button></sc-if>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:4px;padding:8px 16px 18px;border-top:1px solid rgba(201,162,74,.2);font-size:15px;font-weight:600">
+        <a href="#vazamentos" onClick="{{ closeMenu }}" style="color:#F5F1E8;padding:12px 8px">O problema</a><a href="#operacao" onClick="{{ closeMenu }}" style="color:#F5F1E8;padding:12px 8px">O que entra</a><a href="#comparativo" onClick="{{ closeMenu }}" style="color:#F5F1E8;padding:12px 8px">Comparativo</a><a href="#garantia" onClick="{{ closeMenu }}" style="color:#F5F1E8;padding:12px 8px">A oferta</a><a href="#prova" onClick="{{ closeMenu }}" style="color:#F5F1E8;padding:12px 8px">Depoimentos</a><a href="#ffai-360" onClick="{{ closeMenu }}" style="color:#F5F1E8;padding:12px 8px">FF.AI 360</a>
+        <a href="#" onClick="{{ goDiag }}" style="margin-top:8px;background:#C9A24A;color:#131E30;font-weight:700;font-size:14px;padding:14px 18px;border-radius:999px;text-align:center">Agendar demonstração</a>
+      </div></sc-if>
+  </header>
+
+  <!-- HERO -->
+  <section style="position:relative;background:#0F1A16;color:#F5F1E8;overflow:hidden;min-height:720px;display:flex;align-items:center">
+    <img src="/v2/img/08-ia-orquestrada.webp" alt="Agentes de IA da FF.AI orquestrados" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,24,22,.96) 0%,rgba(15,24,22,.86) 38%,rgba(15,24,22,.35) 62%,rgba(15,24,22,0) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,42,63,.35),rgba(15,24,22,0) 40%,rgba(15,24,22,.6) 100%)"></div><sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;background:rgba(15,24,22,.8)"></div></sc-if>
+    <div style="position:relative;max-width:1200px;width:100%;margin:0 auto;padding:clamp(56px,8vw,96px) 24px 120px">
+      <div style="max-width:600px;display:flex;flex-direction:column;gap:26px;animation:ffFade .8s ease both">
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600"><span style="width:28px;height:1px;background:#C9A24A"></span>CRM e IA agêntica para clínicas médicas e odontológicas</div>
+        <h1 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(40px,5.2vw,68px);line-height:1.02;letter-spacing:-.01em;text-wrap:pretty">Você não sabe quantos pacientes a sua clínica perdeu ontem.</h1>
+        <p style="margin:0;font-size:17px;line-height:1.65;color:#D8DCE3;text-wrap:pretty">Eles escreveram no WhatsApp, esperaram, e marcaram com quem respondeu antes. Os poucos que a sua equipe conseguiu atender ninguém registrou no CRM, porque não sobra tempo. No FF.AI CRM a IA responde em segundos e o funil se movimenta de forma automática conforme o atendimento ocorre. <strong style="color:#fff">Ninguém digita nada.</strong></p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
+          <a href="#" onClick="{{ goDemo }}" style="background:#C9A24A;color:#131E30;font-weight:700;font-size:15px;padding:16px 28px;border-radius:999px" style-hover="background:#E3C77A">Ver a demonstração</a>
+          <a href="#" onClick="{{ goDiag }}" style="color:#F5F1E8;font-weight:600;font-size:15px;padding:16px 22px;border:1px solid rgba(245,241,232,.35);border-radius:999px" style-hover="border-color:#C9A24A;color:#E3C77A">Agendar demonstração</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding-top:8px;border-top:1px solid rgba(201,162,74,.3);margin-top:8px">
+          <img src="/v2/img/03-fabio-conexao.webp" alt="Dr. Fábio Faleiro Vieira" style="width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid #C9A24A">
+          <p style="margin:0;font-size:14px;line-height:1.5;color:#C9CFDA"><strong style="color:#fff">Founder: Dr. Fábio Faleiro.</strong> O FF.AI CRM opera na clínica dele e em várias outras clínicas médicas e odontológicas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STELLA + FUNIL -->
+  <section style="background:#F5F1E8;padding:0 24px">
+    <div style="max-width:1200px;margin:-64px auto 0;position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+      <div style="background:#fff;border-radius:20px;box-shadow:0 30px 60px -30px rgba(19,30,48,.45);border:1px solid rgba(28,42,63,.08);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;background:#1C2A3F;color:#fff">
+          <div style="width:38px;height:38px;border-radius:50%;background:#C9A24A;color:#131E30;display:grid;place-items:center;font-family:'Manrope',sans-serif;font-weight:800;font-size:20px">S</div>
+          <div style="flex:1;font-size:13px;line-height:1.3"><strong>Stella · FF.AI</strong> respondendo agora</div><span style="font-size:12px;color:#C9CFDA">23h04</span>
+        </div>
+        <div style="padding:18px 20px;display:flex;flex-direction:column;gap:10px;font-size:13.5px;line-height:1.5;background:#F8F6F1;flex:1">
+          <div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px">Boa noite. Vi o vídeo da cirurgia robótica. Qual o valor da consulta?</div>
+          <div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px">Boa noite! Sou a Stella, do time do Dr. Fábio. Antes do valor, me conta rapidinho: você já fez alguma cirurgia abdominal antes?</div>
+          <div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px">Duas cesáreas. Ficou aquela separação no músculo que não sai com academia.</div>
+          <div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px">Entendi. É exatamente o quadro que o Dr. Fábio corrige por via robótica. Tenho quinta às 14h ou sexta às 9h com ele. Qual encaixa melhor?</div>
+          <div style="align-self:flex-start;max-width:85%;background:#fff;border:1px solid #E6E1D6;padding:10px 14px;border-radius:14px 14px 14px 4px">Sexta 9h.</div>
+          <div style="align-self:flex-end;max-width:85%;background:#1C2A3F;color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px">Perfeito, agendado. Vou te mandar o preparo por aqui.</div>
+        </div>
+      </div>
+      <div style="position:relative;border-radius:20px;overflow:hidden;min-height:360px;box-shadow:0 30px 60px -30px rgba(19,30,48,.45);display:flex;flex-direction:column;justify-content:flex-end">
+        <img src="/v2/img/05-atendimento-inteligente.webp" alt="Recepção da clínica com IA no WhatsApp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,0) 30%,rgba(19,30,48,.92) 100%)"></div>
+        <div style="position:relative;padding:22px;display:flex;flex-direction:column;gap:12px;color:#fff">
+          <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">FF.AI CRM movendo sozinho</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:12px">
+            <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px"><em style="font-style:normal;color:#C9CFDA">Leads de entrada</em><div style="font-size:20px;font-weight:700">{{ funil.a }}</div></div>
+            <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px"><em style="font-style:normal;color:#C9CFDA">Stella · SDR IA</em><div style="font-size:20px;font-weight:700">{{ funil.b }}</div></div>
+            <div style="background:rgba(201,162,74,.25);border:1px solid #C9A24A;border-radius:10px;padding:10px"><em style="font-style:normal;color:#E3C77A">Consulta agendada</em><div style="font-size:20px;font-weight:700">{{ funil.c }}</div></div>
+          </div>
+          <div style="background:#fff;color:#1A2030;border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px"><span><strong>Ana Paula</strong> · <em style="font-style:normal;color:#B8923A">R$ 450</em></span><span style="color:#5B6577;font-size:12px">{{ funil.status }}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section id="vazamentos" style="background:#F5F1E8;padding:110px 24px 90px">
+    <div style="max-width:1200px;margin:0 auto">
+      <div style="max-width:760px;display:flex;flex-direction:column;gap:18px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">O problema</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F;text-wrap:pretty">O paciente não espera. E o que a equipe atende, ninguém registra.</h2>
+        <p style="margin:0;font-size:17px;line-height:1.65;color:#3E4757;text-wrap:pretty">São duas contas somadas. A primeira é a demora: quem pergunta às 14h e é respondido às 17h já marcou em outro lugar. A segunda é o trabalho manual que sobra depois, porque criar o card, mover a etapa e anotar o combinado é tarefa de quem já está atendendo o paciente seguinte. <strong style="color:#1C2A3F">São quatro vazamentos que ninguém mede.</strong></p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px;margin-top:56px;align-items:stretch">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:rgba(28,42,63,.12);border:1px solid rgba(28,42,63,.12)">
+        <sc-for list="{{ vazamentos }}" as="v" hint-placeholder-count="4">
+          <div style="background:#F5F1E8;padding:32px 28px;display:flex;flex-direction:column;gap:14px" style-hover="background:#fff">
+            <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">{{ v.n }}</div>
+            <h3 style="margin:0;font-size:19px;line-height:1.3;color:#1C2A3F;font-weight:700;text-wrap:pretty">{{ v.t }}</h3>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A5364">{{ v.d }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <div style="position:relative;border-radius:20px;overflow:hidden;min-height:420px"><img src="/v2/img/10-inteligencia-em-crescimento.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:35% center"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,0) 60%,rgba(19,30,48,.55) 100%)"></div></div>
+    </div>
+    </div>
+  </section>
+
+  <!-- NÚMEROS -->
+  <section style="position:relative;background:#0E1614;color:#F5F1E8;overflow:hidden">
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><img src="/v2/img/03-fabio-conexao.webp" alt="Dr. Fábio Faleiro Vieira" style="position:absolute;left:0;top:0;width:62%;height:100%;object-fit:cover;object-position:center 15%"></sc-if><sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><img src="/v2/img/03-fabio-conexao.webp" alt="Dr. Fábio Faleiro Vieira" style="position:absolute;left:0;top:0;width:100%;height:340px;object-fit:cover;object-position:center 15%"><div style="position:absolute;left:0;top:0;width:100%;height:340px;background:linear-gradient(180deg,rgba(19,30,48,0) 30%,#131E30 100%)"></div></sc-if>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(19,30,48,0) 0%,rgba(19,30,48,.1) 35%,rgba(19,30,48,.85) 50%,rgba(19,30,48,1) 62%)"></div></sc-if>
+    <div style="position:relative;max-width:1200px;margin:0 auto;padding:110px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:56px;align-items:center">
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><div></div></sc-if><sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><div style="height:200px"></div></sc-if>
+      <div style="display:flex;flex-direction:column;gap:40px">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600">Nossos números</div>
+          <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08">Os primeiros 90 dias, medidos.</h2>
+          <p style="margin:0;font-size:16px;line-height:1.65;color:#C9CFDA;text-wrap:pretty">Nada aqui é projeção. São os números lidos da própria plataforma, do jeito que a operação registrou, nos primeiros 90 dias do FF.AI CRM no ar.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px 32px">
+          <sc-for list="{{ numeros }}" as="k" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(201,162,74,.4);padding-top:16px">
+              <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:48px;line-height:1;color:#E3C77A"><span style="font-size:24px;vertical-align:top">{{ k.pre }}</span><strong style="font-weight:600">{{ k.v }}</strong><span style="font-size:24px">{{ k.suf }}</span></div>
+              <h3 style="margin:0;font-size:15px;font-weight:700">{{ k.t }}</h3>
+              <p style="margin:0;font-size:13px;line-height:1.55;color:#B4BBC7">{{ k.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section id="prova" style="background:#fff;padding:100px 24px">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:44px">
+      <div style="max-width:640px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">Depoimentos</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">O que estão falando de trabalhar com a gente</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757">A gente não fala pelo cliente. Ouça direto de quem já passou por isso.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <video controls playsinline preload="none" poster="/crm/videos/dep-rogerio.jpg" src="/crm/videos/dep-rogerio.mp4" style="width:100%;height:auto;aspect-ratio:16/9;border-radius:16px;background:#1C2A3F;object-fit:cover;display:block"></video>
+          <p style="margin:0;font-size:14px;color:#3E4757"><strong style="color:#1C2A3F">Dr. Rogério Troian</strong> · Endocrinologia e nutrologia</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <video controls playsinline preload="none" poster="/crm/videos/dep-lidyane.jpg" src="/crm/videos/dep-lidyane.mp4" style="width:100%;height:auto;aspect-ratio:16/9;border-radius:16px;background:#1C2A3F;object-fit:cover;display:block"></video>
+          <p style="margin:0;font-size:14px;color:#3E4757"><strong style="color:#1C2A3F">Dra. Lidyane Gomide</strong> · Akoya Clínica · estética íntima e ginecologia regenerativa</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPERAÇÃO -->
+  <section id="operacao" style="background:#131E30;color:#F5F1E8;padding:110px 24px;position:relative;overflow:hidden">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:56px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px;align-items:center">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600">O que entra na sua operação</div>
+          <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08">Seis coisas que o seu CRM atual não faz.</h2>
+          <p style="margin:0;font-size:16px;line-height:1.65;color:#C9CFDA;text-wrap:pretty">Cada uma nasceu de um problema real de clínica, foi construída para a nossa operação e só depois virou produto.</p>
+        </div>
+        <div style="border-radius:20px;overflow:hidden;aspect-ratio:16/9;border:1px solid rgba(201,162,74,.3)"><img src="/v2/img/09-jornada-conectada.webp" alt="Jornada do paciente conectada" style="width:100%;height:100%;object-fit:cover"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px">
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="border-color:rgba(201,162,74,.6)">
+          <div style="background:linear-gradient(160deg,#EAF3EE,#F6F4EE);padding:22px;min-height:240px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:12px;color:#3E4757;max-width:150px">Qual o valor da consulta?</span><span style="flex:1;border-top:2px dashed #2E7D5B;opacity:.6"></span><span style="background:#2E7D5B;color:#fff;border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:8px;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:#fff;animation:ffBlink 1.2s infinite"></span>responde em 41s</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:700;color:#1C2A3F"><span style="width:18px;height:18px;border-radius:50%;background:#DDEDE5;display:grid;place-items:center;color:#2E7D5B;font-size:11px;">✓</span>Triagem</span><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:700;color:#1C2A3F"><span style="width:18px;height:18px;border-radius:50%;background:#DDEDE5;display:grid;place-items:center;color:#2E7D5B;font-size:11px;">✓</span>SDR qualifica</span><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:12px;padding:9px 12px;font-size:12px;font-weight:700;color:#1C2A3F"><span style="width:18px;height:18px;border-radius:50%;background:#DDEDE5;display:grid;place-items:center;color:#2E7D5B;font-size:11px;">✓</span>Closer agenda</span><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #2E7D5B;border-radius:12px;padding:9px 12px;font-size:12px;font-weight:700;color:#1C2A3F"><span style="width:18px;height:18px;border-radius:50%;background:#2E7D5B;display:grid;place-items:center;color:#fff;font-size:11px;animation:ffPulse 2s infinite">✓</span>Quebra objeção</span></div>
+            <div style="align-self:center;margin-top:auto;background:#2E7D5B22;color:#2E7D5B;border-radius:999px;padding:7px 14px;font-size:11.5px;font-weight:700">não agendou → follow-up + tag</div></div>
+          <div style="padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Triagem</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">SDR qualifica</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Closer agenda</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Quebra objeção</span></div>
+            <h3 style="margin:0;font-size:19px;line-height:1.3;font-weight:700;text-wrap:pretty">Responde em segundos, e não para no agendamento</h3>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#B4BBC7">A qualquer hora, inclusive às onze da noite e no domingo. E não é um robô só: um agente de triagem entende o que o paciente quer, um SDR qualifica e direciona, um closer conduz até o agendamento e um agente dedicado a objeção antecipa o "vou pensar" e o "está caro". Quem não agendou entra em follow-up e sai etiquetado para remarketing.</p>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="border-color:rgba(201,162,74,.6)">
+          <div style="background:linear-gradient(160deg,#E7EEF8,#F3F5F9);padding:22px;min-height:240px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:10px;letter-spacing:.08em;color:#5B6577;font-weight:600">
+              <div style="display:flex;flex-direction:column;gap:8px">NOVO<div style="background:#fff;border:1px solid rgba(28,42,63,.1);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px"><span style="height:6px;width:70%;border-radius:3px;background:#DCE4F0"></span><span style="height:6px;width:45%;border-radius:3px;background:#DCE4F0"></span></div><div style="background:#fff;border:1px solid rgba(28,42,63,.1);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px"><span style="height:6px;width:55%;border-radius:3px;background:#DCE4F0"></span><span style="height:6px;width:40%;border-radius:3px;background:#DCE4F0"></span></div></div>
+              <div style="display:flex;flex-direction:column;gap:8px;border-left:1px dashed #B9C6DA;border-right:1px dashed #B9C6DA;padding:0 10px">QUALIFICADO<div style="background:#fff;border:1px solid rgba(28,42,63,.1);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px"><span style="height:6px;width:65%;border-radius:3px;background:#DCE4F0"></span><span style="height:6px;width:40%;border-radius:3px;background:#DCE4F0"></span></div><div style="background:#fff;border:1px solid rgba(28,42,63,.1);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px"><span style="height:6px;width:60%;border-radius:3px;background:#DCE4F0"></span><span style="height:6px;width:35%;border-radius:3px;background:#DCE4F0"></span></div></div>
+              <div style="display:flex;flex-direction:column;gap:8px;overflow:hidden">AGENDADO<div style="background:#fff;border:2px solid #1C2A3F;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;animation:ffSlide 4s ease-in-out infinite"><span style="height:6px;width:60%;border-radius:3px;background:#1C2A3F"></span><span style="background:#E7EEF8;color:#1C2A3F;border-radius:999px;padding:3px 8px;font-size:10px;font-weight:700;align-self:flex-start;letter-spacing:0">agendado</span></div></div>
+            </div>
+            <div style="align-self:center;margin-top:auto;background:#1C2A3F22;color:#1C2A3F;border-radius:999px;padding:7px 14px;font-size:11.5px;font-weight:700">moveu sem ninguém tocar</div></div>
+          <div style="padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Novo</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Qualificado</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Agendado</span></div>
+            <h3 style="margin:0;font-size:19px;line-height:1.3;font-weight:700;text-wrap:pretty">O funil anda sozinho</h3>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#B4BBC7">Cada resposta do paciente move o card para a etapa certa, sem ninguém arrastar nada. O que a IA entendeu na conversa vira estágio, etiqueta, valor e próximo passo dentro do CRM. O painel mostra o que aconteceu, não o que alguém lembrou de anotar.</p>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="border-color:rgba(201,162,74,.6)">
+          <div style="background:linear-gradient(160deg,#F5EEDD,#F8F5EE);padding:22px;min-height:240px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden">
+            <div style="background:#fff;border:1px solid rgba(28,42,63,.1);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:12px;font-weight:700;color:#1C2A3F">Conversão por etapa</span><span style="border:2px solid #A8842E;color:#A8842E;border-radius:999px;padding:5px 12px;font-size:11px;font-weight:700;display:inline-flex;gap:6px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:#A8842E;color:#fff;font-size:9px;display:grid;place-items:center">!</span>gargalo do funil</span></div>
+              <div style="display:flex;align-items:flex-end;gap:10px;height:90px;border-bottom:1px dashed #D9C89A"><span style="flex:1;height:100%;border-radius:6px 6px 0 0;background:#E3D2A4;transform-origin:bottom;animation:ffGrow 2.4s 0s ease-out infinite"></span><span style="flex:1;height:80%;border-radius:6px 6px 0 0;background:#E3D2A4;transform-origin:bottom;animation:ffGrow 2.4s 0.2s ease-out infinite"></span><span style="flex:1;height:62%;border-radius:6px 6px 0 0;background:#E3D2A4;transform-origin:bottom;animation:ffGrow 2.4s 0.4s ease-out infinite"></span><span style="flex:1;height:28%;border-radius:6px 6px 0 0;background:#A8842E;transform-origin:bottom;animation:ffGrow 2.4s 0.6s ease-out infinite"></span><span style="flex:1;height:48%;border-radius:6px 6px 0 0;background:#E3D2A4;transform-origin:bottom;animation:ffGrow 2.4s 0.8s ease-out infinite"></span></div>
+            </div>
+            <div style="align-self:center;margin-top:auto;background:#A8842E22;color:#A8842E;border-radius:999px;padding:7px 14px;font-size:11.5px;font-weight:700">meta do mês · KPI por etapa</div></div>
+          <div style="padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Conversão por etapa</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Gargalo do funil</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">KPI por etapa</span></div>
+            <h3 style="margin:0;font-size:19px;line-height:1.3;font-weight:700;text-wrap:pretty">Relatório comercial num clique</h3>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#B4BBC7">CRM personalizado clínica a clínica, com relatório de funil, identificação do gargalo, planejamento de metas, KPIs por etapa e análise financeira. Você para de perguntar como foi o mês e passa a olhar onde mexer.</p>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="border-color:rgba(201,162,74,.6)">
+          <div style="background:linear-gradient(160deg,#EAF3EE,#F6F4EE);padding:22px;min-height:240px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden">
+            <div style="display:flex;justify-content:space-between"><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:600;color:#1C2A3F;box-shadow:0 4px 12px -6px rgba(28,42,63,.3);">remarketing</span><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:600;color:#1C2A3F;box-shadow:0 4px 12px -6px rgba(28,42,63,.3);">transmissão</span></div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:14px;padding:6px 0"><span style="width:64px;height:64px;border-radius:18px;background:linear-gradient(160deg,#12936E,#084E3B);display:grid;place-items:center;position:relative;box-shadow:0 12px 24px -12px rgba(8,78,59,.8)"><span style="font-weight:800;font-size:38px;color:#fff;margin-left:-6px;margin-top:-3px">F</span><span style="position:absolute;right:13px;bottom:14px;width:10px;height:10px;border-radius:50%;background:#7EE0B0"></span></span><span style="width:36px;border-top:2px dashed #2E7D5B;opacity:.6"></span><span style="width:34px;height:34px;border-radius:50%;background:#2E7D5B;color:#fff;display:grid;place-items:center;font-size:16px;animation:ffPulse 2s infinite">✓</span><span style="width:36px;border-top:2px dashed #2E7D5B;opacity:.6"></span><span style="width:64px;height:64px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 12px 24px -12px rgba(28,42,63,.4)"><svg width="34" height="34" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4 5.2 5.2 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></span></div>
+            <div style="align-self:center;margin-top:auto;border:2px solid #2E7D5B;color:#2E7D5B;border-radius:999px;padding:8px 18px;font-size:11.5px;font-weight:700;background:#fff">Provedor de Tecnologia oficial da Meta</div></div>
+          <div style="padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Remarketing</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Transmissão</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Meta oficial</span></div>
+            <h3 style="margin:0;font-size:19px;line-height:1.3;font-weight:700;text-wrap:pretty">Provedor de Tecnologia oficial da Meta</h3>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#B4BBC7">A FF.AI é parceira oficial da Meta como Provedora de Tecnologia, então o número da sua clínica roda homologado na API oficial do WhatsApp. É o que libera campanha de remarketing, lista de transmissão e anúncio que clica direto para a conversa, dentro das regras da plataforma. Número em restrição é base de conversa perdida, e base perdida não volta.</p>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="border-color:rgba(201,162,74,.6)">
+          <div style="background:linear-gradient(160deg,#E7EEF8,#F3F5F9);padding:22px;min-height:240px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden">
+            <div style="display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center">
+              <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start"><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:999px;padding:8px 14px;font-size:12px;color:#3E4757"><span style="width:12px;height:12px;border-radius:50%;background:#DCE4F0"></span>Recepção</span><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:999px;padding:8px 14px;font-size:12px;color:#3E4757"><span style="width:12px;height:12px;border-radius:50%;background:#DCE4F0"></span>Comercial</span><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:999px;padding:8px 14px;font-size:12px;color:#3E4757"><span style="width:12px;height:12px;border-radius:50%;background:#DCE4F0"></span>Unidade 2</span></div>
+              <svg viewBox="0 0 80 120" width="100%" height="120" preserveAspectRatio="none" style="min-width:40px"><g fill="none" stroke="#3B6AA0" stroke-width="2" stroke-dasharray="6 6" style="animation:ffDash 1.2s linear infinite"><path d="M0 20 C40 20 40 60 80 60"/><path d="M0 60 L80 60"/><path d="M0 100 C40 100 40 60 80 60"/></g></svg>
+              <div style="width:120px;background:#fff;border:2px solid #3B6AA0;border-radius:12px;overflow:hidden"><div style="background:#3B6AA0;color:#fff;font-size:11px;font-weight:700;padding:7px 10px">Caixa única</div><div style="padding:10px;display:flex;flex-direction:column;gap:6px"><span style="height:5px;width:80%;background:#DCE4F0;border-radius:3px"></span><span style="height:5px;width:55%;background:#DCE4F0;border-radius:3px"></span><span style="height:5px;width:70%;background:#DCE4F0;border-radius:3px"></span><span style="height:5px;width:60%;background:#DCE4F0;border-radius:3px"></span></div></div>
+            </div>
+            <div style="align-self:center;margin-top:auto;background:#3B6AA022;color:#3B6AA0;border-radius:999px;padding:7px 14px;font-size:11.5px;font-weight:700">histórico unificado por telefone</div></div>
+          <div style="padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Recepção</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Comercial</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Unidade 2</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Caixa única</span></div>
+            <h3 style="margin:0;font-size:19px;line-height:1.3;font-weight:700;text-wrap:pretty">Vários números, um painel só</h3>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#B4BBC7">Gestão multicanal dentro do próprio CRM: o número da recepção, o do comercial, o de cada unidade e o de cada especialista, todos na mesma tela. O histórico fica unificado por telefone, então ninguém repete a pergunta que o colega já fez.</p>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;display:flex;flex-direction:column" style-hover="border-color:rgba(201,162,74,.6)">
+          <div style="background:linear-gradient(160deg,#F7EBE2,#F8F5EE);padding:22px;min-height:240px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden">
+            <div style="display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center">
+              <div style="width:110px;background:#fff;border:1px solid rgba(28,42,63,.1);border-radius:12px;padding:14px 12px;display:flex;flex-direction:column;gap:6px;align-items:center;box-shadow:0 10px 24px -14px rgba(28,42,63,.4)"><span style="height:5px;width:80%;background:#EAD6C6;border-radius:3px;align-self:flex-start"></span><span style="height:5px;width:60%;background:#EAD6C6;border-radius:3px;align-self:flex-start"></span><span style="height:5px;width:70%;background:#EAD6C6;border-radius:3px;align-self:flex-start"></span><span style="margin-top:8px;width:34px;height:34px;border-radius:50%;background:#B0703F;color:#fff;display:grid;place-items:center;font-size:16px;animation:ffPulse 2s infinite">✓</span><span style="font-size:11px;font-weight:700;color:#B0703F">assinado A1</span></div>
+              <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:600;color:#1C2A3F;box-shadow:0 4px 12px -6px rgba(28,42,63,.3);">Nota fiscal</span><span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(28,42,63,.12);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:600;color:#1C2A3F;box-shadow:0 4px 12px -6px rgba(28,42,63,.3);">Pagamento</span></div>
+              <div style="width:96px;background:#fff;border:2px solid #B0703F;border-radius:14px 14px 14px 4px;padding:12px;display:flex;flex-direction:column;gap:6px"><span style="height:6px;width:90%;background:#B0703F;border-radius:3px"></span><span style="height:6px;width:60%;background:#EAD6C6;border-radius:3px"></span><span style="font-size:11px;font-weight:700;color:#B0703F;margin-top:4px">no chat</span></div>
+            </div>
+            <div style="align-self:center;margin-top:auto;background:#B0703F22;color:#B0703F;border-radius:999px;padding:7px 14px;font-size:11.5px;font-weight:700">sem abrir outra aba, sem portal</div></div>
+          <div style="padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Assinado A1</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Nota fiscal</span><span style="font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.15);color:#E3C77A;border:1px solid rgba(201,162,74,.35)">Pagamento no chat</span></div>
+            <h3 style="margin:0;font-size:19px;line-height:1.3;font-weight:700;text-wrap:pretty">Exame, nota fiscal e cobrança no chat</h3>
+            <p style="margin:0;font-size:14.5px;line-height:1.65;color:#B4BBC7">Um botão na ficha do paciente monta o pedido de exames conforme a indicação médica ou odontológica, assinado digitalmente com o certificado do profissional responsável. Outro emite a nota fiscal junto à prefeitura, e o link de pagamento sai ali mesmo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEGRAÇÃO -->
+  <section id="integracao" style="background:#F5F1E8;padding:110px 24px">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:48px">
+      <div style="max-width:720px;display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">Integração</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">Integração com vários prontuários do mercado.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757;text-wrap:pretty">O FF.AI CRM não pede que você troque de prontuário. Ele entra ao lado, na camada comercial e de atendimento, e conversa com o sistema que a sua clínica já usa.</p>
+      </div>
+      <div style="position:relative;border-radius:24px;overflow:hidden;min-height:420px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;padding:36px;align-items:end">
+        <img src="/v2/img/09-jornada-conectada.webp" alt="Jornada conectada" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,241,232,0) 30%,rgba(245,241,232,.55) 100%)"></div>
+        <div style="position:relative;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px;border:1px solid rgba(28,42,63,.08)">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B6577;font-weight:600">Continua como está</div>
+          <h3 style="margin:0;font-size:20px;color:#1C2A3F">O prontuário da sua clínica</h3>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#4A5364">Prontuário, odontograma e histórico clínico ficam onde já estão. A FF.AI não pede troca de sistema e não guarda dado clínico do seu paciente.</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid rgba(28,42,63,.2);color:#1C2A3F">Prontuário</span><span style="font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid rgba(28,42,63,.2);color:#1C2A3F">Odontograma</span><span style="font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid rgba(28,42,63,.2);color:#1C2A3F">Histórico clínico</span></div>
+        </div>
+        <div style="position:relative;background:#1C2A3F;color:#fff;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px;border:1px solid rgba(201,162,74,.5)">
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">Entra junto</div>
+          <h3 style="margin:0;font-size:20px">O FF.AI CRM</h3>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#C9CFDA">A camada comercial e de atendimento: a conversa, o funil, o relatório e os módulos de exame, nota fiscal e cobrança.</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap"><span style="font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.2);color:#E3C77A">Conversa</span><span style="font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.2);color:#E3C77A">Funil</span><span style="font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.2);color:#E3C77A">Relatório</span><span style="font-size:12px;padding:5px 10px;border-radius:999px;background:rgba(201,162,74,.2);color:#E3C77A">Documentos</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center">
+        <div style="display:flex;gap:40px;flex-wrap:wrap;justify-content:center;font-family:'Manrope',sans-serif;font-weight:700;font-size:26px;font-weight:600;color:#1C2A3F;opacity:.75"><span>Doctoralia</span><span>Feegow</span><span>Clinicorp</span><span>Prontuário Verde</span></div>
+        <p style="margin:0;max-width:720px;font-size:13.5px;line-height:1.6;color:#5B6577">Integramos por API nativa com os sistemas acima. O caminho do seu prontuário é validado no setup inicial do serviço, depois da contratação, e entra por escrito no escopo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPLANTAÇÃO -->
+  <section id="implantacao" style="background:#fff;padding:110px 24px">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:56px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px;align-items:center">
+        <div style="border-radius:20px;overflow:hidden;aspect-ratio:16/10"><img src="/v2/img/04-fabio-treinamento.webp" alt="Dr. Fábio em treinamento" style="width:100%;height:100%;object-fit:cover"></div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">A implantação</div>
+          <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">Quinze dias, com a sua clínica dentro.</h2>
+          <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757;text-wrap:pretty">Setup personalizado clínica a clínica. Não existe modelo de prateleira: o funil, os agentes e os protocolos são montados em cima de como a sua operação já trabalha.</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;border-top:1px solid rgba(28,42,63,.15)">
+        <sc-for list="{{ dias }}" as="d" hint-placeholder-count="4">
+          <div style="padding:28px 24px 0 0;display:flex;flex-direction:column;gap:10px;position:relative">
+            <div style="position:absolute;top:-1px;left:0;width:48px;height:2px;background:#C9A24A"></div>
+            <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#B8923A;font-weight:600">{{ d.n }}</div>
+            <h3 style="margin:0;font-size:18px;color:#1C2A3F">{{ d.t }}</h3>
+            <p style="margin:0;font-size:14px;line-height:1.6;color:#4A5364">{{ d.d }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+        <div style="position:relative;border-radius:20px;overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff">
+          <img src="/v2/img/07-marketing-odontologia.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.05) 20%,rgba(19,30,48,.94) 65%)"></div>
+          <div style="position:relative;padding:32px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">Módulo opcional da implantação</div>
+            <h3 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:30px;line-height:1.1">Pedido de exames e nota fiscal saem no toque de um botão.</h3>
+            <p style="margin:0;font-size:14px;line-height:1.6;color:#C9CFDA">O profissional abre o card do paciente e resolve ali mesmo: o pedido sai assinado digitalmente e a nota é emitida sem sair do CRM. As duas coisas chegam ao paciente no WhatsApp, na conversa em que ele já está.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;font-size:13px;line-height:1.55">
+              <div style="border-top:1px solid rgba(201,162,74,.5);padding-top:10px"><strong style="color:#E3C77A">Pedido de exames</strong><br>No padrão da guia TUSS quando a clínica atende convênio, ou em modelo particular quando não atende. Vale para medicina e para odontologia.</div>
+              <div style="border-top:1px solid rgba(201,162,74,.5);padding-top:10px"><strong style="color:#E3C77A">Nota fiscal automática</strong><br>Emitida a partir do pagamento registrado no card, no nome de quem pagou, e entregue ao paciente no WhatsApp junto com o comprovante.</div>
+            </div>
+            <p style="margin:0;font-size:12px;color:#9AA3B2">Módulo opcional, ligado clínica a clínica no setup: depende do certificado digital da clínica e da prefeitura onde ela emite.</p>
+          </div>
+        </div>
+        <div style="position:relative;border-radius:20px;overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff">
+          <img src="/v2/img/06-comercial-integrado.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.05) 20%,rgba(19,30,48,.94) 65%)"></div>
+          <div style="position:relative;padding:32px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">Bônus da implantação</div>
+            <h3 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:30px;line-height:1.1">Treinamento comercial da equipe, dentro do pacote.</h3>
+            <p style="margin:0;font-size:14px;line-height:1.6;color:#C9CFDA">De nada adianta a IA entregar o paciente qualificado se quem recebe não sabe conduzir. Nos dois últimos dias treinamos a sua equipe no que a operação passa a exigir.</p>
+            <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13.5px">
+              <li style="display:flex;gap:10px"><span style="color:#C9A24A">—</span>Como ler o painel e agir pelo número, não pela sensação</li>
+              <li style="display:flex;gap:10px"><span style="color:#C9A24A">—</span>O que fazer com o lead que a IA já qualificou</li>
+              <li style="display:flex;gap:10px"><span style="color:#C9A24A">—</span>Como conduzir preço e objeção sem derrubar o funil</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFERTA -->
+  <section id="garantia" style="background:#1C2A3F;color:#F5F1E8;padding:110px 24px;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(201,162,74,.18),transparent 55%)"></div>
+    <div style="position:relative;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:56px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:inline-flex;align-self:flex-start;gap:10px;align-items:center;border:1px solid rgba(201,162,74,.6);border-radius:999px;padding:8px 16px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600">Sem cartão na largada · Meta combinada · <strong style="font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;letter-spacing:0">45</strong> dias</div>
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600">A oferta</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(34px,3.8vw,54px);line-height:1.05">Quarenta e cinco dias rodando. O cartão só depois.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#C9CFDA;text-wrap:pretty">Implantamos o CRM e a IA na sua clínica, com a sua equipe e os seus pacientes, e nesse período você não passa cartão nenhum. A meta fica por escrito antes de começar e é medida no seu próprio sistema. Se ela bater, você paga. Se não bater, não paga.</p>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:#9AA3B2">O prazo conta a partir do go-live, não da assinatura: são 45 dias de operação no ar, não de espera pela implantação.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(201,162,74,.35);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:6px"><strong style="font-size:17px;color:#E3C77A">Sem cartão na largada</strong><span style="font-size:14px;color:#C9CFDA;line-height:1.55">Nada de cobrança na assinatura nem implantação paga adiantado</span></div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(201,162,74,.35);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:6px"><strong style="font-size:17px;color:#E3C77A">Meta por escrito</strong><span style="font-size:14px;color:#C9CFDA;line-height:1.55">Combinada com você antes de começar e medida no seu próprio sistema</span></div>
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(201,162,74,.35);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:6px"><strong style="font-size:17px;color:#E3C77A">Sem multa e sem carência</strong><span style="font-size:14px;color:#C9CFDA;line-height:1.55">Se a meta não bater, a conversa acaba ali. Não existe prazo mínimo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARATIVO -->
+  <section id="comparativo" style="background:#F5F1E8;padding:110px 24px">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:44px">
+      <div style="max-width:720px;display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">Lado a lado</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">O que muda em relação ao que a sua clínica usa hoje.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757;text-wrap:pretty">A comparação não é com outro chatbot. É com o arranjo que quase toda clínica tem: um CRM genérico, um WhatsApp comum e uma pessoa tentando costurar os dois.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <div style="min-width:640px;display:grid;grid-template-columns:1.1fr 1.3fr 1.5fr;border-radius:18px;overflow:hidden;border:1px solid rgba(28,42,63,.12);font-size:14px">
+          <div style="padding:16px 20px;background:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B6577;font-weight:600"></div>
+          <div style="padding:16px 20px;background:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B6577;font-weight:600">CRM genérico + chatbot</div>
+          <div style="padding:16px 20px;background:#1C2A3F;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">FF.AI CRM</div>
+          <sc-for list="{{ comparativo }}" as="r" hint-placeholder-count="8">
+            <div style="padding:16px 20px;background:#fff;border-top:1px solid rgba(28,42,63,.08);font-weight:700;color:#1C2A3F">{{ r.k }}</div>
+            <div style="padding:16px 20px;background:#fff;border-top:1px solid rgba(28,42,63,.08);color:#5B6577">{{ r.a }}</div>
+            <div style="padding:16px 20px;background:#1C2A3F;border-top:1px solid rgba(255,255,255,.08);color:#fff;font-weight:500">{{ r.b }}</div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUEM FAZ -->
+  <section style="background:#fff;padding:110px 24px">
+    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:56px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">Quem faz</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">Quem vende a IA aqui é quem opera de verdade.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757;text-wrap:pretty">Não é consultoria vendendo método importado. É um cirurgião que aplicou a IA na própria clínica primeiro e só leva adiante o que já mostrou resultado numa operação viva.</p>
+        <div style="border-left:2px solid #C9A24A;padding-left:18px;display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <p style="margin:0;font-size:15px"><strong style="color:#1C2A3F">Dr. Fábio Faleiro Vieira</strong><br><span style="color:#5B6577;font-size:13px">Fundador · cirurgião robótico digestivo</span></p>
+          <p style="margin:0;font-size:14px;line-height:1.65;color:#4A5364">Prática ativa no Albert Einstein e no Vila Nova Star, em São Paulo, e no MaterDei, em Goiânia. Membro da SBCBM, SOBRACIL, CBCD e IFSO. Dirige a FF.AI e roda o produto inteiro dentro da própria clínica antes de levar para qualquer outra.</p>
+          <p style="margin:0;font-size:13px;color:#5B6577"><strong style="color:#1C2A3F">CRM-GO 15014 · RQE 16301</strong> CRM-SP 236248 · RQE 121835-1</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><span style="font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid rgba(28,42,63,.2);color:#1C2A3F">Conformidade CFM 2.454</span><span style="font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid rgba(28,42,63,.2);color:#1C2A3F">LGPD e consentimento clínico</span><span style="font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid rgba(28,42,63,.2);color:#1C2A3F">WhatsApp oficial da Meta</span></div>
+      </div>
+      <div style="position:relative">
+        <div style="border-radius:24px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 40px 80px -40px rgba(19,30,48,.5)"><img src="/v2/img/02-fabio-estrategia.webp" alt="Dr. Fábio Faleiro Vieira" style="width:100%;height:100%;object-fit:cover"></div>
+        <div style="position:absolute;right:-12px;bottom:-12px;width:120px;height:120px;border:1px solid #C9A24A;border-radius:24px;z-index:-1"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="background:#F5F1E8;padding:110px 24px">
+    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:96px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">Dúvidas frequentes</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">O que todo dono de clínica pergunta antes.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757">Se a sua dúvida não está aqui, ela cabe nos trinta minutos da demonstração.</p>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ faq }}" as="q" hint-placeholder-count="5">
+          <div style="border-top:1px solid rgba(28,42,63,.15);padding:24px 0;display:grid;grid-template-columns:44px 1fr;gap:12px">
+            <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;color:#B8923A;font-weight:600">{{ q.n }}</div>
+            <div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;color:#1C2A3F">{{ q.q }}</h3><p style="margin:0;font-size:14.5px;line-height:1.65;color:#4A5364">{{ q.a }}</p></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- FF.AI 360 -->
+  <section id="ffai-360" style="position:relative;background:#07090D;color:#F5F1E8;padding:8px;overflow:hidden">
+    <div style="position:relative;border:1px solid rgba(201,162,74,.45);border-radius:28px;overflow:hidden;background:radial-gradient(ellipse at 20% 0%,rgba(201,162,74,.18),transparent 45%),radial-gradient(ellipse at 90% 100%,rgba(201,162,74,.12),transparent 50%),#0A0D12">
+      <img src="/v2/img/09-jornada-conectada.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16;filter:saturate(.4) contrast(1.1)">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,18,.6) 0%,rgba(10,13,18,.92) 45%,rgba(10,13,18,.98) 100%)"></div>
+      <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,#E3C77A,transparent)"></div>
+      <div style="position:relative;max-width:1200px;margin:0 auto;padding:110px 24px;display:flex;flex-direction:column;gap:60px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px;align-items:end">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);color:#1A1508;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;box-shadow:0 10px 30px -12px rgba(201,162,74,.8)">O programa premium</div>
+            <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(36px,4.2vw,60px);line-height:1.02"><span style="background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);-webkit-background-clip:text;background-clip:text;color:transparent">FF.AI 360:</span> o CRM que você viu, com a consultoria que arruma a operação.</h2>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:18px;border-left:1px solid rgba(201,162,74,.5);padding-left:28px">
+            <p style="margin:0;font-size:16px;line-height:1.7;color:#D8D2C4;text-wrap:pretty">Para a clínica que quer ir além da tecnologia. O FF.AI 360 soma ao FF.AI CRM um programa de consultoria em quatro fases, para clínicas médicas e odontológicas: comercial, marketing, gestão e relacionamento com a base, trabalhados enquanto a IA cuida do atendimento.</p>
+            <div style="align-self:flex-start;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:700;display:flex;align-items:center;gap:10px"><span style="width:8px;height:8px;border-radius:50%;background:#E3C77A;box-shadow:0 0 12px #E3C77A"></span>Ciclos de 6 meses · renováveis</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px">
+          <sc-for list="{{ fases }}" as="p" hint-placeholder-count="4">
+            <div style="position:relative;background:linear-gradient(180deg,rgba(201,162,74,.14) 0%,rgba(201,162,74,.04) 100%);border:1px solid rgba(201,162,74,.35);border-radius:20px;padding:30px 26px;display:flex;flex-direction:column;gap:14px;overflow:hidden" style-hover="border-color:#E3C77A;background:linear-gradient(180deg,rgba(201,162,74,.24) 0%,rgba(201,162,74,.08) 100%)">
+              <div style="position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(227,199,122,.8),transparent)"></div>
+              <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#E3C77A;font-weight:700">Fase</span><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:40px;line-height:1;background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);-webkit-background-clip:text;background-clip:text;color:transparent">{{ p.n }}</span></div>
+              <h3 style="margin:0;font-size:19px;line-height:1.3;font-weight:800;color:#FFF9EC">{{ p.t }}</h3>
+              <p style="margin:0;font-size:14px;line-height:1.65;color:#C4BCAA">{{ p.d }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px;align-items:start;border-top:1px solid rgba(201,162,74,.35);padding-top:60px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:700">Escopo sob medida</div>
+            <h3 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:clamp(28px,2.8vw,38px);line-height:1.1;color:#FFF9EC">Do convênio para o particular, sem depender de uma pessoa só.</h3>
+            <p style="margin:0;font-size:15px;line-height:1.7;color:#D8D2C4;text-wrap:pretty">Essa é a promessa do programa, e é por isso que ele não tem tabela pronta: o escopo é desenhado clínica a clínica, a partir do porte, de quantos profissionais atendem, dos canais que já existem e do que a operação já tem de pé. O desenho e o valor fecham na mesma demonstração que apresenta o CRM.</p>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:#8E8778">Programa em ciclos de 6 meses, renováveis, conduzido junto com a implantação do CRM. A publicidade em saúde do programa segue as normas do seu conselho: a governança atende CFM e CFO.</p>
+            <a href="https://wa.me/5511930896237" style="align-self:flex-start;margin-top:10px;background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);color:#1A1508;font-weight:800;font-size:14px;padding:16px 28px;border-radius:999px;box-shadow:0 18px 40px -16px rgba(201,162,74,.9)" style-hover="filter:brightness(1.08)">Conversar sobre o 360 na demonstração</a>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+            <sc-for list="{{ pilares }}" as="pl" hint-placeholder-count="4">
+              <div style="background:rgba(255,255,255,.03);border:1px solid rgba(201,162,74,.25);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:8px"><strong style="font-size:15px;color:#FFF9EC">{{ pl.t }}</strong><span style="font-size:13.5px;line-height:1.6;color:#C4BCAA">{{ pl.d }}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section style="position:relative;background:#1C2A3F;color:#F5F1E8;overflow:hidden">
+    <img src="/v2/img/01-fabio-hero.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;opacity:.55">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,42,63,.98) 0%,rgba(28,42,63,.9) 50%,rgba(28,42,63,.4) 100%)"></div>
+    <div style="position:relative;max-width:1200px;margin:0 auto;padding:120px 24px;display:flex;flex-direction:column;gap:22px;max-width:1200px">
+      <div style="max-width:640px;display:flex;flex-direction:column;gap:20px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600">O primeiro passo</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(36px,4.2vw,58px);line-height:1.04">Duas formas de ver funcionando.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#C9CFDA;text-wrap:pretty">Entre na demonstração como se você fosse um paciente da sua própria clínica, e veja a triagem, o agendamento, a nota fiscal e o pedido de exames acontecerem no seu WhatsApp. Ou marque trinta minutos e eu abro o CRM por dentro, com o funil, os relatórios e os módulos de exame e nota fiscal.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#" onClick="{{ goDiag }}" style="background:#C9A24A;color:#131E30;font-weight:700;font-size:15px;padding:16px 28px;border-radius:999px" style-hover="background:#E3C77A">Agendar demonstração gratuita</a>
+          <a href="#" onClick="{{ goDemo }}" style="color:#F5F1E8;font-weight:600;font-size:15px;padding:16px 22px;border:1px solid rgba(245,241,232,.4);border-radius:999px" style-hover="border-color:#C9A24A;color:#E3C77A">Ver a demonstração</a>
+        </div>
+        <p style="margin:0;font-size:13px;color:#9AA3B2">Setup em 15 dias · 45 dias rodando antes de você pagar</p>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#0F1826;color:#9AA3B2;padding:64px 24px 32px;font-size:13px;line-height:1.7">
+    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px">
+      <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:20px"><span style="width:30px;height:30px;border-radius:8px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:6px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></div><span>FF.AI Comercial, Marketing e IA para Clínicas LTDA</span><span>CNPJ 68.429.840/0001-08</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><h4 style="margin:0;color:#E3C77A;font-size:11px;letter-spacing:.12em;text-transform:uppercase">Onde ficamos</h4><span>Avenida D, nº 419, Quadra G11, Lote 01, Sala 401<br>Setor Marista · Goiânia, GO<br>CEP 74.150-040</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><h4 style="margin:0;color:#E3C77A;font-size:11px;letter-spacing:.12em;text-transform:uppercase">Contato</h4><a href="https://wa.me/5511930896237" style="color:#F5F1E8">+55 11 93089-6237</a><span>contato@ffai.ia.br</span></div>
+      <div style="display:flex;flex-direction:column;gap:4px"><a href="/termos" style="color:#9AA3B2">Termos de Uso</a><a href="/privacidade" style="color:#9AA3B2">Política de Privacidade</a><a href="/diagnostico-termos" style="color:#9AA3B2">Termos do Diagnóstico</a><a href="/crm-para-clinicas" style="color:#9AA3B2">CRM para clínicas</a><a href="/ia-para-whatsapp-de-clinica" style="color:#9AA3B2">IA para WhatsApp de clínica</a><a href="/governanca" style="color:#9AA3B2">Governança de dados</a></div>
+    </div>
+    <div style="max-width:1200px;margin:40px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);font-size:12px">© 2026 FF.AI · Todos os direitos reservados</div>
+  </footer>
+</div>
+</sc-if>
+
+<!-- ===================== DEMONSTRAÇÃO ===================== -->
+<sc-if value="{{ isDemo }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Demonstração">
+  <header style="position:sticky;top:0;z-index:20;background:rgba(19,30,48,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,162,74,.25)">
+    <div style="max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:21px;letter-spacing:-.01em"><span style="width:34px;height:34px;border-radius:9px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:7px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></a>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><nav style="display:flex;gap:22px;font-size:13px;font-weight:500"><a href="#esteira" style="color:#C9CFDA">A esteira</a><a href="#real" style="color:#C9CFDA">Por que cobra</a></nav></sc-if>
+      <a href="https://wa.me/5562998608001" style="background:#C9A24A;color:#131E30;font-weight:700;font-size:13px;padding:11px 18px;border-radius:999px;white-space:nowrap" style-hover="background:#E3C77A">Teste a Íris agora</a>
+    </div>
+  </header>
+
+  <section style="position:relative;background:#0E1614;color:#F5F1E8;overflow:hidden;min-height:680px;display:flex;align-items:center">
+    <img src="/v2/img/10-inteligencia-em-crescimento.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,22,20,.2) 0%,rgba(14,22,20,.75) 45%,rgba(19,30,48,.97) 75%)"></div><sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;background:rgba(19,30,48,.82)"></div></sc-if>
+    <div style="position:relative;max-width:1200px;width:100%;margin:0 auto;padding:96px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px;align-items:center">
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><div></div></sc-if>
+      <div style="display:flex;flex-direction:column;gap:24px;animation:ffFade .8s ease both">
+        <div style="display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600"><span style="width:28px;height:1px;background:#C9A24A"></span>Demonstração ao vivo no WhatsApp oficial da Meta</div>
+        <h1 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(38px,4.6vw,60px);line-height:1.04;text-wrap:pretty">Não é slide. É a IA atendendo você agora, no seu WhatsApp.</h1>
+        <p style="margin:0;font-size:17px;line-height:1.65;color:#D8DCE3;text-wrap:pretty">Você manda uma mensagem e a esteira roda inteira do outro lado: triagem, horário, cobrança, confirmação, nota fiscal autorizada e pedido de exames assinado. <strong style="color:#fff">Ninguém digitando do outro lado.</strong></p>
+        <a href="https://wa.me/5562998608001" style="align-self:flex-start;background:#C9A24A;color:#131E30;font-weight:700;font-size:15px;padding:16px 28px;border-radius:999px" style-hover="background:#E3C77A">Teste a Íris agora no WhatsApp</a>
+        <div style="display:flex;align-items:center;gap:14px;padding-top:16px;border-top:1px solid rgba(201,162,74,.3)">
+          <img src="/v2/img/03-fabio-conexao.webp" alt="Dr. Fábio Faleiro Vieira" style="width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid #C9A24A">
+          <p style="margin:0;font-size:14px;line-height:1.5;color:#C9CFDA"><strong style="color:#fff">Founder: Dr. Fábio Faleiro.</strong> A mesma esteira que você vai testar aqui atende os pacientes da clínica dele todos os dias.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#F5F1E8;padding:0 24px 100px">
+    <div style="max-width:1000px;margin:-72px auto 0;position:relative;display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center">
+      <div onClick="{{ playDemo }}" style="cursor:pointer;position:relative;width:100%;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:0 40px 80px -40px rgba(19,30,48,.6)">
+        <img src="/v2/img/04-fabio-treinamento.webp" alt="Capa da demonstração do FF.AI CRM, apresentada pelo Dr. Fábio Faleiro" style="width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:rgba(19,30,48,.25)"></div>
+        <div style="position:absolute;inset:0;display:grid;place-items:center"><div style="width:84px;height:84px;border-radius:50%;background:#C9A24A;display:grid;place-items:center;box-shadow:0 0 0 12px rgba(201,162,74,.25)"><div style="width:0;height:0;border-left:26px solid #131E30;border-top:16px solid transparent;border-bottom:16px solid transparent;margin-left:8px"></div></div></div><sc-if value="{{ demoPlaying }}" hint-placeholder-val="{{ false }}"><iframe src="https://player-vz-e7b2ecbe-e16.tv.pandavideo.com.br/embed/?v=d1dd2943-0519-4fd7-b113-6d555b6b321f&autoplay=true" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2"></iframe></sc-if>
+      </div>
+      <p style="margin:0;font-size:14px;color:#5B6577;font-style:italic;max-width:640px"><strong style="color:#1C2A3F;font-style:normal">A esteira completa, gravada</strong> Triagem, agendamento, cobrança, nota fiscal e pedido de exames. Sem corte de roteiro.</p>
+      <a href="#" onClick="{{ goDiag }}" style="margin-top:8px;border:1px solid #1C2A3F;color:#1C2A3F;font-weight:700;font-size:13px;letter-spacing:.08em;padding:14px 26px;border-radius:999px" style-hover="background:#1C2A3F;color:#fff">QUERO A FF.AI NA MINHA CLÍNICA</a>
+    </div>
+  </section>
+
+  <section id="esteira" style="background:#fff;padding:100px 24px">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:48px">
+      <div style="max-width:720px;display:flex;flex-direction:column;gap:16px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">O que acontece quando você manda a mensagem</div>
+        <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F">Quatro etapas, poucos minutos, tudo de verdade.</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757">Você entra como um paciente entraria. A IA conduz do primeiro oi até o documento na sua mão.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
+        <sc-for list="{{ etapas }}" as="e" hint-placeholder-count="4">
+          <div style="background:#F5F1E8;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:12px;border:1px solid rgba(28,42,63,.08)">
+            <div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:40px;line-height:1;color:#C9A24A">{{ e.n }}</div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B6577;font-weight:600">{{ e.l }}</div>
+            <h3 style="margin:0;font-size:18px;color:#1C2A3F;line-height:1.3">{{ e.t }}</h3>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:#4A5364">{{ e.d }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="real" style="background:#1C2A3F;color:#F5F1E8;padding:0;overflow:hidden">
+    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:stretch">
+      <div style="min-height:420px;position:relative"><img src="/v2/img/05-atendimento-inteligente.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,42,63,0) 60%,#1C2A3F 100%)"></div></div>
+      <div style="padding:clamp(48px,6vw,80px) clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:18px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600">Por que o teste cobra cinco reais</div>
+        <h3 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(30px,3vw,42px);line-height:1.08">Pagamento simulado provaria só que o botão existe.</h3>
+        <p style="margin:0;font-size:15.5px;line-height:1.65;color:#C9CFDA;text-wrap:pretty">A esteira que você quer ver só começa depois que o dinheiro entra: é o aviso do banco que dispara a confirmação, a nota fiscal e o documento assinado. R$ 5,00 é o valor mínimo que a plataforma de pagamento aceita, e serve para o pagamento ser de verdade.</p>
+        <p style="margin:0;font-size:15.5px;line-height:1.65;color:#C9CFDA;text-wrap:pretty">Duas observações antes de começar. O endereço com CEP é obrigatório no checkout, porque sem ele a prefeitura não autoriza a nota fiscal e a esteira para no meio. E o pedido de exames sai carimbado como <strong style="color:#E3C77A">demonstração, sem validade clínica</strong>, em todas as páginas.</p>
+        <a href="https://wa.me/5562998608001" style="align-self:flex-start;margin-top:6px;background:#C9A24A;color:#131E30;font-weight:700;font-size:14px;padding:14px 24px;border-radius:999px" style-hover="background:#E3C77A">Começar o teste</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#F5F1E8;padding:110px 24px">
+    <div style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px;align-items:center;text-align:center">
+      <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600">O teste</div>
+      <h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.8vw,52px);line-height:1.06;color:#1C2A3F;text-wrap:pretty">Entre como paciente e veja o que a sua clínica ainda faz na mão.</h2>
+      <p style="margin:0;font-size:16px;line-height:1.65;color:#3E4757">Leva poucos minutos e termina com três documentos no seu WhatsApp. Depois disso a conversa continua aberta, e quem responde é gente.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+        <a href="https://wa.me/5562998608001" style="background:#C9A24A;color:#131E30;font-weight:700;font-size:15px;padding:16px 28px;border-radius:999px" style-hover="background:#E3C77A">Teste a Íris agora no WhatsApp</a>
+        <a href="#" onClick="{{ goDiag }}" style="border:1px solid #1C2A3F;color:#1C2A3F;font-weight:700;font-size:13px;letter-spacing:.08em;padding:16px 24px;border-radius:999px" style-hover="background:#1C2A3F;color:#fff">FALE AGORA COM NOSSA EQUIPE</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#0F1826;color:#9AA3B2;padding:64px 24px 32px;font-size:13px;line-height:1.7">
+    <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px">
+      <div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:20px"><span style="width:30px;height:30px;border-radius:8px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:18px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:6px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></div><span>FF.AI Comercial, Marketing e IA para Clínicas LTDA</span><span>CNPJ 68.429.840/0001-08</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><h4 style="margin:0;color:#E3C77A;font-size:11px;letter-spacing:.12em;text-transform:uppercase">Onde ficamos</h4><span>Avenida D, nº 419, Quadra G11, Lote 01, Sala 401<br>Setor Marista · Goiânia, GO<br>CEP 74.150-040</span></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><h4 style="margin:0;color:#E3C77A;font-size:11px;letter-spacing:.12em;text-transform:uppercase">Contato</h4><a href="https://wa.me/5511930896237" style="color:#F5F1E8">+55 11 93089-6237</a><span>contato@ffai.ia.br</span></div>
+      <div style="display:flex;flex-direction:column;gap:4px"><a href="/termos" style="color:#9AA3B2">Termos de Uso</a><a href="/privacidade" style="color:#9AA3B2">Política de Privacidade</a><a href="/diagnostico-termos" style="color:#9AA3B2">Termos do Diagnóstico</a></div>
+    </div>
+    <div style="max-width:1200px;margin:40px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);font-size:12px">© 2026 FF.AI · Todos os direitos reservados</div>
+  </footer>
+</div>
+</sc-if>
+
+<!-- ===================== DIAGNÓSTICO (FORM) ===================== -->
+<sc-if value="{{ isDiag }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Diagnóstico" style="position:relative;min-height:100vh;background:#131E30;overflow:hidden">
+  <img src="/v2/img/07-marketing-odontologia.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.82) 0%,rgba(19,30,48,.7) 50%,rgba(19,30,48,.9) 100%)"></div>
+  <div style="position:relative;max-width:1200px;margin:0 auto;padding:24px clamp(16px,4vw,36px);display:flex;justify-content:space-between;align-items:center;gap:12px">
+    <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:20px"><span style="width:32px;height:32px;border-radius:8px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:19px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:6px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></a>
+    <a href="#" onClick="{{ goHome }}" style="color:#C9CFDA;font-size:13px">← Voltar ao site</a>
+  </div>
+  <div style="position:relative;max-width:1200px;margin:0 auto;padding:24px clamp(16px,4vw,36px) 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:48px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:16px;color:#F5F1E8;padding-top:24px;position:sticky;top:32px">
+      <div style="display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#E3C77A;font-weight:600"><span style="width:28px;height:1px;background:#C9A24A"></span>Diagnóstico gratuito · consultórios e clínicas</div>
+      <h1 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(36px,3.8vw,54px);line-height:1.04;text-wrap:pretty">Onde a sua clínica está perdendo paciente?</h1>
+      <p style="margin:0;font-size:16px;line-height:1.6;color:#C9CFDA">Sete perguntas, menos de um minuto. No fim, o diagnóstico chega no seu WhatsApp.</p>
+    </div>
+<div style="background:#F5F1E8;border-radius:24px;padding:clamp(24px,4vw,40px) clamp(18px,3.5vw,36px);display:flex;flex-direction:column;gap:24px;width:100%;box-shadow:0 40px 80px -30px rgba(0,0,0,.6)">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#5B6577;font-weight:600"><span>Seu diagnóstico</span><span>{{ progressLabel }}</span></div>
+      <div style="height:3px;background:rgba(28,42,63,.12);border-radius:2px;overflow:hidden"><div style="height:100%;background:#C9A24A;width:{{ progressWidth }};transition:width .4s ease"></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <h2 style="margin:0;font-size:22px;color:#1C2A3F;font-weight:700">Descubra onde sua clínica perde paciente</h2>
+      <p style="margin:0;font-size:14px;color:#5B6577">Leva menos de 3 minutos. Sem cadastro, sem login, sem cartão.</p>
+    </div>
+
+    <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:#1C2A3F">👋 Como você se chama?<input value="{{ form.nome }}" onChange="{{ setNome }}" autocomplete="name" placeholder="Seu nome" style="font:inherit;font-weight:400;padding:14px 16px;border:1px solid rgba(28,42,63,.2);border-radius:12px;background:#fff;color:#1A2030;outline:none" style-focus="border-color:#C9A24A;box-shadow:0 0 0 3px rgba(201,162,74,.2)"></label>
+    <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:#1C2A3F">📱 Seu WhatsApp<input value="{{ form.zap }}" onChange="{{ setZap }}" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(00) 00000-0000" style="font:inherit;font-weight:400;padding:14px 16px;border:1px solid rgba(28,42,63,.2);border-radius:12px;background:#fff;color:#1A2030;outline:none" style-focus="border-color:#C9A24A;box-shadow:0 0 0 3px rgba(201,162,74,.2)"></label>
+    <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:#1C2A3F">🩺 Sua especialidade
+      <select value="{{ form.esp }}" onChange="{{ setEsp }}" style="font:inherit;font-weight:400;padding:14px 16px;border:1px solid rgba(28,42,63,.2);border-radius:12px;background:#fff;color:#1A2030;outline:none">
+        <option value="">Selecione…</option><option>Odontologia</option><option>Cirurgia</option><option>Dermatologia e estética</option><option>Endocrinologia e emagrecimento</option><option>Ginecologia</option><option>Cardiologia</option><option>Ortopedia</option><option>Oftalmologia</option><option>Outra especialidade médica</option>
+      </select>
+    </label>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:14px;font-weight:600;color:#1C2A3F">👥 Quantos profissionais atendem na sua clínica (incluindo você)?</div>
+      <sc-for list="{{ porteOpts }}" as="o" hint-placeholder-count="4">
+        <button onClick="{{ o.pick }}" style="text-align:left;font:inherit;font-size:14px;padding:14px 16px;border-radius:12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:#1A2030;cursor:pointer;display:flex;gap:8px;align-items:baseline" style-hover="border-color:#C9A24A"><strong>{{ o.b }}</strong><span style="color:#5B6577">{{ o.r }}</span></button>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:14px;font-weight:600;color:#1C2A3F">💸 O que mais pesa na sua clínica hoje?</div>
+      <sc-for list="{{ dorOpts }}" as="o" hint-placeholder-count="5">
+        <button onClick="{{ o.pick }}" style="text-align:left;font:inherit;font-size:14px;line-height:1.5;padding:14px 16px;border-radius:12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:#1A2030;cursor:pointer;display:flex;gap:10px" style-hover="border-color:#C9A24A"><span>{{ o.i }}</span><span><strong>{{ o.b }}</strong>{{ o.r }}</span></button>
+      </sc-for>
+      <sc-if value="{{ isOutro }}" hint-placeholder-val="{{ false }}"><input value="{{ form.outro }}" onChange="{{ setOutro }}" placeholder="Conta rapidinho o que pesa" maxlength="300" style="font:inherit;font-weight:400;padding:14px 16px;border:1px solid rgba(28,42,63,.2);border-radius:12px;background:#fff;color:#1A2030;outline:none" style-focus="border-color:#C9A24A;box-shadow:0 0 0 3px rgba(201,162,74,.2)"></sc-if>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:14px;font-weight:600;color:#1C2A3F">📅 Quando faz sentido eu te chamar?</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ quandoOpts }}" as="o" hint-placeholder-count="4">
+          <button onClick="{{ o.pick }}" style="font:inherit;font-size:13px;font-weight:600;padding:11px 16px;border-radius:999px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.color }};cursor:pointer" style-hover="border-color:#C9A24A">{{ o.b }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <label style="display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.5;color:#3E4757"><input type="checkbox" checked="{{ form.aceite }}" onChange="{{ toggleAceite }}" style="margin-top:3px;accent-color:#C9A24A;width:16px;height:16px">Li e aceito os <a href="/diagnostico-termos" target="_blank" style="color:#B8923A;text-decoration:underline">Termos do Diagnóstico</a> e a <a href="/privacidade" target="_blank" style="color:#B8923A;text-decoration:underline">Política de Privacidade</a>.</label>
+
+    <button onClick="{{ submit }}" style="font:inherit;font-weight:700;font-size:16px;padding:18px 28px;border-radius:999px;border:none;background:#1C2A3F;color:#fff;cursor:pointer;box-shadow:0 20px 40px -20px rgba(28,42,63,.6)" style-hover="background:#C9A24A;color:#131E30">{{ btnLabel }}</button>
+    <sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:0;font-size:14px;color:#A33A2B;text-align:center;font-weight:600">{{ errMsg }}</p></sc-if>
+    <p style="margin:0;font-size:12px;color:#5B6577;text-align:center">Seus dados são usados só pra preparar e entregar seu diagnóstico.</p>
+
+    <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(28,42,63,.12);font-size:12px;line-height:1.7;color:#5B6577;display:flex;flex-direction:column;gap:2px">
+      <img src="/v2/img/ffai-logo.png" alt="FF.AI CRM" style="height:28px;width:auto;align-self:flex-start;margin-bottom:6px"><span style="font-weight:700;color:#1C2A3F">FF.AI · o ecossistema de IA da sua clínica</span>
+      <span>Faleiro Serviços Médico-Cirúrgicos LTDA · CNPJ 31.814.184/0001-57</span>
+      <span>Goiânia/GO · Brasil · contato@ffai.ia.br · WhatsApp +55 11 93089-6237</span>
+      <div style="display:flex;gap:14px;margin-top:6px"><a href="/privacidade" style="color:#5B6577">Privacidade</a><a href="/termos" style="color:#5B6577">Termos</a><a href="#" onClick="{{ goHome }}" style="color:#5B6577">Site FF.AI</a></div>
+    </div>
+  </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ===================== OBRIGADO ===================== -->
+<sc-if value="{{ isObrigado }}" hint-placeholder-val="{{ false }}">
+<div data-screen-label="Obrigado" style="position:relative;min-height:100vh;background:#0E1614;color:#F5F1E8;display:flex;flex-direction:column;overflow:hidden">
+  <img src="/v2/img/01-fabio-hero.webp" alt="Dr. Fábio Faleiro Vieira" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:72% center">
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(19,30,48,.94) 0%,rgba(19,30,48,.88) 40%,rgba(19,30,48,.35) 60%,rgba(19,30,48,.05) 100%)"></div>
+  <div style="position:relative;padding:24px clamp(16px,4vw,36px);display:flex;justify-content:space-between;align-items:center;gap:12px;max-width:1200px;width:100%;margin:0 auto">
+    <a href="#" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:20px"><span style="width:32px;height:32px;border-radius:8px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:19px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:6px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></a>
+    <a href="#" onClick="{{ goHome }}" style="color:#F5F1E8;font-size:13px">← Voltar ao site</a>
+  </div>
+  <div style="position:relative;flex:1;display:flex;align-items:flex-end;max-width:1200px;width:100%;margin:0 auto;padding:60px clamp(16px,4vw,36px) 110px">
+    <div style="display:flex;flex-direction:column;gap:28px;width:100%;max-width:520px">
+      <div style="display:flex;flex-direction:column;gap:18px;animation:ffFade .8s ease both">
+        <div style="width:56px;height:56px;border-radius:50%;background:#C9A24A;display:grid;place-items:center;color:#131E30;font-size:24px;font-weight:700">✓</div>
+        <h1 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(40px,4.4vw,60px);line-height:1">{{ obrigadoTitulo }}</h1>
+        <p style="margin:0;font-size:19px;line-height:1.5;color:#D8DCE3">Já tô preparando o raio-x da sua clínica.</p>
+      </div>
+      <div style="background:rgba(19,30,48,.8);backdrop-filter:blur(14px);border:1px solid rgba(201,162,74,.4);border-radius:22px;padding:30px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;color:#E3C77A;font-weight:600;white-space:nowrap;min-width:110px">Em até 2 min</div><p style="margin:0;font-size:15px;line-height:1.55;color:#D8DCE3">você recebe uma mensagem no WhatsApp confirmando.</p></div>
+        <div style="height:1px;background:rgba(201,162,74,.3)"></div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;color:#E3C77A;font-weight:600;white-space:nowrap;min-width:110px">Em até 48h</div><p style="margin:0;font-size:15px;line-height:1.55;color:#D8DCE3">eu te chamo pra marcar uma conversa de 30 min.</p></div>
+        <div style="height:1px;background:rgba(201,162,74,.3)"></div>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start"><div style="font-family:'Manrope',sans-serif;font-weight:700;font-size:22px;color:#E3C77A;font-weight:600;white-space:nowrap;min-width:110px">Em até 7 dias</div><p style="margin:0;font-size:15px;line-height:1.55;color:#D8DCE3">seu diagnóstico completo, com a nota da sua clínica, o plano de ação e uma devolutiva em vídeo comigo.</p></div>
+        <div style="display:flex;align-items:center;gap:12px;padding-top:8px">
+          <img src="/v2/img/03-fabio-conexao.webp" alt="Dr. Fábio Faleiro Vieira" style="width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:center 20%;border:2px solid #C9A24A">
+          <span style="font-size:13px;color:#C9CFDA"><strong style="color:#fff">Dr. Fábio Faleiro</strong> · Fundador da FF.AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<a href="#" onClick="{{ goDiag }}" aria-label="Agendar demonstração" style="position:fixed;right:18px;bottom:{{ fabBottom }};z-index:49;width:58px;height:58px;border-radius:50%;background:#2E7D5B;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(46,125,91,.7)" style-hover="background:#256A4D"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4.5V3h6v1.5"></path><path d="M9 13l2 2 4-4"></path></svg></a>
+<!-- switcher (ferramenta de revisão, não faz parte do site) -->
+<sc-if value="{{ showSwitcher }}" hint-placeholder-val="{{ true }}">
+<div style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:4px;background:rgba(15,24,38,.92);backdrop-filter:blur(10px);padding:6px;border-radius:999px;border:1px solid rgba(201,162,74,.35);box-shadow:0 20px 40px -20px rgba(0,0,0,.6)">
+  <button onClick="{{ goHome }}" style="font:inherit;font-size:12px;font-weight:600;padding:9px 14px;border-radius:999px;border:none;cursor:pointer;background:{{ tabHome.bg }};color:{{ tabHome.color }}">Home</button>
+  <button onClick="{{ goDemo }}" style="font:inherit;font-size:12px;font-weight:600;padding:9px 14px;border-radius:999px;border:none;cursor:pointer;background:{{ tabDemo.bg }};color:{{ tabDemo.color }}">Demonstração</button>
+  <button onClick="{{ goDiag }}" style="font:inherit;font-size:12px;font-weight:600;padding:9px 14px;border-radius:999px;border:none;cursor:pointer;background:{{ tabDiag.bg }};color:{{ tabDiag.color }}">Formulário</button>
+  <button onClick="{{ goObrigado }}" style="font:inherit;font-size:12px;font-weight:600;padding:9px 14px;border-radius:999px;border:none;cursor:pointer;background:{{ tabObrigado.bg }};color:{{ tabObrigado.color }}">Obrigado</button>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startPage&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;home&quot;, &quot;demo&quot;, &quot;diag&quot;, &quot;obrigado&quot;], &quot;default&quot;: &quot;home&quot;, &quot;tsType&quot;: &quot;&#x27;home&#x27;|&#x27;demo&#x27;|&#x27;diag&#x27;|&#x27;obrigado&#x27;&quot;, &quot;section&quot;: &quot;Navegação&quot;}, &quot;showSwitcher&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Navegação&quot;}}">
+class Component extends DCLogic {
+  state = { page: null, demoPlaying: false, sending: false, err: '', funil: { a: 0, b: 0, c: 0, status: 'Entrou agora · aguardando' }, form: { nome: '', zap: '', esp: '', porte: null, dor: null, quando: null, aceite: false, outro: '' } };
+  componentDidMount() {
+    this._renderedAt = Date.now(); this._partial = () => v2Partial(this); window.addEventListener('pagehide', this._partial); document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') this._partial(); });
+    this._onResize = () => { const m = window.innerWidth < 860; if (m !== this.state.mobile) this.setState({ mobile: m, menuOpen: false }); };
+    this._onResize(); window.addEventListener('resize', this._onResize);
+    const steps = [[1,0,0,'Entrou agora · aguardando'],[1,1,0,'Stella qualificando'],[1,1,1,'Sexta 9h · agendado'],[0,0,0,'Sem próximo passo']];
+    let i = 0;
+    this._t = setInterval(() => { i = (i + 1) % steps.length; const s = steps[i]; this.setState({ funil: { a: s[0], b: s[1], c: s[2], status: s[3] } }); }, 1800);
+  }
+  componentWillUnmount() { clearInterval(this._t); window.removeEventListener('resize', this._onResize); }
+  go(page) { return (e) => { if (e && e.preventDefault) e.preventDefault(); window.location.href = v2Url(page, this.props.startPage || 'home'); }; }
+  setF(k, v) { this.setState(s => ({ form: { ...s.form, [k]: v } })); }
+  opt(list, key, mapper) {
+    return list.map((o, i) => {
+      const on = this.state.form[key] === i;
+      return { ...mapper(o), pick: (e) => { e.preventDefault(); this.setF(key, i); }, border: on ? '#C9A24A' : 'rgba(28,42,63,.2)', bg: on ? 'rgba(201,162,74,.12)' : '#fff', color: on ? '#131E30' : '#1C2A3F' };
+    });
+  }
+  renderVals() {
+    const page = this.state.page || this.props.startPage || 'home';
+    const f = this.state.form;
+    const filled = [f.nome.trim().length >= 2, f.zap.replace(/\D/g, '').length >= 8, f.esp, f.porte !== null, f.dor !== null, f.quando !== null, f.aceite].filter(Boolean).length;
+    const pct = Math.round(filled / 7 * 100);
+    const tab = (p) => ({ bg: page === p ? '#C9A24A' : 'transparent', color: page === p ? '#131E30' : '#C9CFDA' });
+    return {
+      isHome: page === 'home', isDemo: page === 'demo', isDiag: page === 'diag', isObrigado: page === 'obrigado',
+      showSwitcher: this.props.showSwitcher ?? true,
+      isMobile: !!this.state.mobile, isDesktop: !this.state.mobile, menuOpen: !!this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })), closeMenu: () => this.setState({ menuOpen: false }),
+      fabBottom: this.state.mobile ? '84px' : '22px',
+      tabHome: tab('home'), tabDemo: tab('demo'), tabDiag: tab('diag'), tabObrigado: tab('obrigado'),
+      goHome: this.go('home'), goDemo: this.go('demo'), goDiag: this.go('diag'), goObrigado: this.go('obrigado'),
+      funil: this.state.funil,
+      form: f, progressLabel: pct + '%', progressWidth: pct + '%',
+      setNome: e => this.setF('nome', e.target.value), setZap: e => this.setF('zap', v2Mask(e.target.value)), setOutro: e => this.setF('outro', e.target.value), setEsp: e => this.setF('esp', e.target.value),
+      toggleAceite: () => this.setF('aceite', !f.aceite), isOutro: f.dor === 4, hasErr: !!this.state.err, errMsg: this.state.err, btnLabel: this.state.sending ? 'Recebendo seu pedido…' : 'Quero meu diagnóstico →', demoPlaying: !!this.state.demoPlaying, playDemo: (e) => { if (e && e.preventDefault) e.preventDefault(); if (!this.state.demoPlaying) { v2Track('DemoVideoPlay'); this.setState({ demoPlaying: true }); } }, obrigadoTitulo: v2NomeTitulo(),
+      submit: (e) => { e.preventDefault(); v2Submit(this); },
+      porteOpts: this.opt([['Só eu', ', atendimento individual'],['2 a 3 profissionais', ', estrutura enxuta'],['4 a 10 profissionais', ', clínica consolidada'],['11 ou mais', ', clínica média ou hospitalar']], 'porte', o => ({ b: o[0], r: o[1] })),
+      dorOpts: this.opt([['📉','Perco paciente no atendimento',': mensagem sem resposta, lead que esfria, no-show'],['📊','Não tenho controle do funil',': não sei quantos contatos viram consulta, nem onde somem'],['📵','Equipe afogada no WhatsApp',': a secretária não dá conta e ninguém registra nada'],['🚧','Quero começar com IA',' e não sei por onde'],['💬','Outro',' (descreve abaixo)']], 'dor', o => ({ i: o[0], b: o[1], r: o[2] })),
+      quandoOpts: this.opt(['Esta semana ainda','Próxima semana','Em 15 dias','Sem pressa, me avisa quando ficar pronto'], 'quando', o => ({ b: o })),
+      vazamentos: [
+        { n: 'Vazamento 01', t: 'O paciente espera, e marca com quem respondeu antes', d: 'Mensagem às 14h, resposta às 17h. Nesse intervalo ele escreveu para outras três clínicas e fechou com a primeira que respondeu. À noite, no fim de semana e no feriado não responde ninguém, e é exatamente quando ele decide.' },
+        { n: 'Vazamento 02', t: 'O CRM só anda se alguém parar para digitar', d: 'Criar o card, mover a etapa, anotar o que foi combinado, marcar o retorno. É trabalho manual que cai sempre sobre quem já está com o próximo paciente na frente. Não é má vontade: é tempo que não existe. No fim do mês, o funil que você abre é ficção.' },
+        { n: 'Vazamento 03', t: 'A conversa mora num lugar, o dado em outro', d: 'O WhatsApp está no celular da recepção, a agenda no prontuário, o pagamento no banco e a nota na prefeitura. Ninguém enxerga a linha inteira do paciente, então ninguém sabe em que ponto ele desistiu.' },
+        { n: 'Vazamento 04', t: 'A IA que te venderam agenda e para por aí', d: 'Ela responde a dúvida, marca o horário e devolve o lead frio para a equipe. Quem qualifica, quem contorna o "vou pensar" e quem persegue quem não agendou continua sendo gente que já não tinha tempo.' }
+      ],
+      numeros: [
+        { pre: '', v: '62', suf: 'mil+', t: 'Mensagens de WhatsApp', d: 'Trocadas entre clínicas e pacientes dentro da plataforma, com a IA na linha de frente da conversa.' },
+        { pre: '', v: '250', suf: '+', t: 'Consultas marcadas', d: 'Leads levados até a etapa de agendamento dentro dos funis das clínicas.' },
+        { pre: '', v: '130', suf: '+', t: 'Pacientes recuperados', d: 'Tinham esfriado, entraram em follow-up e voltaram para a agenda ou para o fechamento.' },
+        { pre: 'R$', v: '390', suf: 'mil+', t: 'Em negócios fechados', d: 'Registrados nos funis das clínicas que operam na plataforma, do lead ao fechamento.' }
+      ],
+      features: [
+        { tags: ['Triagem','SDR qualifica','Closer agenda','Quebra objeção'], t: 'Responde em segundos, e não para no agendamento', d: 'A qualquer hora, inclusive às onze da noite e no domingo. E não é um robô só: um agente de triagem entende o que o paciente quer, um SDR qualifica e direciona, um closer conduz até o agendamento e um agente dedicado a objeção antecipa o "vou pensar" e o "está caro". Quem não agendou entra em follow-up e sai etiquetado para remarketing.' },
+        { tags: ['Novo','Qualificado','Agendado'], t: 'O funil anda sozinho', d: 'Cada resposta do paciente move o card para a etapa certa, sem ninguém arrastar nada. O que a IA entendeu na conversa vira estágio, etiqueta, valor e próximo passo dentro do CRM. O painel mostra o que aconteceu, não o que alguém lembrou de anotar.' },
+        { tags: ['Conversão por etapa','Gargalo do funil','KPI por etapa'], t: 'Relatório comercial num clique', d: 'CRM personalizado clínica a clínica, com relatório de funil, identificação do gargalo, planejamento de metas, KPIs por etapa e análise financeira. Você para de perguntar como foi o mês e passa a olhar onde mexer.' },
+        { tags: ['Remarketing','Transmissão','Meta oficial'], t: 'Provedor de Tecnologia oficial da Meta', d: 'A FF.AI é parceira oficial da Meta como Provedora de Tecnologia, então o número da sua clínica roda homologado na API oficial do WhatsApp. É o que libera campanha de remarketing, lista de transmissão e anúncio que clica direto para a conversa, dentro das regras da plataforma. Número em restrição é base de conversa perdida, e base perdida não volta.' },
+        { tags: ['Recepção','Comercial','Unidade 2','Caixa única'], t: 'Vários números, um painel só', d: 'Gestão multicanal dentro do próprio CRM: o número da recepção, o do comercial, o de cada unidade e o de cada especialista, todos na mesma tela. O histórico fica unificado por telefone, então ninguém repete a pergunta que o colega já fez.' },
+        { tags: ['Assinado A1','Nota fiscal','Pagamento no chat'], t: 'Exame, nota fiscal e cobrança no chat', d: 'Um botão na ficha do paciente monta o pedido de exames conforme a indicação médica ou odontológica, assinado digitalmente com o certificado do profissional responsável. Outro emite a nota fiscal junto à prefeitura, e o link de pagamento sai ali mesmo.' }
+      ],
+      dias: [
+        { n: 'Dia 1 a 3', t: 'Diagnóstico e desenho', d: 'Mapeamos o funil real, os canais de entrada, as objeções que a sua equipe mais ouve e os procedimentos que vão para o módulo de exames.' },
+        { n: 'Dia 4 a 10', t: 'Construção', d: 'CRM configurado com o seu funil, agentes treinados no seu tom e nos seus protocolos, número homologado na API oficial e integrações ligadas.' },
+        { n: 'Dia 11 a 13', t: 'Testes em conversa real', d: 'Acompanhamos atendimentos de verdade, ajustamos a qualificação e a quebra de objeção, e validamos os relatórios com você olhando.' },
+        { n: 'Dia 14 e 15', t: 'Go-live e treinamento', d: 'Operação no ar e treinamento comercial da sua equipe, incluso: como ler o painel e o que fazer com o lead que a IA entrega.' }
+      ],
+      comparativo: [
+        { k: 'Quem alimenta o funil', a: 'A sua equipe, quando sobra tempo', b: 'A própria conversa com o paciente' },
+        { k: 'O que a IA faz', a: 'Responde dúvida e marca horário', b: 'Tria, qualifica, contorna objeção, agenda e faz o follow-up' },
+        { k: 'Lead que não agendou', a: 'Esfria na caixa de entrada', b: 'Entra em follow-up e sai etiquetado para remarketing' },
+        { k: 'WhatsApp', a: 'Número comum, sujeito a restrição', b: 'API oficial da Meta, número homologado' },
+        { k: 'Mais de um número', a: 'Um aparelho ou uma instância por número', b: 'Todos no mesmo painel, histórico unificado' },
+        { k: 'Pedido de exames', a: 'Digitado e assinado à mão, um por um', b: 'Um clique, assinado digitalmente e enviado no chat' },
+        { k: 'Nota fiscal', a: 'Site da prefeitura, uma a uma, depois do expediente', b: 'Um clique, emitida e entregue na conversa' },
+        { k: 'Relatório comercial', a: 'Exportar e montar na planilha', b: 'Um clique, com gargalo do funil e meta' }
+      ],
+      faq: [
+        { n: '01', q: 'Preciso trocar o meu prontuário?', a: 'Não. Prontuário e odontograma continuam no sistema que a sua clínica já usa. O FF.AI CRM entra ao lado, na camada comercial e de atendimento, e conversa com o que já existe. Qual caminho de integração serve para o seu sistema é definido no diagnóstico e entra por escrito na proposta.' },
+        { n: '02', q: 'A IA fala com o paciente sem ninguém olhar?', a: 'A IA conduz a conversa e a sua equipe assume quando quiser, a qualquer momento. Cada resposta passa por filtro de conformidade, e a operação inteira fica registrada e auditável. Ela não substitui a relação da clínica com o paciente: ela evita que o paciente fique sem resposta.' },
+        { n: '03', q: 'Meu número corre risco de restrição?', a: 'Por isso o WhatsApp roda na API oficial da Meta, com o número homologado. É o que permite campanha de remarketing e lista de transmissão dentro das regras. O volume de envio é combinado em contrato, e quem pede para não receber sai da lista na hora.' },
+        { n: '04', q: 'Quanto tempo até estar funcionando?', a: 'Quinze dias do início ao go-live, com o setup montado sobre a operação da sua clínica e o treinamento comercial da equipe nos dois últimos dias. A partir do go-live, trabalhamos 45 dias antes de qualquer cobrança: a meta combinada fica por escrito e é medida no seu próprio sistema. Se a meta bater, você paga. Se não bater, não paga.' },
+        { n: '05', q: 'Quanto custa?', a: 'Depende de quantos profissionais atendem, do volume de pacientes que passa pelo funil e de quantas integrações a sua operação exige. É por isso que não existe tabela na internet: um consultório de um profissional e uma clínica de doze não compram a mesma coisa. A demonstração fecha o número em trinta minutos, com o escopo escrito.' }
+      ],
+      fases: [
+        { n: '01', t: 'Fundação e controle', d: 'Paramos o vazamento e colocamos a clínica no controle dos próprios números: funil medido, processo comercial claro e rotina de gestão instalada.' },
+        { n: '02', t: 'Máquina de vendas em tração', d: 'Entrada previsível de pacientes e posicionamento premium: o funil de marketing passa a trazer o paciente certo, e a equipe aprende a conduzir até o fechamento.' },
+        { n: '03', t: 'Retenção e multiplicação', d: 'Faturamento na própria base: recorrência, indicação, reativação e construção de ticket, sem depender só de paciente novo.' },
+        { n: '04', t: 'Escala e blindagem', d: 'Operação consistente e equipe autônoma: a clínica cresce sem depender de uma pessoa só para vender, atender e decidir.' }
+      ],
+      pilares: [
+        { t: 'Processo comercial', d: 'Da primeira mensagem ao fechamento: etapas claras, papéis definidos e um número que a equipe inteira enxerga.' },
+        { t: 'Funil de marketing', d: 'Aquisição planejada dentro da publicidade em saúde, seguindo as normas do seu conselho, do topo do funil até a agenda.' },
+        { t: 'Gestão de pessoas e processos', d: 'Rotina de gestão, treinamento e processos que sustentam o crescimento sem sobrecarregar quem está na frente.' },
+        { t: 'Construção de LTV', d: 'Relacionamento com a base para o paciente voltar, indicar e permanecer: a parte do faturamento que não depende de anúncio.' }
+      ],
+      etapas: [
+        { n: '01', l: 'Etapa 1', t: 'Ela se apresenta e tria', d: 'A IA diz que é uma IA da FF.AI, pergunta o seu nome e a sua especialidade, e entende o motivo do contato antes de oferecer qualquer coisa.' },
+        { n: '02', l: 'Etapa 2', t: 'Oferece horário da agenda', d: 'Dois horários lidos da agenda de demonstração, nunca inventados. Você escolhe um e ela segue.' },
+        { n: '03', l: 'Etapa 3', t: 'Cobra de verdade', d: 'Link de R$ 5,00 por Pix ou cartão, o valor mínimo que a plataforma aceita. A confirmação chega sozinha pelo aviso do banco, sem você mandar comprovante.' },
+        { n: '04', l: 'Etapa 4', t: 'Entrega os documentos', d: 'Confirmação do horário, nota fiscal autorizada pela prefeitura e pedido de exames assinado digitalmente, cada um na sua bolha do WhatsApp.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
