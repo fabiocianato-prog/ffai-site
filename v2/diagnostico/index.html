@@ -114,6 +114,7 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
 @keyframes ffSlide{0%,15%{transform:translateX(-110%);opacity:0}40%,85%{transform:none;opacity:1}100%{transform:translateX(-110%);opacity:0}}
 @keyframes ffGrow{0%{transform:scaleY(.2)}60%,100%{transform:scaleY(1)}}
 @keyframes ffBlink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes ffGira{to{transform:rotate(360deg)}}
 @keyframes ffCorre{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes ffBolha{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes ffOuro{0%,100%{box-shadow:0 0 0 0 rgba(227,199,122,.55),0 18px 44px -14px rgba(201,162,74,.95);transform:scale(1)}50%{box-shadow:0 0 0 16px rgba(227,199,122,0),0 22px 60px -10px rgba(243,223,162,1);transform:scale(1.035)}}
@@ -419,21 +420,21 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
           <img src="/v2/img/07-marketing-odontologia.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.5) 0%,rgba(19,30,48,.82) 32%,rgba(19,30,48,.97) 58%)"></div>
           <div style="position:relative;padding:32px;display:flex;flex-direction:column;gap:14px">
-            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">Módulo opcional da implantação</div>
+            <div style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:rgba(15,22,36,.82);backdrop-filter:blur(8px);border:1px solid rgba(227,199,122,.65);border-radius:999px;padding:8px 16px;box-shadow:0 10px 24px -14px rgba(0,0,0,.8);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#F3DFA2;font-weight:700"><span style="width:6px;height:6px;border-radius:50%;background:#E3C77A"></span>Módulo opcional da implantação</div>
             <h3 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:30px;line-height:1.1">Pedido de exames e nota fiscal saem no toque de um botão.</h3>
             <p style="margin:0;font-size:14px;line-height:1.6;color:#C9CFDA">O profissional abre o card do paciente e resolve ali mesmo: o pedido sai assinado digitalmente e a nota é emitida sem sair do CRM. As duas coisas chegam ao paciente no WhatsApp, na conversa em que ele já está.</p>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;font-size:13px;line-height:1.55">
               <div style="border-top:1px solid rgba(201,162,74,.5);padding-top:10px"><strong style="color:#E3C77A">Pedido de exames</strong><br>No padrão da guia TUSS quando a clínica atende convênio, ou em modelo particular quando não atende. Vale para medicina e para odontologia.</div>
               <div style="border-top:1px solid rgba(201,162,74,.5);padding-top:10px"><strong style="color:#E3C77A">Nota fiscal automática</strong><br>Emitida a partir do pagamento registrado no card, no nome de quem pagou, e entregue ao paciente no WhatsApp junto com o comprovante.</div>
             </div>
-            <p style="margin:0;font-size:12px;color:#9AA3B2">Módulo opcional, ligado clínica a clínica no setup: depende do certificado digital da clínica e da prefeitura onde ela emite.</p>
+            <p style="margin:4px 0 0;font-size:13px;line-height:1.55;color:#E1E5EC;background:rgba(15,22,36,.7);border:1px solid rgba(201,162,74,.4);border-left:3px solid #C9A24A;border-radius:12px;padding:12px 16px">Módulo opcional, ligado clínica a clínica no setup: depende do certificado digital da clínica e da prefeitura onde ela emite.</p>
           </div>
         </div>
         <div style="position:relative;border-radius:20px;overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff">
           <img src="/v2/img/06-comercial-integrado.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,30,48,.05) 20%,rgba(19,30,48,.94) 65%)"></div>
           <div style="position:relative;padding:32px;display:flex;flex-direction:column;gap:14px">
-            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#E3C77A;font-weight:600">Bônus da implantação</div>
+            <div style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:rgba(15,22,36,.82);backdrop-filter:blur(8px);border:1px solid rgba(227,199,122,.65);border-radius:999px;padding:8px 16px;box-shadow:0 10px 24px -14px rgba(0,0,0,.8);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#F3DFA2;font-weight:700"><span style="width:6px;height:6px;border-radius:50%;background:#E3C77A"></span>Bônus da implantação</div>
             <h3 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:30px;line-height:1.1">Treinamento comercial da equipe, dentro do pacote.</h3>
             <p style="margin:0;font-size:14px;line-height:1.6;color:#C9CFDA">De nada adianta a IA entregar o paciente qualificado se quem recebe não sabe conduzir. Nos dois últimos dias treinamos a sua equipe no que a operação passa a exigir.</p>
             <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13.5px">
@@ -459,6 +460,7 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
         <p style="margin:0;font-size:13px;line-height:1.6;color:#9AA3B2">O prazo conta a partir do go-live, não da assinatura: são 45 dias de operação no ar, não de espera pela implantação.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px">
+        <div aria-hidden="true" style="width:100%;max-width:250px;margin:0 auto 10px"><svg viewBox="0 0 200 200" style="width:100%;height:auto;display:block;overflow:visible"><defs><path id="v2voltaSelo" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"></path></defs><g class="ff-anim" style="transform-origin:100px 100px;animation:ffGira 26s linear infinite"><circle cx="100" cy="100" r="94" fill="none" stroke="rgba(231,195,108,0.42)" stroke-width="1.5"></circle><circle cx="100" cy="100" r="86" fill="rgba(231,195,108,0.14)"></circle><circle cx="100" cy="100" r="66" fill="none" stroke="#E7C36C" stroke-width="2" stroke-dasharray="5 7" stroke-linecap="round"></circle><text fill="#E7C36C" font-size="11.5" font-weight="800" letter-spacing="2.2" font-family="Manrope, sans-serif"><textPath href="#v2voltaSelo" startOffset="0%">SEM CARTÃO NA LARGADA · META COMBINADA · </textPath></text></g><text x="100" y="97" text-anchor="middle" fill="#FFFFFF" font-size="60" font-weight="800" letter-spacing="-2.4" font-family="Manrope, sans-serif">45</text><text x="100" y="122" text-anchor="middle" fill="#E7C36C" font-size="19" font-weight="800" letter-spacing="5" font-family="Manrope, sans-serif">DIAS</text></svg></div>
         <div style="background:rgba(255,255,255,.05);border:1px solid rgba(201,162,74,.35);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:6px"><strong style="font-size:17px;color:#E3C77A">Sem cartão na largada</strong><span style="font-size:14px;color:#C9CFDA;line-height:1.55">Nada de cobrança na assinatura nem implantação paga adiantado</span></div>
         <div style="background:rgba(255,255,255,.05);border:1px solid rgba(201,162,74,.35);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:6px"><strong style="font-size:17px;color:#E3C77A">Meta por escrito</strong><span style="font-size:14px;color:#C9CFDA;line-height:1.55">Combinada com você antes de começar e medida no seu próprio sistema</span></div>
         <div style="background:rgba(255,255,255,.05);border:1px solid rgba(201,162,74,.35);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:6px"><strong style="font-size:17px;color:#E3C77A">Sem multa e sem carência</strong><span style="font-size:14px;color:#C9CFDA;line-height:1.55">Se a meta não bater, a conversa acaba ali. Não existe prazo mínimo</span></div>
@@ -532,7 +534,7 @@ a{color:#1C2A3F;text-decoration:none}a:hover{color:#B8923A}
   <!-- FF.AI 360 -->
   <section id="ffai-360" style="position:relative;background:#07090D;color:#F5F1E8;padding:8px;overflow:hidden">
     <div style="position:relative;border:1px solid rgba(201,162,74,.45);border-radius:28px;overflow:hidden;background:radial-gradient(ellipse at 20% 0%,rgba(201,162,74,.18),transparent 45%),radial-gradient(ellipse at 90% 100%,rgba(201,162,74,.12),transparent 50%),#0A0D12">
-      <div style="position:absolute;left:0;right:0;top:0;height:{{ capa360h }}"><img src="/v2/img/12-capa-arquitetura.webp" alt="Dr. Fábio Faleiro Vieira, fundador da FF.AI" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ capa360pos }}"><div style="position:absolute;inset:0;background:{{ capa360veu }}"></div><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,18,.35) 0%,rgba(10,13,18,0) 22%,rgba(10,13,18,.55) 58%,#0A0D12 92%)"></div></div>
+      <div style="position:absolute;left:0;right:0;top:{{ capa360top }};height:{{ capa360h }}"><img src="/v2/img/12-capa-arquitetura.webp" alt="Dr. Fábio Faleiro Vieira, fundador da FF.AI" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ capa360pos }}"><div style="position:absolute;inset:0;background:{{ capa360veu }}"></div><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,18,.35) 0%,rgba(10,13,18,0) 22%,rgba(10,13,18,.55) 58%,#0A0D12 92%)"></div></div>
       <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,#E3C77A,transparent)"></div>
       <div style="position:relative;max-width:1200px;margin:0 auto;padding:110px 24px;display:flex;flex-direction:column;gap:60px">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px;align-items:end">
@@ -865,7 +867,7 @@ class Component extends DCLogic {
           lba: et === 0 ? 'color:#F3DFA2' : 'color:#E1E5EC', lbb: et === 1 ? 'color:#F3DFA2' : 'color:#E1E5EC', lbc: et === 2 ? 'color:#F3DFA2' : 'color:#E1E5EC',
           status: ['Entrou agora · aguardando', 'Stella qualificando', 'Sexta 9h · agendado'][et], chip: chips[et] }; })(),
       vazBg: this.state.mobile ? 'rgba(255,255,255,.78)' : '#F5F1E8',
-      capa360h: this.state.mobile ? '640px' : '820px', capa360pos: this.state.mobile ? '78% top' : 'right top',
+      capa360h: this.state.mobile ? '640px' : '820px', capa360pos: this.state.mobile ? '60% top' : 'right top', capa360top: this.state.mobile ? '56px' : '0px',
       capa360veu: this.state.mobile ? 'linear-gradient(180deg,rgba(10,13,18,.25) 0%,rgba(10,13,18,.72) 40%,rgba(10,13,18,.95) 100%)' : 'linear-gradient(90deg,rgba(10,13,18,.97) 0%,rgba(10,13,18,.86) 40%,rgba(10,13,18,.5) 62%,rgba(10,13,18,.3) 100%)',
       form: f, progressLabel: pct + '%', progressWidth: pct + '%',
       setNome: e => this.setF('nome', e.target.value), setZap: e => this.setF('zap', v2Mask(e.target.value)), setOutro: e => this.setF('outro', e.target.value), setEsp: e => this.setF('esp', e.target.value),
