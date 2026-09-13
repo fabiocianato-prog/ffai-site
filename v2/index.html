@@ -147,6 +147,38 @@ fbq('init', '27417120574590791'); fbq('track', 'PageView');  fbq('trackSingleCus
   (function esperar(){ var rt = document.getElementById('dc-root'); if (rt && rt.querySelectorAll('section').length >= 3) { setTimeout(iniciar, 450); return; } if (++tentativas < 100) setTimeout(esperar, 100); })();
 })();
 </script>
+
+<script>
+(function(){
+  function ligar(){
+    var vs = document.querySelectorAll('#dc-root video');
+    for (var i = 0; i < vs.length; i++) {
+      var v = vs[i];
+      if (!v.controls) { v.controls = true; v.setAttribute('controls', ''); }
+      v.setAttribute('playsinline', ''); v.setAttribute('preload', 'metadata');
+      if (!v.__v2play) {
+        v.__v2play = true;
+        v.addEventListener('play', function(){
+          try { if (window.fbq) fbq('trackSingleCustom', '27417120574590791', 'V2DepoimentoPlay'); } catch (e) {}
+          // um depoimento por vez
+          var todos = document.querySelectorAll('#dc-root video');
+          for (var j = 0; j < todos.length; j++) if (todos[j] !== this && !todos[j].paused) todos[j].pause();
+        });
+      }
+    }
+  }
+  var tentativas = 0;
+  (function esperar(){
+    var rt = document.getElementById('dc-root');
+    if (rt && rt.querySelector('video')) {
+      ligar();
+      new MutationObserver(ligar).observe(rt, { childList: true, subtree: true, attributes: true, attributeFilter: ['controls'] });
+      return;
+    }
+    if (++tentativas < 100) setTimeout(esperar, 100);
+  })();
+})();
+</script>
 <script src="/v2/support.js"></script>
 </head>
 <body>
