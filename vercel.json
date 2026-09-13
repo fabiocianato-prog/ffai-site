@@ -36,6 +36,11 @@
       "permanent": true
     },
     {
+      "source": "/v2/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/v2/demonstracao",
       "destination": "/demonstracao",
       "permanent": true
