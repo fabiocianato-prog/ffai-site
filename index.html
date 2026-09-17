@@ -254,7 +254,6 @@ html,body{margin:0}
 <h1 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(40px,5.2vw,68px);line-height:1.02;letter-spacing:-.01em;text-wrap:pretty">Você não sabe quantos pacientes a sua clínica perdeu ontem.</h1>
 <p style="margin:0;font-size:17px;line-height:1.65;color:#D8DCE3;text-wrap:pretty">Eles escreveram no WhatsApp, esperaram, e marcaram com quem respondeu antes. Os poucos que a sua equipe conseguiu atender ninguém registrou no CRM, porque não sobra tempo. No FF.AI CRM a IA responde em segundos e o funil se movimenta de forma automática conforme o atendimento ocorre. <strong style="color:#fff">Ninguém digita nada.</strong></p>
 <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
-<a class="ff-anim dc2" data-crm="verdemo" href="/demonstracao" style="background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);border:1px solid rgba(255,244,210,.6);animation:ffOuroLeve 2.4s ease-in-out infinite;color:#131E30;font-weight:700;font-size:15px;padding:16px 28px;border-radius:999px">Teste a Íris agora</a>
 <a class="dc3" data-crm="diagnostico" href="/diagnostico?origem=home" style="background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);color:#fff;border:1px solid rgba(126,224,176,.45);box-shadow:0 10px 26px -12px rgba(11,107,80,.9);font-weight:700;font-size:15px;padding:16px 28px;border-radius:999px">Falar com a nossa equipe</a>
 </div>
 <div style="display:flex;align-items:center;gap:14px;padding-top:8px;border-top:1px solid rgba(201,162,74,.3);margin-top:8px">
@@ -294,6 +293,22 @@ html,body{margin:0}
 </div>
 <div style="background:#fff;color:#1A2030;border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:13px"><span><strong>Ana Paula</strong> · <em style="font-style:normal;color:#B8923A">R$ 450</em></span><span data-live-style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;transition:all .45s ease;{{ funil.chip }}" style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;transition:all .45s ease;background:#DDEDE5;color:#1F6B4A"><span data-live-text="funil.status">Sexta 9h · agendado</span></span></div>
 </div>
+</div>
+</div>
+</section>
+<!-- VIDEO DEMO STELLA -->
+<section id="demo-stella" style="position:relative;background:#F5F1E8;padding:90px 24px 24px">
+<div style="max-width:1100px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center">
+<div style="display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#B8923A;font-weight:600"><span style="width:28px;height:1px;background:#C9A24A"></span>Veja funcionando<span style="width:28px;height:1px;background:#C9A24A"></span></div>
+<h2 style="margin:0;font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.025em;font-size:clamp(32px,3.6vw,50px);line-height:1.08;color:#1C2A3F;text-wrap:balance">Do primeiro “bom dia” à consulta agendada. <span style="color:#B8923A">Sem ninguém digitar.</span></h2>
+<p style="margin:0;max-width:720px;font-size:17px;line-height:1.65;color:#3E4757;text-wrap:pretty">Quatro minutos de uma conversa no WhatsApp da clínica do Dr. Fábio, com o funil do FF.AI CRM se movendo na mesma tela. <strong style="color:#1C2A3F">Narrado por ele.</strong></p>
+<div style="position:relative;width:100%;margin-top:18px;border-radius:20px;overflow:hidden;background:#131E30;border:1px solid rgba(201,162,74,.55);box-shadow:0 40px 80px -30px rgba(19,30,48,.6)">
+<video id="demo-stella-video" playsinline="" preload="none" data-evento="CRMDemoStellaPlay" poster="/assets/v2/video/demo-stella-thumb.jpg" style="width:100%;height:auto;aspect-ratio:16/9;display:block;background:#131E30"><source src="/assets/v2/video/demo-stella.mp4" type="video/mp4"/></video>
+<button id="demo-stella-capa" type="button" aria-label="Assistir ao vídeo da demonstração" style="position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;background:transparent;cursor:pointer"></button>
+<script>(function(){var v=document.getElementById("demo-stella-video"),c=document.getElementById("demo-stella-capa");function soltar(){if(c){c.parentNode.removeChild(c);c=null;}v.setAttribute("controls","");}c.addEventListener("click",function(){soltar();var r=v.play();if(r&&r.catch)r.catch(function(){});});v.addEventListener("play",soltar);})();</script>
+</div>
+<div style="margin-top:14px;display:flex;justify-content:center">
+<a class="ff-anim dc2" data-crm="verdemo" href="/demonstracao" style="background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);border:1px solid rgba(255,244,210,.6);animation:ffOuroLeve 2.4s ease-in-out infinite;color:#131E30;font-weight:700;font-size:15px;padding:16px 28px;border-radius:999px">Teste a Íris agora</a>
 </div>
 </div>
 </section>
@@ -990,7 +1005,7 @@ html,body{margin:0}
         videos[v].addEventListener('play', function () {
           if (this.getAttribute('data-meta-play') === '1') return;
           this.setAttribute('data-meta-play', '1');
-          meta('trackSingleCustom', 'CRMDepoimentoPlay', {});
+          meta('trackSingleCustom', this.getAttribute('data-evento') || 'CRMDepoimentoPlay', {});
         });
       }
     })();
