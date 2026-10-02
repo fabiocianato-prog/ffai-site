@@ -843,6 +843,9 @@
     .dc-d { display: contents; } .dc-m { display: none; }
     @media (max-width: 859px) { .dc-d { display: none; } .dc-m { display: contents; } }
     .dc2:hover { filter: brightness(1.1) !important; }
+    .dc1:hover { filter: brightness(1.1) !important; }
+    [hidden] { display: none !important; }
+    .dc-toggle:not([hidden]) { display: contents; }
     .dc8:hover, .dc9:hover, .dc10:hover, .dc11:hover, .dc12:hover, .dc13:hover { border-color: rgba(201,162,74,.6) !important; }
 
     body { font-family: 'Manrope', system-ui, -apple-system, "Segoe UI", sans-serif; background: #F5F1E8; color: var(--ink); }
@@ -917,6 +920,8 @@
     .footer a { color: #F5F1E8; } .footer a:hover { color: #E3C77A; }
     .footer__links a { color: #9AA3B2; } .footer__links a:hover { color: #E3C77A; }
     .footer__logo img { filter: brightness(0) invert(1); opacity: 0.92; }
+    .hero__figure { display: none; }
+    @media (min-width: 960px) { .hero__container { grid-template-columns: 1fr; } }
 </style>
 
   <!-- Google tag (gtag.js) · FF.AI Google Ads AW-18172890851 -->
@@ -953,17 +958,21 @@
   <script>document.documentElement.classList.add('js');</script>
 
   <!-- ========== NAVBAR ========== -->
-  <header class="nav" id="nav">
-    <div class="container nav__inner">
-      <a href="#top" class="nav__logo" aria-label="FF.AI"><span>FF</span><span class="dot">.</span><span>AI</span></a>
-      <nav class="nav__links">
-        <a href="#solucoes">As soluções</a>
-        <a href="#case">Case-vivo</a>
-        <a href="#sobre">Quem faz</a>
-      </nav>
-      <a href="/diagnostico" class="btn btn--primary btn--sm">Diagnóstico gratuito</a>
-    </div>
-  </header>
+  <header id="nav" style="position:sticky;top:0;z-index:20;background:rgba(19,30,48,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,162,74,.25)">
+<div style="max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+<a href="/" style="display:flex;align-items:center;gap:10px;color:#F5F1E8;font-weight:700;font-size:21px;letter-spacing:-.01em"><span style="width:34px;height:34px;border-radius:9px;background:linear-gradient(160deg,#12936E 0%,#0B6B50 55%,#084E3B 100%);display:inline-grid;place-items:center;position:relative;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)"><span style="font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;line-height:1;color:#fff;margin-left:-3px;margin-top:-2px">F</span><span style="position:absolute;right:7px;bottom:7px;width:5px;height:5px;border-radius:50%;background:#7EE0B0"></span></span><span style="white-space:nowrap">FF.<span style="color:#59BB8A">AI</span> <span style="font-weight:500">CRM</span></span></a>
+<span class="dc-d"><nav style="display:flex;gap:22px;flex-wrap:wrap;font-size:13px;font-weight:500;color:#C9CFDA">
+<a href="/#vazamentos" style="color:#C9CFDA">O problema</a><a href="#operacao" style="color:#C9CFDA">O que entra</a><a href="/#comparativo" style="color:#C9CFDA">Comparativo</a><a href="/#garantia" style="color:#C9CFDA">A oferta</a><a href="#prova" style="color:#C9CFDA">Depoimentos</a><a href="/#ffai-360" style="color:#C9CFDA">FF.AI 360</a>
+</nav>
+<a class="ff-anim dc1" data-crm="diagnostico" href="/diagnostico?origem=ecossistema" style="background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);border:1px solid rgba(255,244,210,.6);animation:ffOuroLeve 2.4s ease-in-out infinite;color:#131E30;font-weight:700;font-size:13px;padding:11px 18px;border-radius:999px;white-space:nowrap">Falar com a nossa equipe</a></span>
+<span class="dc-m"><button aria-expanded="false" aria-label="Menu" id="nav-toggle" style="background:transparent;border:1px solid rgba(201,162,74,.5);border-radius:10px;width:42px;height:42px;display:grid;place-items:center;cursor:pointer;gap:0" type="button"><span style="display:flex;flex-direction:column;gap:5px"><span style="width:18px;height:2px;background:#E3C77A"></span><span style="width:18px;height:2px;background:#E3C77A"></span><span style="width:18px;height:2px;background:#E3C77A"></span></span></button></span>
+</div>
+<span class="dc-toggle" data-toggle="menuOpen" hidden=""><div style="display:flex;flex-direction:column;gap:4px;padding:8px 16px 18px;border-top:1px solid rgba(201,162,74,.2);font-size:15px;font-weight:600">
+<a data-close-menu="" href="/#vazamentos" style="color:#F5F1E8;padding:12px 8px">O problema</a><a data-close-menu="" href="#operacao" style="color:#F5F1E8;padding:12px 8px">O que entra</a><a data-close-menu="" href="/#comparativo" style="color:#F5F1E8;padding:12px 8px">Comparativo</a><a data-close-menu="" href="/#garantia" style="color:#F5F1E8;padding:12px 8px">A oferta</a><a data-close-menu="" href="#prova" style="color:#F5F1E8;padding:12px 8px">Depoimentos</a><a data-close-menu="" href="/#ffai-360" style="color:#F5F1E8;padding:12px 8px">FF.AI 360</a>
+<a class="ff-anim" data-crm="diagnostico" href="/diagnostico?origem=ecossistema" style="margin-top:8px;background:linear-gradient(135deg,#F3DFA2 0%,#C9A24A 45%,#E3C77A 70%,#A8842E 100%);border:1px solid rgba(255,244,210,.6);animation:ffOuroLeve 2.4s ease-in-out infinite;color:#131E30;font-weight:700;font-size:14px;padding:14px 18px;border-radius:999px;text-align:center">Falar com a nossa equipe</a>
+</div></span>
+</header>
+<script>(function(){var bt=document.getElementById('nav-toggle'),menu=document.querySelector('[data-toggle="menuOpen"]');if(bt&&menu){bt.addEventListener('click',function(){var ab=menu.hasAttribute('hidden');if(ab)menu.removeAttribute('hidden');else menu.setAttribute('hidden','');bt.setAttribute('aria-expanded',String(ab));});menu.addEventListener('click',function(e){if(e.target.closest('a')){menu.setAttribute('hidden','');bt.setAttribute('aria-expanded','false');}});}})();</script>
 
   <!-- ========== HERO ========== -->
   <section class="hero" id="top">
