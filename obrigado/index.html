@@ -79,6 +79,23 @@ html,body{margin:0}
 @media (max-width:859px){.dc-d{display:none}.dc-m{display:contents}:root{--vaz-bg:rgba(255,255,255,.78);--fab-bottom:84px;--capa360-h:640px;--capa360-pos:60% top;--capa360-top:56px;--capa360-veu:linear-gradient(180deg,rgba(10,13,18,.25) 0%,rgba(10,13,18,.72) 40%,rgba(10,13,18,.95) 100%)}}
 .dc1:hover{filter:brightness(1.1) !important}
 </style>
+<!-- OpenAI Ads Measurement Pixel · FF.AI -->
+  <script>
+    (function (w, d, s, u) {
+      if (w.oaiq) return;
+      var q = function () { q.q.push(arguments); };
+      q.q = [];
+      w.oaiq = q;
+      var js = d.createElement(s);
+      js.async = true;
+      js.src = u;
+      var f = d.getElementsByTagName(s)[0];
+      f.parentNode.insertBefore(js, f);
+    })(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+    oaiq("init", { pixelId: "51DHobzho84rN1gYDmQAHv" });
+    oaiq("measure", "lead_created", { type: "customer_action" }, { event_id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2) });
+  </script>
+  <!-- /OpenAI Ads Measurement Pixel -->
 </head>
 <body>
 <div id="dc-root">
