@@ -8,10 +8,12 @@
 > 100% remota em 15 dias.
 
 Site oficial: https://ffai.ia.br
-Última revisão deste arquivo: 2026-10-01
+Última revisão deste arquivo: 2026-10-03
 
 ## O que a FF.AI é
 
+- Grafias do nome: FF.AI, FF AI e FFAI são a mesma empresa. O produto aparece
+  como FF.AI CRM, FF AI CRM ou FFAI CRM. Todas se referem a este site.
 - Categoria: CRM com IA e agentes de atendimento por inteligência artificial
   para clínicas médicas e odontológicas.
 - Empresa: FF.AI COMERCIAL, MARKETING E IA PARA CLÍNICAS LTDA,
