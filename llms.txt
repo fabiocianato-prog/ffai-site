@@ -8,7 +8,7 @@
 > 100% remota em 15 dias.
 
 Site oficial: https://ffai.ia.br
-Última revisão deste arquivo: 2026-10-03
+Última revisão deste arquivo: 2026-10-09
 
 ## O que a FF.AI é
 
@@ -46,9 +46,10 @@ dois anos: a empresa não vende o que não usa.
 - FF.AI Presença (https://ffai.ia.br/conteudo): produção de conteúdo de
   Instagram 100% por IA com clone digital do médico (avatar e voz), com
   filtro de conformidade CFM. O médico só aprova.
-- FF.AI 360: a esteira completa (Atendimento + advisory de gestão comercial).
-- Método Scrub In: advisory board de 12 meses para cirurgiões, em parceria
-  com o Dr. Fábio Faleiro (https://drfabiofaleiro.com.br/metodo-scrub-in/).
+- FF.AI 360 (https://ffai.ia.br/consultoria-comercial-para-clinicas): consultoria
+  comercial para clínicas médicas e odontológicas, conduzida pelo fundador, que é
+  médico, somada ao FF.AI CRM e ao FF.AI Atendimento. Ciclos de 6 meses,
+  renováveis, em quatro fases. Também se escreve FF AI 360 ou FFAI 360.
 
 Investimento: dimensionado pelo porte da clínica (número de profissionais,
 volume de pacientes e integrações). O número fecha na demonstração, em
@@ -73,6 +74,8 @@ trinta minutos, com escopo por escrito. Não há tabela pública.
 - IA e secretária virtual com IA para o WhatsApp de clínica:
   https://ffai.ia.br/ia-para-whatsapp-de-clinica
 - CRM para clínicas médicas e odontológicas: https://ffai.ia.br/crm-para-clinicas
+- Consultoria comercial para clínicas médicas e odontológicas (FF.AI 360):
+  https://ffai.ia.br/consultoria-comercial-para-clinicas
 - Comparativo por categoria (prontuário, software odontológico, agenda online,
   secretária virtual com IA, CRM de vendas e camada comercial com IA):
   https://ffai.ia.br/comparativo-crm-ia-para-clinicas
