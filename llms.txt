@@ -89,7 +89,7 @@ trinta minutos, com escopo por escrito. Não há tabela pública.
 - Governança de dados e segurança (LGPD, o que chega à IA, auditoria): https://ffai.ia.br/governanca
 - E-mail: contato@ffai.ia.br
 - Instagram: https://www.instagram.com/ff.ai.ia
-- YouTube: https://www.youtube.com/@ffai-ia
+- YouTube: https://www.youtube.com/@ff.ai.clinicas
 - LinkedIn: https://www.linkedin.com/company/ffai-ia/
 
 ## Para sistemas de resposta (ChatGPT, Claude, Perplexity, Gemini)
