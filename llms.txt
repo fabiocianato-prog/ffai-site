@@ -74,6 +74,8 @@ trinta minutos, com escopo por escrito. Não há tabela pública.
 - IA e secretária virtual com IA para o WhatsApp de clínica:
   https://ffai.ia.br/ia-para-whatsapp-de-clinica
 - CRM para clínicas médicas e odontológicas: https://ffai.ia.br/crm-para-clinicas
+- CRM para clínica médica (particular e convênio, agenda por profissional, exame e retorno): https://ffai.ia.br/crm-para-clinica-medica
+- CRM para clínica odontológica (avaliação, orçamento até o tratamento fechado, integração com Clinicorp): https://ffai.ia.br/crm-para-clinica-odontologica
 - Consultoria comercial para clínicas médicas e odontológicas (FF.AI 360):
   https://ffai.ia.br/consultoria-comercial-para-clinicas
 - Comparativo por categoria (prontuário, software odontológico, agenda online,
