@@ -60,5 +60,26 @@
       "destination": "/",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/implantacao/:chave",
+      "destination": "/implantacao/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/implantacao/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    }
   ]
 }
