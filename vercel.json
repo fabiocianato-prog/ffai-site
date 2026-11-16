@@ -65,11 +65,28 @@
     {
       "source": "/implantacao/:chave",
       "destination": "/implantacao/index.html"
+    },
+    {
+      "source": "/plano/:chave",
+      "destination": "/plano/index.html"
     }
   ],
   "headers": [
     {
       "source": "/implantacao/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    },
+    {
+      "source": "/plano/(.*)",
       "headers": [
         {
           "key": "X-Robots-Tag",
